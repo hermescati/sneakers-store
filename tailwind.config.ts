@@ -12,6 +12,7 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: {
+          50: "var(--background)",
           100: "var(--primary-100)",
           200: "var(--primary-200)",
           300: "var(--primary-300)",
@@ -20,6 +21,7 @@ const config: Config = {
           600: "var(--primary-600)",
           700: "var(--primary-700)",
           800: "var(--primary-800)",
+          900: "var(--foreground)",
         },
         secondary: "var(--secondary)",
         success: "var(--success)",
