@@ -1,4 +1,4 @@
-import { ProductCategory } from "@/types";
+import { ICartItem, ProductCategory } from "@/types";
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
   {
@@ -90,4 +90,19 @@ export const PRODUCT_CATEGORIES: ProductCategory[] = [
     value: "on_sale",
     href: "/",
   },
+];
+
+export const PRODUCT_LIST: ICartItem[] = [
+  // {
+  //   name: "Travis Scott - Cactus Jack",
+  //   model: "Air Force 1 Low",
+  //   size: 9.5,
+  //   price: 517.6,
+  // },
+  // {
+  //   name: "Glow",
+  //   model: "Basketball Knit",
+  //   size: 9.5,
+  //   price: 121.6,
+  // },
 ];

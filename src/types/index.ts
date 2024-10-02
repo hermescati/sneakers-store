@@ -21,3 +21,10 @@ export type ProductCategory = {
   href?: string;
   featured?: FeaturedShoes;
 };
+
+export type ICartItem = {
+  name: string;
+  model: string;
+  size: number;
+  price: number;
+};

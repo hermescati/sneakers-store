@@ -1,72 +1,108 @@
+import { cn } from "@/utils";
 import { InlineIcon } from "@iconify/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { ComponentPropsWithoutRef } from "react";
 
 const baseButton = `
-    flex items-center gap-2 
-    disabled:opacity-40 disabled:cursor-not-allowed 
+    flex items-center justify-center gap-2
+    font-semibold
+    disabled:opacity-40 disabled:pointer-events-none
     transition-all ease-in-out duration-300
+    active:outline-none active:ring active:ring-offset-2
 `;
 
-const buttonVariants = cva(baseButton, {
+export const buttonVariants = cva(baseButton, {
   variants: {
-    intent: {
-      button: [
-        "enabled:active:outline-none",
-        "enabled:active:ring",
-        "enabled:active:ring-offset-2",
-      ],
-      link: ["text-link", "underline", "hover:text-link-hover"],
-    },
     variant: {
-      primary: ["font-medium"],
-      secondary: ["font-semibold"],
+      solid: [""],
+      outline: [""],
+      ghost: [""],
+    },
+    intent: {
+      primary: [""],
+      secondary: [""],
     },
     size: {
-      small: ["py-2", "px-4", "rounded-xl", "text-sm"],
-      default: ["py-3", "px-6", "rounded-2xl", "text-base"],
+      small: ["py-2", "px-4", , "rounded-xl", "text-sm"],
+      default: ["py-3", "px-6", "max-h-12", "rounded-2xl", "text-base"],
     },
   },
   compoundVariants: [
     {
-      intent: "button",
-      variant: "primary",
+      variant: "solid",
+      intent: "primary",
       className: [
         "bg-primary-800",
         "text-background",
-        "enabled:hover:bg-primary-900",
-        "enabled:active:bg-primary-900",
-        "enabled:active:ring-primary-900",
+        "hover:bg-primary-900",
+        "active:bg-primary-900",
+        "active:ring-primary-900",
         "shadow-[0_4px_16px_-2px_rgba(33,36,39,0.50)]",
       ],
     },
     {
-      intent: "button",
-      variant: "secondary",
+      variant: "solid",
+      intent: "secondary",
       className: [
         "bg-secondary",
         "text-foreground",
-        "enabled:hover:bg-primary-200",
-        "enabled:active:bg-secondary",
-        "enabled:active:ring-secondary",
+        "hover:bg-primary-200",
+        "active:bg-secondary",
+        "active:ring-secondary",
         "shadow-[0_4px_16px_-2px_rgba(253,132,74,0.25)]",
       ],
     },
     {
-      intent: "link",
-      variant: "primary",
-      className: ["text-foreground", "font-semibold", "hover:text-secondary"],
+      variant: "outline",
+      intent: "primary",
+      className: [
+        "bg-transparent",
+        "text-foreground",
+        "border-2 border-primary-900",
+        "hover:bg-primary-900/5",
+        "active:bg-primary-900/5",
+        "active:ring-primary-900",
+      ],
     },
     {
-      intent: "link",
-      variant: "secondary",
-      className: ["text-background", "font-medium", "hover:text-foreground"],
+      variant: "outline",
+      intent: "secondary",
+      className: [
+        "bg-transparent",
+        "text-secondary",
+        "border-2 border-secondary",
+        "hover:bg-secondary/10",
+        "active:bg-secondary/10",
+        "active:ring-secondary",
+      ],
+    },
+    {
+      variant: "ghost",
+      intent: "primary",
+      className: [
+        "bg-transparent",
+        "text-foreground",
+        "hover:bg-primary-900/5",
+        "active:bg-primary-900/5",
+        "active:ring-primary-900",
+      ],
+    },
+    {
+      variant: "ghost",
+      intent: "secondary",
+      className: [
+        "bg-transparent",
+        "text-secondary",
+        "hover:bg-secondary/10",
+        "active:bg-secondary/10",
+        "active:ring-secondary",
+      ],
     },
   ],
   defaultVariants: {
-    intent: "button",
-    variant: "primary",
+    variant: "solid",
+    intent: "primary",
     size: "default",
   },
 });
@@ -83,8 +119,8 @@ export interface ButtonProps
 const Button = ({
   className,
   href,
-  intent = href ? "link" : "button",
   variant,
+  intent,
   size,
   label,
   iconAppend,
@@ -93,7 +129,10 @@ const Button = ({
   type = "button",
   ...props
 }: ButtonProps) => {
-  const buttonClasses = buttonVariants({ intent, variant, size, className });
+  const buttonClasses = cn(
+    buttonVariants({ variant, intent, size }),
+    className
+  );
   const content = (
     <>
       {iconPrepend && <InlineIcon icon={iconPrepend} />}
@@ -102,7 +141,7 @@ const Button = ({
     </>
   );
 
-  return href ? (
+  return href && !props.disabled ? (
     <Link href={href} className={buttonClasses}>
       {content}
     </Link>
