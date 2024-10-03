@@ -20,11 +20,12 @@ const Page = () => {
     resolver: zodResolver(SignUpValidationSchema),
   });
 
-  const { data } = trpc.anyApiRoute.useQuery();
-  console.log({ data });
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
 
   const onSubmit = ({ email, password }: TSignUpValidationSchema) => {
-    console.log({ email }, { password });
+    console.log(email, password);
+
+    mutate({ email, password });
   };
 
   return (
@@ -43,6 +44,7 @@ const Page = () => {
                   <Input
                     {...register("email")}
                     label="Email"
+                    required
                     placeholder="you@example.com"
                     invalid={errors.email && true}
                     invalidMessage={errors.email?.message}
@@ -50,6 +52,8 @@ const Page = () => {
                   <Input
                     {...register("password")}
                     label="Password"
+                    type="password"
+                    required
                     placeholder="password"
                     invalid={errors.password && true}
                     invalidMessage={errors.password?.message}

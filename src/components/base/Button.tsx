@@ -126,7 +126,6 @@ const Button = ({
   iconAppend,
   iconPrepend,
   children,
-  type = "button",
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(
@@ -146,7 +145,7 @@ const Button = ({
       {content}
     </Link>
   ) : (
-    <button className={buttonClasses} type={type} {...props}>
+    <button className={buttonClasses} {...props}>
       {content}
     </button>
   );
