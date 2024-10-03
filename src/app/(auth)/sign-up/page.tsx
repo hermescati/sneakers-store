@@ -10,7 +10,10 @@ import {
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { ZodError } from "zod";
 
 const Page = () => {
   const {
@@ -21,7 +24,22 @@ const Page = () => {
     resolver: zodResolver(SignUpValidationSchema),
   });
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
+  const router = useRouter();
+
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+    onError: (err) => {
+      if (err.data?.code === "CONFLICT") {
+        toast.error("This email is already in use. Maybe login?");
+        return;
+      }
+
+      toast.error("Something went wrong. Please try again.");
+    },
+    onSuccess: ({ sentToEmail }) => {
+      toast.success(`Verification email sent to ${sentToEmail}`);
+      router.replace("/verify?to=" + sentToEmail);
+    },
+  });
 
   const onSubmit = ({
     firstName,
