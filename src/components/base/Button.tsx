@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ComponentPropsWithoutRef } from "react";
 
 const baseButton = `
-    flex items-center justify-center gap-2
+    flex items-center justify-center gap-3
     font-semibold
     disabled:opacity-40 disabled:pointer-events-none
     transition-all ease-in-out duration-300
@@ -111,9 +111,9 @@ export interface ButtonProps
   extends ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   label?: string;
+  href?: string;
   iconAppend?: string;
   iconPrepend?: string;
-  href?: string;
 }
 
 const Button = ({
@@ -134,9 +134,19 @@ const Button = ({
   );
   const content = (
     <>
-      {iconPrepend && <InlineIcon icon={iconPrepend} />}
+      {iconPrepend && (
+        <InlineIcon
+          icon={iconPrepend}
+          height={size === "small" ? "1rem" : "1.25rem"}
+        />
+      )}
       {label || children}
-      {iconAppend && <InlineIcon icon={iconAppend} />}
+      {iconAppend && (
+        <InlineIcon
+          icon={iconAppend}
+          height={size === "small" ? "1rem" : "1.25rem"}
+        />
+      )}
     </>
   );
 

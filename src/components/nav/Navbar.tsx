@@ -6,11 +6,10 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import Button from "./base/Button";
-import Input from "./base/Input";
-import ShoppingCart from "./cart/ShoppingCart";
-import MainContainer from "./MainContainer";
-import NavCategories from "./nav/NavCategories";
+import Button from "../base/Button";
+import ShoppingCart from "../cart/ShoppingCart";
+import MainContainer from "../MainContainer";
+import NavCategories from "./NavCategories";
 
 const Navbar = () => {
   const loggedUser = null;
@@ -35,9 +34,6 @@ const Navbar = () => {
               <Link href="/">
                 <h2 className="font-bold text-xl text-foreground">Sneakers.</h2>
               </Link>
-            </div>
-            <div className="flex-1">
-              <Input />
             </div>
             <div className="flex items-center">
               <div className="relative hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:gap-x-8">
