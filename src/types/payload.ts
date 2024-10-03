@@ -20,6 +20,8 @@ export interface Config {
  */
 export interface User {
   id: string;
+  firstName: string;
+  lastName: string;
   role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;

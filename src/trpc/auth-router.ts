@@ -1,4 +1,4 @@
-import { SignUpValidationSchema } from "../lib/validation-schemas/sign-up-schema";
+import { SignUpValidationSchema } from "../lib/validators/sign-up-validator";
 import { publicProcedure, router } from "./trpc";
 import { getPayloadClient } from "../get-payload";
 import { TRPCError } from "@trpc/server";
@@ -7,7 +7,7 @@ export const authRouter = router({
   createPayloadUser: publicProcedure
     .input(SignUpValidationSchema)
     .mutation(async ({ input }) => {
-      const { email, password } = input;
+      const { firstName, lastName, email, password } = input;
       const payload = await getPayloadClient();
 
       const { docs: users } = await payload.find({
@@ -24,6 +24,8 @@ export const authRouter = router({
       await payload.create({
         collection: "users",
         data: {
+          firstName,
+          lastName,
           email,
           password,
           role: "user",

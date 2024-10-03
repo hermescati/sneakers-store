@@ -8,6 +8,8 @@ export const Users: CollectionConfig = {
     create: () => true,
   },
   fields: [
+    { name: "firstName", type: "text", required: true },
+    { name: "lastName", type: "text", required: true },
     {
       name: "role",
       required: true,

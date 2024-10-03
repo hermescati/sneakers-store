@@ -2,10 +2,11 @@
 
 import Button from "@/components/base/Button";
 import Input from "@/components/base/Input";
+import MainContainer from "@/components/MainContainer";
 import {
   SignUpValidationSchema,
   TSignUpValidationSchema,
-} from "@/lib/validation-schemas/sign-up-schema";
+} from "@/lib/validators/sign-up-validator";
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -22,50 +23,97 @@ const Page = () => {
 
   const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({});
 
-  const onSubmit = ({ email, password }: TSignUpValidationSchema) => {
-    console.log(email, password);
-
-    mutate({ email, password });
+  const onSubmit = ({
+    firstName,
+    lastName,
+    email,
+    password,
+  }: TSignUpValidationSchema) => {
+    mutate({ firstName, lastName, email, password });
   };
 
   return (
-    <>
-      <div className="w-full relative flex pt-20 flex-col items-center justify-center lg:px-0">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col items-center space-y-2 text-center">
-            <h2 className="font-bold text-xl text-foreground">Sneakers.</h2>
-            <h2 className="text-2xl font-bold">Create an account</h2>
-
-            <Link href="login">Already have an account? Login</Link>
-
-            <div className="grid container gap-6">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="grid gap-2">
-                  <Input
-                    {...register("email")}
-                    label="Email"
-                    required
-                    placeholder="you@example.com"
-                    invalid={errors.email && true}
-                    invalidMessage={errors.email?.message}
-                  />
-                  <Input
-                    {...register("password")}
-                    label="Password"
-                    type="password"
-                    required
-                    placeholder="password"
-                    invalid={errors.password && true}
-                    invalidMessage={errors.password?.message}
-                  />
-                  <Button label="Sign up" />
-                </div>
-              </form>
-            </div>
+    <MainContainer>
+      <div className="w-full relative flex pt-16 flex-col items-center justify-center lg:px-0">
+        <div className="mx-auto flex w-full flex-col justify-center sm:w-[500px]">
+          {/* Header */}
+          <div className="text-start font-bold text-xl sm:text-2xl">
+            <h2>Looks like you&#39;re new here.</h2>
+            <h2>We need some info.</h2>
           </div>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-3 py-6"
+          >
+            <Input
+              {...register("firstName")}
+              label="First Name"
+              required
+              placeholder="John"
+              invalid={errors.firstName && true}
+              invalidMessage={errors.firstName?.message}
+            />
+            <Input
+              {...register("lastName")}
+              label="Last Name"
+              required
+              placeholder="Doe"
+              invalid={errors.lastName && true}
+              invalidMessage={errors.lastName?.message}
+            />
+            <Input
+              {...register("email")}
+              label="Email"
+              required
+              placeholder="you@example.com"
+              invalid={errors.email && true}
+              invalidMessage={errors.email?.message}
+              autoComplete="new-password"
+            />
+            <Input
+              {...register("password")}
+              label="Password"
+              required
+              type="password"
+              placeholder="Password"
+              invalid={errors.password && true}
+              invalidMessage={errors.password?.message}
+              autoComplete="new-password"
+            />
+            <p className="font-medium text-primary-600 text-sm md:text-md">
+              By clicking &#34;Create Account&#34;, you agree to our{" "}
+              <Link
+                href="/"
+                className="underline underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
+              >
+                Terms and Conditions
+              </Link>{" "}
+              and{" "}
+              <Link
+                className="underline underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
+                href="/"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
+            <Button
+              label="Create Account"
+              iconAppend="solar:arrow-right-linear"
+              className="mt-4"
+            />
+          </form>
+
+          <Link
+            href="login"
+            className="font-medium text-primary-600 hover:underline hover:underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
+          >
+            Already have an account? Login
+          </Link>
         </div>
       </div>
-    </>
+    </MainContainer>
   );
 };
 
