@@ -44,7 +44,7 @@ const Navbar = () => {
                 {loggedUser ? null : (
                   <div className="flex gap-2">
                     <Button variant="ghost" href="/login" label="Login" />
-                    <Button href="/signup" label="Sign up" />
+                    <Button href="/sign-up" label="Sign up" />
                   </div>
                 )}
                 <span className="h-8 w-px bg-gray-200" aria-hidden="true" />

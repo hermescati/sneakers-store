@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef } from "react";
 const baseInput = `
     w-full bg-transparent border-2
     leading-none font-medium text-primary-600 placeholder:text-primary-600
-    focus:text-gray-800 focus:border-secondary focus:outline-none focus:ring-secondary/40
+    focus:text-gray-800 focus:border-secondary focus-visible:outline-none focus-visible:ring-secondary/40
     disabled:opacity-40 disabled:cursor-not-allowed
     transition ease-in-out duration-300
 `;
