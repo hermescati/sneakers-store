@@ -50,7 +50,7 @@ const Navbar = () => {
                 <span className="h-8 w-px bg-gray-200" aria-hidden="true" />
                 <Link
                   href="/checkout"
-                  className="flex items-center gap-2 text-primary-500"
+                  className="flex items-center gap-2 text-primary-500 shrink-0"
                   onMouseOver={() => setCartOpen(true)}
                 >
                   <Icon
@@ -58,7 +58,7 @@ const Navbar = () => {
                     height="2rem"
                     aria-hidden="true"
                   />
-                  <span className="font-semibold text-primary-700">
+                  <span className="font-semibold text-primary-700 w-2">
                     {items.length}
                   </span>
                 </Link>

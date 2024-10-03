@@ -3,6 +3,8 @@ import { ICartItem } from "@/types";
 import { formatPrice } from "@/utils";
 import { Icon } from "@iconify/react";
 import CartItem from "./CartItem";
+import Image from "next/image";
+import Link from "next/link";
 
 interface CartProps {
   items: ICartItem[];
@@ -21,7 +23,7 @@ const ShoppingCart = ({ items, onClose, onItemRemove }: CartProps) => {
     <div className="absolute z-20 right-[1.5rem] top-[6rem] overflow-clip divide-y-2 divide-primary-200 bg-background rounded-3xl shadow-[0_0_12px_1px_rgba(0,0,0,0.25)]">
       <div className="flex items-center justify-between gap-8 p-5">
         <h4 className="font-bold text-xl">
-          {hasItems ? "Added to cart" : "Your shopping cart is empty"}
+          {hasItems ? "Added to cart" : "Your cart is empty"}
         </h4>
         <span
           className="p-2 cursor-pointer rounded-full hover:bg-primary-200"
@@ -31,14 +33,30 @@ const ShoppingCart = ({ items, onClose, onItemRemove }: CartProps) => {
         </span>
       </div>
       <div className="px-5 py-4 w-[500px]">
-        <ul className="flex flex-col gap-4 ">
-          {items.map((item, index) => (
-            <li key={item.name}>
-              <CartItem item={item} onRemove={() => onItemRemove(index)} />
-            </li>
-          ))}
-        </ul>
-        {/* TODO: Add empty state */}
+        {!hasItems ? (
+          <div className="flex flex-col gap-2 items-center justify-center py-8">
+            <Image
+              src="/assets/empty-cart.png"
+              alt="empty cart illustration"
+              width={200}
+              height={200}
+            />
+            <Link
+              href="/sneakers"
+              className="font-semibold hover:underline underline-offset-4 "
+            >
+              Add items to your cart to checkout
+            </Link>
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-4 ">
+            {items.map((item, index) => (
+              <li key={item.name}>
+                <CartItem item={item} onRemove={() => onItemRemove(index)} />
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className="flex flex-col gap-4 p-5 bg-primary-200">
         <div className="flex items-center justify-between">
