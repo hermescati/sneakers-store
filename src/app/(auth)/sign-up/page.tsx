@@ -6,6 +6,7 @@ import {
   SignUpValidationSchema,
   TSignUpValidationSchema,
 } from "@/lib/validation-schemas/sign-up-schema";
+import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -18,6 +19,9 @@ const Page = () => {
   } = useForm<TSignUpValidationSchema>({
     resolver: zodResolver(SignUpValidationSchema),
   });
+
+  const { data } = trpc.anyApiRoute.useQuery();
+  console.log({ data });
 
   const onSubmit = ({ email, password }: TSignUpValidationSchema) => {
     console.log({ email }, { password });
