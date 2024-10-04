@@ -6,9 +6,7 @@ export const LoginValidationSchema = z.object({
     .trim()
     .min(1, { message: "Email is required." })
     .email({ message: "Please provide a valid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long." }),
+  password: z.string().min(1, { message: "Password is required." }),
 });
 
 export type TLoginValidationSchema = z.infer<typeof LoginValidationSchema>;

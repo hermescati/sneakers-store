@@ -103,6 +103,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       type = "text",
       inputSize,
       invalid = false,
+      required,
       className,
       iconAppend,
       iconPrepend,
@@ -155,7 +156,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     );
 
     return (
-      <FormControl id={id} {...props}>
+      <FormControl id={id} invalid={invalid} required={required} {...props}>
         <div className={cn(inputClasses, "flex w-full overflow-clip")}>
           {PrependIcon}
           <input
