@@ -15,20 +15,8 @@ const baseInput = `
 const inputVariants = cva(baseInput, {
   variants: {
     inputSize: {
-      small: [
-        "px-4",
-        "py-2",
-        "rounded-xl",
-        "text-md",
-        "has-[:focus-visible]:ring",
-      ],
-      default: [
-        "px-4",
-        "py-3",
-        "rounded-2xl",
-        "text-base",
-        "has-[:focus-visible]:ring-4",
-      ],
+      small: ["rounded-xl", "text-md", "has-[:focus-visible]:ring"],
+      default: ["rounded-2xl", "text-base", "has-[:focus-visible]:ring-4"],
     },
     invalid: {
       true: [
@@ -55,7 +43,7 @@ export interface InputProps
     VariantProps<typeof inputVariants> {
   label?: string;
   hint?: string;
-  invalidMessage?: string;
+  error?: string;
   iconAppend?: string;
   iconPrepend?: string;
 }
@@ -72,8 +60,7 @@ const IconWrapper = ({
   <div
     className={cn(
       "flex px-4 items-center bg-primary-200 border-primary-400",
-      position === "prepend" ? "-ml-4 border-r" : "-mr-4 border-l",
-      inputSize === "small" ? "-my-2" : "-my-3"
+      position === "prepend" ? "border-r" : "border-l"
     )}
   >
     <InlineIcon
@@ -97,8 +84,7 @@ const PasswordToggleWrapper = ({
     type="button"
     onClick={toggleHandler}
     className={cn(
-      "flex px-4 -mx-4 items-center bg-primary-200 border-primary-400 border-l",
-      inputSize === "small" ? "-my-2" : "-my-3"
+      "flex px-4 items-center bg-primary-200 border-primary-400 border-l"
     )}
     aria-label={showPassword ? "Hide password" : "Show password"}
   >
@@ -170,13 +156,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <FormControl id={id} {...props}>
-        <div className={cn(inputClasses, "flex w-full gap-3 overflow-clip")}>
+        <div className={cn(inputClasses, "flex w-full overflow-clip")}>
           {PrependIcon}
           <input
             id={id}
             ref={ref}
             type={inputType}
-            className="w-full outline-none disabled:cursor-not-allowed"
+            className={cn(
+              "w-full outline-none disabled:cursor-not-allowed px-4",
+              inputSize === "small" ? "py-2" : "py-3"
+            )}
             {...props}
           />
           {AppendIcon}

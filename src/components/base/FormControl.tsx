@@ -7,7 +7,7 @@ const FormControl = ({
   required,
   children,
   invalid,
-  invalidMessage,
+  error,
   hint,
   disabled,
 }: InputProps) => {
@@ -24,10 +24,8 @@ const FormControl = ({
         </div>
       )}
       {children}
-      {invalid && invalidMessage ? (
-        <span className="text-sm font-medium text-danger">
-          {invalidMessage}
-        </span>
+      {invalid && error ? (
+        <span className="text-sm font-medium text-danger">{error}</span>
       ) : hint ? (
         <span
           className={cn(
