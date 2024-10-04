@@ -8,8 +8,8 @@ const baseButton = `
     flex items-center justify-center gap-3
     font-semibold
     disabled:opacity-40 disabled:pointer-events-none
-    transition-all ease-in-out duration-300
     active:outline-none active:ring active:ring-offset-2
+    transition-all ease-in-out duration-300
 `;
 
 export const buttonVariants = cva(baseButton, {
