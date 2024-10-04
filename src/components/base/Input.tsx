@@ -1,24 +1,35 @@
 import { cn } from "@/utils";
 import { cva, VariantProps } from "class-variance-authority";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, forwardRef, useMemo, useState } from "react";
+import { InlineIcon } from "@iconify/react";
+import FormControl from "./FormControl";
 
 const baseInput = `
     w-full bg-transparent border-2
-    leading-none font-medium text-primary-600 placeholder:text-primary-600
-    focus:text-gray-800 focus:border-secondary focus:outline-none focus:ring-secondary/40
-    disabled:opacity-40 disabled:cursor-not-allowed
+    leading-none font-medium placeholder:text-primary-600
+    has-[:focus-visible]:outline-none
+    has-[:disabled]:opacity-40 has-[:disabled]:cursor-not-allowed
     transition ease-in-out duration-300
 `;
 
 const inputVariants = cva(baseInput, {
   variants: {
     inputSize: {
-      small: ["px-4", "py-2", "rounded-xl", "text-sm", "focus:ring"],
-      default: ["px-4", "py-3", "rounded-2xl", "text-base", "focus:ring-4"],
+      small: ["rounded-xl", "text-md", "has-[:focus-visible]:ring"],
+      default: ["rounded-2xl", "text-base", "has-[:focus-visible]:ring-4"],
     },
     invalid: {
-      true: ["border-danger"],
-      false: ["border-primary-400"],
+      true: [
+        "text-danger",
+        "border-danger",
+        "has-[:focus-visible]:ring-danger/20",
+      ],
+      false: [
+        "text-primary-900",
+        "border-primary-400",
+        "has-[:focus-visible]:border-primary-900",
+        "has-[:focus-visible]:ring-primary-900/20",
+      ],
     },
   },
   defaultVariants: {
@@ -32,51 +43,139 @@ export interface InputProps
     VariantProps<typeof inputVariants> {
   label?: string;
   hint?: string;
-  invalidMessage?: string;
+  error?: string;
+  iconAppend?: string;
+  iconPrepend?: string;
 }
 
-const Input = ({
-  className,
-  label,
+const IconWrapper = ({
+  position,
   inputSize,
-  hint,
-  invalid = false,
-  invalidMessage,
-  id,
-  required,
-  ...props
-}: InputProps) => {
-  const inputClasses = inputVariants({ inputSize, invalid, className });
+  icon,
+}: {
+  position: "prepend" | "append";
+  inputSize: VariantProps<typeof inputVariants>["inputSize"];
+  icon: string;
+}) => (
+  <div
+    className={cn(
+      "flex px-4 items-center bg-primary-200 border-primary-400",
+      position === "prepend" ? "border-r" : "border-l"
+    )}
+  >
+    <InlineIcon
+      icon={icon}
+      className="text-primary-600"
+      height={inputSize === "small" ? "1rem" : "1.25rem"}
+    />
+  </div>
+);
 
-  return (
-    <div className="w-full flex flex-col gap-1 items-start">
-      {label && (
-        <div className="flex gap-1 items-center font-semibold">
-          <label htmlFor={id} className="text-foreground">
-            {label}
-          </label>
-          {required && (
-            <span className="text-danger text-xl leading-none">*</span>
-          )}
+const PasswordToggleWrapper = ({
+  inputSize,
+  showPassword,
+  toggleHandler,
+}: {
+  inputSize: VariantProps<typeof inputVariants>["inputSize"];
+  showPassword: boolean;
+  toggleHandler: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={toggleHandler}
+    className={cn(
+      "flex px-4 items-center bg-primary-200 border-primary-400 border-l"
+    )}
+    aria-label={showPassword ? "Hide password" : "Show password"}
+  >
+    <InlineIcon
+      icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
+      className="text-primary-600"
+      height={inputSize === "small" ? "1rem" : "1.25rem"}
+    />
+  </button>
+);
+
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      id,
+      type = "text",
+      inputSize,
+      invalid = false,
+      required,
+      className,
+      iconAppend,
+      iconPrepend,
+      ...props
+    },
+    ref
+  ) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const inputType = type === "password" && showPassword ? "text" : type;
+    const inputClasses = inputVariants({ inputSize, invalid, className });
+
+    const PrependIcon = useMemo(
+      () =>
+        iconPrepend &&
+        type !== "password" &&
+        !showPassword && (
+          <IconWrapper
+            position="prepend"
+            inputSize={inputSize}
+            icon={iconPrepend as string}
+          />
+        ),
+      [iconPrepend, inputSize, showPassword, type]
+    );
+
+    const AppendIcon = useMemo(
+      () =>
+        iconAppend &&
+        type !== "password" &&
+        !showPassword && (
+          <IconWrapper
+            position="append"
+            inputSize={inputSize}
+            icon={iconAppend as string}
+          />
+        ),
+      [iconAppend, inputSize, showPassword, type]
+    );
+
+    const PasswordToggle = useMemo(
+      () =>
+        type === "password" && (
+          <PasswordToggleWrapper
+            inputSize={inputSize}
+            showPassword={showPassword}
+            toggleHandler={() => setShowPassword(!showPassword)}
+          />
+        ),
+      [showPassword, inputSize, type]
+    );
+
+    return (
+      <FormControl id={id} invalid={invalid} required={required} {...props}>
+        <div className={cn(inputClasses, "flex w-full overflow-clip")}>
+          {PrependIcon}
+          <input
+            id={id}
+            ref={ref}
+            type={inputType}
+            className={cn(
+              "w-full outline-none disabled:cursor-not-allowed px-4",
+              inputSize === "small" ? "py-2" : "py-3"
+            )}
+            {...props}
+          />
+          {AppendIcon}
+          {PasswordToggle}
         </div>
-      )}
-      <input id={id} className={inputClasses} {...props} />
-      {invalid && invalidMessage ? (
-        <span className="text-sm font-medium text-danger">
-          {invalidMessage}
-        </span>
-      ) : hint ? (
-        <span
-          className={cn(
-            "text-sm font-medium text-gray-500",
-            props.disabled && "opacity-40"
-          )}
-        >
-          {hint}
-        </span>
-      ) : null}
-    </div>
-  );
-};
+      </FormControl>
+    );
+  }
+);
 
+Input.displayName = "Input";
 export default Input;

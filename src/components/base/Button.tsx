@@ -5,11 +5,11 @@ import Link from "next/link";
 import { ComponentPropsWithoutRef } from "react";
 
 const baseButton = `
-    flex items-center justify-center gap-2
+    flex items-center justify-center gap-3
     font-semibold
     disabled:opacity-40 disabled:pointer-events-none
-    transition-all ease-in-out duration-300
     active:outline-none active:ring active:ring-offset-2
+    transition-all ease-in-out duration-300
 `;
 
 export const buttonVariants = cva(baseButton, {
@@ -111,9 +111,9 @@ export interface ButtonProps
   extends ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   label?: string;
+  href?: string;
   iconAppend?: string;
   iconPrepend?: string;
-  href?: string;
 }
 
 const Button = ({
@@ -126,7 +126,6 @@ const Button = ({
   iconAppend,
   iconPrepend,
   children,
-  type = "button",
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(
@@ -135,9 +134,19 @@ const Button = ({
   );
   const content = (
     <>
-      {iconPrepend && <InlineIcon icon={iconPrepend} />}
+      {iconPrepend && (
+        <InlineIcon
+          icon={iconPrepend}
+          height={size === "small" ? "1rem" : "1.25rem"}
+        />
+      )}
       {label || children}
-      {iconAppend && <InlineIcon icon={iconAppend} />}
+      {iconAppend && (
+        <InlineIcon
+          icon={iconAppend}
+          height={size === "small" ? "1rem" : "1.25rem"}
+        />
+      )}
     </>
   );
 
@@ -146,7 +155,7 @@ const Button = ({
       {content}
     </Link>
   ) : (
-    <button className={buttonClasses} type={type} {...props}>
+    <button className={buttonClasses} {...props}>
       {content}
     </button>
   );

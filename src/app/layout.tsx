@@ -1,8 +1,10 @@
+import Navbar from "@/components/nav/Navbar";
+import Providers from "@/components/Providers";
+import { cn } from "@/utils";
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/utils";
-import Navbar from "@/components/Navbar";
+import { Toaster } from "sonner";
 
 const quicksand = Quicksand({ subsets: ["latin"] });
 
@@ -20,9 +22,12 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={cn("relative h-full antialiased", quicksand.className)}>
         <main className="relative flex flex-col min-h-screen">
-          <Navbar />
-          <div className="flex-grow flex-1">{children}</div>
+          <Providers>
+            <Navbar />
+            <div className="flex-grow flex-1">{children}</div>
+          </Providers>
         </main>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
