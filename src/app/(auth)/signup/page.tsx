@@ -6,14 +6,13 @@ import MainContainer from "@/components/MainContainer";
 import {
   SignUpValidationSchema,
   TSignUpValidationSchema,
-} from "@/lib/validators/sign-up-validator";
+} from "@/lib/validators/signup-validator";
 import { trpc } from "@/trpc/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ZodError } from "zod";
 
 const Page = () => {
   const {
@@ -26,7 +25,7 @@ const Page = () => {
 
   const router = useRouter();
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+  const { mutate, isLoading } = trpc.auth.createUser.useMutation({
     onError: (err) => {
       if (err.data?.code === "CONFLICT") {
         toast.error("This email is already in use. Maybe login?");
@@ -54,10 +53,16 @@ const Page = () => {
     <MainContainer>
       <div className="w-full relative flex pt-16 flex-col items-center justify-center lg:px-0">
         <div className="mx-auto flex w-full flex-col justify-center sm:w-[500px]">
-          {/* Header */}
-          <div className="text-start font-bold text-xl sm:text-2xl">
-            <h2>Looks like you&#39;re new here.</h2>
-            <h2>We need some info.</h2>
+          <div className="flex flex-col gap-1">
+            <h2 className="font-bold text-xl sm:text-2xl">
+              Looks like you&#39;re new here.
+            </h2>
+            <Link
+              href="login"
+              className="text-primary-600 hover:underline hover:underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
+            >
+              Already have an account? Login
+            </Link>
           </div>
 
           <form
@@ -70,7 +75,7 @@ const Page = () => {
               required
               placeholder="John"
               invalid={errors.firstName && true}
-              invalidMessage={errors.firstName?.message}
+              error={errors.firstName?.message}
             />
             <Input
               {...register("lastName")}
@@ -78,7 +83,7 @@ const Page = () => {
               required
               placeholder="Doe"
               invalid={errors.lastName && true}
-              invalidMessage={errors.lastName?.message}
+              error={errors.lastName?.message}
             />
             <Input
               {...register("email")}
@@ -86,7 +91,7 @@ const Page = () => {
               required
               placeholder="you@example.com"
               invalid={errors.email && true}
-              invalidMessage={errors.email?.message}
+              error={errors.email?.message}
               autoComplete="new-password"
             />
             <Input
@@ -96,10 +101,10 @@ const Page = () => {
               type="password"
               placeholder="Password"
               invalid={errors.password && true}
-              invalidMessage={errors.password?.message}
+              error={errors.password?.message}
               autoComplete="new-password"
             />
-            <p className="font-medium text-primary-600 text-sm md:text-md">
+            <p className="font-medium text-primary-500 text-sm md:text-md">
               By clicking &#34;Create Account&#34;, you agree to our{" "}
               <Link
                 href="/"
@@ -122,13 +127,6 @@ const Page = () => {
               className="mt-4"
             />
           </form>
-
-          <Link
-            href="login"
-            className="font-medium text-primary-600 hover:underline hover:underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
-          >
-            Already have an account? Login
-          </Link>
         </div>
       </div>
     </MainContainer>
