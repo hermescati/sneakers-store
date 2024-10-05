@@ -52,7 +52,7 @@ export const Products: CollectionConfig = {
   access: {},
   fields: [
     {
-      name: "createdBy",
+      name: "user",
       type: "relationship",
       relationTo: "users",
       required: true,
