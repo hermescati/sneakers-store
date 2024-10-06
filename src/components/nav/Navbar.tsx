@@ -23,9 +23,8 @@ const Navbar = async () => {
                 <h2 className="font-bold text-xl text-foreground">Sneakers.</h2>
               </Link>
             </div>
-            <div>Search bar here</div>
             <div className="flex flex-grow items-center">
-              <div className="relative flex flex-1 items-center justify-end transition-all duration-300 ease-in-out">
+              <div className="relative hidden lg:flex lg:flex-1 lg:items-center lg:justify-end transition-all duration-300 ease-in-out">
                 {user ? (
                   <UserAccount user={user} />
                 ) : (
