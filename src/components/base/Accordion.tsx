@@ -39,7 +39,7 @@ const AccordionItem = ({
 
   return (
     <>
-      {content ? (
+      {content && title && (
         <div className="w-full">
           <div
             className="flex justify-between items-center rounded-2xl cursor-pointer px-4 py-3 hover:bg-primary-100"
@@ -49,14 +49,12 @@ const AccordionItem = ({
               {icon && <Icon icon={icon} height="1.5rem" />}
               <h4 className="font-semibold text-lg">{title}</h4>
             </div>
-
             <span
               className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}
             >
               <Icon icon="mage:chevron-down" height="1.5rem" />
             </span>
           </div>
-
           <div
             ref={contentRef}
             className={`overflow-hidden transition-all duration-300 ease-in-out`}
@@ -67,7 +65,7 @@ const AccordionItem = ({
             </p>
           </div>
         </div>
-      ) : null}
+      )}
     </>
   );
 };

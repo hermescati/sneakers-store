@@ -1,13 +1,14 @@
 "use client";
 
 import { Product } from "@/types/payload";
+import { cn, formatPrice } from "@/utils";
+import { getPriceInfo, getProductInfo } from "@/utils/product";
+import { Icon } from "@iconify/react";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import ProductSkeleton from "../skeletons/ProductSkeleton";
-import { cn, formatPrice } from "@/utils";
-import Link from "next/link";
-import Image from "next/image";
 import BrandLogo from "./BrandLogo";
-import { Icon } from "@iconify/react";
 
 interface ProductCardProps {
   product: Product | null;
@@ -39,43 +40,8 @@ const ProductCard = ({
       : (firstImage.sizes?.thumbnail?.url as string);
   };
 
-  const getPriceInfo = () => {
-    const minPriceInfo = product.available_sizes.reduce(
-      (min, size) => {
-        const regularPrice = size.price ?? Infinity;
-        const discountedPrice = size.discount
-          ? regularPrice * (1 - size.discount)
-          : regularPrice;
-
-        if (discountedPrice < min.discountedPrice) {
-          return { regularPrice, discountedPrice };
-        }
-
-        return min;
-      },
-      { regularPrice: Infinity, discountedPrice: Infinity }
-    );
-
-    return {
-      regularPrice: minPriceInfo.regularPrice,
-      discountedPrice:
-        minPriceInfo.discountedPrice !== minPriceInfo.regularPrice
-          ? minPriceInfo.discountedPrice
-          : null,
-    };
-  };
-
-  const getProductInfo = () => {
-    const brand =
-      typeof product.brand === "string" ? product.brand : product.brand.name;
-    const model =
-      typeof product.model === "string" ? product.model : product.model.name;
-
-    return { brand, model };
-  };
-
-  const { regularPrice, discountedPrice } = getPriceInfo();
-  const { brand, model } = getProductInfo();
+  const { regularPrice, discountedPrice } = getPriceInfo(product);
+  const { brand, model } = getProductInfo(product);
 
   return (
     <Link

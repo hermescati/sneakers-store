@@ -47,28 +47,21 @@ const Page = async ({ params }: PageProps) => {
   return (
     <MainContainer className="flex flex-col gap-8 py-6">
       <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-x-10">
-        {/* Left Column */}
         <div className="flex flex-col gap-4 lg:w-[60%] xl:w-2/3">
-          {/* Breadcrumbs */}
           <Breadcrumbs items={breadcrumbs} className="hidden sm:block" />
 
-          {/* Product Details */}
           <div className="lg:hidden">
             <ProductDetails product={product} />
           </div>
 
-          {/* Image Slider */}
           <ImageSlider urls={validUrls} />
         </div>
 
-        {/* Right Column */}
         <div className="flex flex-col gap-4 lg:w-[40%] lg:justify-between xl:w-1/3 xl:gap-8">
-          {/* Product Details */}
           <div className="hidden lg:block">
             <ProductDetails product={product} />
           </div>
 
-          {/* Available Sizes */}
           <ProductSizes
             category={product.category}
             availableSizes={product.available_sizes}

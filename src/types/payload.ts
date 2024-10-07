@@ -68,7 +68,7 @@ export interface Model {
  */
 export interface Product {
   id: string;
-  createdBy?: (string | null) | User;
+  user?: (string | null) | User;
   sku: string;
   brand: string | Brand;
   model: string | Model;
