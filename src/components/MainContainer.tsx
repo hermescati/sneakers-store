@@ -10,7 +10,7 @@ const MainContainer = ({
 }) => {
   return (
     <div
-      className={cn("mx-auto w-full max-w-screen-2xl px-8 2xl:px-0", className)}
+      className={cn("mx-auto w-full max-w-screen-2xl px-8 3xl:px-0", className)}
     >
       {children}
     </div>

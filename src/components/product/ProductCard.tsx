@@ -85,7 +85,7 @@ const ProductCard = ({
       })}
     >
       <div className="flex flex-col gap-2 w-full">
-        <div className="relative px-5 bg-zinc-100 rounded-2xl">
+        <div className="relative px-5 bg-zinc-100 rounded-2xl aspect-square sm:aspect-auto">
           {showWishlist && (
             <Icon
               icon="solar:bookmark-bold-duotone"
@@ -99,11 +99,11 @@ const ProductCard = ({
             width={400}
             height={300}
             loading="eager"
-            className="h-full w-full object-cover object-center mix-blend-multiply transition-transform duration-300 ease-in-out group-hover:scale-105"
+            className="h-full w-full object-contain mix-blend-multiply transition-transform duration-300 ease-in-out group-hover:scale-105"
           />
         </div>
         <div className="flex flex-col w-full">
-          <h3 className="font-semibold text-primary-800 text-md sm:text-base">
+          <h3 className="font-semibold text-primary-800 line-clamp-1 sm:text-base">
             {product.nickname}
           </h3>
           <span className="flex items-center gap-2 text-primary-500">
