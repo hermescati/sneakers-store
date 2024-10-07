@@ -53,6 +53,7 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
   );
 };
 
+// TODO: Remove the MainContainer from here
 const PerksSection = () => {
   return (
     <section>

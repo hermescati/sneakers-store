@@ -7,6 +7,7 @@ import { Icon } from "@iconify/react";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
 import { useMemo } from "react";
+import { cn } from "@/utils";
 
 interface ProductReelProps {
   title: string;
@@ -44,10 +45,10 @@ const ProductReel = (props: ProductReelProps) => {
   }, [productData, isLoading, query.limit]);
 
   return (
-    <section className="flex flex-col gap-4 py-4">
+    <section className={cn("flex flex-col gap-4", { "py-4": !!href })}>
       <div className="flex items-center justify-start gap-3">
         <div className="max-w-2xl lg:max-w-4xl">
-          {title && <h2 className="text-2xl font-bold md:text-xl">{title}</h2>}
+          {title && <h2 className="font-bold text-xl">{title}</h2>}
         </div>
         {href && (
           <Link href={href}>

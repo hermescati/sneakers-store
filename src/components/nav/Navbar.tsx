@@ -14,7 +14,7 @@ const Navbar = async () => {
 
   return (
     <div className="sticky z-10 top-0 inset-x-0">
-      <header className="relative bg-background ">
+      <header className="relative bg-background shadow">
         <MainContainer>
           <div className="flex gap-20 py-6 items-center">
             {/* TODO: Mobile nav */}
