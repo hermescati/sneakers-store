@@ -55,7 +55,7 @@ const DropdownMenu = ({
         aria-expanded={isOpen}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center gap-5 rounded-xl w-full py-3 px-6 hover:bg-primary-200 active:outline-none active:ring-2 active:ring-offset-2 active:ring-primary-900 transition-all ease-in-out duration-300"
+        className="flex justify-between items-center gap-5 rounded-xl w-full py-3 px-6 hover:bg-primary-200 active:outline-none active:ring-0 active:ring-transparent active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)] transition ease-in-out duration-300"
       >
         <span className="font-semibold text-primary-700">{title}</span>
       </button>
