@@ -22,9 +22,10 @@ export type ProductCategory = {
   featured?: FeaturedShoes;
 };
 
-export type ICartItem = {
-  name: string;
-  model: string;
+export type ProductSize = {
   size: number;
+  stock: number;
   price: number;
+  discount?: number | null;
+  id?: string | null;
 };
