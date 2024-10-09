@@ -1,15 +1,24 @@
+import { ProductSize } from "@/types";
 import { Product } from "@/types/payload";
-import { formatPrice } from "@/utils";
-import { getPriceInfo, getProductInfo } from "@/utils/product";
+import { cn, formatPrice } from "@/utils";
+import {
+  getMinimalPrice,
+  getProductInfo,
+  getProductPrice,
+} from "@/utils/product";
+import { Icon } from "@iconify/react";
 import BrandLogo from "./BrandLogo";
 
 interface ProductDetailsProps {
   product: Product;
+  selectedSize: ProductSize | null;
 }
 
-const ProductDetails = ({ product }: ProductDetailsProps) => {
-  const { regularPrice } = getPriceInfo(product);
+const ProductDetails = ({ product, selectedSize }: ProductDetailsProps) => {
   const { brand, model } = getProductInfo(product);
+  const productPrice = !!selectedSize ? getProductPrice(selectedSize) : null;
+  const { regularPrice: minPrice, discountedPrice: minDiscountedPrice } =
+    getMinimalPrice(product);
 
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
@@ -27,11 +36,30 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       </div>
 
-      <div className="flex items-baseline gap-1">
-        <h1 className="font-semibold text-2xl lg:font-bold">
-          {formatPrice(regularPrice)}
-        </h1>
-        <span>& up</span>
+      <div className="flex flex-col gap-2">
+        {!!selectedSize && !!productPrice ? (
+          <h1 className="font-semibold text-2xl lg:font-bold">
+            {formatPrice(productPrice)}
+          </h1>
+        ) : (
+          <div className="flex items-baseline gap-1">
+            <h1 className="font-semibold text-2xl lg:font-bold">
+              {formatPrice(minDiscountedPrice ? minDiscountedPrice : minPrice)}
+            </h1>
+            <span>& up</span>
+          </div>
+        )}
+        <div
+          className={cn(
+            "opacity-0 flex items-center gap-1 text-secondary font-semibold",
+            { "opacity-100": !!selectedSize && selectedSize.stock <= 3 }
+          )}
+        >
+          <Icon icon="ph:fire-simple-duotone" height="1.25rem" />
+          <span>
+            Hurry up! Only {!!selectedSize && selectedSize.stock} in stock.
+          </span>
+        </div>
       </div>
     </div>
   );

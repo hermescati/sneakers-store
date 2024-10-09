@@ -5,7 +5,7 @@ import {
   formatCategory,
   getProductInfo,
   getProductPrice,
-  validateImage,
+  getImageURL,
 } from "@/utils/product";
 import Image from "next/image";
 import Button from "../base/Button";
@@ -20,7 +20,7 @@ const CartItem = ({ product, size, onRemove }: CartItemProps) => {
   const { brand, model } = getProductInfo(product);
   const category = formatCategory(product.category);
   const price = getProductPrice(size);
-  const imageUrl = validateImage(product.images[0].image) as string;
+  const imageUrl = getImageURL(product.images[0].image) as string;
 
   return (
     <div className="flex items-center gap-4 lg:gap-3 py-4 lg:py-3 lg:px-4">
@@ -41,7 +41,7 @@ const CartItem = ({ product, size, onRemove }: CartItemProps) => {
           <div className="text-primary-600 text-md">
             {category} (US) - {size.size}
           </div>
-          <h5 className="lg:hidden mt-1 font-semibold">{formatPrice(price)}</h5>
+          <h5 className="lg:hidden mt-2 font-semibold">{formatPrice(price)}</h5>
         </div>
 
         {/* Actions */}

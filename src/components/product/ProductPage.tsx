@@ -2,7 +2,7 @@
 
 import { ProductSize } from "@/types";
 import { Product } from "@/types/payload";
-import { getProductInfo, validateImage } from "@/utils/product";
+import { getProductInfo, getImageURL } from "@/utils/product";
 import { useState } from "react";
 import Breadcrumbs, { BreadcrumbItem } from "../base/Breadcrumbs";
 import ImageSlider from "../ImageSlider";
@@ -16,7 +16,7 @@ const ProductPage = ({ product }: { product: Product }) => {
 
   const { brand, model } = getProductInfo(product);
   const imageUrls = product.images
-    .map(({ image }) => validateImage(image))
+    .map(({ image }) => getImageURL(image))
     .filter(Boolean) as string[];
 
   const breadcrumbs: BreadcrumbItem[] = [
