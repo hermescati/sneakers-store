@@ -9,7 +9,7 @@ const baseButton = `
     font-semibold
     disabled:opacity-40 disabled:pointer-events-none
     active:outline-none active:ring active:ring-offset-2
-    transition-all ease-in-out duration-300
+    transition ease-in-out duration-300
 `;
 
 export const buttonVariants = cva(baseButton, {
@@ -25,7 +25,8 @@ export const buttonVariants = cva(baseButton, {
     },
     size: {
       small: ["py-2", "px-4", , "rounded-xl", "text-sm"],
-      default: ["py-3", "px-6", "max-h-12", "rounded-2xl", "text-base"],
+      default: ["py-3.5", "px-6", "max-h-[52px]", "rounded-2xl", "text-base"],
+      icon: ["p-2", "rounded-full", "text-base"],
     },
   },
   compoundVariants: [
@@ -85,7 +86,9 @@ export const buttonVariants = cva(baseButton, {
         "text-foreground",
         "hover:bg-primary-900/5",
         "active:bg-primary-900/5",
-        "active:ring-primary-900",
+        "active:ring-0",
+        "active:ring-transparent",
+        "active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]",
       ],
     },
     {
