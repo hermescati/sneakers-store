@@ -13,7 +13,7 @@ const Navbar = async () => {
   const { user } = await getPayloadUser(nextCookies);
 
   return (
-    <div className="sticky z-10 top-0 inset-x-0">
+    <div className="sticky z-20 top-0 inset-x-0">
       <header className="relative bg-background shadow">
         <MainContainer>
           <div className="flex gap-20 py-6 items-center">

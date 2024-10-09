@@ -1,9 +1,8 @@
-"use client";
-
+import { useCart } from "@/hooks/use-cart";
+import { ProductSize } from "@/types";
 import { Product } from "@/types/payload";
 import { cn } from "@/utils";
 import { formatCategory } from "@/utils/product";
-import { useState } from "react";
 import Button from "../base/Button";
 
 interface SizeBoxProps {
@@ -14,8 +13,9 @@ interface SizeBoxProps {
 }
 
 interface ProductSizeProps {
-  category: Product["category"];
-  availableSizes: Product["available_sizes"];
+  product: Product;
+  selectedSize: ProductSize | null;
+  setSelectedSize: (size: ProductSize | null) => void;
 }
 
 const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
@@ -42,34 +42,41 @@ const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
   );
 };
 
-const ProductSizes = ({ category, availableSizes }: ProductSizeProps) => {
-  // TODO: Update the type of the selectedSize to be an object so it can update the price accordingly
-  const [selectedSize, setSelectedSize] = useState<string>();
+const ProductSizes = ({
+  product,
+  selectedSize,
+  setSelectedSize,
+}: ProductSizeProps) => {
+  const { addItem } = useCart();
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-4 p-5 bg-primary-100 rounded-2xl md:rounded-3xl border border-primary-300 shadow-[0_0_8px_1px_rgba(0,0,0,0.10)]">
-        <h4 className="font-semibold w-full">{`Select Sizes (US ${formatCategory(category)})`}</h4>
+        <h4 className="font-semibold w-full">{`Select Sizes (US ${formatCategory(product.category)})`}</h4>
         <hr className="border-primary-300 rounded-full" />
 
         <ul className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-6 2xl:grid-cols-7 2xl:gap-1.5">
-          {availableSizes.map((item) => (
+          {product.available_sizes.map((item) => (
             <SizeBox
               key={item.id}
               size={item.size}
               stock={item.stock}
-              selected={item.id === selectedSize}
-              onSelect={() => setSelectedSize(item.id as string)}
+              selected={item.id === selectedSize?.id}
+              onSelect={() => setSelectedSize(item)}
             />
           ))}
         </ul>
 
         <div className="flex flex-col gap-2">
           <Button
-            label="Add to cart"
             disabled={!selectedSize}
             iconPrepend="solar:cart-large-minimalistic-linear"
-          />
+            onClick={() => {
+              addItem(product, selectedSize as ProductSize);
+            }}
+          >
+            Add to cart
+          </Button>
           <Button
             variant="ghost"
             label="Wishlist sneaker"
@@ -80,7 +87,7 @@ const ProductSizes = ({ category, availableSizes }: ProductSizeProps) => {
 
       {/* TODO: Implement a modal that when this is clicked, shows the markup below */}
       <span className="w-fit py-2 text-md underline underline-offset-4 cursor-pointer font-medium hover:text-secondary">
-        Can't find your size? Get notified!
+        Can&apos;t find your size? Get notified!
       </span>
 
       {/* <div className="flex flex-col md:flex-row lg:flex-col items-center gap-y-2 gap-x-2">

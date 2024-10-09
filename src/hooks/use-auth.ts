@@ -23,6 +23,7 @@ export const useAuth = () => {
 
       router.push("/login");
       router.refresh();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Couldn't logout, please try again.");
     }
