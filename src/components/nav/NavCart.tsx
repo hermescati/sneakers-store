@@ -1,52 +1,42 @@
 "use client";
 
-import Link from "next/link";
-import { Icon } from "@iconify/react";
-import { useRef, useState } from "react";
-import { PRODUCT_LIST } from "@/config";
+import { useCart } from "@/hooks/use-cart";
 import { useOnClickOutside } from "@/hooks/use-on-click-outside";
+import { Icon } from "@iconify/react";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import ShoppingCart from "../cart/ShoppingCart";
 
 const NavCart = () => {
-  const [items, setItems] = useState(PRODUCT_LIST);
-  const [cartOpen, setCartOpen] = useState<boolean>(false);
-
-  const handleItemRemoval = (index: number) => {
-    setItems((prevItems) => prevItems.filter((_, i) => i !== index));
-  };
-
+  const { items, cartOpen, openCart, closeCart } = useCart();
   const cartRef = useRef<HTMLDivElement | null>(null);
-  useOnClickOutside(cartRef, () => setCartOpen(false));
+
+  useOnClickOutside(cartRef, closeCart);
 
   return (
-    <div>
-      <Link
-        href="/checkout"
-        className="flex items-center gap-2 text-primary-500 shrink-0"
-        onMouseOver={() => setCartOpen(true)}
+    <>
+      <div
+        className="group flex items-center gap-3 shrink-0 cursor-pointer"
+        onClick={() => openCart()}
       >
         <Icon
           icon="solar:cart-large-minimalistic-linear"
           height="1.5rem"
           aria-hidden="true"
+          className="text-primary-500 group-hover:text-primary-700 transition-all ease-in-out duration-300"
         />
-        <span className="font-semibold text-primary-700 w-2">
+        <span className="w-2 font-semibold text-primary-700 group-hover:text-foreground transition-all ease-in-out duration-300">
           {items.length}
         </span>
-      </Link>
+      </div>
       {cartOpen &&
         createPortal(
           <div ref={cartRef}>
-            <ShoppingCart
-              items={items}
-              onClose={() => setCartOpen(false)}
-              onItemRemove={handleItemRemoval}
-            />
+            <ShoppingCart />
           </div>,
           document.body
         )}
-    </div>
+    </>
   );
 };
 
