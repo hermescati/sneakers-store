@@ -1,13 +1,7 @@
-import Breadcrumbs, { BreadcrumbItem } from "@/components/base/Breadcrumbs";
-import ImageSlider from "@/components/ImageSlider";
 import MainContainer from "@/components/MainContainer";
-import ProductDetails from "@/components/product/ProductDetails";
-import ProductInfo from "@/components/product/ProductInfo";
-import ProductReel from "@/components/product/ProductReel";
-import ProductSizes from "@/components/product/ProductSizes";
+import ProductPage from "@/components/product/ProductPage";
 import { getPayloadClient } from "@/get-payload";
 import { Product } from "@/types/payload";
-import { getProductInfo } from "@/utils/product";
 import { notFound } from "next/navigation";
 
 interface PageProps {
@@ -31,50 +25,9 @@ const Page = async ({ params }: PageProps) => {
   const [product] = products as unknown as Product[];
   if (!product) return notFound();
 
-  const { brand, model } = getProductInfo(product);
-
-  const validUrls = product.images
-    .map(({ image }) => (typeof image === "string" ? image : image.url))
-    .filter(Boolean) as string[];
-
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: "Sneakers", href: "/sneakers" },
-    { label: `${brand} Shoes`, href: `/sneakers?brand=${brand}` },
-    { label: `${model}`, href: `/sneakers?brand=${brand}&model=${model}` },
-    { label: `${product.nickname}` },
-  ];
-
   return (
     <MainContainer className="flex flex-col gap-8 py-6">
-      <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-x-10">
-        <div className="flex flex-col gap-4 lg:w-[60%] xl:w-2/3">
-          <Breadcrumbs items={breadcrumbs} className="hidden sm:block" />
-
-          <div className="lg:hidden">
-            <ProductDetails product={product} />
-          </div>
-
-          <ImageSlider urls={validUrls} />
-        </div>
-
-        <div className="flex flex-col gap-4 lg:w-[40%] lg:justify-between xl:w-1/3 xl:gap-8">
-          <div className="hidden lg:block">
-            <ProductDetails product={product} />
-          </div>
-
-          <ProductSizes
-            category={product.category}
-            availableSizes={product.available_sizes}
-          />
-        </div>
-      </div>
-
-      <ProductInfo product={product} />
-
-      <ProductReel
-        query={{ sort: "desc", limit: 6 }}
-        title="Related Sneakers"
-      />
+      <ProductPage product={product} />
     </MainContainer>
   );
 };
