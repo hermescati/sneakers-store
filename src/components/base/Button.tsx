@@ -1,10 +1,10 @@
 import { cn } from "@/utils";
-import { InlineIcon } from "@iconify/react";
+import { Icon } from "@iconify/react";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { ComponentPropsWithoutRef } from "react";
 
-const baseButton = `
+const btnBase = `
     flex items-center justify-center gap-3
     font-semibold
     disabled:opacity-40 disabled:pointer-events-none
@@ -12,7 +12,7 @@ const baseButton = `
     transition ease-in-out duration-300
 `;
 
-export const buttonVariants = cva(baseButton, {
+export const buttonVariants = cva(btnBase, {
   variants: {
     variant: {
       solid: [""],
@@ -115,6 +115,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label?: string;
   href?: string;
+  icon?: string;
   iconAppend?: string;
   iconPrepend?: string;
 }
@@ -126,6 +127,7 @@ const Button = ({
   intent,
   size,
   label,
+  icon,
   iconAppend,
   iconPrepend,
   children,
@@ -135,31 +137,26 @@ const Button = ({
     buttonVariants({ variant, intent, size }),
     className
   );
-  const content = (
-    <>
-      {iconPrepend && (
-        <InlineIcon
-          icon={iconPrepend}
-          height={size === "small" ? "1rem" : "1.25rem"}
-        />
-      )}
-      {label || children}
-      {iconAppend && (
-        <InlineIcon
-          icon={iconAppend}
-          height={size === "small" ? "1rem" : "1.25rem"}
-        />
-      )}
-    </>
-  );
+  const iconSize = size === "small" ? "1rem" : "1.25rem";
+
+  const btnContent =
+    size === "icon" && icon ? (
+      <Icon icon={icon} height={iconSize} />
+    ) : (
+      <>
+        {iconPrepend && <Icon icon={iconPrepend} height={iconSize} />}
+        {label || children}
+        {iconAppend && <Icon icon={iconAppend} height={iconSize} />}
+      </>
+    );
 
   return href && !props.disabled ? (
     <Link href={href} className={buttonClasses}>
-      {content}
+      {btnContent}
     </Link>
   ) : (
     <button className={buttonClasses} {...props}>
-      {content}
+      {btnContent}
     </button>
   );
 };
