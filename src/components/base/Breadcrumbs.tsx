@@ -15,7 +15,7 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
     <div className={className}>
       <ol className="flex items-center gap-4">
         {items.map((breadcrumb, index) => (
-          <li key={breadcrumb.href}>
+          <li key={`breadcrumb-${breadcrumb.href}`}>
             <div className="flex items-center font-semibold text-sm sm:text-md">
               {breadcrumb.href ? (
                 <Link

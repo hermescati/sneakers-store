@@ -45,7 +45,7 @@ const ProductReel = (props: ProductReelProps) => {
   }, [productData, isLoading, query.limit]);
 
   return (
-    <section className={cn("flex flex-col gap-4", { "py-4": !!href })}>
+    <section className={cn("flex flex-col gap-4", { "py-6": !!href })}>
       <div className="flex items-center justify-start gap-3">
         <div className="max-w-2xl lg:max-w-4xl">
           {title && <h2 className="font-bold text-xl">{title}</h2>}
