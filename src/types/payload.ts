@@ -89,7 +89,6 @@ export interface Product {
     discount?: number | null;
     id?: string | null;
   }[];
-  priceId?: string | null;
   stripeId?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -120,7 +119,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    card?: {
+    smartphone?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -128,7 +127,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    tabler?: {
+    tablet?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -146,7 +145,7 @@ export interface Order {
   id: string;
   _isPaid: boolean;
   user: string | User;
-  product: (string | Product)[];
+  products: (string | Product)[];
   updatedAt: string;
   createdAt: string;
 }
