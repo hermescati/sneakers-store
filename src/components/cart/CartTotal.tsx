@@ -4,12 +4,27 @@ import { formatPrice } from "@/utils";
 import Button from "../base/Button";
 import { useCart } from "@/hooks/use-cart";
 import { getCartTotal } from "@/utils/product";
+import { trpc } from "@/trpc/client";
+import { useRouter } from "next/navigation";
 
 const ESTIMATED_DELIVERY = 35;
 
 const CartTotal = () => {
+  const router = useRouter();
+
   const { items } = useCart();
   const cartTotal = getCartTotal(items);
+
+  const { mutate: createCheckoutSession, isLoading } =
+    trpc.payment.createSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) router.push(url);
+      },
+    });
+
+  const selectedProducts = items.map(({ product, size }) => {
+    return { productId: product.id, selectedSize: size.size };
+  });
 
   return (
     <section className="lg:col-span-5 xl:col-span-4">
@@ -41,7 +56,11 @@ const CartTotal = () => {
           <div>Total</div>
           <div>{formatPrice(cartTotal + ESTIMATED_DELIVERY)}</div>
         </div>
-        <Button label="Checkout" href="/checkout" />
+        <Button
+          disabled={!items.length || isLoading}
+          label="Checkout"
+          onClick={() => createCheckoutSession({ selectedProducts })}
+        />
       </div>
     </section>
   );
