@@ -42,6 +42,16 @@ const config: Config = {
         "4xl": "2.5rem",
         "5xl": "3rem",
       },
+      keyframes: {
+        rotate: {
+          "0%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(180deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+      },
+      animation: {
+        "spin-180": "rotate 4s ease-in-out infinite",
+      },
     },
   },
   plugins: [],

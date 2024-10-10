@@ -5,7 +5,7 @@ import {
   formatCategory,
   getProductInfo,
   getProductPrice,
-  getImageURL,
+  getThumbnailImage,
 } from "@/utils/product";
 import Image from "next/image";
 import Button from "../base/Button";
@@ -20,17 +20,19 @@ const CartItem = ({ product, size, onRemove }: CartItemProps) => {
   const { brand, model } = getProductInfo(product);
   const category = formatCategory(product.category);
   const price = getProductPrice(size);
-  const imageUrl = getImageURL(product.images[0].image) as string;
+  const imageUrl = getThumbnailImage(product);
 
   return (
     <div className="flex items-center gap-4 lg:gap-3 py-4 lg:py-3 lg:px-4">
-      <Image
-        alt={product.nickname}
-        src={imageUrl}
-        height={80}
-        width={120}
-        className="object-contain rounded-md"
-      />
+      <div className="aspect-video">
+        <Image
+          alt={product.nickname}
+          src={imageUrl}
+          height={80}
+          width={200}
+          className="h-full w-full object-contain rounded-md"
+        />
+      </div>
       <div className="flex w-full justify-between gap-x-4 lg:gap-x-6">
         {/* Product Info */}
         <div className="flex flex-col">

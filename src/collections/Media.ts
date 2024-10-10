@@ -40,8 +40,8 @@ export const Media: CollectionConfig = {
     staticDir: "media",
     imageSizes: [
       { name: "thumbnail", width: 400, height: 300, position: "centre" },
-      { name: "card", width: 768, height: undefined, position: "centre" },
-      { name: "tabler", width: 1024, height: undefined, position: "centre" },
+      { name: "smartphone", width: 768, height: undefined, position: "centre" },
+      { name: "tablet", width: 1024, height: undefined, position: "centre" },
     ],
     mimeTypes: ["image/*"],
   },
