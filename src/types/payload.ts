@@ -14,8 +14,8 @@ export interface Config {
     products: Product;
     media: Media;
     orders: Order;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   globals: {};
 }
@@ -27,7 +27,7 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -74,7 +74,7 @@ export interface Product {
   model: string | Model;
   nickname: string;
   colorway: string;
-  category: 'mens' | 'womens' | 'kids';
+  category: "mens" | "womens" | "kids";
   retail_price: number;
   description?: string | null;
   release_date?: string | null;
@@ -156,7 +156,7 @@ export interface Order {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -184,7 +184,7 @@ export interface PayloadMigration {
   createdAt: string;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
+  // @ts-ignore
   export interface GeneratedTypes extends Config {}
 }
