@@ -14,8 +14,8 @@ export interface Config {
     products: Product;
     media: Media;
     orders: Order;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
+    "payload-preferences": PayloadPreference;
+    "payload-migrations": PayloadMigration;
   };
   globals: {};
 }
@@ -27,7 +27,7 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
-  role: 'admin' | 'user';
+  role: "admin" | "user";
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -74,7 +74,7 @@ export interface Product {
   model: string | Model;
   nickname: string;
   colorway: string;
-  category: 'mens' | 'womens' | 'kids';
+  category: "mens" | "womens" | "kids";
   retail_price: number;
   description?: string | null;
   release_date?: string | null;
@@ -89,7 +89,6 @@ export interface Product {
     discount?: number | null;
     id?: string | null;
   }[];
-  priceId?: string | null;
   stripeId?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -120,7 +119,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    card?: {
+    smartphone?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -128,7 +127,7 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    tabler?: {
+    tablet?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -146,7 +145,7 @@ export interface Order {
   id: string;
   _isPaid: boolean;
   user: string | User;
-  product: (string | Product)[];
+  products: (string | Product)[];
   updatedAt: string;
   createdAt: string;
 }
@@ -157,7 +156,7 @@ export interface Order {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: 'users';
+    relationTo: "users";
     value: string | User;
   };
   key?: string | null;
@@ -185,7 +184,7 @@ export interface PayloadMigration {
   createdAt: string;
 }
 
-
-declare module 'payload' {
+declare module "payload" {
+  // @ts-ignore
   export interface GeneratedTypes extends Config {}
 }

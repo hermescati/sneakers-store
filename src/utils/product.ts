@@ -61,5 +61,7 @@ export function getImageURL(image: Product["images"][0]["image"]): string {
 
 export function getThumbnailImage(product: Product): string {
   const image = product.images[0].image;
-  return getImageURL(image);
+  return typeof image === "string"
+    ? image
+    : (image.sizes?.thumbnail?.url as string);
 }

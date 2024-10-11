@@ -3,17 +3,25 @@
 import { User } from "@/types/payload";
 import DropdownMenu, { DropdownItem } from "../base/DropdownMenu";
 import { useAuth } from "@/hooks/use-auth";
+import { useRouter } from "next/navigation";
 
 interface UserAccountProps {
   user: User;
 }
 
 const UserAccount = ({ user }: UserAccountProps) => {
+  const router = useRouter();
+
   const { logout } = useAuth();
 
   const dropdownItems: DropdownItem[] = [
     { value: "email", label: user.email, type: "header" },
-    { value: "dashboard", label: "Retailer Dashboard", icon: "mage:dashboard" },
+    {
+      value: "dashboard",
+      label: "Retailer Dashboard",
+      icon: "mage:dashboard",
+      action: () => router.push("/admin"),
+    },
     {
       value: "logout",
       label: "Log out",

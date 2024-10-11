@@ -1,5 +1,10 @@
+import { BeforeChangeHook } from "payload/dist/collections/config/types";
 import { FilteredSelect } from "../components/base/payload/FilteredSelect";
 import { CollectionConfig } from "payload/types";
+import { Brand, Product } from "../types/payload";
+import { stripe } from "../lib/stripe";
+import { getProductInfo } from "../utils/product";
+import { getPayloadClient } from "../get-payload";
 
 export const Brands: CollectionConfig = {
   slug: "brands",
@@ -43,6 +48,11 @@ export const Models: CollectionConfig = {
   ],
 };
 
+const addUser: BeforeChangeHook<Product> = async ({ req, data }) => {
+  const user = req.user;
+  return { ...data, user: user.id };
+};
+
 export const Products: CollectionConfig = {
   slug: "products",
   labels: {
@@ -50,6 +60,52 @@ export const Products: CollectionConfig = {
     plural: "Products",
   },
   access: {},
+  hooks: {
+    beforeChange: [
+      addUser,
+      // TODO: Find a better way to handle the payment not with retail price
+      async (args) => {
+        if (args.operation === "create") {
+          const data = args.data as Product;
+
+          const payload = await getPayloadClient();
+          const { docs } = await payload.find({
+            collection: "brands",
+            where: {
+              id: { equals: data.brand },
+            },
+          });
+
+          const brand = docs[0] as unknown as Brand;
+
+          const createdProduct = await stripe.products.create({
+            name: `${brand.name} - ${data.nickname}`,
+          });
+
+          const updated: Product = {
+            ...data,
+            stripeId: createdProduct.id,
+          };
+
+          return updated;
+        } else if (args.operation === "update") {
+          const data = args.data as Product;
+          const { brand } = getProductInfo(data);
+
+          const updatedProduct = await stripe.products.update(data.stripeId!, {
+            name: `${brand} - ${data.nickname}`,
+          });
+
+          const updated: Product = {
+            ...data,
+            stripeId: updatedProduct.id,
+          };
+
+          return updated;
+        }
+      },
+    ],
+  },
   fields: [
     {
       name: "user",
@@ -130,7 +186,7 @@ export const Products: CollectionConfig = {
       label: "Product Images",
       type: "array",
       minRows: 1,
-      maxRows: 4,
+      maxRows: 5,
       labels: {
         singular: "Image",
         plural: "Images",
@@ -176,16 +232,6 @@ export const Products: CollectionConfig = {
         },
       ],
       required: true,
-    },
-    {
-      name: "priceId",
-      access: {
-        create: () => false,
-        read: () => false,
-        update: () => false,
-      },
-      type: "text",
-      admin: { hidden: true },
     },
     {
       name: "stripeId",
