@@ -1,33 +1,30 @@
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 export const useAuth = () => {
-  const router = useRouter();
+  const router = useRouter()
 
   const logout = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`/api/users/logout`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
+      })
 
-      if (!response.ok) throw new Error();
+      if (!response.ok) throw new Error()
 
-      toast.success("Logged out successfully.");
+      toast.success('Logged out successfully.')
 
-      router.push("/login");
-      router.refresh();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      router.push('/login')
+      router.refresh()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      toast.error("Couldn't logout, please try again.");
+      toast.error("Couldn't logout, please try again.")
     }
-  };
+  }
 
-  return { logout };
-};
+  return { logout }
+}

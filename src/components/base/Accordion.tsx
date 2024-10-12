@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import { Icon } from "@iconify/react";
-import { useEffect, useRef, useState } from "react";
+import { Icon } from '@iconify/react'
+import { useEffect, useRef, useState } from 'react'
 
 export interface AccordionItem {
-  title: string;
-  icon?: string;
-  content: string;
+  title: string
+  icon?: string
+  content: string
 }
 
 interface AccordionItemProps extends AccordionItem {
-  isOpen?: boolean;
-  onOpen?: () => void;
+  isOpen?: boolean
+  onOpen?: () => void
 }
 
 interface AccordionProps {
-  items: AccordionItem[];
-  activeIndex?: number;
+  items: AccordionItem[]
+  activeIndex?: number
 }
 
 const AccordionItem = ({
@@ -24,18 +24,18 @@ const AccordionItem = ({
   icon,
   content,
   isOpen,
-  onOpen,
+  onOpen
 }: AccordionItemProps) => {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<string | undefined>(undefined);
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     if (isOpen && contentRef.current) {
-      setHeight(`${contentRef.current.scrollHeight}px`);
+      setHeight(`${contentRef.current.scrollHeight}px`)
     } else {
-      setHeight("0px");
+      setHeight('0px')
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   return (
     <>
@@ -50,7 +50,7 @@ const AccordionItem = ({
               <h4 className="font-semibold text-lg">{title}</h4>
             </div>
             <span
-              className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}
+              className={`transition-transform duration-300 ease-in-out ${isOpen ? 'rotate-90' : 'rotate-0'}`}
             >
               <Icon icon="mage:chevron-down" height="1.5rem" />
             </span>
@@ -67,17 +67,15 @@ const AccordionItem = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
 const Accordion = ({ items, activeIndex }: AccordionProps) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(
-    activeIndex ?? null
-  );
+  const [openIndex, setOpenIndex] = useState<number | null>(activeIndex ?? null)
 
   const handleToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
   return (
     <ul className="w-full flex flex-col gap-4 3xl:gap-2">
@@ -93,7 +91,7 @@ const Accordion = ({ items, activeIndex }: AccordionProps) => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
-export default Accordion;
+export default Accordion

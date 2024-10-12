@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import { useCart } from "@/hooks/use-cart";
-import { useOnClickOutside } from "@/hooks/use-on-click-outside";
-import { Icon } from "@iconify/react";
-import { useRef } from "react";
-import { createPortal } from "react-dom";
-import ShoppingCart from "../cart/ShoppingCart";
+import { useCart } from '@/hooks/use-cart'
+import { Icon } from '@iconify/react'
+import { useRef } from 'react'
+import { createPortal } from 'react-dom'
+import { useOnClickOutside } from 'usehooks-ts'
+import ShoppingCart from '../cart/ShoppingCart'
 
 const NavCart = () => {
-  const { items, cartOpen, openCart, closeCart } = useCart();
-  const cartRef = useRef<HTMLDivElement | null>(null);
+  const { items, cartOpen, openCart, closeCart } = useCart()
 
-  useOnClickOutside(cartRef, closeCart);
+  const cartRef = useRef<HTMLDivElement>(null!)
+  useOnClickOutside(cartRef, closeCart)
 
   return (
     <>
@@ -37,7 +37,7 @@ const NavCart = () => {
           document.body
         )}
     </>
-  );
-};
+  )
+}
 
-export default NavCart;
+export default NavCart

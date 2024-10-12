@@ -1,24 +1,24 @@
-import Button from "@/components/base/Button";
-import { useCart } from "@/hooks/use-cart";
-import { formatPrice } from "@/utils";
-import { getCartTotal } from "@/utils/product";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import CartItem from "./CartItem";
+import Button from '@/components/base/Button'
+import { useCart } from '@/hooks/use-cart'
+import { formatPrice } from '@/utils'
+import { getCartTotal } from '@/utils/product'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import CartItem from './CartItem'
 
 const ShoppingCart = () => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { items, removeItem, closeCart } = useCart();
-  const hasItems = items.length > 0;
+  const { items, removeItem, closeCart } = useCart()
+  const hasItems = items.length > 0
 
-  const cartTotal = getCartTotal(items);
+  const cartTotal = getCartTotal(items)
 
   const handleViewItems = () => {
-    closeCart();
-    router.push("/cart");
-  };
+    closeCart()
+    router.push('/cart')
+  }
 
   // TODO: Add a mobile friendly version for the cart
   return (
@@ -26,7 +26,7 @@ const ShoppingCart = () => {
       {/* Header */}
       <div className="flex items-center justify-between gap-8 p-5">
         <h4 className="font-bold text-xl">
-          {hasItems ? "Added to cart" : "Your cart is empty"}
+          {hasItems ? 'Added to cart' : 'Your cart is empty'}
         </h4>
         <Button
           variant="ghost"
@@ -41,7 +41,7 @@ const ShoppingCart = () => {
         {!hasItems ? (
           <div className="flex flex-col gap-2 items-center justify-center py-8">
             <Image
-              src="/assets/empty-cart.png"
+              src="/empty-cart.png"
               alt="empty cart illustration"
               width={200}
               height={200}
@@ -88,7 +88,7 @@ const ShoppingCart = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ShoppingCart;
+export default ShoppingCart

@@ -1,42 +1,43 @@
-"use client";
+'use client'
 
-import { PRODUCT_CATEGORIES } from "@/config";
-import { useEffect, useRef, useState } from "react";
-import NavItem from "./NavItem";
-import { useOnClickOutside } from "@/hooks/use-on-click-outside";
+import { PRODUCT_CATEGORIES } from '@/config'
+import { useEffect, useRef, useState } from 'react'
+import { useOnClickOutside } from 'usehooks-ts'
+import NavItem from './NavItem'
 
 const NavCategories = () => {
-  const [activeIndex, setActiveIndex] = useState<null | number>(null);
+  const [activeIndex, setActiveIndex] = useState<null | number>(null)
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveIndex(null);
+      if (event.key === 'Escape') {
+        setActiveIndex(null)
       }
-    };
+    }
 
-    document.addEventListener("keydown", handler);
+    document.addEventListener('keydown', handler)
     return () => {
-      document.removeEventListener("keydown", handler);
-    };
-  }, []);
+      document.removeEventListener('keydown', handler)
+    }
+  }, [])
 
-  const isAnyOpen = activeIndex !== null;
-  const navRef = useRef<HTMLDivElement | null>(null);
-  useOnClickOutside(navRef, () => setActiveIndex(null));
+  const isAnyOpen = activeIndex !== null
+
+  const navRef = useRef<HTMLDivElement>(null!)
+  useOnClickOutside(navRef, () => setActiveIndex(null))
 
   return (
     <div ref={navRef} className="flex gap-4 justify-between h-full py-4">
       {PRODUCT_CATEGORIES.map((category, index) => {
         const handleOpen = () => {
           if (activeIndex === index) {
-            setActiveIndex(null);
+            setActiveIndex(null)
           } else {
-            setActiveIndex(index);
+            setActiveIndex(index)
           }
-        };
+        }
 
-        const isOpen = index === activeIndex;
+        const isOpen = index === activeIndex
 
         return (
           <NavItem
@@ -46,13 +47,13 @@ const NavCategories = () => {
             isAnyActive={isAnyOpen}
             handleOpen={handleOpen}
           />
-        );
+        )
       })}
 
       {/* Sliding border */}
       <div className="absolute bottom-0 h-1 rounded-full bg-primary-900 transition-all duration-300" />
     </div>
-  );
-};
+  )
+}
 
-export default NavCategories;
+export default NavCategories

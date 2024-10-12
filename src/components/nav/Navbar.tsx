@@ -1,16 +1,16 @@
-import { cookies } from "next/headers";
-import Link from "next/link";
-import { getPayloadUser } from "../../lib/payload-utils";
-import Button from "../base/Button";
-import MainContainer from "../MainContainer";
-import NavCart from "./NavCart";
-import NavCategories from "./NavCategories";
-import UserAccount from "./UserAccount";
-import { cn } from "@/utils";
+import { getUser } from '@/services/auth'
+import { cn } from '@/utils'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
+import Button from '../base/Button'
+import MainContainer from '../MainContainer'
+import NavCart from './NavCart'
+import NavCategories from './NavCategories'
+import UserAccount from './UserAccount'
 
 const Navbar = async () => {
-  const nextCookies = cookies();
-  const { user } = await getPayloadUser(nextCookies);
+  const nextCookies = cookies()
+  const { user } = await getUser(nextCookies)
 
   return (
     <div className="sticky z-20 top-0 inset-x-0">
@@ -33,7 +33,7 @@ const Navbar = async () => {
                     <Button href="/signup" label="Sign up" />
                   </div>
                 )}
-                <div className={cn("flex", user ? "pl-4 pr-8" : "px-8")}>
+                <div className={cn('flex', user ? 'pl-4 pr-8' : 'px-8')}>
                   <span
                     className="h-8 w-px bg-primary-300"
                     aria-hidden="true"
@@ -49,7 +49,7 @@ const Navbar = async () => {
         </MainContainer>
       </header>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

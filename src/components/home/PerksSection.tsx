@@ -1,38 +1,38 @@
-import MainContainer from "../MainContainer";
-import { Icon } from "@iconify/react";
+import { Icon } from '@iconify/react'
+import MainContainer from '../MainContainer'
 
 export interface PerkItem {
-  icon: string;
-  title: string;
-  description: string;
+  icon: string
+  title: string
+  description: string
 }
 
 const perks: PerkItem[] = [
   {
-    icon: "solar:shield-check-outline",
-    title: "Authenticity Guarantee",
+    icon: 'solar:shield-check-outline',
+    title: 'Authenticity Guarantee',
     description:
-      "Every sneaker we sell undergoes meticulous inspection by our expert team, comprised of the industry's most seasoned and highly trained authenticators.",
+      "Every sneaker we sell undergoes meticulous inspection by our expert team, comprised of the industry's most seasoned and highly trained authenticators."
   },
   {
-    icon: "prime:warehouse",
-    title: "In-house Inventory",
+    icon: 'prime:warehouse',
+    title: 'In-house Inventory',
     description:
-      "We maintain a comprehensive inventory right on-site, eliminating the need for third-party sellers. Your orders are processed and verified typically within 1-3 business days.",
+      'We maintain a comprehensive inventory right on-site, eliminating the need for third-party sellers. Your orders are processed and verified typically within 1-3 business days.'
   },
   {
-    icon: "hugeicons:delivery-truck-01",
-    title: "Worldwide Shipping",
+    icon: 'hugeicons:delivery-truck-01',
+    title: 'Worldwide Shipping',
     description:
-      "With reliable worldwide shipping options through UPS and DHL, we make it possible for sneaker enthusiasts across the globe to enjoy our premium selection.",
+      'With reliable worldwide shipping options through UPS and DHL, we make it possible for sneaker enthusiasts across the globe to enjoy our premium selection.'
   },
   {
-    icon: "fad:undo",
-    title: "Returns Accepted",
+    icon: 'fad:undo',
+    title: 'Returns Accepted',
     description:
-      "Our straightforward returns policy ensures a hassle-free experience. Reach out to our support team, and we'll guide you through the process, prioritizing your peace of mind.",
-  },
-];
+      "Our straightforward returns policy ensures a hassle-free experience. Reach out to our support team, and we'll guide you through the process, prioritizing your peace of mind."
+  }
+]
 
 const PerkCard = ({ icon, title, description }: PerkItem) => {
   return (
@@ -50,8 +50,8 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
         <p className="text-md text-primary-800">{description}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
 // TODO: Remove the MainContainer from here
 const PerksSection = () => {
@@ -70,7 +70,7 @@ const PerksSection = () => {
         </div>
       </MainContainer>
     </section>
-  );
-};
+  )
+}
 
-export default PerksSection;
+export default PerksSection

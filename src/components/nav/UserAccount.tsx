@@ -1,34 +1,34 @@
-"use client";
+'use client'
 
-import { User } from "@/types/payload";
-import DropdownMenu, { DropdownItem } from "../base/DropdownMenu";
-import { useAuth } from "@/hooks/use-auth";
-import { useRouter } from "next/navigation";
+import { useAuth } from '@/hooks/use-auth'
+import { User } from '@/types/payload'
+import { useRouter } from 'next/navigation'
+import DropdownMenu, { DropdownItem } from '../base/DropdownMenu'
 
 interface UserAccountProps {
-  user: User;
+  user: User
 }
 
 const UserAccount = ({ user }: UserAccountProps) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { logout } = useAuth();
+  const { logout } = useAuth()
 
   const dropdownItems: DropdownItem[] = [
-    { value: "email", label: user.email, type: "header" },
+    { value: 'email', label: user.email, type: 'header' },
     {
-      value: "dashboard",
-      label: "Retailer Dashboard",
-      icon: "mage:dashboard",
-      action: () => router.push("/admin"),
+      value: 'dashboard',
+      label: 'Retailer Dashboard',
+      icon: 'mage:dashboard',
+      action: () => router.push('/admin')
     },
     {
-      value: "logout",
-      label: "Log out",
-      icon: "fluent:power-20-regular",
-      action: logout,
-    },
-  ];
+      value: 'logout',
+      label: 'Log out',
+      icon: 'fluent:power-20-regular',
+      action: logout
+    }
+  ]
 
   return (
     <DropdownMenu
@@ -36,7 +36,7 @@ const UserAccount = ({ user }: UserAccountProps) => {
       title="My account"
       items={dropdownItems}
     />
-  );
-};
+  )
+}
 
-export default UserAccount;
+export default UserAccount
