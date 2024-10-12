@@ -1,65 +1,68 @@
-"use client";
+'use client'
 
-import Button from "@/components/base/Button";
-import Input from "@/components/base/Input";
-import MainContainer from "@/components/MainContainer";
+import Button from '@/components/base/Button'
+import Input from '@/components/base/Input'
+import MainContainer from '@/components/MainContainer'
 import {
   SignUpValidationSchema,
-  TSignUpValidationSchema,
-} from "@/lib/validators/signup-validator";
-import { trpc } from "@/trpc/client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+  TSignUpValidationSchema
+} from '@/lib/validators/signup-validator'
+import { createUser } from '@/services/auth'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 const Page = () => {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<TSignUpValidationSchema>({
-    resolver: zodResolver(SignUpValidationSchema),
-  });
+    resolver: zodResolver(SignUpValidationSchema)
+  })
 
-  const router = useRouter();
-
-  const { mutate } = trpc.auth.createUser.useMutation({
-    onError: (err) => {
-      if (err.data?.code === "CONFLICT") {
-        toast.error("This email is already in use. Maybe login?");
-        return;
-      }
-
-      toast.error("Something went wrong. Please try again.");
-    },
-    onSuccess: ({ sentToEmail }) => {
-      toast.success(`Verification email sent to ${sentToEmail}`);
-      router.replace("/verify?to=" + sentToEmail);
-    },
-  });
-
-  const onSubmit = ({
+  const onSubmit = async ({
     firstName,
     lastName,
     email,
-    password,
+    password
   }: TSignUpValidationSchema) => {
-    mutate({ firstName, lastName, email, password });
-  };
+    const { code, sentToEmail } = await createUser({
+      firstName,
+      lastName,
+      email,
+      password
+    })
+
+    if (code === 400) {
+      toast.error('Something went wrong. Please try again.')
+      return
+    }
+
+    if (code === 409) {
+      toast.info('This email is already in use. Maybe login?')
+      return
+    }
+
+    toast.success(`Verification email sent to ${sentToEmail}`)
+    router.replace('/verify?to=' + sentToEmail)
+  }
 
   return (
-    <MainContainer>
-      <div className="w-full relative flex pt-16 flex-col items-center justify-center lg:px-0">
+    <MainContainer className="flex items-center justify-center">
+      <div className="w-full relative flex my-auto flex-col items-center justify-center">
         <div className="mx-auto flex w-full flex-col justify-center sm:w-[500px]">
-          <div className="flex flex-col gap-1">
-            <h2 className="font-bold text-xl sm:text-2xl">
+          <div className="flex flex-col">
+            <h2 className="font-bold text-2xl">
               Looks like you&#39;re new here.
             </h2>
             <Link
-              href="login"
-              className="text-primary-600 hover:underline hover:underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
+              href="/login"
+              className="w-fit py-1 font-medium text-lg text-primary-500 hover:underline hover:underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
             >
               Already have an account? Login
             </Link>
@@ -67,10 +70,10 @@ const Page = () => {
 
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col gap-3 py-6"
+            className="flex flex-col gap-4 py-6"
           >
             <Input
-              {...register("firstName")}
+              {...register('firstName')}
               label="First Name"
               required
               placeholder="John"
@@ -78,7 +81,7 @@ const Page = () => {
               error={errors.firstName?.message}
             />
             <Input
-              {...register("lastName")}
+              {...register('lastName')}
               label="Last Name"
               required
               placeholder="Doe"
@@ -86,7 +89,7 @@ const Page = () => {
               error={errors.lastName?.message}
             />
             <Input
-              {...register("email")}
+              {...register('email')}
               label="Email"
               required
               placeholder="you@example.com"
@@ -95,7 +98,7 @@ const Page = () => {
               autoComplete="new-password"
             />
             <Input
-              {...register("password")}
+              {...register('password')}
               label="Password"
               required
               type="password"
@@ -104,15 +107,15 @@ const Page = () => {
               error={errors.password?.message}
               autoComplete="new-password"
             />
-            <p className="font-medium text-primary-500 text-sm md:text-md">
-              By clicking &#34;Create Account&#34;, you agree to our{" "}
+            <p className="font-medium text-primary-600 text-md">
+              By clicking &#34;Create Account&#34;, you agree to our{' '}
               <Link
                 href="/"
                 className="underline underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
               >
                 Terms and Conditions
-              </Link>{" "}
-              and{" "}
+              </Link>{' '}
+              and{' '}
               <Link
                 className="underline underline-offset-4 hover:text-secondary transition-all ease-in-out duration-150"
                 href="/"
@@ -124,13 +127,13 @@ const Page = () => {
             <Button
               label="Create Account"
               iconAppend="solar:arrow-right-linear"
-              className="mt-4"
+              className="mt-5"
             />
           </form>
         </div>
       </div>
     </MainContainer>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page
