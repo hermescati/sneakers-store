@@ -84,8 +84,8 @@ export const buttonVariants = cva(btnBase, {
       className: [
         'bg-transparent',
         'text-foreground',
-        'hover:bg-primary-900/5',
-        'active:bg-primary-900/5',
+        'hover:bg-primary-200',
+        'active:bg-primary-200',
         'active:ring-0',
         'active:ring-transparent',
         'active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]'

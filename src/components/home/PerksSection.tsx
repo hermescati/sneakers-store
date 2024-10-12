@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react'
-import MainContainer from '../MainContainer'
 
 export interface PerkItem {
   icon: string
@@ -39,36 +38,31 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
     <div className="text-center sm:flex sm:items-start sm:text-left lg:text-center">
       <div className="flex flex-col gap-2 items-center justify-center sm:items-start lg:items-center lg:gap-3">
         <div className="flex gap-x-3 items-center lg:flex-col lg:gap-y-3">
-          <h3 className="order-2 font-bold text-base lg:order-1 lg:text-xl">
-            {title}
-          </h3>
+          <h2 className="order-2 lg:order-1 font-bold text-xl">{title}</h2>
           <Icon
             icon={icon}
-            className="order-1 text-2xl lg:order-2 lg:text-3xl"
+            className="order-1 lg:order-2 text-2xl lg:text-3xl"
           />
         </div>
-        <p className="text-md text-primary-800">{description}</p>
+        <p className="text-primary-600 lg:text-md">{description}</p>
       </div>
     </div>
   )
 }
 
-// TODO: Remove the MainContainer from here
 const PerksSection = () => {
   return (
-    <section>
-      <MainContainer className="border-y border-primary-300 py-8 md:py-12">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 xl:gap-20">
-          {perks.map(({ icon, title, description }) => (
-            <PerkCard
-              key={title}
-              icon={icon}
-              title={title}
-              description={description}
-            />
-          ))}
-        </div>
-      </MainContainer>
+    <section className="border-y border-primary-300 py-8 md:py-12">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 xl:gap-20">
+        {perks.map(({ icon, title, description }) => (
+          <PerkCard
+            key={title}
+            icon={icon}
+            title={title}
+            description={description}
+          />
+        ))}
+      </div>
     </section>
   )
 }

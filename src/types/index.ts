@@ -31,3 +31,8 @@ export type ProductSize = {
   discount?: number | null
   id?: string | null
 }
+
+export interface BreadcrumbItem {
+  label: string
+  href?: string
+}
