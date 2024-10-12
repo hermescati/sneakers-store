@@ -1,37 +1,45 @@
-import { CollectionConfig } from "payload/types";
+import { CollectionConfig } from 'payload'
 
 export const Users: CollectionConfig = {
-  slug: "users",
+  slug: 'users',
   labels: {
-    singular: "User",
-    plural: "Users",
+    singular: 'User',
+    plural: 'Users'
   },
   auth: {
     verify: {
       generateEmailHTML: ({ token }) => {
-        return `<a href='${process.env.NEXT_PUBLIC_SERVER_URL}/verify?token=${token}'>Verify your account</a>`;
-      },
-    },
+        return `<a href='${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}'>Verify your account</a>`
+      }
+    }
   },
   access: {
     read: () => true,
-    create: () => true,
+    create: () => true
   },
   fields: [
-    { name: "firstName", type: "text", required: true },
-    { name: "lastName", type: "text", required: true },
     {
-      name: "role",
+      name: 'firstName',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'lastName',
+      type: 'text',
+      required: true
+    },
+    {
+      name: 'role',
       required: true,
       admin: {
         // condition: ({ req }) => req.user.role === "Admin",
         // condition: () => false,
       },
-      type: "select",
+      type: 'select',
       options: [
-        { label: "Admin", value: "admin" },
-        { label: "User", value: "user" },
-      ],
-    },
-  ],
-};
+        { label: 'Admin', value: 'admin' },
+        { label: 'User', value: 'user' }
+      ]
+    }
+  ]
+}
