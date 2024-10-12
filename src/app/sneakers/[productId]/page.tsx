@@ -1,35 +1,26 @@
-import MainContainer from "@/components/MainContainer";
-import ProductPage from "@/components/product/ProductPage";
-import { getPayloadClient } from "@/get-payload";
-import { Product } from "@/types/payload";
-import { notFound } from "next/navigation";
+import MainContainer from '@/components/MainContainer'
+import ProductPage from '@/components/product/ProductPage'
+import ProductReel from '@/components/product/ProductReel'
+import { getProduct, getRelatedProducts } from '@/services/product-services'
+import { Product } from '@/types/payload'
+import { notFound } from 'next/navigation'
 
 interface PageProps {
-  params: {
-    productId: string;
-  };
+  params: { productId: Product['id'] }
 }
 
-const Page = async ({ params }: PageProps) => {
-  const { productId } = params;
+export default async function Page({ params }: PageProps) {
+  const { productId } = params
 
-  const payload = await getPayloadClient();
-  const { docs: products } = await payload.find({
-    collection: "products",
-    limit: 1,
-    where: {
-      id: { equals: productId },
-    },
-  });
+  const product = await getProduct(productId)
+  if (!product) return notFound()
 
-  const [product] = products as unknown as Product[];
-  if (!product) return notFound();
+  const relatedProducts = await getRelatedProducts(product)
 
   return (
     <MainContainer className="flex flex-col gap-8 py-6">
       <ProductPage product={product} />
+      <ProductReel title="Related Sneakers" products={relatedProducts} />
     </MainContainer>
-  );
-};
-
-export default Page;
+  )
+}

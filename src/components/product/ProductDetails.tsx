@@ -1,24 +1,24 @@
-import { ProductSize } from "@/types";
-import { Product } from "@/types/payload";
-import { cn, formatPrice } from "@/utils";
+import { ProductSize } from '@/types'
+import { Product } from '@/types/payload'
 import {
-  getMinimalPrice,
-  getProductInfo,
-  getProductPrice,
-} from "@/utils/product";
-import { Icon } from "@iconify/react";
-import BrandLogo from "./BrandLogo";
+  calculateMinPrices,
+  calculatePrice,
+  cn,
+  formatPrice,
+  getProductInfo
+} from '@/utils'
+import { Icon } from '@iconify/react'
+import BrandLogo from './BrandLogo'
 
 interface ProductDetailsProps {
-  product: Product;
-  selectedSize: ProductSize | null;
+  product: Product
+  selectedSize: ProductSize | null
 }
 
 const ProductDetails = ({ product, selectedSize }: ProductDetailsProps) => {
-  const { brand, model } = getProductInfo(product);
-  const productPrice = !!selectedSize ? getProductPrice(selectedSize) : null;
-  const { regularPrice: minPrice, discountedPrice: minDiscountedPrice } =
-    getMinimalPrice(product);
+  const { brand } = getProductInfo(product)
+  const { basePrice, discountedPrice } = calculateMinPrices(product)
+  const productPrice = !!selectedSize ? calculatePrice(selectedSize) : null
 
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
@@ -29,7 +29,7 @@ const ProductDetails = ({ product, selectedSize }: ProductDetailsProps) => {
         </div>
 
         <div className="flex flex-col">
-          <h1 className="font-bold text-2xl lg:text-3xl">{model}</h1>
+          <h1 className="font-bold text-2xl lg:text-3xl">{product.name}</h1>
           <h2 className="font-medium text-xl">
             &quot;{product.nickname}&quot;
           </h2>
@@ -44,15 +44,15 @@ const ProductDetails = ({ product, selectedSize }: ProductDetailsProps) => {
         ) : (
           <div className="flex items-baseline gap-1">
             <h1 className="font-semibold text-2xl lg:font-bold">
-              {formatPrice(minDiscountedPrice ? minDiscountedPrice : minPrice)}
+              {formatPrice(discountedPrice ? discountedPrice : basePrice)}
             </h1>
             <span>& up</span>
           </div>
         )}
         <div
           className={cn(
-            "opacity-0 flex items-center gap-1 text-secondary font-semibold",
-            { "opacity-100": !!selectedSize && selectedSize.stock <= 3 }
+            'opacity-0 flex items-center gap-1 text-secondary font-semibold',
+            { 'opacity-100': !!selectedSize && selectedSize.stock <= 3 }
           )}
         >
           <Icon icon="ph:fire-simple-duotone" height="1.25rem" />
@@ -62,7 +62,7 @@ const ProductDetails = ({ product, selectedSize }: ProductDetailsProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails

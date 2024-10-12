@@ -1,21 +1,20 @@
-import { useCart } from "@/hooks/use-cart";
-import { ProductSize } from "@/types";
-import { Product } from "@/types/payload";
-import { cn } from "@/utils";
-import { formatCategory } from "@/utils/product";
-import Button from "../base/Button";
+import { useCart } from '@/hooks/use-cart'
+import { ProductSize } from '@/types'
+import { Product } from '@/types/payload'
+import { capitalizeFirstLetter, cn } from '@/utils'
+import Button from '../base/Button'
 
 interface SizeBoxProps {
-  size: number;
-  stock: number;
-  selected: boolean;
-  onSelect: () => void;
+  size: number
+  stock: number
+  selected: boolean
+  onSelect: () => void
 }
 
 interface ProductSizeProps {
-  product: Product;
-  selectedSize: ProductSize | null;
-  setSelectedSize: (size: ProductSize | null) => void;
+  product: Product
+  selectedSize: ProductSize | null
+  setSelectedSize: (size: ProductSize | null) => void
 }
 
 const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
@@ -26,37 +25,37 @@ const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
     font-semibold text-primary-700
     hover:border-primary-400
     cursor-pointer transition-color ease-in-out duration-300
-  `;
+  `
 
   return (
     <div
       onClick={onSelect}
       className={cn(baseStyle, {
-        "opacity-40 cursor-not-allowed": !stock,
-        "border-none bg-primary-900 text-background shadow-[0_2px_16px_-2px_rgba(33,36,39,0.50)]":
-          selected,
+        'opacity-40 cursor-not-allowed': !stock,
+        'border-none bg-primary-900 text-background shadow-[0_2px_16px_-2px_rgba(33,36,39,0.50)]':
+          selected
       })}
     >
       {size}
     </div>
-  );
-};
+  )
+}
 
 const ProductSizes = ({
   product,
   selectedSize,
-  setSelectedSize,
+  setSelectedSize
 }: ProductSizeProps) => {
-  const { addItem } = useCart();
+  const { addItem } = useCart()
 
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-4 p-5 bg-primary-100 rounded-2xl md:rounded-3xl border border-primary-300 shadow-[0_0_8px_1px_rgba(0,0,0,0.10)]">
-        <h4 className="font-semibold w-full">{`Select Sizes (US ${formatCategory(product.category)})`}</h4>
+        <h4 className="font-semibold w-full">{`Select Sizes (US ${capitalizeFirstLetter(product.size_category)})`}</h4>
         <hr className="border-primary-300 rounded-full" />
 
         <ul className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-6 2xl:grid-cols-7 2xl:gap-1.5">
-          {product.available_sizes.map((item) => (
+          {product.sizes.map((item) => (
             <SizeBox
               key={item.id}
               size={item.size}
@@ -72,7 +71,7 @@ const ProductSizes = ({
             disabled={!selectedSize}
             iconPrepend="solar:cart-large-minimalistic-linear"
             onClick={() => {
-              addItem(product, selectedSize as ProductSize);
+              addItem(product, selectedSize as ProductSize)
             }}
           >
             Add to cart
@@ -110,7 +109,7 @@ const ProductSizes = ({
           </div>
         </div> */}
     </div>
-  );
-};
+  )
+}
 
-export default ProductSizes;
+export default ProductSizes
