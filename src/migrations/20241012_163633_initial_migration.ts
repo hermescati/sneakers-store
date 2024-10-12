@@ -115,11 +115,11 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE IF NOT EXISTS "products" (
   	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-  	"stripe_id" varchar,
   	"sku" varchar NOT NULL,
   	"brand_id" uuid NOT NULL,
   	"model_id" uuid NOT NULL,
-  	"nickname" varchar NOT NULL,
+  	"name" varchar NOT NULL,
+  	"nickname" varchar,
   	"colorway" varchar NOT NULL,
   	"collection_id" uuid,
   	"description" varchar,

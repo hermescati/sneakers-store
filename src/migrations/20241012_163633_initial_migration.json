@@ -1,5 +1,5 @@
 {
-  "id": "cfe06659-6283-4bbe-8801-2d8a8f817565",
+  "id": "4daa6fd5-8a2d-49c7-b4d0-b078211d1909",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -848,12 +848,6 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "stripe_id": {
-          "name": "stripe_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
         "sku": {
           "name": "sku",
           "type": "varchar",
@@ -872,11 +866,17 @@
           "primaryKey": false,
           "notNull": true
         },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
         "nickname": {
           "name": "nickname",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "colorway": {
           "name": "colorway",

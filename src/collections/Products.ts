@@ -1,3 +1,4 @@
+import { Product } from '@/types/payload'
 import { CollectionConfig } from 'payload'
 
 export const Products: CollectionConfig = {
@@ -6,26 +7,24 @@ export const Products: CollectionConfig = {
     singular: 'Product',
     plural: 'Products'
   },
-  hooks: {},
+  hooks: {
+    beforeChange: [
+      async ({ data }) => {
+        const product = data as Product
+
+        if (product.sizes) {
+          product.sizes = product.sizes.map((size) => {
+            if (size.discount) {
+              size.discount = size.discount / 100
+            }
+
+            return size
+          })
+        }
+      }
+    ]
+  },
   fields: [
-    // {
-    //   name: 'user',
-    //   type: 'relationship',
-    //   relationTo: 'users',
-    //   hasMany: false,
-    //   required: true,
-    //   admin: { condition: () => false }
-    // }
-    {
-      name: 'stripeId',
-      type: 'text',
-      access: {
-        read: () => false,
-        create: () => false,
-        update: () => false
-      },
-      admin: { hidden: true }
-    },
     {
       name: 'sku',
       label: 'SKU',
@@ -58,9 +57,13 @@ export const Products: CollectionConfig = {
       }
     },
     {
-      name: 'nickname',
+      name: 'name',
       type: 'text',
       required: true
+    },
+    {
+      name: 'nickname',
+      type: 'text'
     },
     {
       name: 'colorway',
