@@ -1,7 +1,6 @@
 import Button from '@/components/base/Button'
 import { useCart } from '@/hooks/use-cart'
-import { formatPrice } from '@/utils'
-import { getCartTotal } from '@/utils/product'
+import { calculateCartTotal, formatPrice } from '@/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,7 +12,7 @@ const ShoppingCart = () => {
   const { items, removeItem, closeCart } = useCart()
   const hasItems = items.length > 0
 
-  const cartTotal = getCartTotal(items)
+  const cartTotal = calculateCartTotal(items)
 
   const handleViewItems = () => {
     closeCart()
@@ -22,7 +21,7 @@ const ShoppingCart = () => {
 
   // TODO: Add a mobile friendly version for the cart
   return (
-    <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5.5rem] overflow-clip divide-y-2 divide-primary-300 bg-background rounded-3xl shadow-[0_0_12px_1px_rgba(0,0,0,0.25)] max-h-[calc(100vh-6.5rem)]">
+    <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5.5rem] overflow-clip divide-y-2 divide-primary-300 bg-background rounded-xl shadow-[0_0_12px_1px_rgba(0,0,0,0.20)] max-h-[calc(100vh-6.5rem)]">
       {/* Header */}
       <div className="flex items-center justify-between gap-8 p-5">
         <h4 className="font-bold text-xl">
@@ -39,7 +38,7 @@ const ShoppingCart = () => {
       {/* Products */}
       <div className="flex-1 w-[500px] overflow-y-auto">
         {!hasItems ? (
-          <div className="flex flex-col gap-2 items-center justify-center py-8">
+          <div className="flex flex-col gap-2 items-center justify-center pt-6 pb-10">
             <Image
               src="/empty-cart.png"
               alt="empty cart illustration"
@@ -55,12 +54,14 @@ const ShoppingCart = () => {
           </div>
         ) : (
           <ul className="divide-y divide-primary-200 overflow-y-auto">
-            {items.map((item) => (
-              <li key={item.product.nickname}>
+            {items.map(({ product, size }, index) => (
+              <li key={`${product.id}-${size.size}`}>
                 <CartItem
-                  product={item.product}
-                  size={item.size}
-                  onRemove={() => removeItem(item.product.id, item.size)}
+                  product={product}
+                  size={size}
+                  compact
+                  index={index}
+                  onRemove={() => removeItem(product.id, size)}
                 />
               </li>
             ))}
@@ -70,12 +71,12 @@ const ShoppingCart = () => {
 
       {/* Total */}
       <div className="flex flex-col gap-4 p-5 bg-primary-200">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between text-lg">
           <h5 className="font-semibold">Subtotal</h5>
           <h5 className="font-semibold">{formatPrice(cartTotal)}</h5>
         </div>
         <div className="flex flex-col gap-2">
-          <Button label="Checkout" />
+          <Button label="Checkout" disabled={!items.length} />
           {hasItems && (
             <Button
               variant="outline"
