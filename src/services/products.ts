@@ -1,0 +1,94 @@
+'use server'
+
+import { Product } from '@/types/payload'
+import { shuffleArray } from '@/utils'
+import configPromise from '@payload-config'
+import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { Where } from 'payload'
+
+type QueryParams = {
+  query?: Where
+  limit?: number
+  sort?: string
+}
+
+export async function getProducts({ query, limit, sort }: QueryParams) {
+  const payload = await getPayloadHMR({ config: configPromise })
+
+  const {
+    docs: products,
+    hasNextPage,
+    nextPage
+  } = await payload.find({
+    collection: 'products',
+    where: query,
+    limit,
+    sort,
+    depth: 1
+  })
+
+  return {
+    products,
+    nextPage: hasNextPage && nextPage
+  }
+}
+
+export async function getProduct(productId: Product['id']) {
+  const payload = await getPayloadHMR({ config: configPromise })
+
+  const product = await payload.findByID({
+    collection: 'products',
+    id: productId,
+    depth: 2
+  })
+
+  return product
+}
+
+export async function getRelatedProducts(product: Product, limit = 6) {
+  let products: Product[] = []
+
+  // First prioritize collection
+  const collectionQuery: Where = {
+    and: [
+      { id: { not_in: [product.id] } },
+      { collection: { equals: product.collection } }
+    ]
+  }
+
+  const { products: collectionProducts } = await getProducts({
+    query: collectionQuery
+  })
+
+  // If not enough, use the product name or the brand
+  if (collectionProducts.length < limit!) {
+    const remainder = limit! - collectionProducts.length
+
+    const relatedQuery: Where = {
+      and: [
+        {
+          id: { not_in: [product.id, ...collectionProducts.map((p) => p.id)] }
+        },
+        { size_category: { equals: product.size_category } },
+        {
+          or: [
+            { name: { like: product.name } },
+            { 'brand.name': { equals: product.brand } }
+          ]
+        }
+      ]
+    }
+
+    const { products: relatedProducts } = await getProducts({
+      limit: remainder,
+      query: relatedQuery
+    })
+
+    products = [...collectionProducts, ...relatedProducts]
+  } else {
+    products = collectionProducts
+  }
+
+  // Randomly shuffle the array of products
+  return shuffleArray(products).slice(0, limit)
+}
