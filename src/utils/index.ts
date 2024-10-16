@@ -1,3 +1,4 @@
+import { CartItem } from '@/hooks/use-cart'
 import { ProductSize } from '@/types'
 import { Product } from '@/types/payload'
 import { ClassValue, clsx } from 'clsx'
@@ -79,9 +80,25 @@ export const calculateMinPrices = (product: Product) => {
   }
 }
 
+export const calculateCartTotal = (items: CartItem[]) => {
+  return items.reduce((total, { size }) => {
+    if (!size.stock) return total
+
+    const price = calculatePrice(size)
+    return price + total
+  }, 0)
+}
+
 export const getThumbnailImage = (product: Product) => {
   const image = product.images[0].image
   return typeof image === 'string'
     ? image
     : (image.sizes?.thumbnail?.url as string)
 }
+
+export const generateNavLink = (
+  type: 'model' | 'collection',
+  brandName: string,
+  itemName: string
+) =>
+  `/sneakers?brand=${encodeURIComponent(brandName)}&${type}=${encodeURIComponent(itemName)}`
