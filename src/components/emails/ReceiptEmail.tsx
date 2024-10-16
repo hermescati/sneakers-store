@@ -1,22 +1,21 @@
-import { Order, Product, User } from "../../types/payload";
-import { render } from "@react-email/components";
+import { Order, Product, User } from '../../types/payload'
 
-import * as React from "react";
+import * as React from 'react'
 
 interface ReceiptEmailProps {
-  orderId: Order["id"];
-  email: User["email"];
-  date: Date;
-  products: Product[];
+  orderId: Order['id']
+  email: User['email']
+  date: Date
+  products: Product[]
 }
 
 export const ReceiptEmail = ({
   email,
   date,
   orderId,
-  products,
+  products
 }: ReceiptEmailProps) => {
-  const total = products.reduce((acc, curr) => acc + curr.retail_price, 0) + 1;
+  const total = products.reduce((acc, curr) => acc + curr.retail_price, 0) + 1
 
   // Create a template from react email
   return (
@@ -26,10 +25,10 @@ export const ReceiptEmail = ({
       <p>{date.toISOString()}</p>
       <p>{orderId}</p>
     </>
-  );
-};
+  )
+}
 
-export const ReceiptEmailHtml = (props: ReceiptEmailProps) =>
-  render(<ReceiptEmail {...props} />, {
-    pretty: true,
-  });
+// export const ReceiptEmailHtml = (props: ReceiptEmailProps) =>
+//   render(<ReceiptEmail {...props} />, {
+//     pretty: true,
+//   });

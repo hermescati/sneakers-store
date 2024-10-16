@@ -35,13 +35,13 @@ const perks: PerkItem[] = [
 
 const PerkCard = ({ icon, title, description }: PerkItem) => {
   return (
-    <div className="text-center sm:flex sm:items-start sm:text-left lg:text-center">
-      <div className="flex flex-col gap-2 items-center justify-center sm:items-start lg:items-center lg:gap-3">
-        <div className="flex gap-x-3 items-center lg:flex-col lg:gap-y-3">
-          <h2 className="order-2 lg:order-1 font-bold text-xl">{title}</h2>
+    <div className="text-center sm:flex sm:items-start sm:text-left xl:text-center">
+      <div className="flex flex-col gap-2 items-center justify-center sm:items-start xl:items-center lg:gap-3">
+        <div className="flex gap-x-3 items-center xl:flex-col xl:gap-y-3">
+          <h2 className="order-2 xl:order-1 font-bold text-xl">{title}</h2>
           <Icon
             icon={icon}
-            className="order-1 lg:order-2 text-2xl lg:text-3xl"
+            className="order-1 xl:order-2 text-2xl lg:text-3xl"
           />
         </div>
         <p className="text-primary-600 lg:text-md">{description}</p>
@@ -53,7 +53,7 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
 const PerksSection = () => {
   return (
     <section className="border-y border-primary-300 py-8 md:py-12">
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-0 xl:gap-20">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-4 xl:gap-y-0 xl:gap-20">
         {perks.map(({ icon, title, description }) => (
           <PerkCard
             key={title}
