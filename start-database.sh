@@ -22,10 +22,10 @@ fi
 
 # Run a new PostgreSQL container with the specified database name, username, and password
 docker run --name $DB_CONTAINER_NAME \
-  -e POSTGRES_USER=$DB_USERNAME \
-  -e POSTGRES_PASSWORD=$DB_PASSWORD \
+  -e POSTGRES_USER=$POSTGRES_USER \
+  -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
   -e POSTGRES_HOST_AUTH_METHOD=trust \
-  -e POSTGRES_DB=$DB_NAME \
+  -e POSTGRES_DB=$POSTGRES_DATABASE \
   -d -p 5432:5432 \
   -v pgdata:/var/lib/postgresql/data \
   docker.io/postgres
