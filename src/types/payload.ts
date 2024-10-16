@@ -7,17 +7,47 @@
  */
 
 export interface Config {
+  auth: {
+    users: UserAuthOperations;
+  };
   collections: {
     users: User;
+    media: Media;
     brands: Brand;
     models: Model;
+    collections: Collection;
     products: Product;
-    media: Media;
     orders: Order;
-    "payload-preferences": PayloadPreference;
-    "payload-migrations": PayloadMigration;
+    'payload-locked-documents': PayloadLockedDocument;
+    'payload-preferences': PayloadPreference;
+    'payload-migrations': PayloadMigration;
+  };
+  db: {
+    defaultIDType: string;
   };
   globals: {};
+  locale: null;
+  user: User & {
+    collection: 'users';
+  };
+}
+export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -27,7 +57,7 @@ export interface User {
   id: string;
   firstName: string;
   lastName: string;
-  role: "admin" | "user";
+  role: 'admin' | 'user';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -39,59 +69,7 @@ export interface User {
   _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
-  password: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands".
- */
-export interface Brand {
-  id: string;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models".
- */
-export interface Model {
-  id: string;
-  brand: string | Brand;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: string;
-  user?: (string | null) | User;
-  sku: string;
-  brand: string | Brand;
-  model: string | Model;
-  nickname: string;
-  colorway: string;
-  category: "mens" | "womens" | "kids";
-  retail_price: number;
-  description?: string | null;
-  release_date?: string | null;
-  images: {
-    image: string | Media;
-    id?: string | null;
-  }[];
-  available_sizes: {
-    size: number;
-    stock: number;
-    price: number;
-    discount?: number | null;
-    id?: string | null;
-  }[];
-  stripeId?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -103,6 +81,7 @@ export interface Media {
   updatedAt: string;
   createdAt: string;
   url?: string | null;
+  thumbnailURL?: string | null;
   filename?: string | null;
   mimeType?: string | null;
   filesize?: number | null;
@@ -139,13 +118,152 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: string;
+  brand: string | Brand;
+  name: string;
+  featured?: boolean | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections".
+ */
+export interface Collection {
+  id: string;
+  brand: string | Brand;
+  name: string;
+  featured?: boolean | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  sku: string;
+  brand: string | Brand;
+  model: string | Model;
+  name?: string | null;
+  nickname?: string | null;
+  colorway: string;
+  collection?: (string | null) | Collection;
+  description?: string | null;
+  release_date?: string | null;
+  size_category: 'mens' | 'womens' | 'kids';
+  retail_price: number;
+  sizes: {
+    size: number;
+    price: number;
+    discount?: number | null;
+    stock: number;
+    id?: string | null;
+  }[];
+  images: {
+    image: string | Media;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
 export interface Order {
   id: string;
-  _isPaid: boolean;
   user: string | User;
-  products: (string | Product)[];
+  status: 'pending' | 'rejected' | 'shipped' | 'delivered' | 'completed';
+  products: {
+    product: string | Product;
+    size: number;
+    price: number;
+    id?: string | null;
+  }[];
+  details?: {
+    subtotal?: number | null;
+    delivery?: number | null;
+    discount?: number | null;
+    tax?: number | null;
+    total?: number | null;
+  };
+  address?: {
+    country?: string | null;
+    state?: string | null;
+    city?: string | null;
+    line_1?: string | null;
+    line_2?: string | null;
+    postal_code?: number | null;
+    number?: string | null;
+  };
+  method?: ('card' | 'g_pay' | 'apple_pay' | 'klarna') | null;
+  history?:
+    | {
+        status: 'pending' | 'rejected' | 'shipped' | 'delivered' | 'completed';
+        timestamp: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'brands';
+        value: string | Brand;
+      } | null)
+    | ({
+        relationTo: 'models';
+        value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'collections';
+        value: string | Collection;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: string | Order;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -156,7 +274,7 @@ export interface Order {
 export interface PayloadPreference {
   id: string;
   user: {
-    relationTo: "users";
+    relationTo: 'users';
     value: string | User;
   };
   key?: string | null;
@@ -183,8 +301,15 @@ export interface PayloadMigration {
   updatedAt: string;
   createdAt: string;
 }
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auth".
+ */
+export interface Auth {
+  [k: string]: unknown;
+}
 
-declare module "payload" {
-  // @ts-ignore
+
+declare module 'payload' {
   export interface GeneratedTypes extends Config {}
 }

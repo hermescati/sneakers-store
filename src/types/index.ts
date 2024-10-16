@@ -1,31 +1,38 @@
-export type ShoeModel = {
-  label: string;
-  href?: string;
-};
-
-export type PopularShoe = {
-  label: string;
-  value: string;
-  imageSrc: string;
-  href?: string;
-};
-
-export type FeaturedShoes = {
-  shoes: ShoeModel[];
-  popular?: PopularShoe[];
-};
-
-export type ProductCategory = {
-  label: string;
-  value: string;
-  href?: string;
-  featured?: FeaturedShoes;
-};
+import { Product } from './payload'
 
 export type ProductSize = {
-  size: number;
-  stock: number;
-  price: number;
-  discount?: number | null;
-  id?: string | null;
-};
+  size: number
+  stock: number
+  price: number
+  discount?: number | null
+  id?: string | null
+}
+
+export type OrderItem = {
+  productId: Product['id']
+  size: number
+  price: number
+}
+
+export interface BreadcrumbItem {
+  label: string
+  href?: string
+}
+
+export interface NavItem {
+  name: string
+  href?: string
+  items?: NavLink[]
+  featured?: NavFeaturedLink[]
+}
+
+export interface NavLink {
+  name: string
+  href?: string
+}
+
+export interface NavFeaturedLink {
+  name: string
+  imageSrc?: string
+  href?: string
+}

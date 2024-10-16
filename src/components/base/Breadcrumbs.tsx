@@ -1,13 +1,9 @@
-import Link from "next/link";
-import { ComponentPropsWithoutRef } from "react";
+import { BreadcrumbItem } from '@/types'
+import Link from 'next/link'
+import { ComponentPropsWithoutRef } from 'react'
 
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
-
-interface BreadcrumbsProps extends ComponentPropsWithoutRef<"div"> {
-  items: BreadcrumbItem[];
+interface BreadcrumbsProps extends ComponentPropsWithoutRef<'div'> {
+  items: BreadcrumbItem[]
 }
 
 const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
@@ -35,7 +31,7 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
         ))}
       </ol>
     </div>
-  );
-};
+  )
+}
 
-export default Breadcrumbs;
+export default Breadcrumbs

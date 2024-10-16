@@ -1,5 +1,5 @@
-import { cn } from "@/utils";
-import { InputProps } from "./Input";
+import { cn } from '@/utils'
+import { InputProps } from './Input'
 
 const FormControl = ({
   label,
@@ -9,7 +9,7 @@ const FormControl = ({
   invalid,
   error,
   hint,
-  disabled,
+  disabled
 }: InputProps) => {
   return (
     <div className="flex flex-col items-start gap-1 w-full ">
@@ -25,19 +25,19 @@ const FormControl = ({
       )}
       {children}
       {invalid && error ? (
-        <span className="text-sm font-medium text-danger">{error}</span>
+        <span className="text-md font-medium text-danger">{error}</span>
       ) : hint ? (
         <span
           className={cn(
-            "text-sm font-medium text-gray-500",
-            disabled && "opacity-40"
+            'text-md font-medium text-gray-500',
+            disabled && 'opacity-40'
           )}
         >
           {hint}
         </span>
       ) : null}
     </div>
-  );
-};
+  )
+}
 
-export default FormControl;
+export default FormControl

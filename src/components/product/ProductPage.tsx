@@ -1,30 +1,29 @@
-"use client";
+'use client'
 
-import { ProductSize } from "@/types";
-import { Product } from "@/types/payload";
-import { getProductInfo, getImageURL } from "@/utils/product";
-import { useState } from "react";
-import Breadcrumbs, { BreadcrumbItem } from "../base/Breadcrumbs";
-import ImageSlider from "../ImageSlider";
-import ProductDetails from "./ProductDetails";
-import ProductInfo from "./ProductInfo";
-import ProductReel from "./ProductReel";
-import ProductSizes from "./ProductSizes";
+import { BreadcrumbItem, ProductSize } from '@/types'
+import { Product } from '@/types/payload'
+import { getProductInfo } from '@/utils'
+import { useState } from 'react'
+import Breadcrumbs from '../base/Breadcrumbs'
+import ImageSlider from '../ImageSlider'
+import ProductDetails from './base/ProductDetails'
+import ProductInfo from './base/ProductInfo'
+import ProductSizes from './base/ProductSizes'
 
 const ProductPage = ({ product }: { product: Product }) => {
-  const [selectedSize, setSelectedSize] = useState<ProductSize | null>(null);
+  const [selectedSize, setSelectedSize] = useState<ProductSize | null>(null)
 
-  const { brand, model } = getProductInfo(product);
+  const { brand, model } = getProductInfo(product)
   const imageUrls = product.images
-    .map(({ image }) => getImageURL(image))
-    .filter(Boolean) as string[];
+    .map(({ image }) => (typeof image === 'string' ? image : image.url))
+    .filter(Boolean) as string[]
 
   const breadcrumbs: BreadcrumbItem[] = [
-    { label: "Sneakers", href: "/sneakers" },
+    { label: 'Sneakers', href: '/sneakers' },
     { label: `${brand} Shoes`, href: `/sneakers?brand=${brand}` },
     { label: `${model}`, href: `/sneakers?brand=${brand}&model=${model}` },
-    { label: `${product.nickname}` },
-  ];
+    { label: `${product.nickname}` }
+  ]
 
   return (
     <>
@@ -53,13 +52,8 @@ const ProductPage = ({ product }: { product: Product }) => {
       </div>
 
       <ProductInfo product={product} />
-
-      <ProductReel
-        query={{ sort: "desc", limit: 6 }}
-        title="Related Sneakers"
-      />
     </>
-  );
-};
+  )
+}
 
-export default ProductPage;
+export default ProductPage

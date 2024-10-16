@@ -1,5 +1,5 @@
-import Button from "../base/Button";
-import Image from "next/image";
+import Image from 'next/image'
+import Button from '../base/Button'
 
 const EmptyCart = () => {
   return (
@@ -7,7 +7,7 @@ const EmptyCart = () => {
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="relative w-48 h-48">
           <Image
-            src="/assets/empty-cart.png"
+            src="/empty-cart.png"
             alt="empty shopping cart"
             fill
             loading="eager"
@@ -22,7 +22,7 @@ const EmptyCart = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmptyCart;
+export default EmptyCart

@@ -1,58 +1,53 @@
-import { User } from "../types/payload";
-import { Access, CollectionConfig } from "payload/types";
+import { Access, CollectionConfig } from 'payload'
 
-const hasAccessToImages =
+const hasAccess =
   (): Access =>
   async ({ req }) => {
-    const user = req.user as User | undefined;
+    const user = req.user
 
-    if (!user) return false;
-    if (user.role === "admin") return true;
+    if (!user) return false
+    if (user.role === 'admin') return true
 
     return {
-      user: { equals: req.user.id },
-    };
-  };
+      user: { equals: req.user?.id }
+    }
+  }
 
 export const Media: CollectionConfig = {
-  slug: "media",
+  slug: 'media',
   hooks: {
     beforeChange: [
       ({ req, data }) => {
-        return { ...data, user: req.user.id };
-      },
-    ],
+        return { ...data, user: req.user?.id }
+      }
+    ]
   },
   access: {
     read: async ({ req }) => {
-      const referer = req.headers.referer;
+      const referer = req.headers.get('referer')
+      if (!req.user || !referer?.includes('admin')) return true
 
-      if (!req.user || !referer?.includes("admin")) return true;
-
-      return await hasAccessToImages()({ req });
+      return await hasAccess()({ req })
     },
-    delete: hasAccessToImages(),
-    update: hasAccessToImages(),
+    update: hasAccess(),
+    delete: hasAccess()
   },
-  admin: { hidden: ({ user }) => user.role !== "admin" },
   upload: {
-    staticURL: "/media",
-    staticDir: "media",
+    mimeTypes: ['image/*'],
     imageSizes: [
-      { name: "thumbnail", width: 400, height: 300, position: "centre" },
-      { name: "smartphone", width: 768, height: undefined, position: "centre" },
-      { name: "tablet", width: 1024, height: undefined, position: "centre" },
-    ],
-    mimeTypes: ["image/*"],
+      { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
+      { name: 'smartphone', width: 768, height: undefined, position: 'centre' },
+      { name: 'tablet', width: 1024, height: undefined, position: 'centre' }
+    ]
   },
   fields: [
     {
-      name: "user",
-      type: "relationship",
-      relationTo: "users",
-      required: true,
+      name: 'user',
+      type: 'relationship',
+      relationTo: 'users',
       hasMany: false,
       admin: { condition: () => false },
-    },
-  ],
-};
+      required: true
+    }
+  ]
+}
