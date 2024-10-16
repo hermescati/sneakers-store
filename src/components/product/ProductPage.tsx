@@ -6,9 +6,9 @@ import { getProductInfo } from '@/utils'
 import { useState } from 'react'
 import Breadcrumbs from '../base/Breadcrumbs'
 import ImageSlider from '../ImageSlider'
-import ProductDetails from './ProductDetails'
-import ProductInfo from './ProductInfo'
-import ProductSizes from './ProductSizes'
+import ProductDetails from './base/ProductDetails'
+import ProductInfo from './base/ProductInfo'
+import ProductSizes from './base/ProductSizes'
 
 const ProductPage = ({ product }: { product: Product }) => {
   const [selectedSize, setSelectedSize] = useState<ProductSize | null>(null)

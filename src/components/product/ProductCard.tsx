@@ -11,8 +11,8 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import ProductSkeleton from '../skeletons/ProductSkeleton'
-import BrandLogo from './BrandLogo'
+import ProductSkeleton from './skeletons/ProductSkeleton'
+import BrandLogo from './base/BrandLogo'
 
 interface ProductCardProps {
   product: Product
@@ -32,7 +32,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
   if (!product || !isLoaded) return <ProductSkeleton />
 
-  const { brand } = getProductInfo(product)
+  const { brand, model } = getProductInfo(product)
   const { basePrice, discountedPrice } = calculateMinPrices(product)
   const thumbnail = getThumbnailImage(product)
 
@@ -65,10 +65,10 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
             {product.nickname}
           </h3>
 
-          {/* Brand & Model */}
+          {/* Brand & Name */}
           <span className="flex items-center gap-2 text-primary-600">
             <BrandLogo brand={brand} />
-            <p className="text-md">{product.name}</p>
+            <p className="text-md">{model}</p>
           </span>
 
           {/* Price */}
