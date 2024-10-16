@@ -1,13 +1,13 @@
 'use server'
 
-import { TLoginValidationSchema } from '@/lib/validators/login-validator'
-import { TSignUpValidationSchema } from '@/lib/validators/signup-validator'
+import {
+  TLoginValidationSchema,
+  TSignUpValidationSchema
+} from '@/lib/validators'
 import { User } from '@/types/payload'
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 import { cookies } from 'next/headers'
-import { NextRequest } from 'next/server'
 
 // TODO: Find a better alternative to Errors, or define an error structure that is solid
 // TODO: Better toast messages, more professional
@@ -65,32 +65,30 @@ export async function userLogin(input: TLoginValidationSchema) {
   const payload = await getPayloadHMR({ config: configPromise })
 
   try {
-    const user = await payload.login({
+    const { user, token } = await payload.login({
       collection: 'users',
       data: { email, password }
     })
 
-    const token = user?.token
     if (token) {
       cookies().set({
         name: 'payload-token',
         value: token,
         path: '/',
         httpOnly: true,
-        sameSite: 'strict'
+        sameSite: 'lax'
       })
     }
 
-    return { code: 200, message: 'OK' }
+    return { code: 200, message: 'OK', user }
   } catch (error) {
     return { code: 409, message: 'UNAUTHORIZED' }
   }
 }
 
-export async function getUser(
-  cookies: NextRequest['cookies'] | ReadonlyRequestCookies
-) {
-  const token = cookies.get('payload-token')?.value
+export async function getUser() {
+  const nextCookies = cookies()
+  const token = nextCookies.get('payload-token')?.value
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
     {
