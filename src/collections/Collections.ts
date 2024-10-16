@@ -11,9 +11,20 @@ export const Collections: CollectionConfig = {
   },
   fields: [
     {
+      name: 'brand',
+      type: 'relationship',
+      relationTo: 'brands',
+      hasMany: false,
+      required: true
+    },
+    {
       name: 'name',
       type: 'text',
       required: true
+    },
+    {
+      name: 'featured',
+      type: 'checkbox'
     },
     {
       name: 'image',

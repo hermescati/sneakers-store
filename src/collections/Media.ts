@@ -46,8 +46,8 @@ export const Media: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       hasMany: false,
-      required: true,
-      admin: { condition: () => false }
+      admin: { condition: () => false },
+      required: true
     }
   ]
 }

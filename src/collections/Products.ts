@@ -1,5 +1,5 @@
 import { Product } from '@/types/payload'
-import { CollectionConfig } from 'payload'
+import { CollectionConfig, FieldHook } from 'payload'
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -7,10 +7,20 @@ export const Products: CollectionConfig = {
     singular: 'Product',
     plural: 'Products'
   },
+  admin: {
+    useAsTitle: 'name'
+  },
   hooks: {
     beforeChange: [
-      async ({ data }) => {
+      async ({ data, req }) => {
         const product = data as Product
+
+        const modelName = await req.payload.findByID({
+          collection: 'models',
+          id: product.model as string
+        })
+
+        product.name = `${modelName?.name} - ${product.nickname || ''}`.trim()
 
         if (product.sizes) {
           product.sizes = product.sizes.map((size) => {
@@ -59,7 +69,7 @@ export const Products: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      required: true
+      admin: { position: 'sidebar' }
     },
     {
       name: 'nickname',
@@ -106,6 +116,7 @@ export const Products: CollectionConfig = {
       name: 'sizes',
       label: 'Available Sizes',
       type: 'array',
+      admin: { position: 'sidebar' },
       fields: [
         {
           name: 'size',

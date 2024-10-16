@@ -23,6 +23,10 @@ export const Models: CollectionConfig = {
       required: true
     },
     {
+      name: 'featured',
+      type: 'checkbox'
+    },
+    {
       name: 'image',
       type: 'upload',
       relationTo: 'media'

@@ -1,4 +1,7 @@
+import { User } from '@/types/payload'
 import { CollectionConfig } from 'payload'
+
+const isAdmin = (user: User) => user.role === 'admin'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -14,8 +17,9 @@ export const Users: CollectionConfig = {
     }
   },
   access: {
-    read: () => true,
-    create: () => true
+    create: ({ req: { user } }) => isAdmin(user!),
+    update: ({ req: { user } }) => isAdmin(user!),
+    delete: ({ req: { user } }) => isAdmin(user!)
   },
   fields: [
     {
@@ -30,16 +34,12 @@ export const Users: CollectionConfig = {
     },
     {
       name: 'role',
-      required: true,
-      admin: {
-        // condition: ({ req }) => req.user.role === "Admin",
-        // condition: () => false,
-      },
       type: 'select',
       options: [
         { label: 'Admin', value: 'admin' },
         { label: 'User', value: 'user' }
-      ]
+      ],
+      required: true
     }
   ]
 }
