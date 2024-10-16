@@ -39,6 +39,9 @@ importers:
       '@types/nodemailer':
         specifier: ^6.4.16
         version: 6.4.16
+      '@vercel/blob':
+        specifier: ^0.22.3
+        version: 0.22.3
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
