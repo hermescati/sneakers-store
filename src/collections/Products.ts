@@ -1,5 +1,5 @@
 import { Product } from '@/types/payload'
-import { CollectionConfig, FieldHook } from 'payload'
+import { CollectionConfig } from 'payload'
 
 export const Products: CollectionConfig = {
   slug: 'products',

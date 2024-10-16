@@ -49,7 +49,7 @@ const CartItem = ({
           {compact ? (
             <CompactCartItem
               index={index}
-              name={product.name}
+              name={product.name!}
               nickname={product.nickname!}
               category={category}
               size={size.size}
@@ -60,7 +60,7 @@ const CartItem = ({
           ) : (
             <DetailedCartItem
               index={index}
-              name={product.name}
+              name={product.name!}
               nickname={product.nickname!}
               category={category}
               size={size.size}
@@ -76,7 +76,7 @@ const CartItem = ({
           {compact ? (
             <CompactCartItem
               index={index}
-              name={product.name}
+              name={product.name!}
               nickname={product.nickname!}
               category={category}
               size={size.size}
@@ -87,7 +87,7 @@ const CartItem = ({
           ) : (
             <DetailedCartItem
               index={index}
-              name={product.name}
+              name={product.name!}
               nickname={product.nickname!}
               category={category}
               size={size.size}
