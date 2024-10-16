@@ -60,7 +60,7 @@ const AccordionItem = ({
             className={`overflow-hidden transition-all duration-300 ease-in-out`}
             style={{ height }}
           >
-            <p className="px-4 py-1 bg-background text-primary-700 text-justify text-md sm:text-base">
+            <p className="px-4 py-1 bg-background text-primary-700 text-pretty">
               {content}
             </p>
           </div>

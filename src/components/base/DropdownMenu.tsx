@@ -1,8 +1,9 @@
 'use client'
 
+import useOnEscapeKey from '@/hooks/use-escape-key'
 import { cn } from '@/utils'
-import { InlineIcon } from '@iconify/react'
-import { useRef, useState } from 'react'
+import { Icon } from '@iconify/react'
+import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
 export interface DropdownItem {
@@ -15,7 +16,8 @@ export interface DropdownItem {
 
 interface DropdownMenuProps {
   id: string
-  title: string
+  title?: string
+  children?: ReactNode
   items: DropdownItem[]
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   icon?: string
@@ -25,6 +27,7 @@ interface DropdownMenuProps {
 const DropdownMenu = ({
   id,
   title,
+  children,
   items,
   position = 'bottom-right'
 }: DropdownMenuProps) => {
@@ -32,6 +35,7 @@ const DropdownMenu = ({
 
   const dropdownRef = useRef<HTMLDivElement>(null!)
   useOnClickOutside(dropdownRef, () => setIsOpen(false))
+  useOnEscapeKey(() => setIsOpen(false))
 
   const handleItemClick = (item: DropdownItem) => {
     if (item.action) item.action()
@@ -50,6 +54,7 @@ const DropdownMenu = ({
 
   return (
     <div ref={dropdownRef} className="relative">
+      {/* Trigger */}
       <button
         id={id}
         aria-label="Toggle dropdown"
@@ -57,10 +62,29 @@ const DropdownMenu = ({
         aria-expanded={isOpen}
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center gap-5 rounded-xl w-full py-3 px-6 hover:bg-primary-200 active:outline-none active:ring-0 active:ring-transparent active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)] transition ease-in-out duration-300"
+        className={cn(
+          'rounded-xl hover:bg-primary-300/35 active:outline-none active:ring-0 active:ring-transparent active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)] transition ease-in-out duration-300',
+          {
+            'whitespace-nowrap py-3 px-6 font-semibold text-md text-primary-700':
+              title
+          }
+        )}
       >
-        <span className="font-semibold text-primary-700">{title}</span>
+        <div className="flex gap-4 items-center">
+          {children ?? title}
+          <span className="flex items-center justify-center w-6 h-6 mr-2">
+            <Icon
+              icon="mage:chevron-down"
+              className={cn(
+                'text-lg text-primary-500 transition-all ease-in-out duration-150',
+                { 'rotate-180': isOpen }
+              )}
+            />
+          </span>
+        </div>
       </button>
+
+      {/* Menu */}
       {isOpen && (
         <div aria-label="Dropdown menu" className={dropdownClass}>
           <ul role="menu" aria-labelledby={id} aria-orientation="vertical">
@@ -75,7 +99,7 @@ const DropdownMenu = ({
                     item.type === 'header'
                 })}
               >
-                {item.icon && <InlineIcon icon={item.icon} height="1.25rem" />}
+                {item.icon && <Icon icon={item.icon} className="text-xl" />}
                 <span>{item.label}</span>
               </li>
             ))}

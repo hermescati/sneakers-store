@@ -6,7 +6,7 @@ import { ComponentPropsWithoutRef } from 'react'
 
 const btnBase = `
     flex items-center justify-center gap-3
-    font-semibold
+    font-semibold whitespace-nowrap
     disabled:opacity-40 disabled:pointer-events-none
     active:outline-none active:ring active:ring-offset-2
     transition ease-in-out duration-300
@@ -62,8 +62,9 @@ export const buttonVariants = cva(btnBase, {
         'text-foreground',
         'border-2 border-primary-900',
         'hover:bg-primary-900/5',
-        'active:bg-primary-900/5',
-        'active:ring-primary-900'
+        'active:ring-0',
+        'active:ring-offset-0',
+        'active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]'
       ]
     },
     {
@@ -87,7 +88,7 @@ export const buttonVariants = cva(btnBase, {
         'hover:bg-primary-200',
         'active:bg-primary-200',
         'active:ring-0',
-        'active:ring-transparent',
+        'active:ring-offset-0',
         'active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]'
       ]
     },
@@ -99,7 +100,8 @@ export const buttonVariants = cva(btnBase, {
         'text-secondary',
         'hover:bg-secondary/10',
         'active:bg-secondary/10',
-        'active:ring-secondary'
+        'active:ring-0',
+        'active:ring-offset-0'
       ]
     }
   ],
@@ -115,11 +117,13 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   label?: string
   href?: string
+  loading?: boolean
   icon?: string
   iconAppend?: string
   iconPrepend?: string
 }
 
+// TODO: Optimize code and variants
 const Button = ({
   className,
   href,
@@ -127,6 +131,7 @@ const Button = ({
   intent,
   size,
   label,
+  loading,
   icon,
   iconAppend,
   iconPrepend,
@@ -134,18 +139,22 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
-  const iconSize = size === 'small' ? '1rem' : '1.25rem'
+  const iconSize = size === 'small' ? 'text-base' : 'text-xl'
 
-  const btnContent =
-    size === 'icon' && icon ? (
-      <Icon icon={icon} height={iconSize} />
-    ) : (
-      <>
-        {iconPrepend && <Icon icon={iconPrepend} height={iconSize} />}
-        {label || children}
-        {iconAppend && <Icon icon={iconAppend} height={iconSize} />}
-      </>
-    )
+  const btnContent = loading ? (
+    <>
+      <Icon icon="svg-spinners:180-ring" className={iconSize} />
+      {label || children}
+    </>
+  ) : size === 'icon' && icon ? (
+    <Icon icon={icon} className={iconSize} />
+  ) : (
+    <>
+      {iconPrepend && <Icon icon={iconPrepend} className={iconSize} />}
+      {label || children}
+      {iconAppend && <Icon icon={iconAppend} className={iconSize} />}
+    </>
+  )
 
   return href && !props.disabled ? (
     <Link href={href} className={buttonClasses}>
