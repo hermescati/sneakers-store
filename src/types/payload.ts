@@ -134,6 +134,7 @@ export interface Model {
   id: string;
   brand: string | Brand;
   name: string;
+  featured?: boolean | null;
   image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -144,7 +145,9 @@ export interface Model {
  */
 export interface Collection {
   id: string;
+  brand: string | Brand;
   name: string;
+  featured?: boolean | null;
   image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -158,7 +161,7 @@ export interface Product {
   sku: string;
   brand: string | Brand;
   model: string | Model;
-  name: string;
+  name?: string | null;
   nickname?: string | null;
   colorway: string;
   collection?: (string | null) | Collection;
@@ -187,20 +190,37 @@ export interface Product {
 export interface Order {
   id: string;
   user: string | User;
-  status: 'pending' | 'successful';
+  status: 'pending' | 'rejected' | 'shipped' | 'delivered' | 'completed';
   products: {
     product: string | Product;
     size: number;
     price: number;
     id?: string | null;
   }[];
-  total: number;
-  delivery: number;
-  fees: {
-    processing_fee: number;
-    tax: number;
-    id?: string | null;
-  }[];
+  details?: {
+    subtotal?: number | null;
+    delivery?: number | null;
+    discount?: number | null;
+    tax?: number | null;
+    total?: number | null;
+  };
+  address?: {
+    country?: string | null;
+    state?: string | null;
+    city?: string | null;
+    line_1?: string | null;
+    line_2?: string | null;
+    postal_code?: number | null;
+    number?: string | null;
+  };
+  method?: ('card' | 'g_pay' | 'apple_pay' | 'klarna') | null;
+  history?:
+    | {
+        status: 'pending' | 'rejected' | 'shipped' | 'delivered' | 'completed';
+        timestamp: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
