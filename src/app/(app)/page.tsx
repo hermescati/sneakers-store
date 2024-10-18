@@ -43,7 +43,7 @@ export default async function Home() {
 
   // TODO: Add width and height to the icons so the layout wont shift
   return (
-    <MainContainer className="flex flex-col gap-10 py-8">
+    <MainContainer className="flex flex-col gap-10 py-8 md:pb-12">
       {/* Banner Carousel */}
       <div className="aspect-video xl:aspect-[16/5] rounded-2xl bg-primary-200"></div>
 
@@ -100,10 +100,9 @@ export default async function Home() {
         href="/sneakers?sort=release_date"
         products={newBalanceSneakers}
       />
+      <PerksSection />
 
       <DiscoverSection />
-
-      <PerksSection />
     </MainContainer>
   )
 }
