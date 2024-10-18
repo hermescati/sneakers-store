@@ -1,11 +1,11 @@
 'use client'
 
+import useOnEscapeKey from '@/hooks/use-escape-key'
 import { NavItem } from '@/types'
 import { cn } from '@/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
-import NavLink from './base/NavLink'
-import useOnEscapeKey from '@/hooks/use-escape-key'
+import NavLink from './NavLink'
 
 interface ActiveIndicator {
   left: number

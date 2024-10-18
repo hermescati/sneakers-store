@@ -50,6 +50,7 @@ const CategoryCard = ({ name, href, imageSrc, imageAlt }: CategoryCardItem) => {
         alt={imageAlt}
         fill
         priority
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 33vw"
         className="w-full h-full object-cover object-center"
       />
 

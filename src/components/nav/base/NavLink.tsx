@@ -85,14 +85,16 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
                         underline
                         onClick={() => handleOnClick(featuredItem.href)}
                       >
-                        <div className="relative aspect-video overflow-hidden rounded-2xl bg-gray-100 group-hover:opacity-80">
+                        <div className="relative aspect-video overflow-hidden rounded-2xl bg-gray-100">
                           <Image
                             src={featuredItem.imageSrc as string}
                             alt={featuredItem.name}
                             fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 33vw"
                             className="object-cover object-center"
                           />
+
+                          <div className="absolute inset-0 transition-all duration-300 group-hover:bg-primary-900/15" />
                         </div>
                         <p className="font-semibold text-md">
                           {featuredItem.name}
