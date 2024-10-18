@@ -92,3 +92,38 @@ export async function getRelatedProducts(product: Product, limit = 6) {
   // Randomly shuffle the array of products
   return shuffleArray(products).slice(0, limit)
 }
+
+export async function getBrands({ query, limit, sort }: QueryParams) {
+  const payload = await getPayloadHMR({ config: configPromise })
+
+  const { docs: brands } = await payload.find({
+    collection: 'brands',
+    where: query,
+    limit,
+    sort,
+    depth: 0
+  })
+
+  return brands
+}
+
+export async function getCollections({ query, limit, sort }: QueryParams) {
+  const payload = await getPayloadHMR({ config: configPromise })
+
+  const {
+    docs: collections,
+    hasNextPage,
+    nextPage
+  } = await payload.find({
+    collection: 'collections',
+    where: query,
+    limit,
+    sort,
+    depth: 1
+  })
+
+  return {
+    collections,
+    nextPage: hasNextPage && nextPage
+  }
+}

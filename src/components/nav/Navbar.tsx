@@ -4,8 +4,8 @@ import { cn } from '@/utils'
 import Link from 'next/link'
 import MainContainer from '../MainContainer'
 import NavCart from './base/NavCart'
+import NavLinks from './base/NavLinks'
 import UserAccount from './base/UserAccount'
-import NavLinks from './NavLinks'
 import NavItemsSkeleton from './skeletons/NavItemsSkeleton'
 
 const Navbar = async () => {
@@ -13,7 +13,7 @@ const Navbar = async () => {
   const navItems = await getNavbarItems()
 
   return (
-    <header className="sticky z-20 top-0 inset-x-0">
+    <nav className="sticky z-20 top-0 inset-x-0">
       <div className="relative bg-background shadow">
         <MainContainer>
           <div className="flex gap-20 pt-6 pb-4 items-center">
@@ -53,7 +53,7 @@ const Navbar = async () => {
           </div>
         </MainContainer>
       </div>
-    </header>
+    </nav>
   )
 }
 

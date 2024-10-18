@@ -81,7 +81,7 @@ const ShoppingCart = () => {
             <Button
               variant="outline"
               label={`View Items (${items.length})`}
-              iconAppend="tabler:arrow-right"
+              iconAppend="solar:arrow-right-linear"
               onClick={handleViewItems}
               className="hover:underline hover:underline-offset-4"
             />

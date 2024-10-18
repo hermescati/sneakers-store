@@ -47,7 +47,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
     >
       <div className="flex flex-col gap-2 w-full">
         {/* Thumbnail */}
-        <div className="relative px-5 bg-zinc-100 rounded-2xl aspect-square sm:aspect-auto">
+        <div className="relative px-5 bg-primary-200 rounded-2xl aspect-square sm:aspect-auto">
           <Image
             alt={`${product.nickname} thumbnail`}
             src={thumbnail}
