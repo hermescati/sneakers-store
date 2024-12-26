@@ -44,50 +44,50 @@ const Page = () => {
   }
 
   return (
-    <MainContainer className="flex items-center justify-center">
-      <section className="mx-auto flex w-full flex-col justify-center sm:w-[500px]">
-        <header className="flex flex-col">
-          <h1 className="font-bold text-4xl lg:text-3xl">Sneakers.</h1>
-          <h3 className="font-medium text-xl text-primary-600">
-            Sign in to your account
-          </h3>
+    <MainContainer className="flex h-[90dvh] lg:h-[83dvh] items-center justify-center">
+      <section className="flex w-full flex-col justify-center sm:w-[500px]">
+        <header className="flex flex-col leading-tight">
+          <h2 className="font-bold text-3xl">
+            Login
+          </h2>
+          <h3 className="text-xl lg:text-base text-primary-700">to view all your orders</h3>
         </header>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-4 py-12 lg:py-10"
-        >
-          <Input
-            {...register('email')}
-            type="email"
-            label="Email"
-            placeholder="you@example.com"
-            required
-            invalid={!!errors.email}
-            error={errors.email?.message}
-          />
-          <Input
-            {...register('password')}
-            type="password"
-            label="Password"
-            placeholder="Password"
-            required
-            invalid={!!errors.password}
-            error={errors.password?.message}
-          />
-          <Link
-            href="/"
-            className="w-fit py-1 -mt-2 text=primary-600 hover:text-secondary"
-          >
-            Forgot password?
-          </Link>
-          <Button label="Sign in" loading={isSubmitting} className="mt-6" />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className='flex flex-col gap-4 py-8'>
+            <Input
+              {...register('email')}
+              type="email"
+              label="Email"
+              placeholder="you@example.com"
+              required
+              invalid={!!errors.email}
+              error={errors.email?.message}
+            />
+            <Input
+              {...register('password')}
+              type="password"
+              label="Password"
+              placeholder="Password"
+              required
+              invalid={!!errors.password}
+              error={errors.password?.message}
+            />
+            <Link
+              href="/login"
+              underline
+              className="w-fit -mt-2 text=primary-600 hover:text-secondary"
+            >
+              Forgot password?
+            </Link>
+          </div>
+          <Button label="Sign in" loading={isSubmitting} className='w-full' />
         </form>
 
         <Link
           href="/signup"
           underline
-          className="place-self-center w-fit py-1 -mt-4 font-medium text-primary-700 hover:text-secondary"
+          className="place-self-center w-fit py-2 mt-4 font-medium text-primary-700 hover:text-secondary"
         >
           Don&apos;t have an account?
         </Link>
