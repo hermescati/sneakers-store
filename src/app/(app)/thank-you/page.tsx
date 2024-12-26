@@ -7,15 +7,13 @@ import { getOrder } from '@/services/orders'
 import { formatPrice } from '@/utils'
 import { Icon } from '@iconify/react'
 import { format } from 'date-fns'
-
 import { notFound, redirect } from 'next/navigation'
 
-interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default async function ThankYou({ searchParams }: PageProps) {
-  const orderId = searchParams.orderId as string
+const ThankYou = async (
+  { params } : { params: Promise<
+    { [key: string]: string | string[] | undefined }
+  >}) => {
+  const orderId = (await params).orderId as string
 
   const { user } = await getUser()
   const order = await getOrder(orderId, 3)
@@ -126,3 +124,5 @@ export default async function ThankYou({ searchParams }: PageProps) {
     </MainContainer>
   )
 }
+
+export default ThankYou

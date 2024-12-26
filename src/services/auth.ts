@@ -6,7 +6,7 @@ import {
 } from '@/lib/validators'
 import { User } from '@/types/payload'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 import { cookies } from 'next/headers'
 
 // TODO: Find a better alternative to Errors, or define an error structure that is solid
@@ -15,7 +15,7 @@ import { cookies } from 'next/headers'
 // TODO: Add forgotPassword service method
 export async function createUser(input: TSignUpValidationSchema) {
   const { firstName, lastName, email, password } = input
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const { docs: users } = await payload.find({
     collection: 'users',
@@ -45,7 +45,7 @@ export async function createUser(input: TSignUpValidationSchema) {
 }
 
 export async function verifyEmail(token: string) {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   try {
     const isVerified = await payload.verifyEmail({
@@ -62,7 +62,7 @@ export async function verifyEmail(token: string) {
 
 export async function userLogin(input: TLoginValidationSchema) {
   const { email, password } = input
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   try {
     const { user, token } = await payload.login({
@@ -71,7 +71,7 @@ export async function userLogin(input: TLoginValidationSchema) {
     })
 
     if (token) {
-      cookies().set({
+      (await cookies()).set({
         name: 'payload-token',
         value: token,
         path: '/',
@@ -87,7 +87,7 @@ export async function userLogin(input: TLoginValidationSchema) {
 }
 
 export async function getUser() {
-  const nextCookies = cookies()
+  const nextCookies = await cookies()
   const token = nextCookies.get('payload-token')?.value
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,

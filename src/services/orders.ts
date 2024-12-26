@@ -3,11 +3,11 @@
 import { OrderItem } from '@/types'
 import { Order, User } from '@/types/payload'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { getPayload } from 'payload'
 
 export async function createOrder(user: User, selectedProducts: OrderItem[]) {
   if (!user) return
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const products: Order['products'] = selectedProducts.map((p) => ({
     product: p.productId,
@@ -35,7 +35,7 @@ export async function createOrder(user: User, selectedProducts: OrderItem[]) {
 
 export async function getOrder(orderId: Order['id'], depth?: number) {
   if (!orderId) return
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const order = await payload.findByID({
     collection: 'orders',

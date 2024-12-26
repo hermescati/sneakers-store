@@ -3,7 +3,7 @@ import MainContainer from '@/components/MainContainer'
 import ProductReel from '@/components/product/ProductReel'
 import { getProducts } from '@/services/products'
 
-export default async function Cart() {
+const Cart = async () => {
   const { products: relatedProducts } = await getProducts({ limit: 6 })
 
   return (
@@ -15,3 +15,5 @@ export default async function Cart() {
     </MainContainer>
   )
 }
+
+export default Cart

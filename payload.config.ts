@@ -22,12 +22,15 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  admin: {
+    importMap: { baseDir: path.resolve(dirname), },
+  },
   secret: process.env.PAYLOAD_SECRET || '',
   collections: [Users, Media, Brands, Models, Collections, Products, Orders],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
-      connectionString: process.env.POSTGRES_URL
+      connectionString: process.env.POSTGRES_URL || ''
     }
   }),
   plugins: process.env.BLOB_READ_WRITE_TOKEN

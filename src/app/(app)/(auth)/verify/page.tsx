@@ -3,13 +3,12 @@ import VerificationStatus from '@/components/status/VerificationStatus'
 import { cn } from '@/utils'
 import Image from 'next/image'
 
-interface PageProps {
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-const VerifyPage = ({ searchParams }: PageProps) => {
-  const token = searchParams.token
-  const toEmail = searchParams.to
+const Verify = async (
+  { params } : { params: Promise<
+    { [key: string]: string | string[] | undefined }
+  >}) => {
+  const token = (await params).token
+  const toEmail = (await params).to
 
   return (
     <MainContainer className="flex items-center justify-center">
@@ -39,4 +38,4 @@ const VerifyPage = ({ searchParams }: PageProps) => {
   )
 }
 
-export default VerifyPage
+export default Verify
