@@ -3,8 +3,7 @@
 import { Product } from '@/types/payload'
 import { shuffleArray } from '@/utils'
 import configPromise from '@payload-config'
-import { getPayloadHMR } from '@payloadcms/next/utilities'
-import { Where } from 'payload'
+import { Where, getPayload } from 'payload'
 
 type QueryParams = {
   query?: Where
@@ -13,7 +12,7 @@ type QueryParams = {
 }
 
 export async function getProducts({ query, limit, sort }: QueryParams) {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const {
     docs: products,
@@ -34,7 +33,7 @@ export async function getProducts({ query, limit, sort }: QueryParams) {
 }
 
 export async function getProduct(productId: Product['id']) {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const product = await payload.findByID({
     collection: 'products',
@@ -94,7 +93,7 @@ export async function getRelatedProducts(product: Product, limit = 6) {
 }
 
 export async function getBrands({ query, limit, sort }: QueryParams) {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const { docs: brands } = await payload.find({
     collection: 'brands',
@@ -108,7 +107,7 @@ export async function getBrands({ query, limit, sort }: QueryParams) {
 }
 
 export async function getCollections({ query, limit, sort }: QueryParams) {
-  const payload = await getPayloadHMR({ config: configPromise })
+  const payload = await getPayload({ config: configPromise })
 
   const {
     docs: collections,
