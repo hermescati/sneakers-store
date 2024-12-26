@@ -8,7 +8,6 @@ import React from 'react'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
-import Link from 'next/link.js'
 
 type Args = {
   children: React.ReactNode
