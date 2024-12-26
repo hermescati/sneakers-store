@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-const Page = () => {
+const Signup = () => {
   const router = useRouter()
 
   const {
@@ -140,4 +140,4 @@ const Page = () => {
   )
 }
 
-export default Page
+export default Signup

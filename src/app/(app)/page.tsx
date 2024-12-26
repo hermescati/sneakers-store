@@ -5,7 +5,7 @@ import ProductCollection from '@/components/product/ProductCollection'
 import ProductReel from '@/components/product/ProductReel'
 import { getCollections, getProducts } from '@/services/products'
 
-export default async function Home() {
+const Home = async () => {
   const { products: newReleases } = await getProducts({
     limit: 6,
     sort: '-release_date'
@@ -106,3 +106,5 @@ export default async function Home() {
     </MainContainer>
   )
 }
+
+export default Home

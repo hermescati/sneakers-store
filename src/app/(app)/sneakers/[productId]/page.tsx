@@ -2,15 +2,13 @@ import MainContainer from '@/components/MainContainer'
 import ProductPage from '@/components/product/ProductPage'
 import ProductReel from '@/components/product/ProductReel'
 import { getProduct, getProducts } from '@/services/products'
-import { Product } from '@/types/payload'
 import { notFound } from 'next/navigation'
 
-interface PageProps {
-  params: { productId: Product['id'] }
-}
-
-export default async function Page({ params }: PageProps) {
-  const { productId } = params
+const Product = async (
+  { params } : { params: Promise<
+    { [key: string]: string | string[] | undefined }
+  >}) => {
+  const productId = (await params).productId as string
 
   const product = await getProduct(productId)
   if (!product) return notFound()
@@ -27,3 +25,5 @@ export default async function Page({ params }: PageProps) {
     </MainContainer>
   )
 }
+
+export default Product

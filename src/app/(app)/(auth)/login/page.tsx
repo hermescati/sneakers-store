@@ -8,10 +8,11 @@ import { LoginValidationSchema, TLoginValidationSchema } from '@/lib/validators'
 import { userLogin } from '@/services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
-const Page = () => {
+const LoginForm = () => {
   const router = useRouter()
 
   const searchParams = useSearchParams()
@@ -52,7 +53,6 @@ const Page = () => {
           </h2>
           <h3 className="text-xl lg:text-base text-primary-700">to view all your orders</h3>
         </header>
-
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col gap-4 py-8'>
             <Input
@@ -83,7 +83,6 @@ const Page = () => {
           </div>
           <Button label="Sign in" loading={isSubmitting} className='w-full' />
         </form>
-
         <Link
           href="/signup"
           underline
@@ -96,4 +95,12 @@ const Page = () => {
   )
 }
 
-export default Page
+const Login = () => {
+  return (
+    <Suspense>
+      <LoginForm/>
+    </Suspense>
+  )
+}
+
+export default Login

@@ -2,7 +2,7 @@ import MainContainer from '@/components/MainContainer'
 import ProductCard from '@/components/product/ProductCard'
 import { getProducts } from '@/services/products'
 
-export default async function Sneakers() {
+const Products = async () => {
   const { products } = await getProducts({ limit: 32 })
 
   return (
@@ -18,3 +18,5 @@ export default async function Sneakers() {
     </MainContainer>
   )
 }
+
+export default Products
