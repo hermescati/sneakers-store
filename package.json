@@ -12,7 +12,8 @@
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "ci": "payload migrate && pnpm build",
-    "code:gen": "payload generate:types"
+    "code:gen": "payload generate:types",
+    "typecheck": "tsc --noEmit"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
