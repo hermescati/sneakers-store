@@ -99,8 +99,9 @@ export async function getUser() {
   )
 
   if (!response.ok) {
+    const errorText = await response.text()
     console.error("Error in fetching user data.")
-    throw new Error(`Error fetching user: ${response.text()}`)
+    throw new Error(`Error fetching user: ${errorText}`)
   }
 
   let data: {user: User | null}
