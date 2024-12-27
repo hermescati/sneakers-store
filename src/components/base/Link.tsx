@@ -13,7 +13,7 @@ interface LinkProps {
 const Link = ({
   href,
   className,
-  underline = true,
+  underline,
   children,
   onClick
 }: LinkProps) => {

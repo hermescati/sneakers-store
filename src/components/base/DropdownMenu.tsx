@@ -43,7 +43,7 @@ const DropdownMenu = ({
   }
 
   const dropdownClass = cn(
-    'absolute z-20 border border-primary-300 bg-background w-[220px] max-h-52 overflow-y-auto p-1 rounded-lg shadow-[0_0_8px_1px_rgba(0,0,0,0.10)]',
+    'absolute z-20 border border-primary-300 bg-background w-[220px] max-h-54 overflow-y-auto p-1 rounded-lg shadow-[0_0_8px_1px_rgba(0,0,0,0.10)]',
     {
       'top-full right-0 mt-2': position === 'bottom-right',
       'top-full left-0 mt-2': position === 'bottom-left',
@@ -65,18 +65,18 @@ const DropdownMenu = ({
         className={cn(
           'rounded-xl hover:bg-primary-300/35 active:outline-none active:ring-0 active:ring-transparent active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)] transition ease-in-out duration-300',
           {
-            'whitespace-nowrap py-3 px-6 font-semibold text-md text-primary-700':
+            'py-3 px-6 font-semibold text-md text-primary-700':
               title
           }
         )}
       >
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center whitespace-nowrap">
           {children ?? title}
           <span className="flex items-center justify-center w-6 h-6 mr-2">
             <Icon
               icon="mage:chevron-down"
               className={cn(
-                'text-lg text-primary-500 transition-all ease-in-out duration-150',
+                'text-lg text-primary-600 transition-all ease-in-out duration-150',
                 { 'rotate-180': isOpen }
               )}
             />

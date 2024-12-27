@@ -1,28 +1,38 @@
 'use client'
 
+import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
-import { useEffect, useRef, useState } from 'react'
+import { ReactNode, useEffect, useRef, useState } from 'react'
 
 export interface AccordionItem {
   title: string
   icon?: string
-  content: string
+  content?: string
 }
 
 interface AccordionItemProps extends AccordionItem {
+  iconClass?: string
+  titleClass?: string
+  contentClass?: string
+  children?: ReactNode
   isOpen?: boolean
   onOpen?: () => void
 }
 
 interface AccordionProps {
-  items: AccordionItem[]
+  items?: AccordionItem[]
   activeIndex?: number
+  children?: ReactNode
 }
 
-const AccordionItem = ({
+export const AccordionItem = ({
   title,
   icon,
   content,
+  children,
+  titleClass,
+  contentClass,
+  iconClass,
   isOpen,
   onOpen
 }: AccordionItemProps) => {
@@ -38,39 +48,37 @@ const AccordionItem = ({
   }, [isOpen])
 
   return (
-    <>
-      {content && title && (
-        <div className="w-full">
-          <div
-            className="flex justify-between items-center rounded-2xl cursor-pointer px-4 py-3 hover:bg-primary-100"
-            onClick={onOpen}
-          >
-            <div className="flex items-center gap-3">
-              {icon && <Icon icon={icon} height="1.5rem" />}
-              <h4 className="font-semibold text-lg">{title}</h4>
-            </div>
-            <span
-              className={`transition-transform duration-300 ease-in-out ${isOpen ? 'rotate-90' : 'rotate-0'}`}
-            >
-              <Icon icon="mage:chevron-down" height="1.5rem" />
-            </span>
-          </div>
-          <div
-            ref={contentRef}
-            className={`overflow-hidden transition-all duration-300 ease-in-out`}
-            style={{ height }}
-          >
-            <p className="px-4 py-1 bg-background text-primary-700 text-pretty">
-              {content}
-            </p>
-          </div>
+    <div className="w-full">
+      <div
+        className={cn("flex justify-between items-center rounded-2xl cursor-pointer px-4 py-3 hover:bg-primary-100", titleClass)}
+        onClick={onOpen}
+      >
+        <div className="flex items-center gap-3">
+          {icon && <Icon icon={icon} className={iconClass}/>}
+          <h4>{title}</h4>
         </div>
-      )}
-    </>
+        <span
+          className={`transition-transform duration-300 ease-in-out ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+        >
+          <Icon icon="mage:chevron-down" className={iconClass} />
+        </span>
+      </div>
+      <div
+        ref={contentRef}
+        className={`overflow-hidden transition-all duration-300 ease-in-out`}
+        style={{ height }}
+      >
+        {children ?? 
+          <p className={cn("px-4 py-1 bg-background text-primary-700 text-pretty", contentClass)}>
+            {content}
+          </p>
+        }
+      </div>
+    </div>
   )
 }
 
-const Accordion = ({ items, activeIndex }: AccordionProps) => {
+export const Accordion = ({ items, activeIndex, children }: AccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(activeIndex ?? null)
 
   const handleToggle = (index: number) => {
@@ -79,19 +87,21 @@ const Accordion = ({ items, activeIndex }: AccordionProps) => {
 
   return (
     <ul className="w-full flex flex-col gap-4 3xl:gap-2">
-      {items.map((item, index) => (
-        <li key={index}>
-          <AccordionItem
-            title={item.title}
-            icon={item.icon}
-            content={item.content}
-            isOpen={openIndex === index}
-            onOpen={() => handleToggle(index)}
-          />
-        </li>
-      ))}
+      {children ??  
+        <>
+          {items?.map((item, index) => (
+            <li key={index}>
+              <AccordionItem
+                title={item.title}
+                icon={item.icon}
+                content={item.content}
+                isOpen={openIndex === index}
+                onOpen={() => handleToggle(index)}
+              />
+            </li>
+          ))}
+        </>
+      }
     </ul>
   )
 }
-
-export default Accordion

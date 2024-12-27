@@ -26,7 +26,7 @@ export const buttonVariants = cva(btnBase, {
     size: {
       small: ['py-2', 'px-4', , 'rounded-xl', 'text-sm'],
       default: ['py-3.5', 'px-6', 'max-h-[52px]', 'rounded-2xl', 'text-base'],
-      icon: ['p-2', 'rounded-full', 'text-base']
+      icon: ['p-2', 'rounded-full', 'text-xl']
     }
   },
   compoundVariants: [
@@ -139,20 +139,19 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
-  const iconSize = size === 'small' ? 'text-base' : 'text-xl'
 
   const btnContent = loading ? (
     <>
-      <Icon icon="svg-spinners:180-ring" className={iconSize} />
+      <Icon icon="svg-spinners:180-ring" />
       {label || children}
     </>
   ) : size === 'icon' && icon ? (
-    <Icon icon={icon} className={iconSize} />
+    <Icon icon={icon} />
   ) : (
     <>
-      {iconPrepend && <Icon icon={iconPrepend} className={iconSize} />}
+      {iconPrepend && <Icon icon={iconPrepend} />}
       {label || children}
-      {iconAppend && <Icon icon={iconAppend} className={iconSize} />}
+      {iconAppend && <Icon icon={iconAppend} />}
     </>
   )
 

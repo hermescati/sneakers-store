@@ -40,11 +40,21 @@ const UserAccount = ({ user }: { user: User | null }) => {
   const dropdownItems: DropdownItem[] = user
     ? [
         { value: 'email', label: user.email, type: 'header' },
+        ...(isAdmin
+          ? [
+              {
+                value: 'dashboard',
+                label: 'Admin Dashboard',
+                icon: 'mage:dashboard',
+                action: () => router.push('/admin'),
+              },
+            ]
+          : []),
         {
-          value: isAdmin ? 'dashboard' : 'orders',
-          label: isAdmin ? 'Admin Dashboard' : 'My Orders',
-          icon: isAdmin ? 'mage:dashboard' : 'mage:box',
-          action: () => router.push(isAdmin ? '/admin' : '/orders')
+          value: 'orders',
+          label: 'My Orders',
+          icon: 'mage:box',
+          action: () => router.push('/orders')
         },
         {
           value: 'theme',
@@ -67,25 +77,22 @@ const UserAccount = ({ user }: { user: User | null }) => {
     <>
       {user ? (
         <DropdownMenu id="account-dropdown" items={dropdownItems}>
-          <div className="flex items-center gap-4 mx-3 my-1.5">
-            <div className="relative flex justify-center items-center aspect-square border border-primary-300 bg-primary-200 rounded-full w-10 h-10">
-              <Icon icon="solar:user-bold-duotone" className="text-2xl" />
+          <div className="flex items-center gap-3 mx-3 my-1.5">
+            <div className="relative flex justify-center items-center aspect-square border border-primary-300 bg-primary-200 rounded-full w-8 h-8">
+              <Icon icon="solar:user-bold-duotone" className="text-xl" />
             </div>
-            <div className="flex flex-col items-start">
-              <span className="font-normal text-sm text-primary-600">
-                Hi, {user.firstName}
-              </span>
-              <h4 className="font-semibold text-md text-primary-700">
-                {user.firstName + ' ' + user.lastName}
-              </h4>
-            </div>
+            <h4 className="flex-1 font-semibold text-md text-primary-700">
+              Hi, {user.firstName}
+            </h4>
           </div>
         </DropdownMenu>
       ) : (
         <Button
           href="/login"
           label="Sign in"
-          className="py-4 text-base rounded-2xl"
+          size="small"
+          variant="outline"
+          className="border-primary-500 text-primary-600 text-base hover:background-primary-200"
         />
       )}
     </>
