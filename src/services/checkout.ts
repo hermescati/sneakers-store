@@ -131,11 +131,9 @@ export async function getShippingRates() {
 
 export async function validateDiscountCode(couponCode: string) {
   const { data: coupons } = await stripeClient.coupons.list()
-
   const coupon = coupons.find((c) => c.name === couponCode)
 
   if (!coupon) return { code: 404, message: 'NOT_FOUND' }
-
   if (!coupon.valid) return { code: 400, message: 'COUPON_NOT_VALID' }
 
   return { code: 200, message: 'OK', coupon }

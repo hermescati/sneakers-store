@@ -98,6 +98,19 @@ export async function getUser() {
     }
   )
 
-  const { user } = (await response.json()) as { user: User | null }
+  if (!response.ok) {
+    console.error("Error in fetching user data.")
+    throw new Error(`Error fetching user: ${response.text()}`)
+  }
+
+  let data: {user: User | null}
+  try {
+    data = (await response.json()) as {user: User | null}
+  } catch (err) {
+    console.error("Error parsin JSON data", err)
+    throw new Error(`Failed to parse JSON response.`)
+  }
+
+  const { user } = data;
   return { user }
 }
