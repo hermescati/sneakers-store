@@ -73,7 +73,7 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
               </ul>
             </div>
 
-            {/* Featured Modesl */}
+            {/* Featured Models */}
             {item.featured && !!item.featured.length && (
               <div className="flex flex-col gap-3">
                 <h3 className="font-semibold text-foreground">Popular</h3>

@@ -40,7 +40,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
 
   return (
     <>
-      <ul ref={navRef} className="flex gap-4 justify-between h-full py-4">
+      <ul ref={navRef} className="flex gap-4 justify-between h-full pt-2 pb-3">
         {items.map((item, index) => (
           <li
             key={item.name}
