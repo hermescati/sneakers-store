@@ -32,26 +32,21 @@ export async function getProducts({ query, limit, sort }: QueryParams) {
   }
 }
 
-export async function searchProducts(query: string, category: string):Promise<Partial<Product>[]> {
-  console.log({query, category})
-  return [
-    { 
-      id: "result_1",
-      brand: "Nike",
-      model: "Air Force 1",
-      nickname: "Travis Scott - Cactus Jack",
-      size_category: "mens",
-      images: [{ image: "/mens-shoes-collection.jpg" }] 
-    },
-    { 
-      id: "result_2",
-      brand: "Nike",
-      model: "Air Force 1",
-      nickname: "Travis Scott - Cactus Jack",
-      size_category: "mens",
-      images: [{ image: "/mens-shoes-collection.jpg" }] 
-    }
-  ]
+export async function searchProducts(query: string, category?: string):Promise<Product[]> {
+  console.log({query})
+  
+  const queryClause: Where = {
+    or: [
+      { "brand.name": { like: query} },
+      { "model.name": { like: query} },
+      { name: { like: query}},
+      { nickname: { like: query}}
+    ]
+  }
+
+  const {products} = await getProducts({query: queryClause, limit: 6})
+  console.log(products)
+  return products
 }
 
 export async function getProduct(productId: Product['id']) {

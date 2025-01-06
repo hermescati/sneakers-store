@@ -26,10 +26,8 @@ const Navbar = async () => {
               </Link>
             </div>
 
-            {/* <MobileNav items={navItems} user={user}/> */}
-            <SearchBar />
-
-            <div className="hidden lg:flex lg:flex-grow items-center gap-12">
+            <div className="hidden lg:flex lg:flex-grow items-center lg:gap-14">
+              <SearchBar />
               <div className="relative lg:flex lg:gap-x-4 lg:flex-1 lg:items-center lg:justify-end transition-all duration-300 ease-in-out">
                 {/* Cart */}
                 <NavCart />
@@ -46,7 +44,10 @@ const Navbar = async () => {
                 <UserAccount user={user} />
               </div>
             </div>
+
+            <MobileNav items={navItems} user={user}/>
           </div>
+          
 
           {/* Nav Links */}
           <div className="hidden z-20 lg:block lg:self-stretch">
