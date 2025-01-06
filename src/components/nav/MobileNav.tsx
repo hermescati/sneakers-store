@@ -12,11 +12,14 @@ import { AccordionItem } from '../base/Accordion'
 import Button from '../base/Button'
 import Link from '../base/Link'
 import { useCart } from '@/hooks/use-cart'
+import { useSearch } from '@/hooks/use-search'
 
 // TODO: Add a sliding animation to it
 const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const { expandSearch, closeSearch } = useSearch()
 
   const navRef = useRef<HTMLDivElement>(null!)
   useOnClickOutside(navRef, () => setIsOpen(false))
@@ -90,6 +93,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
           size="icon"
           icon="solar:rounded-magnifer-linear"
           className="p-2 inline-flex items-center justify-center rounded-full text-xl"
+          onClick={expandSearch}
         />
         <div className="flex">
           <span
