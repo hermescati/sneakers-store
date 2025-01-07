@@ -1,0 +1,24 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+#
+
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      stage_fixed: true
+      glob: "*.{js,ts,jsx,tsx}"
+      run: pnpm lint --fix {staged_files} --quiet
+
+pre-push:
+  commands:
+    packages-audit:
+      tags: frontend security
+      run: pnpm audit
+    lint:
+      run: pnpm lint . --quiet
+    typecheck:
+      run: pnpm typecheck
+
