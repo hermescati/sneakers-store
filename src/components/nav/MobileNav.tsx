@@ -1,5 +1,8 @@
 'use client'
 
+import { useCart } from '@/hooks/use-cart'
+import useOnKeyPress from '@/hooks/use-keypress'
+import { useSearch } from '@/hooks/use-search'
 import { NavItem } from '@/types'
 import { User } from '@/types/payload'
 import { cn } from '@/utils'
@@ -11,17 +14,16 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { AccordionItem } from '../base/Accordion'
 import Button from '../base/Button'
 import Link from '../base/Link'
-import { useCart } from '@/hooks/use-cart'
-import { useSearch } from '@/hooks/use-search'
 
 // TODO: Add a sliding animation to it
 const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const { expandSearch, closeSearch } = useSearch()
+  const { expandSearch } = useSearch()
 
   const navRef = useRef<HTMLDivElement>(null!)
+  useOnKeyPress({ key: 'm', ctrl: true, preventDefault: true }, () => setIsOpen(true))
   useOnClickOutside(navRef, () => setIsOpen(false))
 
   const router = useRouter()
@@ -34,23 +36,23 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
 
   const dropdownItems = user
     ? [
-        ...(user && user.role === 'admin'
-          ? [
-              {
-                value: 'dashboard',
-                label: 'Admin Dashboard',
-                icon: 'mage:dashboard',
-                action: '/admin',
-              },
-            ]
-          : []),
-        {
-          value: 'orders',
-          label: 'My Orders',
-          icon: 'mage:box',
-          action: '/orders'
-        }
-      ]
+      ...(user && user.role === 'admin'
+        ? [
+          {
+            value: 'dashboard',
+            label: 'Admin Dashboard',
+            icon: 'mage:dashboard',
+            action: '/admin',
+          },
+        ]
+        : []),
+      {
+        value: 'orders',
+        label: 'My Orders',
+        icon: 'mage:box',
+        action: '/orders'
+      }
+    ]
     : []
 
   const closeOnCurrent = (href: string) => {
@@ -146,7 +148,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                     href="/cart"
                     className="p-2.5 inline-flex items-center justify-center rounded-full text-[1.5rem]"
                   />
-                  {cartItems.length > 0 && 
+                  {cartItems.length > 0 &&
                     <span className="absolute top-2 right-1.5 bg-secondary rounded-full w-2 h-2">
                     </span>
                   }
@@ -169,14 +171,14 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
               {/* User routes */}
               {user && <ul className="divide-y divide-gray-100">
                 {dropdownItems.map((item) =>
-                <li key={item.value}>
-                  <Link
-                    href={item.action}
-                    className='flex gap-3 items-center px-3 py-4 font-medium rounded cursor-pointer hover:bg-primary-100'>
+                  <li key={item.value}>
+                    <Link
+                      href={item.action}
+                      className='flex gap-3 items-center px-3 py-4 font-medium rounded cursor-pointer hover:bg-primary-100'>
                       {item.icon && <Icon icon={item.icon} className="text-2xl" />}
                       <span>{item.label}</span>
-                  </Link>
-                </li>
+                    </Link>
+                  </li>
                 )}
               </ul>}
               {/* Links */}
@@ -189,10 +191,11 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                         onClick={() => closeOnCurrent(item.href!)}
                         className={cn(
                           "inline-flex w-full px-3 py-4 rounded font-semibold",
-                          { "hover:bg-primary-100": item.href,
+                          {
+                            "hover:bg-primary-100": item.href,
                             "text-secondary hover:text-secondary!": item.name === 'On Sale'
                           })}>
-                          {item.name}
+                        {item.name}
                       </Link>
                       :
                       <AccordionItem
@@ -201,17 +204,17 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                         iconClass='w-5 h-5'
                         isOpen={openIndex === index}
                         onOpen={() => handleToggle(index)}>
-                          <ul className='grid grid-cols-2 md:grid-cols-3 px-3 pt-1 pb-4'>
-                            {item.featured.map((ft) =>
-                              <Link
-                                key={ft.name}
-                                underline
-                                onClick={() => closeOnCurrent(ft.href!)}
-                                className='w-fit py-0.5 font-medium text-md'>
-                                {ft.name}
-                              </Link>
-                            )}
-                          </ul>
+                        <ul className='grid grid-cols-2 md:grid-cols-3 px-3 pt-1 pb-4'>
+                          {item.featured.map((ft) =>
+                            <Link
+                              key={ft.name}
+                              underline
+                              onClick={() => closeOnCurrent(ft.href!)}
+                              className='w-fit py-0.5 font-medium text-md'>
+                              {ft.name}
+                            </Link>
+                          )}
+                        </ul>
                       </AccordionItem>
                     }
                   </li>
@@ -227,14 +230,14 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                 variant="outline"
                 className="w-full py-2.5 text-base border-primary-500 text-primary-600"
                 onClick={handleLogout}
-                />
-              : <div>
-                <Button
+              />
+                : <div>
+                  <Button
                     href="/login"
                     label="Sign in"
                     size="small"
-                    className="w-full py-3 text-base"/>
-              </div>
+                    className="w-full py-3 text-base" />
+                </div>
               }
             </div>
           </div>

@@ -13,6 +13,7 @@ const NavCart = () => {
 
   const cartRef = useRef<HTMLDivElement>(null!)
   const buttonRef = useRef<HTMLButtonElement>(null!)
+  
   useOnClickOutside(cartRef, (event) => {
     if (buttonRef.current && buttonRef.current.contains(event.target as Node))
       return
