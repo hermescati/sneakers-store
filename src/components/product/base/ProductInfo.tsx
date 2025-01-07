@@ -1,4 +1,4 @@
-import Accordion, { AccordionItem } from '@/components/base/Accordion'
+import { Accordion, AccordionItem } from '@/components/base/Accordion'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter, cn, formatPrice, getProductInfo } from '@/utils'
 import { format } from 'date-fns'

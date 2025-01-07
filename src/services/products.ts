@@ -11,13 +11,25 @@ type QueryParams = {
   sort?: string
 }
 
+export async function getProduct(productId: Product['id']) {
+  const payload = await getPayload({ config: configPromise })
+
+  const product = await payload.findByID({
+    collection: 'products',
+    id: productId,
+    depth: 2
+  })
+
+  return product
+}
+
 export async function getProducts({ query, limit, sort }: QueryParams) {
   const payload = await getPayload({ config: configPromise })
 
   const {
     docs: products,
     hasNextPage,
-    nextPage
+    nextPage,
   } = await payload.find({
     collection: 'products',
     where: query,
@@ -32,18 +44,61 @@ export async function getProducts({ query, limit, sort }: QueryParams) {
   }
 }
 
-export async function getProduct(productId: Product['id']) {
+export async function getBrands({ query, limit, sort }: QueryParams) {
   const payload = await getPayload({ config: configPromise })
 
-  const product = await payload.findByID({
-    collection: 'products',
-    id: productId,
-    depth: 2
+  const { docs: brands } = await payload.find({
+    collection: 'brands',
+    where: query,
+    limit,
+    sort,
+    depth: 0
   })
 
-  return product
+  return brands
 }
 
+export async function getCollections({ query, limit, sort }: QueryParams) {
+  const payload = await getPayload({ config: configPromise })
+
+  const {
+    docs: collections,
+    hasNextPage,
+    nextPage
+  } = await payload.find({
+    collection: 'collections',
+    where: query,
+    limit,
+    sort,
+    depth: 1
+  })
+
+  return {
+    collections,
+    nextPage: hasNextPage && nextPage
+  }
+}
+
+export async function searchProducts(query: string, category?: string):Promise<Product[]> {
+  const queryClause: Where = {
+    and: [
+      ...(category ? [{ "size_category": { equals: category } }] : []),
+      {
+        or: [
+          { "brand.name": { like: query } },
+          { "model.name": { like: query } },
+          { name: { like: query } },
+          { nickname: { like: query } }
+        ]
+      }
+    ]
+  }
+
+  const { products } = await getProducts({ query: queryClause, limit: 6 })
+  return products
+}
+
+// TODO: Adjust the algorithm to not pick up the current product
 export async function getRelatedProducts(product: Product, limit = 6) {
   let products: Product[] = []
 
@@ -90,39 +145,4 @@ export async function getRelatedProducts(product: Product, limit = 6) {
 
   // Randomly shuffle the array of products
   return shuffleArray(products).slice(0, limit)
-}
-
-export async function getBrands({ query, limit, sort }: QueryParams) {
-  const payload = await getPayload({ config: configPromise })
-
-  const { docs: brands } = await payload.find({
-    collection: 'brands',
-    where: query,
-    limit,
-    sort,
-    depth: 0
-  })
-
-  return brands
-}
-
-export async function getCollections({ query, limit, sort }: QueryParams) {
-  const payload = await getPayload({ config: configPromise })
-
-  const {
-    docs: collections,
-    hasNextPage,
-    nextPage
-  } = await payload.find({
-    collection: 'collections',
-    where: query,
-    limit,
-    sort,
-    depth: 1
-  })
-
-  return {
-    collections,
-    nextPage: hasNextPage && nextPage
-  }
 }

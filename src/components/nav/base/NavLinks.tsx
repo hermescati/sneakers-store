@@ -39,8 +39,8 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   }, [activeIndex])
 
   return (
-    <>
-      <ul ref={navRef} className="flex gap-4 justify-between h-full py-4">
+    <div className="hidden z-20 lg:block lg:self-stretch">
+      <ul ref={navRef} className="flex gap-4 justify-between h-full pt-2 pb-3">
         {items.map((item, index) => (
           <li
             key={item.name}
@@ -71,7 +71,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
           }}
         />
       )}
-    </>
+    </div>
   )
 }
 
