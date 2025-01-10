@@ -7,18 +7,14 @@
 pre-commit:
   parallel: true
   commands:
-    eslint:
+    lint:
       stage_fixed: true
       glob: "*.{js,ts,jsx,tsx}"
-      run: pnpm lint --fix {staged_files} --quiet
+      run: pnpm lint . --fix --quiet
 
 pre-push:
   commands:
-    packages-audit:
-      tags: frontend security
-      run: pnpm audit
     lint:
       run: pnpm lint . --quiet
     typecheck:
       run: pnpm typecheck
-

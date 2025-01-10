@@ -104,16 +104,16 @@ export const generateNavLink = (
 ) =>
   `/sneakers?brand=${encodeURIComponent(brandName)}&${type}=${encodeURIComponent(itemName)}`
 
-export const constructCouponMetadata = (banner: Event) => {
+export const constructCouponMetadata = (event: Event) => {
   const metadata: Stripe.MetadataParam = {}
 
-  if (banner.appliedToAll) {
+  if (event.appliedToAll) {
     metadata['targetAll'] = "true"
     return metadata
   }
 
-  if (Array.isArray(banner.appliedTo) && banner.appliedTo.length > 0) {
-    banner.appliedTo.forEach(({ relationTo, value }) => {
+  if (Array.isArray(event.appliedTo) && event.appliedTo.length > 0) {
+    event.appliedTo.forEach(({ relationTo, value }) => {
       const key = `target_${relationTo}`
       metadata[key] = value as string
     })
