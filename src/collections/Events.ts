@@ -1,26 +1,26 @@
 import { createDiscountCode, updateDiscountCode } from "@/services/coupons";
-import { Banner } from "@/types/payload";
+import { Event } from "@/types/payload";
 import { CollectionBeforeChangeHook, CollectionConfig } from "payload";
 
 const handleStripeCoupon: CollectionBeforeChangeHook = async ({ operation, data }) => {
-    const banner = data as Banner
-    if (banner.type !== 'discount') return banner
+    const event = data as Event
+    if (event.type !== 'discount') return event
 
     try {
         let codeId: string | undefined
 
         if (operation === 'create') {
-            codeId = await createDiscountCode(banner)
+            codeId = await createDiscountCode(event)
         } else if (operation === 'update') {
-            codeId = await updateDiscountCode(banner)
+            codeId = await updateDiscountCode(event)
         }
 
         if (!codeId) throw new Error('The promo code could not be generated. Please try again.')
 
         return {
-            ...banner,
+            ...event,
             discount: {
-                ...banner.discount,
+                ...event.discount,
                 stripeId: codeId
             }
         }
@@ -30,11 +30,11 @@ const handleStripeCoupon: CollectionBeforeChangeHook = async ({ operation, data 
     }
 }
 
-export const Banners: CollectionConfig = {
-    slug: 'banners',
+export const Events: CollectionConfig = {
+    slug: 'events',
     labels: {
-        singular: 'Banner',
-        plural: 'Banners'
+        singular: 'Event',
+        plural: 'Events'
     },
     hooks: {
         beforeChange: [handleStripeCoupon]
