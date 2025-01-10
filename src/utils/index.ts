@@ -1,7 +1,8 @@
 import { CartItem } from '@/hooks/use-cart'
 import { ProductSize } from '@/types'
-import { Product } from '@/types/payload'
+import { Banner, Product } from '@/types/payload'
 import { ClassValue, clsx } from 'clsx'
+import Stripe from 'stripe'
 import { twMerge } from 'tailwind-merge'
 
 export const cn = (...inputs: ClassValue[]) => {
@@ -102,3 +103,21 @@ export const generateNavLink = (
   itemName: string
 ) =>
   `/sneakers?brand=${encodeURIComponent(brandName)}&${type}=${encodeURIComponent(itemName)}`
+
+export const constructCouponMetadata = (banner: Banner) => {
+  const metadata: Stripe.MetadataParam = {}
+
+  if (banner.appliedToAll) {
+    metadata['targetAll'] = "true"
+    return metadata
+  }
+
+  if (Array.isArray(banner.appliedTo) && banner.appliedTo.length > 0) {
+    banner.appliedTo.forEach(({ relationTo, value }) => {
+      const key = `target_${relationTo}`
+      metadata[key] = value as string
+    })
+  }
+
+  return metadata
+}

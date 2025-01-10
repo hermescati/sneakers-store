@@ -1,4 +1,5 @@
 import {
+  Banners,
   Brands,
   Collections,
   Media,
@@ -26,7 +27,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname), },
   },
   secret: process.env.PAYLOAD_SECRET || '',
-  collections: [Users, Media, Brands, Models, Collections, Products, Orders],
+  collections: [Users, Media, Brands, Models, Collections, Products, Orders, Banners],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
