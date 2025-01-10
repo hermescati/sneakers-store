@@ -18,6 +18,7 @@ export interface Config {
     collections: Collection;
     products: Product;
     orders: Order;
+    banners: Banner;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -31,6 +32,7 @@ export interface Config {
     collections: CollectionsSelect<false> | CollectionsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
+    banners: BannersSelect<false> | BannersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -244,6 +246,54 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners".
+ */
+export interface Banner {
+  id: string;
+  title: string;
+  description: string;
+  type: 'discount' | 'drop' | 'spotlight';
+  ctaLabel: string;
+  appliedTo?:
+    | (
+        | {
+            relationTo: 'brands';
+            value: string | Brand;
+          }
+        | {
+            relationTo: 'models';
+            value: string | Model;
+          }
+        | {
+            relationTo: 'collections';
+            value: string | Collection;
+          }
+      )[]
+    | null;
+  /**
+   * You can also create a new product directly from here
+   */
+  product?: (string | null) | Product;
+  appliedToAll?: boolean | null;
+  /**
+   * Upload a banner image, e.g., 1920x1080px for best quality.
+   */
+  image: string | Media;
+  discount?: {
+    stripeId?: string | null;
+    code: string;
+    type: 'percent_off' | 'amount_off';
+    value: number;
+    startDate?: string | null;
+    endDate?: string | null;
+    maxRedemptions?: number | null;
+    minAmount?: number | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -276,6 +326,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'orders';
         value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'banners';
+        value: string | Banner;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -500,6 +554,34 @@ export interface OrdersSelect<T extends boolean = true> {
         status?: T;
         timestamp?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners_select".
+ */
+export interface BannersSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  type?: T;
+  ctaLabel?: T;
+  appliedTo?: T;
+  product?: T;
+  appliedToAll?: T;
+  image?: T;
+  discount?:
+    | T
+    | {
+        stripeId?: T;
+        code?: T;
+        type?: T;
+        value?: T;
+        startDate?: T;
+        endDate?: T;
+        maxRedemptions?: T;
+        minAmount?: T;
       };
   updatedAt?: T;
   createdAt?: T;
