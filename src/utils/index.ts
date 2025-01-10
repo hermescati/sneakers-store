@@ -1,6 +1,6 @@
 import { CartItem } from '@/hooks/use-cart'
 import { ProductSize } from '@/types'
-import { Banner, Product } from '@/types/payload'
+import { Event, Product } from '@/types/payload'
 import { ClassValue, clsx } from 'clsx'
 import Stripe from 'stripe'
 import { twMerge } from 'tailwind-merge'
@@ -104,7 +104,7 @@ export const generateNavLink = (
 ) =>
   `/sneakers?brand=${encodeURIComponent(brandName)}&${type}=${encodeURIComponent(itemName)}`
 
-export const constructCouponMetadata = (banner: Banner) => {
+export const constructCouponMetadata = (banner: Event) => {
   const metadata: Stripe.MetadataParam = {}
 
   if (banner.appliedToAll) {
