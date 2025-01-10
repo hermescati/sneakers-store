@@ -1,9 +1,13 @@
-import { Users } from './Users'
-import { Media } from './Media'
 import { Brands } from './Brands'
-import { Models } from './Models'
 import { Collections } from './Collections'
-import { Products } from './Products'
+import { Events } from './Events'
+import { Media } from './Media'
+import { Models } from './Models'
 import { Orders } from './Orders'
+import { Products } from './Products'
+import { Users } from './Users'
 
-export { Users, Media, Products, Brands, Models, Collections, Orders }
+export {
+    Brands, Collections, Events, Media, Models, Orders, Products, Users
+}
+

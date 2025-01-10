@@ -12,12 +12,13 @@ export interface Config {
   };
   collections: {
     users: User;
-    media: Media;
+    products: Product;
+    orders: Order;
+    events: Event;
     brands: Brand;
     models: Model;
     collections: Collection;
-    products: Product;
-    orders: Order;
+    media: Media;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -25,12 +26,13 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     collections: CollectionsSelect<false> | CollectionsSelect<true>;
-    products: ProductsSelect<false> | ProductsSelect<true>;
-    orders: OrdersSelect<false> | OrdersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -91,6 +93,60 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  sku: string;
+  brand: string | Brand;
+  model: string | Model;
+  name?: string | null;
+  nickname?: string | null;
+  colorway: string;
+  collection?: (string | null) | Collection;
+  description?: string | null;
+  release_date?: string | null;
+  size_category: 'mens' | 'womens' | 'kids';
+  retail_price: number;
+  sizes: {
+    size: number;
+    price: number;
+    discount?: number | null;
+    stock: number;
+    id?: string | null;
+  }[];
+  images: {
+    image: string | Media;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: string;
+  brand: string | Brand;
+  name: string;
+  featured?: boolean | null;
+  image?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -136,29 +192,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands".
- */
-export interface Brand {
-  id: string;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models".
- */
-export interface Model {
-  id: string;
-  brand: string | Brand;
-  name: string;
-  featured?: boolean | null;
-  image?: (string | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collections".
  */
 export interface Collection {
@@ -167,37 +200,6 @@ export interface Collection {
   name: string;
   featured?: boolean | null;
   image?: (string | null) | Media;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: string;
-  sku: string;
-  brand: string | Brand;
-  model: string | Model;
-  name?: string | null;
-  nickname?: string | null;
-  colorway: string;
-  collection?: (string | null) | Collection;
-  description?: string | null;
-  release_date?: string | null;
-  size_category: 'mens' | 'womens' | 'kids';
-  retail_price: number;
-  sizes: {
-    size: number;
-    price: number;
-    discount?: number | null;
-    stock: number;
-    id?: string | null;
-  }[];
-  images: {
-    image: string | Media;
-    id?: string | null;
-  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -244,6 +246,54 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: string;
+  title: string;
+  description: string;
+  type: 'discount' | 'drop' | 'spotlight';
+  ctaLabel: string;
+  appliedTo?:
+    | (
+        | {
+            relationTo: 'brands';
+            value: string | Brand;
+          }
+        | {
+            relationTo: 'models';
+            value: string | Model;
+          }
+        | {
+            relationTo: 'collections';
+            value: string | Collection;
+          }
+      )[]
+    | null;
+  /**
+   * You can also create a new product directly from here
+   */
+  product?: (string | null) | Product;
+  appliedToAll?: boolean | null;
+  /**
+   * Upload a banner image, e.g., 1920x1080px for best quality.
+   */
+  image: string | Media;
+  discount?: {
+    stripeId?: string | null;
+    code: string;
+    type: 'percent_off' | 'amount_off';
+    value: number;
+    startDate?: string | null;
+    endDate?: string | null;
+    maxRedemptions?: number | null;
+    minAmount?: number | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -254,8 +304,16 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: string | Event;
       } | null)
     | ({
         relationTo: 'brands';
@@ -270,12 +328,8 @@ export interface PayloadLockedDocument {
         value: string | Collection;
       } | null)
     | ({
-        relationTo: 'products';
-        value: string | Product;
-      } | null)
-    | ({
-        relationTo: 'orders';
-        value: string | Order;
+        relationTo: 'media';
+        value: string | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -338,91 +392,6 @@ export interface UsersSelect<T extends boolean = true> {
   _verificationToken?: T;
   loginAttempts?: T;
   lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        smartphone?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        tablet?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands_select".
- */
-export interface BrandsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models_select".
- */
-export interface ModelsSelect<T extends boolean = true> {
-  brand?: T;
-  name?: T;
-  featured?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collections_select".
- */
-export interface CollectionsSelect<T extends boolean = true> {
-  brand?: T;
-  name?: T;
-  featured?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -503,6 +472,119 @@ export interface OrdersSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  type?: T;
+  ctaLabel?: T;
+  appliedTo?: T;
+  product?: T;
+  appliedToAll?: T;
+  image?: T;
+  discount?:
+    | T
+    | {
+        stripeId?: T;
+        code?: T;
+        type?: T;
+        value?: T;
+        startDate?: T;
+        endDate?: T;
+        maxRedemptions?: T;
+        minAmount?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models_select".
+ */
+export interface ModelsSelect<T extends boolean = true> {
+  brand?: T;
+  name?: T;
+  featured?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_select".
+ */
+export interface CollectionsSelect<T extends boolean = true> {
+  brand?: T;
+  name?: T;
+  featured?: T;
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        smartphone?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
