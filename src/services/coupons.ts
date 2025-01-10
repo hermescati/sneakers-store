@@ -1,5 +1,5 @@
 import { stripeClient } from "@/lib/stripe";
-import { Banner } from "@/types/payload";
+import { Event } from "@/types/payload";
 import { constructCouponMetadata } from "@/utils";
 import Stripe from "stripe";
 
@@ -46,12 +46,9 @@ async function createStripePromoCode(codeData: Stripe.PromotionCodeCreateParams)
     }
 }
 
-async function retrievePromoCode(couponId: string) {
+async function retrievePromoCode(codeId: string) {
     try {
-        const { data: codes } = await stripeClient.promotionCodes.list()
-        const promoCode = codes.find((pc) => pc.coupon.id === couponId)
-
-        if (!promoCode || !promoCode.id) return { code: 404, message: 'NOT FOUND' }
+        const promoCode = await stripeClient.promotionCodes.retrieve(codeId)
         return {
             code: 200,
             message: 'OK',
@@ -63,7 +60,7 @@ async function retrievePromoCode(couponId: string) {
     }
 }
 
-export async function createDiscountCode(data: Banner) {
+export async function createDiscountCode(data: Event) {
     if (!data.discount) return
 
     const {
@@ -105,21 +102,22 @@ export async function createDiscountCode(data: Banner) {
     return codeId
 }
 
-export async function updateDiscountCode(data: Banner) {
+export async function updateDiscountCode(data: Event) {
     if (!data.discount) return
 
-    const { code, stripeId } = data.discount
-    const updatedCouponData: Stripe.CouponUpdateParams = { 
-        name: code,
+    const { stripeId } = data.discount
+    if (!stripeId) return
+
+    const { code: lol, data: promoCode } = await retrievePromoCode(stripeId)
+    if (lol === 500 || !promoCode) return
+
+    const updatedCouponData: Stripe.CouponUpdateParams = {
+        name: data.title,
         metadata: constructCouponMetadata(data)
     }
 
-    if (!stripeId) return
-    const { code: couponStatus, data: couponId } = await updateStripeCoupon(stripeId, updatedCouponData)
+    const { code: couponStatus, data: couponId } = await updateStripeCoupon(promoCode.coupon.id, updatedCouponData)
     if (couponStatus !== 200 || !couponId) return
-
-    const { code: promoStatus, data: promoCode } = await retrievePromoCode(couponId)
-    if (promoStatus !== 200 || !promoCode) return
 
     return promoCode.id;
 }

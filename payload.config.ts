@@ -1,7 +1,7 @@
 import {
-  Banners,
   Brands,
   Collections,
+  Events,
   Media,
   Models,
   Orders,
@@ -9,9 +9,9 @@ import {
   Users
 } from '@/collections'
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import nodemailer from 'nodemailer'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -27,7 +27,7 @@ export default buildConfig({
     importMap: { baseDir: path.resolve(dirname), },
   },
   secret: process.env.PAYLOAD_SECRET || '',
-  collections: [Users, Media, Brands, Models, Collections, Products, Orders, Banners],
+  collections: [Users, Products, Orders, Events, Brands, Models, Collections, Media],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
@@ -36,13 +36,13 @@ export default buildConfig({
   }),
   plugins: process.env.BLOB_READ_WRITE_TOKEN
     ? [
-        vercelBlobStorage({
-          collections: {
-            [Media.slug]: true
-          },
-          token: process.env.BLOB_READ_WRITE_TOKEN || ''
-        })
-      ]
+      vercelBlobStorage({
+        collections: {
+          [Media.slug]: true
+        },
+        token: process.env.BLOB_READ_WRITE_TOKEN || ''
+      })
+    ]
     : [],
   email: nodemailerAdapter({
     defaultFromAddress: `${process.env.EMAIL_FROM_ADDRESS}`,
