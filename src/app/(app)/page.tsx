@@ -3,9 +3,13 @@ import PerksSection from '@/components/home/PerksSection'
 import MainContainer from '@/components/MainContainer'
 import ProductCollection from '@/components/product/ProductCollection'
 import ProductReel from '@/components/product/ProductReel'
+import EventSlider from '@/components/slider/EventSlider'
+import { getEvents } from '@/services/events'
 import { getCollections, getProducts } from '@/services/products'
 
 const Home = async () => {
+  const { events } = await getEvents()
+
   const { products: newReleases } = await getProducts({
     limit: 6,
     sort: '-release_date'
@@ -43,9 +47,9 @@ const Home = async () => {
 
   // TODO: Add width and height to the icons so the layout wont shift
   return (
-    <MainContainer className="flex flex-col gap-10 py-8 md:pb-12">
-      {/* Banner Carousel */}
-      <div className="aspect-video xl:aspect-[16/5] rounded-2xl bg-primary-200"></div>
+    <MainContainer className="flex flex-col gap-10 py-6 md:py-8 md:pb-12">
+      {/* Events Carousel */}
+      <EventSlider events={events} />
 
       {/* Latest Releases */}
       <ProductReel
