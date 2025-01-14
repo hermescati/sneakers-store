@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import Link from 'next/link'
 import { ComponentPropsWithoutRef } from 'react'
 
+// TODO: Find a way to handle icon size
 const btnBase = `
     flex items-center justify-center gap-3
     font-semibold whitespace-nowrap
