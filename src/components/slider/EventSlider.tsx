@@ -3,14 +3,71 @@
 import { Event } from "@/types/payload"
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from 'sonner'
 import type SwiperType from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Autoplay, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Image from "next/image"
+import { useMediaQuery } from "usehooks-ts"
 import Button from "../base/Button"
+
+const EventItem = ({ event }: { event: Event }) => {
+    const router = useRouter()
+
+    // TODO: Optimize the return image sizes according to device size
+    const getCoverImage = () => {
+        return typeof event.image === 'string' ? event.image : event.image.url
+    }
+
+    const handleOnClick = () => {
+        if (event.type === 'drop' && !!event.product) {
+            const productId = typeof event.product === 'string' ? event.product : event.product.id
+            router.push(`/sneakers/${productId}`)
+            return
+        }
+        if (event.type === 'spotlight' && event.appliedTo && event.appliedTo?.length > 0) {
+            const relation = event.appliedTo[0].relationTo
+            const relationId = typeof event.appliedTo[0].value !== 'string' ? event.appliedTo[0].value.id : event.appliedTo[0].value
+            router.push(`/sneakers?${relation}=${relationId}`)
+            return
+        }
+
+        // TODO: Apply coupon to cart for discounts
+        toast.success('Code copied to clipboard.')
+    }
+
+    return (
+        <>
+            <div className="relative flex items-center justify-center aspect-square sm:aspect-video lg:aspect-[6/2]">
+                <Image
+                    fill
+                    loading="eager"
+                    className="rounded-2xl object-center object-contain bg-primary-200"
+                    src={getCoverImage() || ""}
+                    priority={true}
+                    alt="event cover image"
+                />
+            </div>
+            <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-6 xl:left-8 lg:inset-y-[20%] xl:inset-y-[27%] p-4 lg:p-6 lg:w-[25%] lg:bg-background lg:shadow-lg lg:rounded-2xl">
+                <div className="flex flex-col gap-1">
+                    <span className="font-semibold text-xl lg:text-2xl">{event.title}</span>
+                    <span className="text-md text-primary-600 leading-tight line-clamp-2">{event.description}, {event.description}, {event.description}</span>
+                </div>
+                <Button
+                    variant="solid"
+                    label={event.type === 'discount' ? event.discount?.code : event.ctaLabel}
+                    iconPrepend={event.type === 'discount' ? 'lets-icons:copy-alt' : ''}
+                    className="w-fit"
+                    onClick={handleOnClick}
+                />
+            </div>
+        </>
+    )
+}
 
 const EventSlider = ({ events }: { events: Event[] }) => {
     const [swiper, setSwiper] = useState<null | SwiperType>(null)
@@ -20,6 +77,8 @@ const EventSlider = ({ events }: { events: Event[] }) => {
         isStart: true,
         isEnd: activeIndex === (events.length ?? 0) - 1
     })
+
+    const isMobile = useMediaQuery('(max-width: 768px)')
 
     useEffect(() => {
         swiper?.on('slideChange', ({ activeIndex }) => {
@@ -31,14 +90,8 @@ const EventSlider = ({ events }: { events: Event[] }) => {
         })
     }, [swiper, events])
 
-    const getCoverImage = (event: Event) => {
-        if (typeof event.image === 'string') return event.image
-
-        return event.image.url || ""
-    }
-
     return (
-        <div className="relative flex-1 overflow-visible">
+        <div className="relative flex flex-1 overflow-hidden">
             <button
                 aria-label="previous image"
                 onClick={(e) => {
@@ -46,14 +99,14 @@ const EventSlider = ({ events }: { events: Event[] }) => {
                     swiper?.slidePrev()
                 }}
                 className={cn(
-                    'absolute left-4 top-[25%] z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
+                    'lg:hidden absolute left-4 place-self-center z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
                     { '-left-12 opacity-0': slideConfig.isStart }
                 )}
             >
                 <Icon icon="mage:chevron-left" className="h-6 w-6 text-primary-800" />
             </button>
             <Swiper
-                spaceBetween={24}
+                spaceBetween={32}
                 slidesPerView={1}
                 className="h-full w-full"
                 onSwiper={(swiper) => setSwiper(swiper)}
@@ -62,7 +115,7 @@ const EventSlider = ({ events }: { events: Event[] }) => {
                 navigation={true}
                 grabCursor={true}
                 autoplay={{
-                    delay: 3000,
+                    delay: 6000,
                     disableOnInteraction: false,
                 }}
                 pagination={{
@@ -77,37 +130,19 @@ const EventSlider = ({ events }: { events: Event[] }) => {
                         '--swiper-pagination-bullet-inactive-color': '#FFFFFF40',
                         '--swiper-pagination-bullet-inactive-opacity': '1',
                         '--swiper-pagination-bullet-size': '0.5rem',
-                        '--swiper-pagination-top': '57%',
-                        '--swiper-pagination-bottom': '57%',
+                        ...(isMobile
+                            ? {
+                                '--swiper-pagination-top': '1%',
+                                '--swiper-pagination-bottom': '99%',
+                            }
+                            : {})
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     } as any
                 }
             >
                 {events.map((event, i) => (
-                    <SwiperSlide key={i} className="bg-background">
-                        <div className="relative flex items-center justify-center aspect-[16/10] rounded-2xl overflow-hidden">
-                            <Image
-                                fill
-                                loading="eager"
-                                className="object-center object-contain bg-primary-200"
-                                src={getCoverImage(event)}
-                                priority={true}
-                                alt="Product image"
-                            />
-                        </div>
-                        <div className="">
-                            <div className="flex flex-col gap-1 my-4">
-                                <span className="font-bold text-xl">{event.title}</span>
-                                <span className="text-primary-600 leading-tight line-clamp-2">{event.description}</span>
-                            </div>
-                            <Button
-                                variant="solid"
-                                label={event.type === 'discount' ? event.discount?.code : event.ctaLabel}
-                                iconPrepend={event.type === 'discount' ? 'lets-icons:copy-alt' : ''}
-                                className="w-fit shadow-none"
-                                href="/"
-                            />
-                        </div>
+                    <SwiperSlide key={i} className="relative bg-background">
+                        <EventItem event={event} />
                     </SwiperSlide>
                 ))}
             </Swiper>
@@ -118,7 +153,7 @@ const EventSlider = ({ events }: { events: Event[] }) => {
                     swiper?.slideNext()
                 }}
                 className={cn(
-                    'absolute right-4 top-[25%] z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
+                    'lg:hidden absolute right-4 place-self-center z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
                     { '-right-10 opacity-0': slideConfig.isEnd }
                 )}
             >
