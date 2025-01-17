@@ -92,6 +92,13 @@ export const Events: CollectionConfig = {
                 allowCreate: false,
                 allowEdit: false
             },
+            validate: (value, { siblingData }) => {
+                // @ts-expect-error TS will throw an error because it doesn't know what type is siblingData
+                if (siblingData.type === 'spotlight' && Array.isArray(value) && value.length > 1) {
+                    return 'Spotlight events can only be applied to one item.';
+                }
+                return true;
+            },
         },
         {
             name: 'product',

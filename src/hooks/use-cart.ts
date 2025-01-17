@@ -10,15 +10,23 @@ export type CartItem = {
   size: ProductSize
 }
 
+const calculateCartTotal = (items: CartItem[]) => {
+  return items.reduce((total, {size}) => {
+    if (!size.stock) return total
+    return total + size.price
+  }, 0)
+}
+
 type CartState = {
   items: CartItem[]
+  total: number
   cartOpen: boolean
   shippingMethod: Stripe.ShippingRate | null
-  discount: Stripe.Coupon | null
+  discount: Stripe.PromotionCode | null
   addItem: (product: Product, size: ProductSize) => void
   removeItem: (productId: Product['id'], size: ProductSize) => void
   setDeliveryMethod: (method: Stripe.ShippingRate) => void
-  setDiscount: (discount: Stripe.Coupon) => void
+  setDiscount: (discount: Stripe.PromotionCode) => void
   clearDeliveryMethod: () => void
   clearDiscount: () => void
   clearCart: () => void
@@ -30,6 +38,7 @@ export const useCart = create<CartState>()(
   persist(
     (set) => ({
       items: [],
+      total: 0,
       cartOpen: false,
       shippingMethod: null,
       discount: null,
@@ -38,22 +47,28 @@ export const useCart = create<CartState>()(
           const itemExists = state.items.some(
             (item) =>
               item.product.id === product.id && item.size.size === size.size
-          )
+          );
 
           if (itemExists) {
-            toast.warning('This product is already added to your cart.')
-            return state
+            toast.warning('This product is already added to your cart.');
+            return state;
           }
 
-          state.openCart()
-          return { items: [...state.items, { product, size }] }
+          const updatedItems = [...state.items, { product, size }];
+          const updatedTotal = calculateCartTotal(updatedItems);
+
+          state.openCart();
+          return { items: updatedItems, total: updatedTotal };
         }),
       removeItem: (id, size) =>
-        set((state) => ({
-          items: state.items.filter(
+        set((state) => {
+          const updatedItems = state.items.filter(
             (item) => item.product.id !== id || item.size !== size
-          )
-        })),
+          );
+          const updatedTotal = calculateCartTotal(updatedItems);
+
+          return { items: updatedItems, total: updatedTotal };
+        }),
       setDeliveryMethod: (method) =>
         set((state) => {
           const isSelected = state.shippingMethod?.id === method.id

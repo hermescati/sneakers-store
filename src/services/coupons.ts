@@ -1,3 +1,5 @@
+'use server'
+
 import { stripeClient } from "@/lib/stripe";
 import { Event } from "@/types/payload";
 import { constructCouponMetadata } from "@/utils";
@@ -120,4 +122,14 @@ export async function updateDiscountCode(data: Event) {
     if (couponStatus !== 200 || !couponId) return
 
     return promoCode.id;
+}
+
+export async function validateDiscountCode(code: string) {
+    const { data: promoCodes } = await stripeClient.promotionCodes.list()
+    const discountCode = promoCodes.find((pc) => pc.code === code)
+
+    if (!discountCode) return { code: 404, message: 'NOT_FOUND' }
+    if (!discountCode.active) return { code: 400, message: 'COUPON_NOT_VALID' }
+
+    return { code: 200, message: 'OK', discountCode }
 }

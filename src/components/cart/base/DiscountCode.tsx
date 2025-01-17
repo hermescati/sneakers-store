@@ -2,7 +2,7 @@ import Button from '@/components/base/Button'
 import Input from '@/components/base/Input'
 import { useCart } from '@/hooks/use-cart'
 import { DiscountCodeSchema, TDiscountCodeSchema } from '@/lib/validators'
-import { validateDiscountCode } from '@/services/checkout'
+import { validateDiscountCode } from '@/services/coupons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -19,9 +19,13 @@ const DiscountCode = () => {
   })
 
   const onSubmit = async ({ code }: TDiscountCodeSchema) => {
-    const response = await validateDiscountCode(code)
+    const {
+      code: statusCode,
+      message: statusMessage,
+      discountCode
+    } = await validateDiscountCode(code)
 
-    if (response.coupon === null || response.code === 400) {
+    if (!discountCode || statusCode === 400) {
       setError('code', {
         type: 'manual',
         message: 'This code is not valid. Please try another!'
@@ -29,14 +33,14 @@ const DiscountCode = () => {
       return
     }
 
-    if (response.message === 'COUPON_NOT_VALID') {
+    if (statusMessage === 'COUPON_NOT_VALID') {
       setError('code', {
         type: 'manual',
         message: 'This coupon has expired. Please try another!'
       })
     }
 
-    setDiscount(response.coupon!)
+    setDiscount(discountCode)
   }
 
   return (
@@ -47,7 +51,7 @@ const DiscountCode = () => {
         <Input
           {...register('code')}
           placeholder="Add discount code"
-          defaultValue={!!appliedDiscount ? appliedDiscount.name! : ''}
+          defaultValue={!!appliedDiscount ? appliedDiscount.code : ''}
           disabled={!!appliedDiscount}
           invalid={!!errors.code}
           error={errors.code?.message}
