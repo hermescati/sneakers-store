@@ -15,7 +15,7 @@ import { getProducts } from './products'
 export async function createStripeSession(
   selectedProducts: OrderItem[],
   deliveryOption?: Stripe.ShippingRate,
-  coupon?: Stripe.Coupon
+  promoCode?: Stripe.PromotionCode
 ) {
   const { user } = await getUser()
   if (!user) return { code: 409, message: 'NOT_AUTHORIZED' }
@@ -90,7 +90,7 @@ export async function createStripeSession(
         orderId: order.id
       },
       line_items,
-      ...(coupon && { discounts: [{ coupon: coupon.id }] }),
+      ...(promoCode && { discounts: [{ coupon: promoCode.coupon.id }] }),
       automatic_tax: { enabled: true }
     })
 
@@ -127,14 +127,4 @@ export async function getShippingRates() {
     })
 
   return activeRates
-}
-
-export async function validateDiscountCode(couponCode: string) {
-  const { data: coupons } = await stripeClient.coupons.list()
-  const coupon = coupons.find((c) => c.name === couponCode)
-
-  if (!coupon) return { code: 404, message: 'NOT_FOUND' }
-  if (!coupon.valid) return { code: 400, message: 'COUPON_NOT_VALID' }
-
-  return { code: 200, message: 'OK', coupon }
 }

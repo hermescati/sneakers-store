@@ -1,4 +1,3 @@
-import { CartItem } from '@/hooks/use-cart'
 import { ProductSize } from '@/types'
 import { Event, Product } from '@/types/payload'
 import { ClassValue, clsx } from 'clsx'
@@ -79,15 +78,6 @@ export const calculateMinPrices = (product: Product) => {
         ? priceSummary.discountedPrice
         : null
   }
-}
-
-export const calculateCartTotal = (items: CartItem[]) => {
-  return items.reduce((total, { size }) => {
-    if (!size.stock) return total
-
-    const price = calculatePrice(size)
-    return price + total
-  }, 0)
 }
 
 export const getThumbnailImage = (product: Product) => {

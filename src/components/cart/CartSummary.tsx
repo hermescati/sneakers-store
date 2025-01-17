@@ -3,7 +3,7 @@
 import { useCart } from '@/hooks/use-cart'
 import { createStripeSession } from '@/services/checkout'
 import { OrderItem } from '@/types'
-import { calculateCartTotal, formatPrice } from '@/utils'
+import { formatPrice } from '@/utils'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -16,26 +16,35 @@ const CartSummary = () => {
 
   const {
     items,
-    discount: appliedDiscount,
+    total: subtotal,
+    discount,
     shippingMethod,
     clearDiscount,
     clearCart
   } = useCart()
-  const cartTotal = calculateCartTotal(items)
+
+  const calculateDiscount = () => {
+    if (!discount) return 0
+
+    let discountValue = 0
+    const { amount_off, percent_off } = discount.coupon
+    if (amount_off) {
+      discountValue = amount_off
+    } else if (percent_off) {
+      discountValue = subtotal * (percent_off / 100)
+    }
+
+    return discountValue
+  }
+
+  const calculateShipping = () =>
+    shippingMethod?.fixed_amount?.amount || 0
 
   const calculateTotal = () => {
-    let total = cartTotal
+    const discountValue = calculateDiscount()
+    const shippingCost = calculateShipping()
 
-    if (appliedDiscount?.percent_off) {
-      const discountAmount = cartTotal * (appliedDiscount.percent_off / 100)
-      total -= discountAmount
-    }
-
-    if (shippingMethod?.fixed_amount) {
-      total += shippingMethod.fixed_amount.amount
-    }
-
-    return total
+    return Math.max(0, subtotal - discountValue + shippingCost)
   }
 
   const handleCheckout = async () => {
@@ -46,11 +55,10 @@ const CartSummary = () => {
     const response = await createStripeSession(
       selectedProducts,
       shippingMethod || undefined,
-      appliedDiscount || undefined
+      discount || undefined
     )
 
     if (response?.code === 409) router.push(`/login?origin=cart`)
-
     if (!response || !response.url) return
 
     clearCart()
@@ -77,7 +85,7 @@ const CartSummary = () => {
             {/* Subtotal */}
             <div className="flex items-center justify-between font-bold text-gray-800">
               <span>Cart Total</span>
-              <span>{formatPrice(cartTotal)}</span>
+              <span>{formatPrice(subtotal)}</span>
             </div>
 
             {/* Discount*/}
@@ -85,18 +93,14 @@ const CartSummary = () => {
               <div className="flex items-baseline justify-between gap-x-4">
                 <span>Discount</span>
                 <span>
-                  <span>{!!appliedDiscount && '- '}</span>
-                  {formatPrice(
-                    !!appliedDiscount
-                      ? cartTotal * (appliedDiscount.percent_off! / 100)
-                      : 0
-                  )}
+                  <span>{!!discount && '- '}</span>
+                  {formatPrice(calculateDiscount())}
                 </span>
               </div>
-              {!!appliedDiscount && (
+              {!!discount && (
                 <div className="flex items-center gap-x-1">
                   <span className="flex items-center py-1 px-3 bg-secondary/10 border border-secondary text-secondary rounded-lg font-semibold text-md uppercase">
-                    {appliedDiscount.name}
+                    {discount.code}
                   </span>
                   <Button
                     variant="ghost"
@@ -113,9 +117,7 @@ const CartSummary = () => {
             <div className="flex items-baseline justify-between font-medium text-gray-500">
               <span>Delivery</span>
               <span className="transition-all ease-in-out duration-300">
-                {formatPrice(
-                  !!shippingMethod ? shippingMethod.fixed_amount!.amount : 0
-                )}
+                {formatPrice(calculateShipping())}
               </span>
             </div>
           </div>

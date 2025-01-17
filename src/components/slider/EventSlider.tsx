@@ -52,7 +52,7 @@ const EventItem = ({ event }: { event: Event }) => {
                     alt="event cover image"
                 />
             </div>
-            <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-6 xl:left-8 lg:inset-y-[20%] xl:inset-y-[27%] p-4 lg:p-6 lg:w-[25%] lg:bg-background lg:shadow-lg lg:rounded-2xl">
+            <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-6 xl:left-8 lg:inset-y-[20%] xl:inset-y-[30%] p-4 lg:p-6 lg:w-[25%] lg:bg-background lg:shadow-lg lg:rounded-2xl">
                 <div className="flex flex-col gap-1">
                     <span className="font-semibold text-xl lg:text-2xl">{event.title}</span>
                     <span className="text-md text-primary-600 leading-tight line-clamp-2">{event.description}, {event.description}, {event.description}</span>
