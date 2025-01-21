@@ -50,7 +50,7 @@ const Home = async () => {
     <MainContainer className="flex flex-col gap-10 py-6 md:py-8 md:pb-12">
       {/* Events Carousel */}
       <EventSlider events={events} />
-
+      
       {/* Latest Releases */}
       <ProductReel
         title="New Releases"
