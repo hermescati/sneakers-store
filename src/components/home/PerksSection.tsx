@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react'
-import PerksSkeleton from './skeletons/PerksSkeleton'
 
 export interface PerkItem {
   icon: string
@@ -9,14 +8,14 @@ export interface PerkItem {
 
 const PerkCard = ({ icon, title, description }: PerkItem) => {
   return (
-    <div className="flex flex-col gap-2 xl:gap-3 items-start xl:items-center">
-      <div className="flex xl:flex-col items-center gap-x-3 xl:gap-y-3">
-        <Icon icon={icon} className="text-3xl" />
+    <div className="flex lg:flex-col gap-x-6 lg:gap-y-3 items-start lg:items-center">
+      <Icon icon={icon} className="text-4xl lg:text-3xl" />
+      <div className="flex flex-col items-start lg:items-center lg:gap-y-1">
         <h2 className="font-bold text-xl">{title}</h2>
+        <p className="font-medium text-primary-500 xl:text-md xl:text-center">
+          {description}
+        </p>
       </div>
-      <p className="text-primary-600 xl:text-md xl:text-center">
-        {description}
-      </p>
     </div>
   )
 }
@@ -26,30 +25,24 @@ const PerksSection = () => {
     {
       icon: 'solar:shield-check-outline',
       title: 'Authenticity Guarantee',
-      description:
-        "Every sneaker we sell undergoes meticulous inspection by our expert team, comprised of the industry's most seasoned and highly trained authenticators."
+      description: 'Every sneaker is verified by our expert team for 100% authenticity.'
     },
     {
       icon: 'prime:warehouse',
       title: 'In-house Inventory',
-      description:
-        'We maintain a comprehensive inventory right on-site, eliminating the need for third-party sellers. Your orders are processed and verified typically within 1-3 business days.'
+      description: 'Seamless service with fast, direct inventory handling.'
     },
     {
       icon: 'hugeicons:delivery-truck-01',
       title: 'Worldwide Shipping',
-      description:
-        'With reliable worldwide shipping options through UPS and DHL, we make it possible for sneaker enthusiasts across the globe to enjoy our premium selection.'
+      description: 'Reliable global shipping with trusted partners like UPS and DHL.'
     },
     {
       icon: 'fad:undo',
       title: 'Returns Accepted',
-      description:
-        "Our straightforward returns policy ensures a hassle-free experience. Reach out to our support team, and we'll guide you through the process, prioritizing your peace of mind."
+      description: 'Easy returns process to ensure customer satisfaction.'
     }
   ]
-
-  if (!perks.length) return <PerksSkeleton />
 
   return (
     <section className="border-y border-primary-300 py-8">
