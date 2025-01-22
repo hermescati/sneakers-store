@@ -14,6 +14,7 @@ import { Autoplay, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useMediaQuery } from "usehooks-ts"
 import Button from "../base/Button"
+import EventSliderSkeleton from "./skeletons/EventSliderSkeleton"
 
 const EventItem = ({ event }: { event: Event }) => {
     const router = useRouter()
@@ -119,6 +120,8 @@ const EventSlider = ({ events }: { events: Event[] }) => {
         },
         [swiper]
     )
+
+    if (!events.length) return <EventSliderSkeleton />
 
     return (
         <div className="-mx-4 relative flex flex-1 overflow-hidden">
