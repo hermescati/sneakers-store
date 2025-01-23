@@ -3,6 +3,7 @@ import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import ProductCard from './ProductCard'
+import ProductReelSkeleton from './skeletons/ProductReelSkeleton'
 
 interface ProductReelProps {
   products: Product[]
@@ -17,9 +18,10 @@ const ProductReel = ({
   href,
   className
 }: ProductReelProps) => {
+  if (!products.length) return <ProductReelSkeleton title={title} />
+
   return (
     <section className="flex flex-col gap-4">
-      {/* Header */}
       {title && (
         <div className="flex items-center justify-start gap-3">
           <div className="max-w-2xl lg:max-w-4xl">
@@ -33,7 +35,6 @@ const ProductReel = ({
         </div>
       )}
 
-      {/* Cards */}
       <ul
         className={cn(
           className

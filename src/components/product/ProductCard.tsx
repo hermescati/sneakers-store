@@ -11,8 +11,8 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import ProductSkeleton from './skeletons/ProductSkeleton'
 import BrandLogo from './base/BrandLogo'
+import ProductCardSkeleton from './skeletons/ProductCardSkeleton'
 
 interface ProductCardProps {
   product: Product
@@ -30,7 +30,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!product || !isLoaded) return <ProductSkeleton />
+  if (!product || !isLoaded) return <ProductCardSkeleton />
 
   const { brand, model } = getProductInfo(product)
   const { basePrice, discountedPrice } = calculateMinPrices(product)
