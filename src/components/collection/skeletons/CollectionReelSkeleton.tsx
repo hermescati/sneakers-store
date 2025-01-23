@@ -4,7 +4,7 @@ import { cn } from "@/utils"
 const CollectionItemSkeleton = ({ layout }: { layout: 'normal' | 'alternate' }) => {
     return (
         <div className="flex flex-col gap-4">
-            <div className="h-7 bg-zinc-200/75 rounded w-1/12" />
+            <div className="h-7 bg-zinc-200/75 rounded w-1/4 md:w-1/5 xl:w-1/12" />
 
             <div className="flex flex-col xl:flex-row gap-6">
                 <div className={cn(

@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/base/Button'
-import ProductSkeleton from '@/components/product/skeletons/ProductSkeleton'
+import ProductCardSkeleton from '@/components/product/skeletons/ProductCardSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -36,7 +36,7 @@ const DetailedCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!props.name || !isLoaded) return <ProductSkeleton />
+  if (!props.name || !isLoaded) return <ProductCardSkeleton />
 
   return (
     <div className="flex flex-col gap-2 w-full group">

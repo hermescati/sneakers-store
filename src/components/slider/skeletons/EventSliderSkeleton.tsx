@@ -2,7 +2,7 @@ const EventSliderSkeleton = () => {
     return (
         <div className="relative flex flex-col flex-1 animate-pulse">
             <div className="relative flex items-center justify-center aspect-video lg:aspect-[6/2]">
-                <div className="w-full h-full rounded-2xl bg-primary-200"></div>
+                <div className="w-full h-full rounded-2xl bg-zinc-200/75"></div>
             </div>
 
             <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-[4%] lg:bottom-[8%] py-4 lg:p-6 lg:w-[30%] lg:shadow-lg lg:rounded-2xl bg-background">
