@@ -1,7 +1,7 @@
+import CollectionReel from '@/components/collection/CollectionReel'
 import DiscoverSection from '@/components/home/DiscoverSection'
 import PerksSection from '@/components/home/PerksSection'
 import MainContainer from '@/components/MainContainer'
-import ProductCollection from '@/components/product/ProductCollection'
 import ProductReel from '@/components/product/ProductReel'
 import EventSlider from '@/components/slider/EventSlider'
 import { getEvents } from '@/services/events'
@@ -48,62 +48,46 @@ const Home = async () => {
   // TODO: Add width and height to the icons so the layout wont shift
   return (
     <MainContainer className="flex flex-col gap-10 py-6 md:py-8 md:pb-12">
-      {/* Events Carousel */}
       <EventSlider events={events} />
-      
-      {/* Latest Releases */}
+
       <ProductReel
         title="New Releases"
         href="/sneakers?sort=release_date"
         products={newReleases}
       />
 
-      {/* Collections */}
-      <ul className="flex flex-col gap-12">
-        {latestCollections.map((collection, index) => (
-          <li key={collection.id}>
-            <ProductCollection
-              collection={collection}
-              layout={index % 2 === 0 ? 'normal' : 'alternate'}
-            />
-          </li>
-        ))}
-      </ul>
+      <CollectionReel collections={latestCollections} />
 
-      {/* Jordan */}
       <ProductReel
         title="Jordan"
         href="/sneakers?sort=release_date"
         products={jordanSneakers}
       />
 
-      {/* Nike */}
       <ProductReel
         title="Nike"
         href="/sneakers?sort=release_date"
         products={nikeSneakers}
       />
 
-      {/* Adidas */}
       <ProductReel
         title="Adidas"
         href="/sneakers?sort=release_date"
         products={adidasSneakers}
       />
 
-      {/* Yeezy */}
       <ProductReel
         title="Yeezy"
         href="/sneakers?sort=release_date"
         products={yeezySneakers}
       />
 
-      {/* New Balance */}
       <ProductReel
         title="New Balance"
         href="/sneakers?sort=release_date"
         products={newBalanceSneakers}
       />
+
       <PerksSection />
 
       <DiscoverSection />
