@@ -14,6 +14,7 @@ import { useOnClickOutside } from 'usehooks-ts'
 import { AccordionItem } from '../base/Accordion'
 import Button from '../base/Button'
 import Link from '../base/Link'
+import ThemeToggle from '../ThemeToggle'
 
 // TODO: Add a sliding animation to it
 const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => {
@@ -94,7 +95,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
           variant="ghost"
           size="icon"
           icon="solar:rounded-magnifer-linear"
-          className="p-2 inline-flex items-center justify-center rounded-full text-xl"
+          className="p-2 inline-flex items-center justify-center rounded-full text-xl hover:bg-primary-100"
           onClick={expandSearch}
         />
         <div className="flex">
@@ -108,7 +109,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
           size="icon"
           icon="solar:hamburger-menu-linear"
           onClick={() => setIsOpen(true)}
-          className="p-1.5 inline-flex items-center justify-center rounded-full text-[1.75rem]"
+          className="p-1.5 inline-flex items-center justify-center rounded-full text-[1.75rem] hover:bg-primary-100"
         />
       </div>
     )
@@ -130,15 +131,10 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                 variant="ghost"
                 icon="tabler:x"
                 onClick={() => setIsOpen(false)}
-                className="relative p-3 inline-flex items-center justify-center rounded-full text-xl"
+                className="relative p-2.5 inline-flex items-center justify-center rounded-full text-xl hover:bg-primary-100"
               />
               <div className='flex items-center justify-between'>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  icon="solar:moon-stars-outline"
-                  className="p-3 inline-flex items-center justify-center rounded-full text-xl"
-                />
+                <ThemeToggle />
                 {/* <NavCart /> */}
                 <div className="relative">
                   <Button
@@ -146,7 +142,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                     variant="ghost"
                     icon="solar:cart-large-minimalistic-linear"
                     href="/cart"
-                    className="p-2.5 inline-flex items-center justify-center rounded-full text-[1.5rem]"
+                    className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-[1.5rem]"
                   />
                   {cartItems.length > 0 &&
                     <span className="absolute top-2 right-1.5 bg-secondary rounded-full w-2 h-2">
