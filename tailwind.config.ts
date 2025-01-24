@@ -13,23 +13,26 @@ const config: Config = {
         '3xl': '1536px'
       },
       colors: {
-        background: '#ffffff',
-        foreground: '#212427',
+        background: 'rgba(var(--background))',
+        foreground: 'rgba(var(--foreground))',
         primary: {
-          50: '#ffffff',
-          100: '#f9fafb',
-          200: '#f2f2f2',
-          300: '#ebebeb',
-          400: '#bebfc0',
-          500: '#9f9f9f',
-          600: '#6f6f6f',
-          700: '#565656',
-          800: '#33383c',
-          900: '#212427'
+          100: 'rgba(var(--primary-100))',
+          200: 'rgba(var(--primary-200))',
+          300: 'rgba(var(--primary-300))',
+          400: 'rgba(var(--primary-400))',
+          500: 'rgba(var(--primary-500))',
+          600: 'rgba(var(--primary-600))',
+          700: 'rgba(var(--primary-700))',
+          800: 'rgba(var(--primary-800))',
+          900: 'rgba(var(--foreground))'
         },
-        secondary: '#fd844a',
-        success: '#15f37d',
-        danger: '#f32f15'
+        secondary: 'rgba(var(--secondary))',
+        "success-text": 'rgba(var(--success-text))',
+        "success-bg": 'rgba(var(--success-bg))',
+        "warning-text": 'rgba(var(--warning-text))',
+        "warning-bg": 'rgba(var(--warning-bg))',
+        "danger-text": 'rgba(var(--danger-text))',
+        "danger-bg": 'rgba(var(--danger-bg))',
       },
       fontSize: {
         xs: '0.5rem',

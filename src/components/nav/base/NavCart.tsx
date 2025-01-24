@@ -25,15 +25,15 @@ const NavCart = () => {
     <>
       <button
         ref={buttonRef}
-        className="group flex items-center gap-1.5 shrink-0 cursor-pointer p-2.5 rounded-xl"
+        className="group p-2 flex items-center gap-1.5 shrink-0 cursor-pointer rounded-xl"
         onClick={cartOpen ? closeCart : openCart}
       >
         <Icon
           icon="solar:cart-large-minimalistic-linear"
           aria-hidden="true"
-          className="text-2xl text-primary-500 group-hover:text-primary-800 transition-all ease-in-out duration-300"
+          className="text-2xl text-primary-600 group-hover:text-primary-900 transition-all ease-in-out duration-300"
         />
-        <span className="w-3 font-semibold text-primary-600 group-hover:text-primary-800 transition-all ease-in-out duration-300 select-none">
+        <span className="w-3 font-medium text-primary-600 group-hover:text-primary-900 transition-all ease-in-out duration-300 select-none">
           {items.length > 9 ? "+9" : items.length}
         </span>
       </button>

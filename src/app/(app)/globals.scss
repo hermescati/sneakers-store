@@ -2,36 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: #ffffff;
-    --foreground: #212427;
+// TODO: Add shades for success, warning, danger, and secondary colors
+// TODO: Update light theme with the old values from 600 to 900
 
-    --primary-100: #fafbfb;
-    --primary-200: #f2f2f2;
-    --primary-300: #ebebeb;
-    --primary-400: #bebfc0;
-    --primary-500: #9f9f9f;
-    --primary-600: #6f6f6f;
-    --primary-700: #565656;
-    --primary-800: #33383c;
+// :root {
+//   --background: 255, 255, 255;
+//   --foreground: #212427;
 
-    --secondary: #fd844a;
-    --success: #15f37d;
-    --danger: #f32f15;
-  }
+//   --primary-100: #fafbfb;
+//   --primary-200: #f2f2f2;
+//   --primary-300: #ebebeb;
+//   --primary-400: #bebfc0;
+//   --primary-500: #9f9f9f;
+//   --primary-600: #6f6f6f;
+//   --primary-700: #565656;
+//   --primary-800: #33383c;
 
-  .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+//   --secondary: #fd844a;
+//   --success: #15f37d;
+//   --danger: #f32f15;
+// }
+
+// .light {
+//   --background: 255, 255, 255;
+//   --foreground: 33, 36, 39;
+
+//   --primary-100: 250, 251, 251;
+//   --primary-200: 242, 242, 242;
+//   --primary-300: 235, 235, 235;
+//   --primary-400: 190, 191, 192;
+//   --primary-500: 159, 159, 159;
+//   --primary-600: 111, 111, 111;
+//   --primary-700: 86, 86, 86;
+//   --primary-800: 51, 56, 60;
+
+//   --secondary: 253, 132, 74;
+//   --success: 21, 243, 125;
+//   --danger: 243, 47, 21;
+//   --warning: 255, 193, 7;
+
+//   background: rgba(var(--background));
+//   color: rgba(var(--foreground));
+// }
+
+.light {
+  --background: 255, 255, 255; //#ffffff
+  --foreground: 23, 23, 23; //#171717
+
+  --primary-100: 242, 242, 242; //#f2f2f2
+  --primary-200: 235, 235, 235; //#ebebeb
+  --primary-300: 230, 230, 230; //#e6e6e6
+  --primary-400: 201, 201, 201; //#c9c9c9
+  --primary-500: 168, 168, 168; //#a8a8a8
+  --primary-600: 143, 143, 143; //#8f8f8f
+  --primary-700: 125, 125, 125; //#7d7d7d
+  --primary-800: 102, 102, 102; //#666666
+  --primary-900: 23, 23, 23; //#171717
+
+  --secondary: 253, 132, 74; //#fd844a
+
+  --success-text: 108, 218, 117; //#6cda75
+  --success-bg: 198, 241, 199; //#c6f1c7
+
+  --warning-text: 245, 176, 71; //#f5b047
+  --warning-bg: 255, 221, 143; //#ffdd8f
+
+  --danger-text: 248, 114, 117; //#f87275
+  --danger-bg: 253, 216, 216; //#fdd8d8
+
+  background: rgba(var(--background));
+  color: rgba(var(--foreground));
 }
 
-@layer base {
-  * {
-    @apply border-background;
-  }
-  body {
-    @apply bg-background text-foreground;
-  } 
+.dark {
+  --background: 10, 10, 10; //#0a0a0a
+  --foreground: 237, 237, 237; //#ededed
+
+  --primary-100: 26, 26, 26; //#1a1a1a
+  --primary-200: 31, 31, 31; //#v1f1f1f
+  --primary-300: 41, 41, 41; //#292929
+  --primary-400: 46, 46, 46; //#2e2e2e
+  --primary-500: 69, 69, 69; //#454545
+  --primary-600: 135, 135, 135; //#878787
+  --primary-700: 143, 143, 143; //#8f8f8f
+  --primary-800: 125, 125, 125; //#7d7d7d
+  --primary-900: 161, 161, 161; //#a1a1a1
+
+  --secondary: 253, 132, 74; //#fd844a
+
+  --success-text: 26, 147, 56; //#1a9338
+  --success-bg: 12, 69, 27; //#0c451b
+
+  --warning-text: 231, 157, 19; //#e79d13
+  --warning-bg: 87, 51, 0; //#573300
+
+  --danger-text: 229, 72, 77; //#e5484d
+  --danger-bg: 103, 30, 33; //#671e21
+
+  background: rgba(var(--background));
+  color: rgba(var(--foreground));
 }
