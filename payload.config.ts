@@ -51,7 +51,7 @@ export default buildConfig({
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
-      connectionString: process.env.POSTGRES_URL || ''
+      connectionString: process.env.DATABASE_URL || ''
     }
   }),
   plugins: process.env.BLOB_READ_WRITE_TOKEN
