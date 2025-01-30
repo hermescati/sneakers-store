@@ -15,6 +15,7 @@ const config: Config = {
       colors: {
         background: 'rgba(var(--background))',
         foreground: 'rgba(var(--foreground))',
+        border: 'rgba(var(--border))',
         primary: {
           100: 'rgba(var(--primary-100))',
           200: 'rgba(var(--primary-200))',
@@ -24,15 +25,56 @@ const config: Config = {
           600: 'rgba(var(--primary-600))',
           700: 'rgba(var(--primary-700))',
           800: 'rgba(var(--primary-800))',
-          900: 'rgba(var(--foreground))'
+          900: 'rgba(var(--primary-900))'
         },
-        secondary: 'rgba(var(--secondary))',
-        "success-text": 'rgba(var(--success-text))',
-        "success-bg": 'rgba(var(--success-bg))',
-        "warning-text": 'rgba(var(--warning-text))',
-        "warning-bg": 'rgba(var(--warning-bg))',
-        "danger-text": 'rgba(var(--danger-text))',
-        "danger-bg": 'rgba(var(--danger-bg))',
+        secondary: {
+          DEFAULT: 'rgba(var(--secondary-500))',
+          100: 'rgba(var(--secondary-100))',
+          200: 'rgba(var(--secondary-200))',
+          300: 'rgba(var(--secondary-300))',
+          400: 'rgba(var(--secondary-400))',
+          500: 'rgba(var(--secondary-500))',
+          600: 'rgba(var(--secondary-600))',
+          700: 'rgba(var(--secondary-700))',
+          800: 'rgba(var(--secondary-800))',
+          900: 'rgba(var(--secondary-900))'
+        },
+        danger: {
+          DEFAULT: 'rgba(var(--danger-500))',
+          100: 'rgba(var(--danger-100))',
+          200: 'rgba(var(--danger-200))',
+          300: 'rgba(var(--danger-300))',
+          400: 'rgba(var(--danger-400))',
+          500: 'rgba(var(--danger-500))',
+          600: 'rgba(var(--danger-600))',
+          700: 'rgba(var(--danger-700))',
+          800: 'rgba(var(--danger-800))',
+          900: 'rgba(var(--danger-900))'
+        },
+        warning: {
+          DEFAULT: 'rgba(var(--warning-500))',
+          100: 'rgba(var(--warning-100))',
+          200: 'rgba(var(--warning-200))',
+          300: 'rgba(var(--warning-300))',
+          400: 'rgba(var(--warning-400))',
+          500: 'rgba(var(--warning-500))',
+          600: 'rgba(var(--warning-600))',
+          700: 'rgba(var(--warning-700))',
+          800: 'rgba(var(--warning-800))',
+          900: 'rgba(var(--warning-900))'
+        },
+        success: {
+          DEFAULT: 'rgba(var(--success-500))',
+          100: 'rgba(var(--success-100))',
+          200: 'rgba(var(--success-200))',
+          300: 'rgba(var(--success-300))',
+          400: 'rgba(var(--success-400))',
+          500: 'rgba(var(--success-500))',
+          600: 'rgba(var(--success-600))',
+          700: 'rgba(var(--success-700))',
+          800: 'rgba(var(--success-800))',
+          900: 'rgba(var(--success-900))'
+        }
       },
       fontSize: {
         xs: '0.5rem',
@@ -57,6 +99,7 @@ const config: Config = {
       }
     }
   },
-  plugins: []
+  plugins: [],
+  darkMode: 'class'
 }
 export default config
