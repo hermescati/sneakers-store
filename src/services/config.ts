@@ -1,32 +1,28 @@
 'use server'
 
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { NavFeaturedLink, NavItem, NavLink } from '@/types'
+import { NavItem, NavLink } from '@/types'
 import { generateNavLink } from '@/utils'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 
 export async function getNavbarItems(): Promise<NavItem[]> {
+  const staticRoutes: NavItem[] = [
+    { name: 'New Releases', href: '/sneakers' },
+    { name: 'Womens', href: '/sneakers' },
+    { name: 'Kids', href: '/sneakers' },
+    { name: 'Below Retail', href: '/sneakers' },
+    { name: 'On Sale', href: '/sneakers' }
+  ]
+  const navItems: NavItem[] = [staticRoutes[0]]
+
   const payload = await getPayload({ config: configPromise })
-
-  const navItems: NavItem[] = []
-
   const { docs: brands } = await payload.find({
     collection: 'brands',
     sort: 'createdAt'
   })
 
-  // const { docs: collections } = await payload.find({
-  //   collection: 'collections'
-  // })
-
-  navItems.push({
-    name: 'New Releases',
-    href: '/sneakers'
-  })
-
-  for (const brand of brands) {
-    const brandModels: NavLink[] = []
-
+  const featuredBrands = brands.slice(0, 5)
+  const brandNavItems = await Promise.all(featuredBrands.map(async (brand) => {
     const { docs: models } = await payload.find({
       collection: 'models',
       where: { brand: { equals: brand.id } },
@@ -35,53 +31,55 @@ export async function getNavbarItems(): Promise<NavItem[]> {
       sort: 'createdAt'
     })
 
-    brandModels.push({
-      name: 'View all',
-      href: `/sneakers?brand=${brand.name}`
-    })
+    if (!models.length) {
+      return { name: brand.name, href: `/sneakers?brand=${brand.id}` }
+    }
 
-    models.map((model) => {
-      brandModels.push({
-        name: model.name,
-        href: generateNavLink('model', brand.id, model.id)
-      })
-    })
-
-    const featuredModels: NavFeaturedLink[] = models
-      .filter((model) => model.featured)
-      .map((model) => ({
-        name: model.name,
+    const brandModels: NavLink[] = models.map((model) => ({
+      name: model.name,
+      href: generateNavLink('model', brand.id, model.id),
+      ...(model.featured && {
         imageSrc: (typeof model.image === 'string'
           ? model.image
-          : model.image?.url) as string,
-        href: generateNavLink('model', brand.id, model.id)
-      }))
+          : model.image?.url) as string
+      })
+    }))
 
-    navItems.push({
+    return {
       name: brand.name,
-      items: brandModels,
-      featured: featuredModels
+      items: [...brandModels, { name: 'View All', href: `/sneakers?brand=${brand.id}` }],
+      featured: brandModels.filter((m) => m.imageSrc)
+    }
+  }))
+
+  navItems.push(...brandNavItems)
+
+  if (brands.length > 5) {
+    navItems.push({
+      name: 'Other Brands',
+      items: brands.slice(5).map((brand) => ({
+        name: brand.name,
+        href: `/sneakers?brand=${brand.id}`
+      }))
     })
   }
 
-  navItems.push(
-    {
-      name: 'Womens',
-      href: '/sneakers'
-    },
-    {
-      name: 'Kids',
-      href: '/sneakers'
-    },
-    {
-      name: 'Below Retail',
-      href: '/sneakers'
-    },
-    {
-      name: 'On Sale',
-      href: '/sneakers'
-    }
-  )
+  navItems.push(...staticRoutes.slice(1))
+  return navItems
+
+  // const featuredModels: NavFeaturedLink[] = models
+  //   .filter((model) => model.featured)
+  //   .map((model) => ({
+  //     name: model.name,
+  //     imageSrc: (typeof model.image === 'string'
+  //       ? model.image
+  //       : model.image?.url) as string,
+  //     href: generateNavLink('model', brand.id, model.id)
+  //   }))
+
+  // const { docs: collections } = await payload.find({
+  //   collection: 'collections'
+  // })
 
   // brands.forEach(async (brand) => {})
 
@@ -125,6 +123,4 @@ export async function getNavbarItems(): Promise<NavItem[]> {
   //     featured
   //   }
   // })
-
-  return navItems
 }
