@@ -45,15 +45,11 @@ const CompactCartItem = ({
           className="h-full w-full object-contain rounded-md"
         />
       </div>
-      <div className="flex w-full justify-between gap-x-4 lg:gap-x-6">
-        <div className="flex flex-col">
-          <h3 className="font-semibold">{props.name}</h3>
+      <div className="flex w-full justify-between gap-x-4 lg:gap-x-4">
+        <div className="flex flex-col gap-1">
+          <h3 className="font-medium leading-tight">{props.name}</h3>
 
-          <div className="hidden lg:flex items-center gap-1 text-primary-600 text-md">
-            <span>&quot;{props.nickname}&quot;</span>
-          </div>
-
-          <span className="text-primary-600 text-md">
+          <span className="text-primary-700 text-md">
             {props.category} (US) - {props.size}
           </span>
 
@@ -75,7 +71,7 @@ const CompactCartItem = ({
         <div className="hidden lg:flex flex-col justify-between items-end">
           <span className="font-semibold">{formatPrice(props.price)}</span>
           <span
-            className="font-medium text-md text-primary-600 hover:text-danger hover:underline hover:underline-offset-4 cursor-pointer transition-all ease-in-out duration-300"
+            className="text-md text-primary-600 hover:text-danger hover:underline hover:underline-offset-4 cursor-pointer transition-all ease-in-out duration-300"
             onClick={onRemove}
           >
             Remove

@@ -20,6 +20,7 @@ interface CartItemProps {
   onRemove: () => void
 }
 
+// TODO: Refactor this component
 const CartItem = ({
   product,
   index,

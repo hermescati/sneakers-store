@@ -22,12 +22,11 @@ const ShoppingCart = () => {
     router.push('/cart')
   }
 
-  // TODO: Add a mobile friendly version for the cart
   return (
-    <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5.5rem] overflow-clip divide-y-2 divide-primary-300 bg-background rounded-xl shadow-[0_0_12px_1px_rgba(0,0,0,0.20)] max-h-[calc(100vh-6.5rem)]">
+    <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5rem] overflow-clip border border-border divide-y divide-border bg-background rounded-xl shadow-lg max-h-[calc(100vh-6.5rem)]">
       {/* Header */}
-      <div className="flex items-center justify-between gap-8 p-5">
-        <h4 className="font-bold text-xl">
+      <div className="flex items-center justify-between gap-8 p-4">
+        <h4 className="font-semibold text-lg">
           {hasItems ? 'Added to cart' : 'Your cart is empty'}
         </h4>
         <Button
@@ -56,7 +55,7 @@ const ShoppingCart = () => {
             </Link>
           </div>
         ) : (
-          <ul className="divide-y divide-primary-200 overflow-y-auto">
+          <ul className="divide-y divide-border overflow-y-auto py-2">
             {items.map(({ product, size }, index) => (
               <li key={`${product.id}-${size.size}`}>
                 <CartItem
@@ -73,7 +72,7 @@ const ShoppingCart = () => {
       </div>
 
       {/* Total */}
-      <div className="flex flex-col gap-4 p-5 bg-primary-200">
+      <div className="flex flex-col gap-4 p-5 bg-primary-100/50">
         <div className="flex items-center justify-between text-lg">
           <h5 className="font-semibold">Subtotal</h5>
           <h5 className="font-semibold">{formatPrice(cartTotal)}</h5>
