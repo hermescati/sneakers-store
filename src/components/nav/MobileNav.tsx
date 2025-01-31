@@ -6,82 +6,53 @@ import { useSearch } from '@/hooks/use-search'
 import { NavItem } from '@/types'
 import { User } from '@/types/payload'
 import { cn } from '@/utils'
+import { getNavRoutes } from '@/utils/navigation'
 import { Icon } from '@iconify/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { toast } from 'sonner'
 import { useOnClickOutside } from 'usehooks-ts'
 import { AccordionItem } from '../base/Accordion'
 import Button from '../base/Button'
 import Link from '../base/Link'
-import ThemeToggle from '../ThemeToggle'
+
+interface MobileNavProps {
+  items: NavItem[]
+  user: User | null
+}
 
 // TODO: Add a sliding animation to it
-const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+// TODO: Clean up the code - break it down to smaller components
+const MobileNav = ({ items, user }: MobileNavProps) => {
+  const router = useRouter()
+  const pathname = usePathname()
 
   const { expandSearch } = useSearch()
+  const { items: cartItems } = useCart()
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const navRef = useRef<HTMLDivElement>(null!)
   useOnKeyPress({ key: 'm', ctrl: true, preventDefault: true }, () => setIsOpen(true))
   useOnClickOutside(navRef, () => setIsOpen(false))
 
-  const router = useRouter()
-  const pathname = usePathname()
-  const { items: cartItems } = useCart()
+  const routes = getNavRoutes(user)
 
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
 
-  const dropdownItems = user
-    ? [
-      ...(user && user.role === 'admin'
-        ? [
-          {
-            value: 'dashboard',
-            label: 'Admin Dashboard',
-            icon: 'mage:dashboard',
-            action: '/admin',
-          },
-        ]
-        : []),
-      {
-        value: 'orders',
-        label: 'My Orders',
-        icon: 'mage:box',
-        action: '/orders'
-      }
-    ]
-    : []
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('overflow-hidden')
+    } else {
+      document.body.classList.remove('overflow-hidden')
+    }
+  }, [isOpen])
 
   const closeOnCurrent = (href: string) => {
     router.push(href)
     setIsOpen(false)
-  }
-
-  const handleLogout = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`,
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-
-      if (!response.ok) throw new Error('Logout failed')
-      toast.success('Successfully logged out.')
-
-      router.refresh()
-    } catch (error) {
-      console.error('Error during logout:', error)
-      toast.error("Couldn't logout. Please try again!")
-    }
   }
 
   const handleToggle = (index: number) => {
@@ -90,7 +61,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
 
   if (!isOpen)
     return (
-      <div className="lg:hidden flex items-center gap-2">
+      <div className="lg:hidden flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
@@ -100,7 +71,7 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
         />
         <div className="flex">
           <span
-            className="h-8 w-px bg-primary-300"
+            className="h-8 w-px bg-border"
             aria-hidden="true"
           />
         </div>
@@ -117,12 +88,12 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
   return (
     <div className="relative z-40 lg:hidden">
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black bg-opacity-25" />
+      <div className="fixed inset-0 bg-black bg-opacity-35" />
 
-      {/* Sliding Sheet */}
+      {/* Navigation */}
       <div className="fixed inset-0 z-40 flex justify-end">
         <div className="w-4/5">
-          <div ref={navRef} className="relative w-full h-full flex flex-col overflow-y-auto shadow-xl border-l-2 border-primary-200 bg-background">
+          <div ref={navRef} className="relative w-full h-full flex flex-col border border-border rounded-s-xl overflow-y-auto shadow-xl bg-background">
 
             {/* Header */}
             <div className="flex items-center justify-between flex-none px-4 py-2">
@@ -131,111 +102,94 @@ const MobileNav = ({ items, user }: { items: NavItem[], user: User | null }) => 
                 variant="ghost"
                 icon="tabler:x"
                 onClick={() => setIsOpen(false)}
-                className="relative p-2.5 inline-flex items-center justify-center rounded-full text-xl hover:bg-primary-100"
+                className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-2xl text-primary-700 dark:text-primary-900"
               />
-              <div className='flex items-center justify-between'>
-                <ThemeToggle />
-                {/* <NavCart /> */}
-                <div className="relative">
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    icon="solar:cart-large-minimalistic-linear"
-                    href="/cart"
-                    className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-[1.5rem]"
-                  />
-                  {cartItems.length > 0 &&
-                    <span className="absolute top-2 right-1.5 bg-secondary rounded-full w-2 h-2">
-                    </span>
-                  }
-                </div>
-                {user && <>
-                  <div className="flex ml-2 mr-4">
-                    <span
-                      className="h-8 w-px bg-primary-300"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h4 className="flex-1 font-semibold">
-                    Hi, {user.firstName}
-                  </h4>
-                </>}
+              <div className='relative'>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  icon="solar:cart-large-minimalistic-linear"
+                  href="/cart"
+                  className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-[1.5rem] text-primary-700 dark:text-primary-900"
+                />
+                {cartItems.length > 0 && <span className='absolute top-[20%] right-[15%] w-2 h-2 rounded-full bg-secondary' />}
               </div>
             </div>
 
-            <div className='flex-1 overflow-y-auto px-4 border-y border-primary-300 divide-y divide-primary-300'>
-              {/* User routes */}
-              {user && <ul className="divide-y divide-gray-100">
-                {dropdownItems.map((item) =>
+            {/* Routes */}
+            <div className='flex-1 overflow-y-auto px-3 border-y border-border divide-y divide-border'>
+              {!!routes.length && <ul className="py-2">
+                {routes.map((item) => (
                   <li key={item.value}>
                     <Link
-                      href={item.action}
-                      className='flex gap-3 items-center px-3 py-4 font-medium rounded cursor-pointer hover:bg-primary-100'>
-                      {item.icon && <Icon icon={item.icon} className="text-2xl" />}
-                      <span>{item.label}</span>
+                      href={item.route}
+                      onClick={item.action}
+                      className={cn(
+                        "flex items-center justify-between py-3 px-4 rounded-lg transition-all duration-300 ease-in-out",
+                        {
+                          "hover:bg-primary-100/50": !!item.route || item.action,
+                          "py-1": !!item.subtitle || item.component
+                        }
+                      )}>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{item.title}</span>
+                        {item.subtitle && <span className="text-md text-primary-600">{item.subtitle}</span>}
+                      </div>
+                      {item.icon && <Icon icon={item.icon} className="text-xl" />}
+                      {item.component && item.component}
                     </Link>
                   </li>
-                )}
+                ))}
               </ul>}
+
               {/* Links */}
-              <ul className="divide-y divide-gray-100">
+              <ul className="py-2">
                 {items.map((item, index) => (
                   <li key={item.name}>
-                    {!item.featured?.length ?
+                    {item.items?.length ?
+                      <AccordionItem
+                        title={item.name}
+                        titleClass="px-4 py-3 rounded-lg font-medium"
+                        iconClass='w-5 h-5'
+                        isOpen={openIndex === index}
+                        onOpen={() => handleToggle(index)}>
+                        <ul className='grid grid-cols-2 md:grid-cols-3 gap-16 md:gap-0 px-8 mt-1 mb-2'>
+                          {item.items.map((ft) =>
+                            <Link
+                              key={ft.name}
+                              underline
+                              onClick={() => closeOnCurrent(ft.href!)}
+                              className='w-fit py-0.5 font-medium text-md text-primary-600'>
+                              {ft.name}
+                            </Link>
+                          )}
+                        </ul>
+                      </AccordionItem> :
                       <Link
-                        underline={!!item.href}
                         onClick={() => closeOnCurrent(item.href!)}
                         className={cn(
-                          "inline-flex w-full px-3 py-4 rounded font-semibold",
+                          "flex items-center justify-between py-3 px-4 rounded-lg font-medium transition-all duration-300 ease-in-out",
                           {
                             "hover:bg-primary-100": item.href,
                             "text-secondary hover:text-secondary!": item.name === 'On Sale'
                           })}>
                         {item.name}
                       </Link>
-                      :
-                      <AccordionItem
-                        title={item.name}
-                        titleClass="font-semibold text-base rounded px-3 py-4"
-                        iconClass='w-5 h-5'
-                        isOpen={openIndex === index}
-                        onOpen={() => handleToggle(index)}>
-                        <ul className='grid grid-cols-2 md:grid-cols-3 px-3 pt-1 pb-4'>
-                          {item.featured.map((ft) =>
-                            <Link
-                              key={ft.name}
-                              underline
-                              onClick={() => closeOnCurrent(ft.href!)}
-                              className='w-fit py-0.5 font-medium text-md'>
-                              {ft.name}
-                            </Link>
-                          )}
-                        </ul>
-                      </AccordionItem>
                     }
                   </li>
                 ))}
               </ul>
+
             </div>
 
-            {/* Footer */}
-            <div className='flex-none py-5 px-6'>
-              {user ? <Button
-                label="Logout"
+            {/* Login */}
+            {!user && <div className="py-3 px-4">
+              <Button
+                href="/login"
+                label="Sign in"
                 size="small"
-                variant="outline"
-                className="w-full py-2.5 text-base border-primary-500 text-primary-600"
-                onClick={handleLogout}
-              />
-                : <div>
-                  <Button
-                    href="/login"
-                    label="Sign in"
-                    size="small"
-                    className="w-full py-3 text-base" />
-                </div>
-              }
-            </div>
+                className="w-full py-3 text-base" />
+            </div>}
           </div>
         </div>
       </div>

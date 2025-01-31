@@ -18,8 +18,8 @@ const SearchInput = ({ value, clearValue, ...props }: SearchInputProps) => {
         <div className={cn(
             "flex w-full items-center gap-3 px-4",
             isExpanded
-                ? "bg-transparent hover:bg-transparent text-primary-900"
-                : "bg-primary-100/50 hover:bg-primary-200/50 text-primary-600 rounded-xl overflow-hidden transition-all duration-300 ease-in-out"
+                ? "bg-transparent hover:bg-transparent"
+                : "bg-primary-100/40 hover:bg-primary-100 text-primary-600 rounded-xl overflow-hidden transition-all duration-300 ease-in-out"
         )}>
             <Icon icon="solar:rounded-magnifer-linear" className="flex-none text-xl" />
             <input
@@ -41,7 +41,7 @@ const SearchInput = ({ value, clearValue, ...props }: SearchInputProps) => {
                     className="p-1.5 text-primary-600"
                     onClick={clearValue} />
                 : <span className={cn(
-                    "px-1 border border-primary-200 rounded-md bg-primary-200 font-semibold text-sm text-primary-600/70",
+                    "px-1 rounded-md bg-primary-100 font-semibold text-sm text-primary-600",
                     { "hidden lg:block": isExpanded })}>
                     {isExpanded ? "ESC" : "Ctrl+K"}
                 </span>

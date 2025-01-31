@@ -80,9 +80,9 @@ const SearchBar = () => {
     <>
       {createPortal(
         <div ref={searchRef} className="w-full">
-          <div className="fixed inset-0 bg-black bg-opacity-20 z-40 overscroll-none" onClick={closeSearch} />
+          <div className="fixed inset-0 bg-black/25 z-40 overscroll-none" onClick={closeSearch} />
 
-          <div className="w-[90%] lg:w-[75%] xl:w-[50%] mx-auto fixed top-6 left-0 right-0 z-40 border border-primary-200 shadow-lg bg-background rounded-xl divide-y divide-primary-300 overflow-hidden">
+          <div className="w-[90%] lg:w-[75%] xl:w-[50%] mx-auto fixed top-6 left-0 right-0 z-40 border border-border shadow-lg bg-background rounded-xl divide-y divide-border overflow-hidden">
             <SearchInput
               autoFocus
               value={queryInput}
