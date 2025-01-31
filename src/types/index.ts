@@ -23,16 +23,11 @@ export interface NavItem {
   name: string
   href?: string
   items?: NavLink[]
-  featured?: NavFeaturedLink[]
+  featured?: NavLink[]
 }
 
 export interface NavLink {
   name: string
   href?: string
-}
-
-export interface NavFeaturedLink {
-  name: string
   imageSrc?: string
-  href?: string
 }
