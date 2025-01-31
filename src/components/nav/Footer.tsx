@@ -46,23 +46,22 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-primary-200 flex-grow-0">
+    <footer className="flex-grow-0 bg-primary-200/50 font-medium text-primary-700">
       <MainContainer className="py-8 md:py-12">
         <section className="flex flex-col gap-12">
-          {/* Links */}
-          <ul className="flex flex-wrap gap-y-8 gap-x-20 justify-between">
-            {/* Footer Links */}
-            {footerLinks.map((item, index) => (
-              <li key={index} className="flex flex-col gap-4">
-                <h2 className="font-bold text-xl">{item.header}</h2>
 
+          {/* Links */}
+          <ul className="flex flex-wrap gap-y-6 gap-x-20 justify-between">
+            {footerLinks.map((item, index) => (
+              <li key={index} className="flex flex-col gap-3">
+                <h2 className="font-bold text-xl text-foreground">{item.header}</h2>
                 <ul className="flex flex-col gap-2">
                   {item.links.map((link, index) => (
                     <li key={index}>
                       <Link
+                        underline
                         href={link.href}
-                        className="font-medium text-primary-600"
-                      >
+                        className="lg:text-md">
                         {link.name}
                       </Link>
                     </li>
@@ -73,17 +72,13 @@ const Footer = () => {
 
             {/* Social Media */}
             <div className="flex flex-col gap-3">
-              <h2 className="font-bold text-xl">{socialMedia.header}</h2>
-
+              <h2 className="font-bold text-xl text-foreground">{socialMedia.header}</h2>
               <ul className="flex gap-4 items-center">
                 {socialMedia.links.map((link, index) => (
                   <li key={index}>
                     {link.icon && (
                       <Link href={link.href}>
-                        <Icon
-                          icon={link.icon}
-                          className="font-medium text-xl text-primary-600"
-                        />
+                        <Icon icon={link.icon} className="text-xl" />
                       </Link>
                     )}
                   </li>
@@ -93,9 +88,9 @@ const Footer = () => {
 
             {/* Newsletter */}
             <div className="flex flex-col gap-3 max-w-[500px] mt-8 lg:mt-0">
-              <h2 className="font-bold text-xl">Newsletter</h2>
+              <h2 className="font-bold text-xl text-foreground">Newsletter</h2>
 
-              <p className="font-medium text-primary-600">
+              <p className="lg:text-md">
                 Subscribe to our newsletter to get your weekly dose of new
                 releases, promotions and special offers.
               </p>
@@ -105,7 +100,7 @@ const Footer = () => {
                 <Button intent="secondary" label="Sign up" />
               </form>
 
-              <p className="font-medium xl:text-md text-primary-600">
+              <p className="text-md text-primary-600">
                 Opt out at any time by clicking{' '}
                 <span className="font-semibold text-primary-700">
                   &quot;Unsubscribe&quot;
@@ -134,14 +129,14 @@ const Footer = () => {
           <span className="w-full h-px rounded-full bg-primary-400"></span>
 
           {/* Copyrights */}
-          <div className="flex flex-wrap gap-4 justify-between font-medium text-md text-primary-700">
+          <div className="flex flex-wrap gap-4 justify-between text-md">
             <span className="flex items-center gap-2">
               <p>Privacy Policy</p>
-              <span className="w-1 h-1 rounded-full bg-primary-500"></span>
+              <span className="w-1 h-1 rounded-full bg-primary-600"></span>
               <p>Terms and Conditions</p>
             </span>
 
-            <p>Copyrights ©2024 Sneakers. All rights reserved.</p>
+            <p>Copyrights ©{new Date().getFullYear().toString()} Sneakers. All rights reserved.</p>
           </div>
         </section>
       </MainContainer>

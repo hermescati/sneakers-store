@@ -15,13 +15,13 @@ const SearchOptions = ({ selectedOption, onSelect }: SearchOptionsProps) => {
 
     return (
         <div className="flex flex-col gap-1.5 m-4">
-            <span className="font-semibold text-md text-primary-600">I&apos;m searching for</span>
+            <span className="font-medium text-md text-primary-700">I&apos;m searching for</span>
             <ul className="flex items-center gap-1">
                 {options.map((option) =>
                     <li
                         key={option.value}
                         className={cn(
-                            "w-fit px-3 py-1 border border-primary-400 hover:bg-primary-200 rounded-full font-semibold text-md cursor-pointer transition-all duration-300 ease-in-out",
+                            "w-fit px-3 py-1 border border-border hover:bg-primary-100 rounded-full font-medium text-md cursor-pointer transition-all duration-300 ease-in-out",
                             { "border-primary-900 bg-primary-900 hover:bg-primary-900 text-background cursor-default": selectedOption === option.value }
                         )}
                         onClick={() => {

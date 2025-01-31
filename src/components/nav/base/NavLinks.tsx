@@ -2,7 +2,6 @@
 
 import useOnEscapeKey from '@/hooks/use-escape-key'
 import { NavItem } from '@/types'
-import { cn } from '@/utils'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import NavLink from './NavLink'
@@ -40,7 +39,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
 
   return (
     <div className="hidden z-20 lg:block lg:self-stretch">
-      <ul ref={navRef} className="flex gap-4 justify-between h-full pt-2 pb-3">
+      <ul ref={navRef} className="flex gap-4 justify-between h-full py-3">
         {items.map((item, index) => (
           <li
             key={item.name}
@@ -62,9 +61,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
       {/* Active Indicator */}
       {!!activeIndex && (
         <span
-          className={cn(
-            'absolute bottom-0 h-[0.2rem] rounded-full bg-foreground mb-2 transition-all duration-300 ease-in-out'
-          )}
+          className="absolute bottom-0 h-[0.2rem] rounded-full bg-foreground mb-2 transition-all duration-300 ease-in-out"
           style={{
             left: `${activeIndicator.left}px`,
             width: `${activeIndicator.width}px`
