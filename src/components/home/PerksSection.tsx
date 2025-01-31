@@ -11,8 +11,8 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
     <div className="flex lg:flex-col gap-x-6 lg:gap-y-3 items-start lg:items-center">
       <Icon icon={icon} className="text-4xl lg:text-3xl" />
       <div className="flex flex-col items-start lg:items-center lg:gap-y-1">
-        <h2 className="font-bold text-xl">{title}</h2>
-        <p className="font-medium text-primary-500 xl:text-md xl:text-center">
+        <h2 className="font-semibold text-xl">{title}</h2>
+        <p className="font-medium text-primary-600 xl:text-md xl:text-center">
           {description}
         </p>
       </div>
