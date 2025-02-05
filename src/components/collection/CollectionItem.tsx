@@ -16,26 +16,15 @@ const CollectionItem = async ({ collection, layout = 'normal' }: CollectionItemP
     })
 
     return (
-        <section className="flex flex-col gap-4">
-            <h2 className="font-bold text-xl">{collection.name}</h2>
-
-            <div className="flex flex-col xl:flex-row gap-6">
-                <div className={cn(
-                    'relative aspect-video w-full xl:aspect-[3/2] xl:w-[50%] rounded-2xl lg:rounded-3xl overflow-clip',
-                    layout === 'normal' ? 'xl:order-1' : 'xl:order-2'
-                )}>
-                    <CollectionCover collection={collection} />
-                </div>
-
-                <div className={cn(
-                    'xl:w-[50%]',
-                    layout === 'normal' ? 'xl:order-2' : 'xl:order-1'
-                )}>
-                    <ProductReel
-                        products={products}
-                        className="grid grid-flow-row grid-cols-2 lg:grid-cols-3 gap-6"
-                    />
-                </div>
+        <section className="flex flex-col xl:flex-row gap-6">
+            <div className={cn("w-full xl:w-1/2", layout === "normal" ? "xl:order-1" : "xl:order-2")}>
+                <CollectionCover collection={collection} />
+            </div>
+            <div className={cn("xl:w-1/2", layout === "normal" ? "xl:order-2" : "xl:order-1")}>
+                <ProductReel
+                    products={products}
+                    className="grid grid-flow-row grid-cols-2 lg:grid-cols-3 gap-6"
+                />
             </div>
         </section>
     )
