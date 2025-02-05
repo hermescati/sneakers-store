@@ -11,7 +11,7 @@ const CollectionReel = ({ collections }: { collections: Collection[] }) => {
                 <li key={collection.id}>
                     <CollectionItem
                         collection={collection}
-                        layout={index % 2 === 0 ? 'normal' : 'alternate'}
+                        layout={index % 2 === 0 ? "normal" : "alternate"}
                     />
                 </li>
             ))}
