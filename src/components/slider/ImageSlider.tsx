@@ -3,7 +3,7 @@
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import type SwiperType from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -19,7 +19,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
   const [activeIndex, setActiveIndex] = useState(0)
 
   const [slideConfig, setSlideConfig] = useState({
-    isBeginning: true,
+    isStart: true,
     isEnd: activeIndex === (urls.length ?? 0) - 1
   })
 
@@ -27,7 +27,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
     swiper?.on('slideChange', ({ activeIndex }) => {
       setActiveIndex(activeIndex)
       setSlideConfig({
-        isBeginning: activeIndex === 0,
+        isStart: activeIndex === 0,
         isEnd: activeIndex === (urls.length ?? 0) - 1
       })
     })
@@ -42,13 +42,16 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
           swiper?.slidePrev()
         }}
         className={cn(
-          'hidden sm:block absolute inset-y-0 left-0 z-10 p-2 transition backdrop-blur-lg bg-background/30',
-          {
-            'opacity-40 cursor-default': slideConfig.isBeginning
-          }
+          "hidden sm:block absolute inset-y-0 left-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-800/30",
+          { "cursor-default": slideConfig.isStart }
         )}
       >
-        <Icon icon="mage:chevron-left" className="h-6 w-6 text-primary-700" />
+        <Icon
+          icon="mage:chevron-left"
+          className={cn(
+            "h-6 w-6 text-primary-700 dark:text-primary-500",
+            { "opacity-40": slideConfig.isStart }
+          )} />
       </button>
       <Swiper
         spaceBetween={50}
@@ -67,22 +70,19 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
             return `<span class="rounded-full transition-all ease-in-out duration-300 ${className}"></span>`
           }
         }}
-        style={
-          {
-            '--swiper-pagination-color': '#212427',
-            '--swiper-pagination-bullet-inactive-color': '#EBEBEB',
-            '--swiper-pagination-bullet-inactive-opacity': '1',
-            '--swiper-pagination-bullet-size': '0.5rem'
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          } as any
-        }
+        style={{
+          "--swiper-pagination-color": "#18181b",
+          "--swiper-pagination-bullet-inactive-color": "#18181b",
+          "--swiper-pagination-bullet-inactive-opacity": "0.3",
+          "--swiper-pagination-bullet-size": "0.5rem"
+        } as React.CSSProperties}
       >
         {urls.map((url, i) => (
           <SwiperSlide key={i} className="h-full w-full">
             <Image
               fill
               loading="eager"
-              className="-z-10 h-full w-full object-center object-contain"
+              className="-z-10 h-full w-full object-center object-contain dark:bg-primary-800"
               src={url}
               priority={true}
               alt="Product image"
@@ -97,13 +97,16 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
           swiper?.slideNext()
         }}
         className={cn(
-          'hidden sm:block absolute inset-y-0 right-0 z-10 p-2 transition backdrop-blur-lg bg-background/30',
-          {
-            'opacity-40 cursor-default': slideConfig.isEnd
-          }
+          "hidden sm:block absolute inset-y-0 right-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-800/30",
+          { "cursor-default": slideConfig.isEnd }
         )}
       >
-        <Icon icon="mage:chevron-right" className="h-6 w-6 text-primary-700" />
+        <Icon
+          icon="mage:chevron-right"
+          className={cn(
+            "h-6 w-6 text-primary-700 dark:text-primary-500",
+            { "opacity-40": slideConfig.isEnd }
+          )} />
       </button>
     </div>
   )

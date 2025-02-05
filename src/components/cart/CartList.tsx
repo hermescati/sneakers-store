@@ -7,7 +7,7 @@ import CartItem from './CartItem'
 
 const CartList = () => {
   const { items, removeItem } = useCart()
-  const isMobile = useMediaQuery('(max-width: 1023px)')
+  const isMobile = useMediaQuery('(max-width: 1024px)')
 
   return (
     <>

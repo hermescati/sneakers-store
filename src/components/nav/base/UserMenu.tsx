@@ -3,21 +3,21 @@
 import Button from '@/components/base/Button'
 import Link from '@/components/base/Link'
 import useOnEscapeKey from '@/hooks/use-escape-key'
+import useUserMenu from '@/hooks/useUserMenu'
 import { User } from '@/types/payload'
 import { cn } from '@/utils'
-import { getNavRoutes } from '@/utils/navigation'
 import { Icon } from '@iconify/react'
 import { useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
-const UserAccount = ({ user }: { user: User | null }) => {
+const UserMenu = ({ user }: { user: User | null }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const dropdownRef = useRef<HTMLDivElement>(null!)
   useOnClickOutside(dropdownRef, () => setIsOpen(false))
   useOnEscapeKey(() => setIsOpen(false))
 
-  const routes = getNavRoutes(user)
+  const menuItems = useUserMenu(user)
 
   if (!user) {
     return (
@@ -49,7 +49,7 @@ const UserAccount = ({ user }: { user: User | null }) => {
       {isOpen && (
         <div aria-label="Dropdown menu" className="p-2 absolute top-full right-0 mt-4 z-20 border border-border rounded-xl bg-background overflow-y-auto shadow-lg">
           <ul role="menu" aria-labelledby="account-dropdown" aria-orientation="vertical">
-            {routes.map((item) => (
+            {menuItems.map((item) => (
               <li key={item.value}>
                 <Link
                   href={item.route}
@@ -80,4 +80,4 @@ const UserAccount = ({ user }: { user: User | null }) => {
   )
 }
 
-export default UserAccount
+export default UserMenu
