@@ -3,10 +3,10 @@
 import { useCart } from '@/hooks/use-cart'
 import useOnKeyPress from '@/hooks/use-keypress'
 import { useSearch } from '@/hooks/use-search'
+import useUserMenu from '@/hooks/useUserMenu'
 import { NavItem } from '@/types'
 import { User } from '@/types/payload'
 import { cn } from '@/utils'
-import { getNavRoutes } from '@/utils/navigation'
 import { Icon } from '@iconify/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -28,6 +28,7 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
 
   const { expandSearch } = useSearch()
   const { items: cartItems } = useCart()
+  const menuItems = useUserMenu(user)
 
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -35,8 +36,6 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
   const navRef = useRef<HTMLDivElement>(null!)
   useOnKeyPress({ key: 'm', ctrl: true, preventDefault: true }, () => setIsOpen(true))
   useOnClickOutside(navRef, () => setIsOpen(false))
-
-  const routes = getNavRoutes(user)
 
   useEffect(() => {
     setIsOpen(false)
@@ -118,8 +117,8 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
 
             {/* Routes */}
             <div className='flex-1 overflow-y-auto px-3 border-y border-border divide-y divide-border'>
-              {!!routes.length && <ul className="py-2">
-                {routes.map((item) => (
+              {!!menuItems.length && <ul className="py-2">
+                {menuItems.map((item) => (
                   <li key={item.value}>
                     <Link
                       href={item.route}

@@ -4,7 +4,7 @@ import Link from '../base/Link'
 import MainContainer from '../MainContainer'
 import NavCart from './base/NavCart'
 import NavLinks from './base/NavLinks'
-import UserAccount from './base/UserAccount'
+import UserMenu from './base/UserMenu'
 import MobileNav from './MobileNav'
 import SearchBar from './SearchBar'
 import ThemeToggle from '../theme/ThemeToggle'
@@ -26,7 +26,7 @@ const Navbar = async () => {
                   {!user && <ThemeToggle floating/>}
                   <NavCart />
                 </div>
-                <UserAccount user={user} />
+                <UserMenu user={user} />
               </div>
             </div>
             <MobileNav items={navItems} user={user} />
