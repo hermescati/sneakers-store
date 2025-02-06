@@ -1,6 +1,6 @@
 'use client'
 
-import Button from '@/components/base/Button'
+import IconButton from '@/components/base/IconButton'
 import { useSearch } from '@/hooks/use-search'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
@@ -34,11 +34,9 @@ const SearchInput = ({ value, clearValue, ...props }: SearchInputProps) => {
                 {...props}
             />
             {!!value
-                ? <Button
-                    variant="ghost"
-                    size="icon"
-                    icon="tabler:x"
-                    className="p-1.5 text-primary-600"
+                ? <IconButton
+                    icon="tabler-x"
+                    className="p-2 text-xl"
                     onClick={clearValue} />
                 : <span className={cn(
                     "px-1 rounded-md bg-primary-100 font-semibold text-sm text-primary-600",

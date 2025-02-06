@@ -1,6 +1,6 @@
 'use client'
 
-import Button from '@/components/base/Button'
+import IconButton from '@/components/base/IconButton'
 import CartItemSkeleton from '@/components/cart/skeletons/CartItemSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
@@ -59,13 +59,10 @@ const CompactCartItem = ({
         </div>
 
         <div className="flex lg:hidden flex-col justify-between items-end">
-          <Button
-            variant="ghost"
-            size="icon"
-            icon="tabler:x"
-            onClick={onRemove}
-            className="text-xl"
-          />
+          <IconButton
+            icon="tabler-x"
+            className="p-2 text-xl hover:text-danger active:text-danger"
+            onClick={onRemove} />
         </div>
 
         <div className="hidden lg:flex flex-col justify-between items-end">

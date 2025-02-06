@@ -1,4 +1,4 @@
-import Button from '@/components/base/Button'
+import IconButton from '@/components/base/IconButton'
 import Link from '@/components/base/Link'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter, getProductInfo, getThumbnailImage } from '@/utils'
@@ -44,11 +44,7 @@ const ResultItem = ({ product, onClick }: { product: Product, onClick: (event: S
                 <span className="font-semibold text-md">{product.nickname}</span>
             </div>
 
-            <Button
-                variant="ghost"
-                size="icon"
-                icon="mage:chevron-right"
-                className="text-primary-600 hover:bg-transparent" />
+            <IconButton icon="mage:chevron-right" className="text-xl text-primary-600" />
         </div>
     )
 }

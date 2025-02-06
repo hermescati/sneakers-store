@@ -47,7 +47,7 @@ const CollectionCover = ({ collection }: { collection: Collection }) => {
                     label="Cop now"
                     iconAppend="solar:arrow-right-linear"
                     href={`/sneakers?collection=${collection.id}`}
-                    className="bg-transparent xl:text-lg text-white hover:underline hover:underline-offset-4"
+                    className="hover:underline hover:underline-offset-4"
                 />
             </header>
 

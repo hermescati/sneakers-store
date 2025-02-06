@@ -63,7 +63,7 @@ const useUserMenu = (user: User | null) => {
         }
 
         setMenuItems(newMenuItems)
-    }, [user])
+    }, [user, logout])
 
     return menuItems
 }

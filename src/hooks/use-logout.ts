@@ -24,7 +24,7 @@ const useLogout = () => {
             console.error('Error during logout:', error)
             toast.error("Couldn't logout. Please try again!")
         }
-    }, [])
+    }, [router])
 
     return logout
 };

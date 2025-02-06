@@ -5,15 +5,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import CartItem from './CartItem'
+import IconButton from '../base/IconButton'
 
 const ShoppingCart = () => {
   const router = useRouter()
 
-  const { 
+  const {
     items,
-    total: cartTotal, 
-    removeItem, 
-    closeCart 
+    total: cartTotal,
+    removeItem,
+    closeCart
   } = useCart()
   const hasItems = items.length > 0
 
@@ -29,12 +30,7 @@ const ShoppingCart = () => {
         <h4 className="font-semibold text-lg">
           {hasItems ? 'Added to cart' : 'Your cart is empty'}
         </h4>
-        <Button
-          variant="ghost"
-          size="icon"
-          icon="tabler:x"
-          onClick={() => closeCart()}
-        />
+        <IconButton icon="tabler-x" onClick={closeCart} />
       </div>
 
       {/* Products */}

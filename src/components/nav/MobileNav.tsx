@@ -13,6 +13,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import { AccordionItem } from '../base/Accordion'
 import Button from '../base/Button'
+import IconButton from '../base/IconButton'
 import Link from '../base/Link'
 
 interface MobileNavProps {
@@ -61,26 +62,20 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
   if (!isOpen)
     return (
       <div className="lg:hidden flex items-center gap-3">
-        <Button
-          variant="ghost"
-          size="icon"
+        <IconButton
           icon="solar:rounded-magnifer-linear"
-          className="p-2 inline-flex items-center justify-center rounded-full text-xl hover:bg-primary-100"
-          onClick={expandSearch}
-        />
+          className="text-xl"
+          onClick={expandSearch} />
         <div className="flex">
           <span
             className="h-8 w-px bg-border"
             aria-hidden="true"
           />
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
+        <IconButton
           icon="solar:hamburger-menu-linear"
           onClick={() => setIsOpen(true)}
-          className="p-1.5 inline-flex items-center justify-center rounded-full text-[1.75rem] hover:bg-primary-100"
-        />
+          className="p-1.5 text-[1.75rem]" />
       </div>
     )
 
@@ -89,28 +84,20 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
       {/* Backdrop */}
       <div className="fixed inset-0 bg-black bg-opacity-35" />
 
-      {/* Navigation */}
       <div className="fixed inset-0 z-40 flex justify-end">
         <div className="w-4/5">
           <div ref={navRef} className="relative w-full h-full flex flex-col border border-border rounded-s-xl overflow-y-auto shadow-xl bg-background">
 
-            {/* Header */}
             <div className="flex items-center justify-between flex-none px-4 py-2">
-              <Button
-                size="icon"
-                variant="ghost"
-                icon="tabler:x"
-                onClick={() => setIsOpen(false)}
-                className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-2xl text-primary-700 dark:text-primary-900"
-              />
+              <IconButton
+                icon="tabler-x"
+                className="text-2xl"
+                onClick={() => setIsOpen(false)} />
               <div className='relative'>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  icon="solar:cart-large-minimalistic-linear"
+                <IconButton
                   href="/cart"
-                  className="p-2.5 inline-flex items-center justify-center rounded-full hover:bg-primary-100 text-[1.5rem] text-primary-700 dark:text-primary-900"
-                />
+                  icon="solar:cart-large-minimalistic-linear"
+                  className="text-primary-700 text-2xl" />
                 {cartItems.length > 0 && <span className='absolute top-[20%] right-[15%] w-2 h-2 rounded-full bg-secondary' />}
               </div>
             </div>
@@ -186,8 +173,7 @@ const MobileNav = ({ items, user }: MobileNavProps) => {
               <Button
                 href="/login"
                 label="Sign in"
-                size="small"
-                className="w-full py-3 text-base" />
+                className="w-full" />
             </div>}
           </div>
         </div>
