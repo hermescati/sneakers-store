@@ -20,7 +20,7 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TSignUpValidationSchema>({
     resolver: zodResolver(SignUpValidationSchema)
   })
@@ -62,7 +62,7 @@ const Signup = () => {
             Create an account
           </h1>
           <span className='text-xl lg:text-base text-primary-700'>
-            Already have an account? 
+            Already have an account?
             <Link
               href="/login"
               underline
@@ -133,7 +133,7 @@ const Signup = () => {
               .
             </p>
           </div>
-          <Button label="Create Account" loading={isSubmitting} className="w-full"/>
+          <Button label="Create Account" className="w-full" />
         </form>
       </section>
     </MainContainer>

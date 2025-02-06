@@ -1,6 +1,6 @@
 'use client'
 
-import Button from '@/components/base/Button'
+import IconButton from '@/components/base/IconButton'
 import ProductCardSkeleton from '@/components/product/skeletons/ProductCardSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
@@ -41,13 +41,10 @@ const DetailedCartItem = ({
   return (
     <div className="flex flex-col gap-2 w-full group">
       <div className="relative px-5 bg-zinc-100 rounded-2xl aspect-square sm:aspect-auto">
-        <Button
-          variant="ghost"
-          size="icon"
-          icon="mage:multiply"
-          className="absolute top-3 left-3 z-10 text-primary-700 hover:text-danger hover:bg-primary-300"
-          onClick={props.onRemove}
-        />
+        <IconButton
+          icon="tabler-x"
+          className="absolute top-3 left-3 z-10 p-1.5 hover:text-danger hover:bg-primary-300 active:bg-primary-300"
+          onClick={props.onRemove} />
         <Image
           alt={`${props.nickname} thumbnail`}
           src={props.thumbnail}

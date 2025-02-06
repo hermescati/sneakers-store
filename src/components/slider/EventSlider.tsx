@@ -60,7 +60,7 @@ const EventItem = ({ event }: { event: Event }) => {
                     variant="solid"
                     label={event.type === 'discount' ? event.discount?.code : event.ctaLabel}
                     iconPrepend={event.type === 'discount' ? 'lets-icons:copy-alt' : ''}
-                    className="w-fit"
+                    className="w-fit py-3 rounded-xl"
                     onClick={handleOnClick}
                 />
             </div>

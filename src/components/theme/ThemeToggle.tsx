@@ -3,8 +3,7 @@
 import { cn } from "@/utils"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import Button from "../base/Button"
-import { Icon } from '@iconify/react'
+import IconButton from "../base/IconButton"
 
 const ThemeToggle = ({ floating }: { floating: boolean }) => {
     const [isMounted, setIsMounted] = useState(false)
@@ -25,14 +24,14 @@ const ThemeToggle = ({ floating }: { floating: boolean }) => {
     return (
         <div className="relative flex flex-col gap-2 group">
             {floating &&
-                <div className="w-10 h-10 flex items-center justify-center cursor-pointer text-primary-700 hover:text-foreground">
-                    <Icon icon={resolvedTheme === "dark" ? "solar:moon-stars-outline" : "solar:sun-line-duotone"} className="text-2xl" />
-                </div>
+                <IconButton
+                    icon={resolvedTheme === "dark" ? "solar:moon-stars-outline" : "solar:sun-line-duotone"}
+                    className="hover:bg-transparent active:bg-transparent" />
             }
 
             <div className={cn(
                 "border border-border bg-background rounded-full",
-                { "hidden group-hover:block absolute top-10 left-1/2 -translate-x-1/2 z-20 shadow-md": floating }
+                { "hidden group-hover:block absolute top-11 left-1/2 -translate-x-1/2 z-20 shadow-md": floating }
             )}>
                 <div className="relative w-full flex items-center">
                     <div
@@ -40,18 +39,12 @@ const ThemeToggle = ({ floating }: { floating: boolean }) => {
                         style={{ transform: `translateX(${activeIndex * 100}%)` }}
                     />
                     {themeOptions.map(({ value, icon }) => (
-                        <Button
+                        <IconButton
                             key={value}
-                            size="icon"
-                            variant="ghost"
                             icon={icon}
                             onClick={() => setTheme(value)}
-                            className={cn(
-                                "p-2 inline-flex items-center justify-center rounded-full active:bg-transparent hover:bg-transparent text-lg text-primary-600 hover:text-foreground",
-                                {
-                                    "text-foreground": value === theme,
-                                    "lg:text-xl": floating
-                                }
+                            className={cn("text-xl",
+                                { "text-foreground": value === theme }
                             )}
                         />
                     ))}

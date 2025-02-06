@@ -8,6 +8,7 @@ import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Button from '../base/Button'
+import IconButton from '../base/IconButton'
 import DeliveryMethods from './base/DeliveryMethods'
 import DiscountCode from './base/DiscountCode'
 
@@ -102,13 +103,7 @@ const CartSummary = () => {
                   <span className="flex items-center py-1 px-3 bg-secondary/10 border border-secondary text-secondary rounded-lg font-semibold text-md uppercase">
                     {discount.code}
                   </span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    icon="tabler:x"
-                    className="text-primary-500"
-                    onClick={clearDiscount}
-                  />
+                  <IconButton icon="tabler-x" onClick={clearDiscount} />
                 </div>
               )}
             </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import Button from '@/components/base/Button'
+import IconButton from '@/components/base/IconButton'
 import Link from '@/components/base/Link'
 import useOnEscapeKey from '@/hooks/use-escape-key'
 import useUserMenu from '@/hooks/useUserMenu'
@@ -33,18 +34,16 @@ const UserMenu = ({ user }: { user: User | null }) => {
 
   return (
     <div ref={dropdownRef} className="relative">
-      <Button
+      <IconButton
         id="account-dropdown"
         aria-label="Toggle dropdown"
         aria-haspopup="true"
         aria-expanded={isOpen}
-        size="icon"
-        variant="ghost"
         type="button"
         icon="solar:user-bold-duotone"
+        className="p-1.5 border border-border bg-transparent"
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 border border-border bg-transparent hover:bg-primary-100/50 active:outline-none active:ring-0 active:ring-transparent">
-      </Button>
+      />
 
       {isOpen && (
         <div aria-label="Dropdown menu" className="p-2 absolute top-full right-0 mt-4 z-20 border border-border rounded-xl bg-background overflow-y-auto shadow-lg">

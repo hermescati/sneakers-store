@@ -21,7 +21,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting }
+    formState: { errors }
   } = useForm<TLoginValidationSchema>({
     resolver: zodResolver(LoginValidationSchema)
   })
@@ -81,7 +81,7 @@ const LoginForm = () => {
               Forgot password?
             </Link>
           </div>
-          <Button label="Sign in" loading={isSubmitting} className='w-full' />
+          <Button label="Sign in" className='w-full' />
         </form>
         <Link
           href="/signup"
@@ -98,7 +98,7 @@ const LoginForm = () => {
 const Login = () => {
   return (
     <Suspense>
-      <LoginForm/>
+      <LoginForm />
     </Suspense>
   )
 }
