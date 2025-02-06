@@ -1,8 +1,8 @@
-'use client'
+"use client"
 
-import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { cn } from "@/utils"
+import { Icon } from "@iconify/react"
+import { ReactNode, useEffect, useRef, useState } from "react"
 
 export interface AccordionItem {
   title: string
@@ -23,6 +23,9 @@ interface AccordionProps {
   items?: AccordionItem[]
   activeIndex?: number
   children?: ReactNode
+  iconClass?: string
+  titleClass?: string
+  contentClass?: string
 }
 
 export const AccordionItem = ({
@@ -54,21 +57,21 @@ export const AccordionItem = ({
         onClick={onOpen}
       >
         <div className="flex items-center gap-3">
-          {icon && <Icon icon={icon} className={iconClass}/>}
+          {icon && <Icon icon={icon} className={iconClass} />}
           <h4>{title}</h4>
         </div>
         <span
-          className={`transition-transform duration-300 ease-in-out ${isOpen ? 'rotate-90' : 'rotate-0'}`}
+          className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}
         >
-          <Icon icon="mage:chevron-down" className={iconClass} />
+          <Icon icon="mage:chevron-down" />
         </span>
       </div>
       <div
         ref={contentRef}
-        className={`overflow-hidden transition-all duration-300 ease-in-out`}
+        className="overflow-hidden transition-all duration-300 ease-in-out"
         style={{ height }}
       >
-        {children ?? 
+        {children ??
           <p className={cn("px-4 py-1 bg-background text-primary-700 text-pretty", contentClass)}>
             {content}
           </p>
@@ -78,7 +81,13 @@ export const AccordionItem = ({
   )
 }
 
-export const Accordion = ({ items, activeIndex, children }: AccordionProps) => {
+export const Accordion = ({
+  items,
+  activeIndex,
+  children,
+  titleClass,
+  contentClass,
+  iconClass }: AccordionProps) => {
   const [openIndex, setOpenIndex] = useState<number | null>(activeIndex ?? null)
 
   const handleToggle = (index: number) => {
@@ -87,14 +96,17 @@ export const Accordion = ({ items, activeIndex, children }: AccordionProps) => {
 
   return (
     <ul className="w-full flex flex-col gap-4 3xl:gap-2">
-      {children ??  
+      {children ??
         <>
           {items?.map((item, index) => (
             <li key={index}>
               <AccordionItem
                 title={item.title}
-                icon={item.icon}
+                titleClass={titleClass}
                 content={item.content}
+                contentClass={contentClass}
+                icon={item.icon}
+                iconClass={iconClass}
                 isOpen={openIndex === index}
                 onOpen={() => handleToggle(index)}
               />

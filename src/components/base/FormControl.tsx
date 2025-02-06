@@ -12,12 +12,10 @@ const FormControl = ({
   disabled
 }: InputProps) => {
   return (
-    <div className="flex flex-col items-start gap-1 w-full ">
+    <div className="flex flex-col items-start gap-1 w-full">
       {label && (
         <div className="flex gap-1 items-center font-semibold">
-          <label htmlFor={id} className="text-foreground">
-            {label}
-          </label>
+          <label htmlFor={id}>{label}</label>
           {required && (
             <span className="text-secondary text-xl leading-none">*</span>
           )}
@@ -29,8 +27,8 @@ const FormControl = ({
       ) : hint ? (
         <span
           className={cn(
-            'text-md font-medium text-gray-500',
-            disabled && 'opacity-40'
+            "text-md font-medium text-gray-500",
+            { "opacity-40 pointer-events-none select-none": disabled }
           )}
         >
           {hint}

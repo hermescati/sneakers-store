@@ -1,33 +1,35 @@
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import Link from 'next/link'
 import { ComponentPropsWithoutRef } from 'react'
+import Link from './Link'
 
 // TODO: Find a way to handle icon size
+// TODO: Extract the icon only to a new component
+// TODO: Create a base Icon component to avoid layout shifting as icons need a bit to load at first time
+// TODO: Optimize link button and link component
 const btnBase = `
-    flex items-center justify-center gap-3
-    font-semibold whitespace-nowrap
-    disabled:opacity-40 disabled:pointer-events-none
-    active:outline-none active:ring active:ring-offset-2
+    flex items-center justify-center
+    font-semibold dark:font-bold whitespace-nowrap
+    disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none
+    active:outline-none active:ring-2 active:ring-offset-2
     transition ease-in-out duration-300
 `
 
 export const buttonVariants = cva(btnBase, {
   variants: {
     variant: {
-      solid: [''],
-      outline: [''],
-      ghost: ['']
+      solid: '',
+      outline: '',
+      ghost: ''
     },
     intent: {
-      primary: [''],
-      secondary: ['']
+      primary: '',
+      secondary: ''
     },
     size: {
-      small: ['py-2', 'px-4', , 'rounded-xl', 'text-sm'],
-      default: ['py-3.5', 'px-6', 'max-h-[52px]', 'rounded-2xl', 'text-base'],
-      icon: ['p-2', 'rounded-full', 'text-xl']
+      small: 'py-2 px-4 gap-2 text-md rounded-xl shadow-[0_2px_4px_0]',
+      default: 'py-3.5 px-6 gap-3 max-h-[52px] rounded-2xl shadow-[0_4px_8px_0]'
     }
   },
   compoundVariants: [
@@ -35,24 +37,24 @@ export const buttonVariants = cva(btnBase, {
       variant: 'solid',
       intent: 'primary',
       className: [
-        'bg-primary-800',
+        'bg-primary-800 dark:bg-secondary',
         'text-background',
-        'hover:bg-primary-900',
-        'active:bg-primary-900',
-        'active:ring-primary-900',
-        'shadow-[0_4px_16px_-2px_rgba(33,36,39,0.50)]'
+        'hover:bg-primary-900 dark:hover:bg-secondary-400',
+        'active:bg-primary-900 dark:active:bg-secondary-400',
+        'active:ring-offset-background active:ring-primary-900 dark:active:ring-secondary',
+        'shadow-primary-800/40 dark:shadow-secondary-400/40'
       ]
     },
     {
       variant: 'solid',
       intent: 'secondary',
       className: [
-        'bg-secondary',
-        'text-foreground',
-        'hover:bg-primary-200',
-        'active:bg-secondary',
-        'active:ring-secondary',
-        'shadow-[0_4px_16px_-2px_rgba(253,132,74,0.25)]'
+        'bg-secondary dark:bg-primary-900',
+        'text-background',
+        'hover:bg-secondary-400 dark:hover:bg-primary-800',
+        'active:bg-secondary-400 dark:hover:bg-primary-800',
+        'active:ring-offset-background active:ring-secondary-400 dark:active:ring-primary-800',
+        'shadow-secondary-400/40 dark:shadow-primary-500/40'
       ]
     },
     {
@@ -60,12 +62,11 @@ export const buttonVariants = cva(btnBase, {
       intent: 'primary',
       className: [
         'bg-transparent',
-        'text-foreground',
-        'border-2 border-primary-900',
-        'hover:bg-primary-900/5',
-        'active:ring-0',
-        'active:ring-offset-0',
-        'active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]'
+        'text-foreground dark:text-secondary',
+        'border-2 border-primary-800 dark:border-secondary',
+        'hover:bg-primary-100/50 dark:hover:bg-secondary-100/10',
+        'active:ring-0 active:ring-offset-0',
+        'shadow-none'
       ]
     },
     {
@@ -73,11 +74,11 @@ export const buttonVariants = cva(btnBase, {
       intent: 'secondary',
       className: [
         'bg-transparent',
-        'text-secondary',
-        'border-2 border-secondary',
-        'hover:bg-secondary/10',
-        'active:bg-secondary/10',
-        'active:ring-secondary'
+        'text-secondary dark:text-primary-900',
+        'border-2 border-secondary dark:border-primary-900',
+        'hover:bg-secondary-100/10 dark:hover:bg-primary-800/10',
+        'active:ring-0 active:ring-offset-0',
+        'shadow-none'
       ]
     },
     {
@@ -86,11 +87,10 @@ export const buttonVariants = cva(btnBase, {
       className: [
         'bg-transparent',
         'text-foreground',
-        'hover:bg-primary-200',
-        'active:bg-primary-200',
-        'active:ring-0',
-        'active:ring-offset-0',
-        'active:shadow-[inset_0_0px_6px_rgba(0,0,0,0.2)]'
+        'hover:bg-primary-100',
+        'active:bg-primary-100',
+        'active:ring-0 active:ring-offset-0',
+        'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-400))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
       ]
     },
     {
@@ -99,10 +99,10 @@ export const buttonVariants = cva(btnBase, {
       className: [
         'bg-transparent',
         'text-secondary',
-        'hover:bg-secondary/10',
-        'active:bg-secondary/10',
-        'active:ring-0',
-        'active:ring-offset-0'
+        'hover:bg-secondary-900/20',
+        'active:bg-secondary-900/20',
+        'active:ring-0 active:ring-offset-0',
+        'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-300))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
       ]
     }
   ],
@@ -114,47 +114,35 @@ export const buttonVariants = cva(btnBase, {
 })
 
 export interface ButtonProps
-  extends ComponentPropsWithoutRef<'button'>,
-    VariantProps<typeof buttonVariants> {
+  extends ComponentPropsWithoutRef<"button">,
+  VariantProps<typeof buttonVariants> {
   label?: string
   href?: string
-  loading?: boolean
-  icon?: string
   iconAppend?: string
   iconPrepend?: string
 }
 
-// TODO: Optimize code and variants
 const Button = ({
-  className,
-  href,
   variant,
   intent,
   size,
   label,
-  loading,
-  icon,
+  href,
   iconAppend,
   iconPrepend,
+  className,
   children,
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
 
-  const btnContent = loading ? (
+  const iconClass = size === "small" ? "text-xl" : "text-2xl"
+  const btnContent =
     <>
-      <Icon icon="svg-spinners:180-ring" />
+      {iconPrepend && <Icon className={iconClass} icon={iconPrepend} />}
       {label || children}
+      {iconAppend && <Icon className={iconClass} icon={iconAppend} />}
     </>
-  ) : size === 'icon' && icon ? (
-    <Icon icon={icon} />
-  ) : (
-    <>
-      {iconPrepend && <Icon icon={iconPrepend} />}
-      {label || children}
-      {iconAppend && <Icon icon={iconAppend} />}
-    </>
-  )
 
   return href && !props.disabled ? (
     <Link href={href} className={buttonClasses}>
