@@ -1,7 +1,10 @@
+import Input from '@/components/base/Input'
+import Link from '@/components/base/Link'
 import { useCart } from '@/hooks/use-cart'
 import { ProductSize } from '@/types'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter, cn } from '@/utils'
+import { useState } from 'react'
 import Button from '../../base/Button'
 
 interface SizeBoxProps {
@@ -19,10 +22,10 @@ interface ProductSizeProps {
 
 const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
   const baseStyle = `
-    flex items-center justify-center p-4 3xl:max-w-16 3xl:max-h-16
-    rounded-xl border border-primary-300 
+    flex items-center justify-center p-4 max-w-18 max-h-18
+    rounded-xl border border-border 
     bg-background 
-    font-semibold text-primary-700
+    font-semibold text-primary-800
     hover:border-primary-400
     cursor-pointer transition-color ease-in-out duration-300
   `
@@ -31,9 +34,8 @@ const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
     <button
       disabled={!stock}
       className={cn(baseStyle, {
-        'opacity-40 cursor-not-allowed': !stock,
-        'border-none bg-primary-900 text-background shadow-[0_2px_16px_-2px_rgba(33,36,39,0.50)]':
-          selected
+        "opacity-40 cursor-not-allowed": !stock,
+        "border-none bg-primary-900 text-background shadow-[0_2px_8px_-2px_rgba(var(--primary-800),0.35)]": selected
       })}
       onClick={onSelect}
     >
@@ -47,15 +49,17 @@ const ProductSizes = ({
   selectedSize,
   setSelectedSize
 }: ProductSizeProps) => {
+  const [showModal, setShowModal] = useState(false)
   const { addItem } = useCart()
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-4 p-5 bg-primary-100 rounded-2xl">
-        <h4 className="font-semibold w-full">{`Select Sizes (US ${capitalizeFirstLetter(product.size_category)})`}</h4>
-        <span className="w-full h-px bg-primary-300 rounded-full" />
+    <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-4 p-5 bg-primary-100/50 rounded-2xl">
+        <h4 className="font-semibold text-lg lg:text-base w-full">{`Select Sizes (US ${capitalizeFirstLetter(product.size_category)})`}</h4>
 
-        <ul className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-9 lg:grid-cols-5 xl:grid-cols-6 xl:gap-2.5">
+        <span className="w-full h-px bg-border rounded-full" />
+
+        <ul className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-5 2xl:grid-cols-6 gap-2">
           {product.sizes.map((item) => (
             <SizeBox
               key={item.id}
@@ -67,34 +71,39 @@ const ProductSizes = ({
           ))}
         </ul>
 
-        <span className="w-fit text-md underline underline-offset-4 cursor-pointer font-medium hover:text-secondary">
+        {/* TODO: Add a modal to show the size guides */}
+        <Link
+          underline
+          className="w-fit font-medium text-md hover:text-secondary cursor-pointer transition-colors ease-in-out duration-300">
           Size Guide
-        </span>
+        </Link>
 
-        <div className="flex flex-col gap-2">
-          <Button
-            disabled={!selectedSize}
-            iconPrepend="solar:cart-large-minimalistic-linear"
-            onClick={() => {
-              addItem(product, selectedSize as ProductSize)
-            }}
-          >
-            Add to cart
-          </Button>
-          <Button
-            variant="ghost"
-            label="Wishlist sneaker"
-            iconPrepend="solar:heart-outline"
-          />
-        </div>
+        <Button
+          disabled={!selectedSize}
+          label="Add to cart"
+          iconPrepend="solar:cart-large-minimalistic-linear"
+          onClick={() => {
+            addItem(product, selectedSize as ProductSize)
+          }} />
+
+        {/* TODO: Implement the wishlist feature for products */}
+        {/* <Button
+          variant="ghost"
+          label="Wishlist sneaker"
+          iconPrepend="solar:heart-outline"
+        /> */}
       </div>
 
-      {/* TODO: Implement a modal that when this is clicked, shows the markup below */}
-      <span className="w-fit py-2 text-md underline underline-offset-4 cursor-pointer font-medium hover:text-secondary">
+      <Link
+        underline
+        className="w-fit py-2 lg:pb-0 font-medium text-md hover:text-secondary cursor-pointer transition-colors ease-in-out duration-300"
+        onClick={() => setShowModal(!showModal)}>
         Can&apos;t find your size? Get notified!
-      </span>
+      </Link>
 
-      {/* <div className="flex flex-col md:flex-row lg:flex-col items-center gap-y-2 gap-x-2">
+      {/* TODO: Move this into a modal with portal */}
+      {showModal &&
+        <div className="flex flex-col md:flex-row lg:flex-col items-center gap-y-2 gap-x-2">
           <Input type="email" placeholder="Email address" />
           <div className="flex flex-col sm:flex-row lg:flex-col 2xl:flex-row items-center gap-2 w-full">
             <div className="w-full md:w-1/2 lg:w-full">
@@ -112,7 +121,8 @@ const ProductSizes = ({
               className="w-full md:w-1/2 lg:w-full"
             />
           </div>
-        </div> */}
+        </div>
+      }
     </div>
   )
 }

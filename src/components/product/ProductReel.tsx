@@ -18,7 +18,7 @@ const ProductReel = ({
   href,
   className
 }: ProductReelProps) => {
-  if (!products.length) return <ProductReelSkeleton title={title} />
+  if (!products.length) return <ProductReelSkeleton title={title} className={className}/>
 
   return (
     <section className="flex flex-col gap-4">

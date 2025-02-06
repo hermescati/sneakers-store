@@ -48,23 +48,17 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   const renderProductInfo = () => (
     <ul
       className={cn(
-        'h-full grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-8 px-6 py-4 bg-primary-100 rounded-2xl',
-        { '3xl:flex 3xl:justify-between': hasDescription }
+        "h-full grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-8 px-6 py-4 bg-primary-100/50 rounded-xl",
+        { "2xl:flex 2xl:justify-between": hasDescription }
       )}
     >
       {productInfo.map((data, index) => (
-        <li
-          key={index}
-          className={cn('flex items-start', {
-            'col-span-2 md:col-span-1': data.label === 'Colorway',
-            'hidden md:block': data.label === 'Gender'
-          })}
-        >
-          <div className="flex flex-col">
-            <span className="font-semibold text-md text-primary-500">
+        <li key={index}>
+          <div className="flex flex-col leading-snug">
+            <span className="font-medium text-md text-primary-600">
               {data.label}
             </span>
-            <span className="font-medium text-primary-700">{data.value}</span>
+            <span className="font-medium text-primary-800">{data.value}</span>
           </div>
         </li>
       ))}
@@ -73,27 +67,35 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   const renderAccordions = () => (
     <>
-      <div className="hidden lg:flex lg:gap-x-10">
-        <div className="lg:w-[60%] xl:w-2/3">
-          {hasDescription ? (
-            <>
-              <h4 className="py-3 font-semibold text-lg">
-                {accordionItems[0].title}
-              </h4>
-              <p className="py-1 bg-background text-primary-700 text-justify text-md sm:text-base leading-7">
-                {accordionItems[0].content}
-              </p>
-            </>
-          ) : (
-            renderProductInfo()
-          )}
-        </div>
-        <div className="lg:w-[40%] xl:w-1/3">
-          <Accordion items={accordionItems.slice(1)} activeIndex={0} />
+      <div className="hidden lg:flex lg:gap-x-6">
+        {hasDescription ? (
+          <div className="lg:w-[57%] xl:w-[69%]">
+            <h4 className="py-2 font-semibold text-lg">
+              {accordionItems[0].title}
+            </h4>
+            <p className="text-primary-700 dark:text-primary-800 text-justify text-md sm:text-base leading-relaxed">
+              {accordionItems[0].content}
+            </p>
+          </div>
+        ) : (
+          renderProductInfo()
+        )}
+        <div className="lg:w-[43%] xl:w-[33%]">
+          <Accordion
+            activeIndex={0}
+            items={accordionItems.slice(1)}
+            titleClass="rounded-xl hover:bg-primary-100/50 font-semibold text-lg"
+            contentClass="dark:text-primary-800"
+            iconClass="text-2xl" />
         </div>
       </div>
+
       <div className="lg:hidden">
-        <Accordion items={accordionItems} />
+        <Accordion
+          items={accordionItems}
+          titleClass="rounded-xl hover:bg-primary-100/50 font-semibold text-lg"
+          contentClass="dark:text-primary-800"
+          iconClass="text-2xl" />
       </div>
     </>
   )
@@ -109,29 +111,3 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 }
 
 export default ProductInfo
-
-// {/* Policies */}
-// <div className="flex flex-col rounded-2xl border border-primary-300 mt-6 divide-y divide-primary-300">
-//   {/* Free Returns */}
-//   <div className="px-5 py-4">
-//     <h2 className="flex items-center gap-2 font-bold text-lg">
-//       <Icon icon="fad:undo" className="text-2xl" />
-//       Free Returns
-//     </h2>
-//     <p className="text-md text-primary-600 mt-1">
-//       30 day returns for any reason.
-//     </p>
-//   </div>
-
-//   {/* Shipping & Delivery */}
-//   <div className="px-5 py-4">
-//     <h2 className="flex items-center gap-2 font-bold text-lg">
-//       <Icon icon="hugeicons:delivery-truck-01" className="text-2xl" />
-//       Shipping & Delivery
-//     </h2>
-//     <p className="text-md text-primary-600 mt-1">
-//       Orders are delivered on business days (Monday - Friday) excluding
-//       public holidays.
-//     </p>
-//   </div>
-// </div>
