@@ -42,7 +42,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
           swiper?.slidePrev()
         }}
         className={cn(
-          "hidden sm:block absolute inset-y-0 left-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-800/30",
+          "hidden sm:block absolute inset-y-0 left-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-700/30",
           { "cursor-default": slideConfig.isStart }
         )}
       >
@@ -82,7 +82,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
             <Image
               fill
               loading="eager"
-              className="-z-10 h-full w-full object-center object-contain dark:bg-primary-800"
+              className="-z-10 h-full w-full object-center object-contain dark:bg-primary-700"
               src={url}
               priority={true}
               alt="Product image"
@@ -97,7 +97,7 @@ const ImageSlider = ({ urls }: ImageSliderProps) => {
           swiper?.slideNext()
         }}
         className={cn(
-          "hidden sm:block absolute inset-y-0 right-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-800/30",
+          "hidden sm:block absolute inset-y-0 right-0 z-10 p-2 transition backdrop-blur-lg bg-white/30 dark:bg-primary-700/30",
           { "cursor-default": slideConfig.isEnd }
         )}
       >

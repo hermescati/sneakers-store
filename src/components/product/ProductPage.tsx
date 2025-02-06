@@ -5,7 +5,7 @@ import { Product } from '@/types/payload'
 import { getProductInfo } from '@/utils'
 import { useState } from 'react'
 import Breadcrumbs from '../base/Breadcrumbs'
-import ImageSlider from '../ImageSlider'
+import ImageSlider from '../slider/ImageSlider'
 import ProductDetails from './base/ProductDetails'
 import ProductInfo from './base/ProductInfo'
 import ProductSizes from './base/ProductSizes'
@@ -27,22 +27,19 @@ const ProductPage = ({ product }: { product: Product }) => {
 
   return (
     <>
-      <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-x-10">
-        <div className="flex flex-col gap-4 lg:w-[60%] xl:w-2/3">
+      <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-x-8">
+        <div className="flex flex-col gap-4 lg:w-[55%] xl:w-2/3">
           <Breadcrumbs items={breadcrumbs} className="hidden sm:block" />
-
           <div className="lg:hidden">
             <ProductDetails product={product} selectedSize={selectedSize} />
           </div>
-
           <ImageSlider urls={imageUrls} />
         </div>
 
-        <div className="flex flex-col gap-4 lg:w-[40%] lg:justify-between xl:w-1/3 xl:gap-8">
+        <div className="flex flex-col gap-4 lg:w-[45%] lg:justify-between xl:w-1/3 xl:gap-8">
           <div className="hidden lg:block">
             <ProductDetails product={product} selectedSize={selectedSize} />
           </div>
-
           <ProductSizes
             product={product}
             selectedSize={selectedSize}
