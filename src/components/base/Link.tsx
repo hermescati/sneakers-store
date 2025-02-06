@@ -5,9 +5,9 @@ import { ReactNode } from 'react'
 interface LinkProps {
   href?: string
   children: ReactNode
-  onClick?: () => void
   underline?: boolean
   className?: string
+  onClick?: VoidFunction
 }
 
 const Link = ({

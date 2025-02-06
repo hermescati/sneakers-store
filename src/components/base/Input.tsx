@@ -27,10 +27,10 @@ const inputVariants = cva(baseInput, {
         'has-[:focus-visible]:ring-danger/20'
       ],
       false: [
-        'text-primary-900',
+        'text-foreground',
         'border-primary-400',
-        'has-[:focus-visible]:border-primary-900',
-        'has-[:focus-visible]:ring-primary-900/20'
+        'has-[:focus-visible]:border-primary-800 dark:has-[:focus-visible]:border-secondary',
+        'has-[:focus-visible]:ring-primary-800/20 dark:has-[:focus-visible]:ring-secondary/20'
       ]
     }
   },
@@ -41,7 +41,7 @@ const inputVariants = cva(baseInput, {
 })
 
 export interface InputProps
-  extends ComponentPropsWithoutRef<'input'>,
+  extends ComponentPropsWithoutRef<"input">,
     VariantProps<typeof inputVariants> {
   label?: string
   hint?: string
@@ -55,20 +55,20 @@ const IconWrapper = ({
   inputSize,
   icon
 }: {
-  position: 'prepend' | 'append'
-  inputSize: VariantProps<typeof inputVariants>['inputSize']
+  position: "prepend" | "append"
+  inputSize: VariantProps<typeof inputVariants>["inputSize"]
   icon: string
 }) => (
   <div
     className={cn(
-      'flex px-4 items-center bg-primary-200 border-primary-400',
-      position === 'prepend' ? 'border-r' : 'border-l'
+      "flex px-4 items-center bg-primary-100 border-primary-400",
+      position === "prepend" ? "border-r" : "border-l"
     )}
   >
     <Icon
       icon={icon}
       className="text-primary-600"
-      height={inputSize === 'small' ? '1rem' : '1.25rem'}
+      height={inputSize === "small" ? "1rem" : "1.25rem"}
     />
   </div>
 )
@@ -78,22 +78,20 @@ const PasswordToggleWrapper = ({
   showPassword,
   toggleHandler
 }: {
-  inputSize: VariantProps<typeof inputVariants>['inputSize']
+  inputSize: VariantProps<typeof inputVariants>["inputSize"]
   showPassword: boolean
   toggleHandler: () => void
 }) => (
   <button
     type="button"
     onClick={toggleHandler}
-    className={cn(
-      'flex px-4 items-center bg-primary-200 border-primary-400 border-l'
-    )}
-    aria-label={showPassword ? 'Hide password' : 'Show password'}
+    className="flex px-4 items-center bg-primary-100 border-primary-400 border-l"
+    aria-label={showPassword ? "Hide password" : "Show password"}
   >
     <Icon
-      icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'}
+      icon={showPassword ? "solar:eye-closed-linear" : "solar:eye-linear"}
       className="text-primary-600 transition-all ease-in-out duration-300"
-      height={inputSize === 'small' ? '1rem' : '1.25rem'}
+      height={inputSize === "small" ? "1rem" : "1.25rem"}
     />
   </button>
 )
@@ -102,7 +100,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       id,
-      type = 'text',
+      type = "text",
       inputSize,
       invalid = false,
       required,
@@ -114,13 +112,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false)
-    const inputType = type === 'password' && showPassword ? 'text' : type
+    const inputType = type === "password" && showPassword ? "text" : type
     const inputClasses = inputVariants({ inputSize, invalid, className })
 
     const PrependIcon = useMemo(
       () =>
         iconPrepend &&
-        type !== 'password' &&
+        type !== "password" &&
         !showPassword && (
           <IconWrapper
             position="prepend"
@@ -134,7 +132,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const AppendIcon = useMemo(
       () =>
         iconAppend &&
-        type !== 'password' &&
+        type !== "password" &&
         !showPassword && (
           <IconWrapper
             position="append"
@@ -147,7 +145,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const PasswordToggle = useMemo(
       () =>
-        type === 'password' && (
+        type === "password" && (
           <PasswordToggleWrapper
             inputSize={inputSize}
             showPassword={showPassword}
@@ -159,15 +157,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <FormControl id={id} invalid={invalid} required={required} {...props}>
-        <div className={cn(inputClasses, 'flex w-full overflow-clip')}>
+        <div className={cn(inputClasses, "flex w-full overflow-clip")}>
           {PrependIcon}
           <input
             id={id}
             ref={ref}
             type={inputType}
             className={cn(
-              'w-full outline-none disabled:cursor-not-allowed px-4',
-              inputSize === 'small' ? 'py-2' : 'py-3'
+              "w-full outline-none disabled:cursor-not-allowed px-4",
+              inputSize === "small" ? "py-2" : "py-3"
             )}
             {...props}
           />

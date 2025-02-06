@@ -6,19 +6,23 @@ import { Icon } from '@iconify/react'
 import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
-export interface DropdownItem {
+// FIXME: Extract this as a reusable component as it's not needed for this project anymore
+export interface NavRoute {
   value: string
-  label: string
+  title: string
+  subtitle?: string,
   type?: 'header' | 'option'
   icon?: string
-  action?: () => void
+  route?: string
+  action?: VoidFunction
+  component?: ReactNode
 }
 
 interface DropdownMenuProps {
   id: string
   title?: string
   children?: ReactNode
-  items: DropdownItem[]
+  items: NavRoute[]
   position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
   icon?: string
   imageSrc?: string
@@ -37,7 +41,7 @@ const DropdownMenu = ({
   useOnClickOutside(dropdownRef, () => setIsOpen(false))
   useOnEscapeKey(() => setIsOpen(false))
 
-  const handleItemClick = (item: DropdownItem) => {
+  const handleItemClick = (item: NavRoute) => {
     if (item.action) item.action()
     setIsOpen(!isOpen)
   }
@@ -100,7 +104,7 @@ const DropdownMenu = ({
                 })}
               >
                 {item.icon && <Icon icon={item.icon} className="text-xl" />}
-                <span>{item.label}</span>
+                <span>{item.title}</span>
               </li>
             ))}
           </ul>
