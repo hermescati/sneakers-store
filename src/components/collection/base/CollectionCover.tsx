@@ -19,8 +19,7 @@ const CollectionCover = ({ collection }: { collection: Collection }) => {
     const isMobile = useMediaQuery('(max-width: 1024px)')
 
     return (
-        <div className="relative w-full aspect-video xl:aspect-[3/2] rounded-2xl overflow-clip">
-            {/* Gradient Overlay */}
+        <div className="relative w-full aspect-video xl:aspect-[3/2] rounded-xl sm:rounded-2xl overflow-clip">
             <div
                 className="absolute inset-x-0 min-h-full z-10"
                 style={{
@@ -32,7 +31,6 @@ const CollectionCover = ({ collection }: { collection: Collection }) => {
                 }}
             />
 
-            {/* Header Section */}
             <header className="absolute inset-x-0 bottom-0 lg:top-0 z-10 flex justify-between items-end lg:items-start p-6 lg:p-10">
                 <div className="flex flex-col leading-snug text-white" style={{ textShadow: "0 0.25em 0.25em rgba(0,0,0,0.4)" }}>
                     <h3 className="font-medium">
@@ -47,11 +45,10 @@ const CollectionCover = ({ collection }: { collection: Collection }) => {
                     label="Cop now"
                     iconAppend="solar:arrow-right-linear"
                     href={`/sneakers?collection=${collection.id}`}
-                    className="hover:underline hover:underline-offset-4"
+                    className="text-white hover:text-foreground hover:bg-primary-100 hover:underline hover:underline-offset-4 hover:shadow-md"
                 />
             </header>
 
-            {/* Image */}
             <Image
                 alt={collection.name}
                 src={collectionCover || ""}

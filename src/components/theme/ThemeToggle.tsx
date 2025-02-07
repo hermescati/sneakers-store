@@ -31,7 +31,7 @@ const ThemeToggle = ({ floating }: { floating: boolean }) => {
 
             <div className={cn(
                 "border border-border bg-background rounded-full",
-                { "hidden group-hover:block absolute top-11 left-1/2 -translate-x-1/2 z-20 shadow-md": floating }
+                { "hidden group-hover:block absolute top-11 left-1/2 -translate-x-1/2 z-40 shadow-md": floating }
             )}>
                 <div className="relative w-full flex items-center">
                     <div

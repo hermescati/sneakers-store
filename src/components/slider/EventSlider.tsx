@@ -46,21 +46,21 @@ const EventItem = ({ event }: { event: Event }) => {
                 <Image
                     fill
                     loading="lazy"
-                    className="rounded-2xl object-center object-contain bg-primary-200"
+                    className="rounded-xl sm:rounded-2xl object-center object-contain bg-primary-200"
                     src={getCoverImage() || ""}
                     alt="event cover image"
                 />
             </div>
-            <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-[4%] lg:bottom-[8%] py-4 lg:p-6 lg:w-[30%] bg-background lg:shadow-lg lg:rounded-2xl">
-                <div className="flex flex-col gap-1">
-                    <span className="font-semibold text-xl lg:text-2xl">{event.title}</span>
-                    <span className="font-medium text-md text-primary-600 leading-tight line-clamp-2">{event.description}</span>
+            <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-[4%] lg:bottom-[8%] py-4 lg:p-6 lg:w-[30%] bg-background lg:shadow-xl lg:rounded-2xl">
+                <div className="flex flex-col gap-2">
+                    <span className="font-semibold text-xl">{event.title}</span>
+                    <span className="text-md text-primary-700 dark:text-primary-800 line-clamp-2">{event.description}</span>
                 </div>
                 <Button
                     variant="solid"
                     label={event.type === 'discount' ? event.discount?.code : event.ctaLabel}
                     iconPrepend={event.type === 'discount' ? 'lets-icons:copy-alt' : ''}
-                    className="w-fit py-3 rounded-xl"
+                    className="w-fit"
                     onClick={handleOnClick}
                 />
             </div>

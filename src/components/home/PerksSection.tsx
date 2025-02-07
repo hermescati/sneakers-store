@@ -9,7 +9,9 @@ export interface PerkItem {
 const PerkCard = ({ icon, title, description }: PerkItem) => {
   return (
     <div className="flex lg:flex-col gap-x-6 lg:gap-y-3 items-start lg:items-center">
-      <Icon icon={icon} className="text-4xl lg:text-3xl" />
+      <span className="flex items-center justify-center w-10 h-10 lg:w-8 lg:h-8">
+        <Icon icon={icon} className="text-3xl"/>
+      </span>
       <div className="flex flex-col items-start lg:items-center lg:gap-y-1">
         <h2 className="font-semibold text-xl">{title}</h2>
         <p className="font-medium text-primary-600 xl:text-md xl:text-center">
@@ -45,7 +47,7 @@ const PerksSection = () => {
   ]
 
   return (
-    <section className="border-y border-primary-300 py-8">
+    <section className="border-y border-border py-8">
       <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8 md:gap-12 xl:gap-y-0 xl:gap-20">
         {perks.map(({ icon, title, description }) => (
           <li key={title}>

@@ -97,7 +97,7 @@ const Footer = () => {
 
               <form className="flex gap-3">
                 <Input type="email" placeholder="Email address" />
-                <Button intent="secondary" label="Sign up" />
+                <Button intent="secondary" label="Sign up" className="text-foreground dark:text-background" />
               </form>
 
               <p className="text-md text-primary-600">

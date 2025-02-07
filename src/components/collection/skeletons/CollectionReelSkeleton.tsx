@@ -8,7 +8,7 @@ const CollectionItemSkeleton = ({ layout }: { layout: 'normal' | 'alternate' }) 
 
             <div className="flex flex-col xl:flex-row gap-6">
                 <div className={cn(
-                    "relative aspect-video w-full xl:aspect-[3/2] xl:w-[50%] rounded-2xl lg:rounded-3xl overflow-clip",
+                    "relative aspect-video w-full xl:aspect-[3/2] xl:w-[50%] rounded-xl sm:rounded-2xl overflow-clip",
                     layout === "normal" ? "xl:order-1" : "xl:order-2"
                 )}>
                     <div className="w-full h-full rounded-2xl bg-zinc-200/75"></div>
