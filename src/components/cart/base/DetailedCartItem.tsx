@@ -6,7 +6,7 @@ import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
-interface Props {
+interface DetailedCartItemProps {
   index: number
   name: string
   nickname: string
@@ -19,14 +19,19 @@ interface Props {
 }
 
 const DetailedCartItem = ({
-  discountedPrice,
+  name,
+  nickname,
+  thumbnail,
+  category,
+  size,
   basePrice,
+  discountedPrice,
   index,
-  ...props
-}: Props) => {
-  const isDiscounted = discountedPrice !== basePrice
-
+  onRemove
+}: DetailedCartItemProps) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
+
+  const isDiscounted = discountedPrice !== basePrice
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -36,41 +41,34 @@ const DetailedCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!props.name || !isLoaded) return <ProductCardSkeleton />
+  if (!isLoaded) return <ProductCardSkeleton />
 
   return (
     <div className="flex flex-col gap-2 w-full group">
-      <div className="relative px-5 bg-zinc-100 rounded-2xl aspect-square sm:aspect-auto">
+      <div className="relative px-5 bg-primary-100 dark:bg-primary-700 rounded-2xl aspect-auto">
         <IconButton
           icon="tabler-x"
-          className="absolute top-3 left-3 z-10 p-1.5 hover:text-danger hover:bg-primary-300 active:bg-primary-300"
-          onClick={props.onRemove} />
+          className="absolute top-2 left-2 z-10 p-1.5 dark:text-primary-300 hover:text-danger hover:bg-primary-300 dark:hover:bg-primary-600 active:bg-primary-300"
+          onClick={onRemove} />
         <Image
-          alt={`${props.nickname} thumbnail`}
-          src={props.thumbnail}
+          alt={`${nickname} thumbnail`}
+          src={thumbnail}
           width={400}
           height={300}
-          loading="eager"
-          priority
-          className="h-full w-full object-contain mix-blend-multiply transition-transform duration-300 ease-in-out group-hover:scale-105"
+          loading="lazy"
+          className="h-full w-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
       </div>
 
       <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
-        <h3 className="font-semibold text-primary-800 line-clamp-1 text-lg">
-          {props.name}
+        <h3 className="font-semibold line-clamp-1">
+          {name}
         </h3>
-
-        <span className="flex items-center gap-2 text-md text-primary-600">
-          &quot;{props.nickname}&quot;
+        <span className="font-medium text-primary-600 text-md">
+          {category} (US) - {size}
         </span>
 
-        <span className="text-primary-600 text-md">
-          {props.category} (US) - {props.size}
-        </span>
-
-        {/* Price */}
-        <div className="flex items-baseline gap-2 lg:mt-1">
+        <div className="flex items-baseline gap-2 mt-1">
           <span className="font-semibold text-lg">
             {formatPrice(discountedPrice)}
           </span>

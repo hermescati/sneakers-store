@@ -5,11 +5,11 @@ import CartItemSkeleton from '@/components/cart/skeletons/CartItemSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
-interface DetailedCartItemProps {
+interface CompactCartItemProps {
   index: number
   name: string
-  nickname: string
   category: string
   size: number
   price: number
@@ -19,10 +19,15 @@ interface DetailedCartItemProps {
 
 const CompactCartItem = ({
   index,
+  name,
+  category,
+  size,
+  price,
+  thumbnail,
   onRemove,
-  ...props
-}: DetailedCartItemProps) => {
+}: CompactCartItemProps) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
+  const isMobile = useMediaQuery('(max-width: 1023px)')
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,48 +37,36 @@ const CompactCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!props.name || !isLoaded) return <CartItemSkeleton />
+  if (!isLoaded) return <CartItemSkeleton />
 
   return (
-    <div className="flex items-center gap-6 py-3 lg:py-1 lg:px-5">
-      <div className="aspect-square">
+    <div className="flex items-center gap-4 py-5 lg:py-1 lg:px-5">
+      <div className="w-[40%] aspect-video">
         <Image
-          alt={props.name}
-          src={props.thumbnail}
+          alt={name}
+          src={thumbnail}
           height={80}
-          width={120}
-          className="h-full w-full object-contain rounded-md"
+          width={130}
+          className="h-full w-full object-contain rounded-xl dark:bg-primary-700"
         />
       </div>
-      <div className="flex w-full justify-between gap-x-4 lg:gap-x-4">
-        <div className="flex flex-col gap-1">
-          <h3 className="font-medium leading-tight">{props.name}</h3>
 
-          <span className="text-primary-700 text-md">
-            {props.category} (US) - {props.size}
-          </span>
+      <div className="flex w-full items-stretch justify-between gap-x-4 lg:gap-x-4">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
+            <h3 className="font-semibold">{name}</h3>
+            <span className="font-medium text-primary-700 text-md">
+              {category} (US) - {size}
+            </span>
+          </div>
 
-          <span className="lg:hidden mt-2 font-semibold">
-            {formatPrice(props.price)}
-          </span>
+          <span className="font-semibold">{formatPrice(price)}</span>
         </div>
 
-        <div className="flex lg:hidden flex-col justify-between items-end">
-          <IconButton
-            icon="tabler-x"
-            className="p-2 text-xl hover:text-danger active:text-danger"
-            onClick={onRemove} />
-        </div>
-
-        <div className="hidden lg:flex flex-col justify-between items-end">
-          <span className="font-semibold">{formatPrice(props.price)}</span>
-          <span
-            className="text-md text-primary-600 hover:text-danger hover:underline hover:underline-offset-4 cursor-pointer transition-all ease-in-out duration-300"
-            onClick={onRemove}
-          >
-            Remove
-          </span>
-        </div>
+        <IconButton
+          icon={isMobile ? "tabler-x" : "solar:trash-bin-trash-linear"}
+          className="h-fit p-2 text-xl hover:text-danger active:text-danger"
+          onClick={onRemove} />
       </div>
     </div>
   )

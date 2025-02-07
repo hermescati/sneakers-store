@@ -20,19 +20,18 @@ const CartPage = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-8 lg:flex-row lg:gap-x-12 xl:gap-x-16">
+      <div className="flex flex-col lg:flex-row lg:gap-x-10 xl:gap-x-12">
         <div
           className={cn(
-            'flex flex-col gap-4',
-            hasItems ? 'lg:w-[60%] xl:w-[65%]' : 'w-full'
+            "flex flex-col",
+            hasItems ? 'lg:w-[55%] xl:w-[65%]' : 'w-full gap-4'
           )}
         >
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row gap-y-2 items-center justify-between">
+          <div className="flex gap-y-2 items-center justify-between">
             <div className="w-full sm:w-fit flex flex-col">
-              <h2 className="text-xl md:text-2xl font-bold">Shopping Cart</h2>
+              <h2 className="text-xl md:text-2xl font-bold leading-snug">Shopping Cart</h2>
               {hasItems && (
-                <h3 className="font-semibold text-primary-500">
+                <h3 className="font-medium text-md text-primary-600">
                   {items.length} item(s)
                 </h3>
               )}
@@ -41,22 +40,21 @@ const CartPage = () => {
               <Button
                 variant="ghost"
                 label="Remove all"
-                iconPrepend="tabler:trash"
-                className="w-full sm:w-fit text-primary-600 underline underline-offset-4 hover:text-danger"
+                size="small"
+                iconPrepend="solar:trash-bin-trash-outline"
+                className="py-3 dark:font-semibold text-primary-600 hover:text-danger active:text-danger"
                 onClick={() => clearCart()}
               />
             )}
           </div>
 
-          {/* Products List */}
-          {hasItems && <CartList />}
-
-          {/* Empty State */}
-          {!hasItems && <EmptyCart />}
+          {!hasItems ? <EmptyCart /> : <CartList />}
         </div>
 
-        {/* Checkout Section*/}
-        {hasItems && <CartSummary />}
+        {hasItems &&
+          <section className="lg:w-[45%] xl:w-[35%]">
+            <CartSummary />
+          </section>}
       </div>
     </>
   )

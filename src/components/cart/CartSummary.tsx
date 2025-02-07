@@ -67,95 +67,75 @@ const CartSummary = () => {
   }
 
   return (
-    <section className="lg:w-[40%] xl:w-[35%]">
-      <div className="sticky top-[11.5rem] self-start 3xl:max-h-screen overflow-y-auto">
-        <div className="flex flex-col gap-4 p-5 lg:p-6 rounded-2xl border border-primary-300">
-          <h2 className="font-bold text-2xl">Your Order</h2>
+    <div className="lg:sticky lg:top-40 3xl:max-h-screen overflow-y-auto">
+      <div className="flex flex-col gap-4 p-6 rounded-xl border border-border">
 
-          <span className="bg-primary-300 h-px w-full rounded-full" />
-
+        <div className="flex flex-col gap-4">
+          <h2 className="font-bold text-2xl">Order Summary</h2>
           <DeliveryMethods />
-
-          <span className="bg-primary-300 h-px w-full rounded-full" />
-
           <DiscountCode />
+        </div>
 
-          <span className="bg-primary-300 h-px w-full rounded-full" />
+        <span className="flex w-full h-px bg-border" />
 
-          <div className="flex flex-col gap-3">
-            {/* Subtotal */}
-            <div className="flex items-center justify-between font-bold text-gray-800">
-              <span>Cart Total</span>
-              <span>{formatPrice(subtotal)}</span>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between font-semibold text-primary-800">
+            <span>Cart Total</span>
+            <span>{formatPrice(subtotal)}</span>
+          </div>
+
+          <div className="flex flex-col gap-0.5 font-medium text-primary-700">
+            <div className="flex items-baseline justify-between gap-x-4">
+              <span>Discount</span>
+              <span>{formatPrice(calculateDiscount(), { credit: true })}</span>
             </div>
 
-            {/* Discount*/}
-            <div className="flex flex-col gap-0.5 font-medium text-gray-500">
-              <div className="flex items-baseline justify-between gap-x-4">
-                <span>Discount</span>
-                <span>
-                  <span>{!!discount && '- '}</span>
-                  {formatPrice(calculateDiscount())}
+            {!!discount && (
+              <div className="flex items-center gap-x-1.5">
+                <span className="flex items-center py-0.5 px-2.5 border-2 border-secondary-400 bg-secondary-100/10 text-secondary-400 rounded-lg font-semibold text-md uppercase">
+                  {discount.code}
                 </span>
+                <IconButton icon="tabler-x" onClick={clearDiscount} className="p-1.5 text-lg" />
               </div>
-              {!!discount && (
-                <div className="flex items-center gap-x-1">
-                  <span className="flex items-center py-1 px-3 bg-secondary/10 border border-secondary text-secondary rounded-lg font-semibold text-md uppercase">
-                    {discount.code}
-                  </span>
-                  <IconButton icon="tabler-x" onClick={clearDiscount} />
-                </div>
-              )}
-            </div>
-
-            {/* Delivery */}
-            <div className="flex items-baseline justify-between font-medium text-gray-500">
-              <span>Delivery</span>
-              <span className="transition-all ease-in-out duration-300">
-                {formatPrice(calculateShipping())}
-              </span>
-            </div>
+            )}
           </div>
 
-          {/* Total */}
-          <span className="bg-primary-300 h-px w-full rounded-full" />
-          <div className="flex items-center justify-between font-bold text-xl">
-            <div className="flex items-baseline gap-1">
-              <p>Total</p>
-              <span className="font-normal text-md text-primary-600">
-                (ex. Tax)
-              </span>
-            </div>
-            <div>{formatPrice(calculateTotal())}</div>
+          <div className="flex item-center justify-between font-medium text-primary-700">
+            <span>Delivery</span>
+            <span>{formatPrice(calculateShipping())}</span>
           </div>
-
-          <Button
-            disabled={!items.length}
-            label="Checkout"
-            className="mt-2"
-            onClick={handleCheckout}
-          />
         </div>
 
-        {/* Support */}
-        <div className="flex items-center gap-2 py-6">
-          <Icon
-            icon="solar:chat-line-outline"
-            className="text-2xl text-primary-700"
-          />
-          <span className="font-medium text-primary-800">
-            Need help with your order?
-          </span>
+        <span className="flex w-full h-px bg-border" />
 
-          <Link
-            href="/cart"
-            className="font-medium text-secondary underline underline-offset-4"
-          >
-            We&apos;re here to help
-          </Link>
+        <div className="flex items-center justify-between font-bold text-xl">
+          <p className="flex items-baseline gap-1">
+            <span>Total</span>
+            <span className="font-semibold text-md text-primary-500">
+              (ex. Tax)
+            </span>
+          </p>
+          <div>{formatPrice(calculateTotal())}</div>
         </div>
+
+        <Button
+          disabled={!items.length}
+          label="Checkout"
+          className="mt-2"
+          onClick={handleCheckout} />
       </div>
-    </section>
+
+      <div className="flex items-center gap-2 py-5 font-medium">
+        <Icon icon="solar:chat-line-outline" className="text-2xl text-primary-700" />
+        <span className="text-primary-800"> Need help with your order?</span>
+        <Link
+          href="/cart"
+          className="text-secondary underline underline-offset-4"
+        >
+          We&apos;re here to help
+        </Link>
+      </div>
+    </div>
   )
 }
 

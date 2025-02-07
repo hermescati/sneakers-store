@@ -7,7 +7,6 @@ import {
   capitalizeFirstLetter,
   getThumbnailImage
 } from '@/utils'
-import Link from 'next/link'
 import CompactCartItem from './base/CompactCartItem'
 import DetailedCartItem from './base/DetailedCartItem'
 
@@ -20,12 +19,10 @@ interface CartItemProps {
   onRemove: () => void
 }
 
-// TODO: Refactor this component
 const CartItem = ({
   product,
   index,
   size,
-  href,
   compact,
   onRemove
 }: CartItemProps) => {
@@ -45,60 +42,28 @@ const CartItem = ({
 
   return (
     <>
-      {href ? (
-        <Link href={`/sneakers/${product.id}`}>
-          {compact ? (
-            <CompactCartItem
-              index={index}
-              name={product.name!}
-              nickname={product.nickname!}
-              category={category}
-              size={size.size}
-              price={productPrice}
-              thumbnail={thumbnail}
-              onRemove={handleOnRemove}
-            />
-          ) : (
-            <DetailedCartItem
-              index={index}
-              name={product.name!}
-              nickname={product.nickname!}
-              category={category}
-              size={size.size}
-              discountedPrice={productPrice}
-              basePrice={size.price}
-              thumbnail={thumbnail}
-              onRemove={handleOnRemove}
-            />
-          )}
-        </Link>
+      {compact ? (
+        <CompactCartItem
+          index={index}
+          name={product.name!}
+          category={category}
+          size={size.size}
+          price={productPrice}
+          thumbnail={thumbnail}
+          onRemove={handleOnRemove}
+        />
       ) : (
-        <>
-          {compact ? (
-            <CompactCartItem
-              index={index}
-              name={product.name!}
-              nickname={product.nickname!}
-              category={category}
-              size={size.size}
-              price={productPrice}
-              thumbnail={thumbnail}
-              onRemove={handleOnRemove}
-            />
-          ) : (
-            <DetailedCartItem
-              index={index}
-              name={product.name!}
-              nickname={product.nickname!}
-              category={category}
-              size={size.size}
-              discountedPrice={productPrice}
-              basePrice={size.price}
-              thumbnail={thumbnail}
-              onRemove={handleOnRemove}
-            />
-          )}
-        </>
+        <DetailedCartItem
+          index={index}
+          name={product.name!}
+          nickname={product.nickname!}
+          category={category}
+          size={size.size}
+          discountedPrice={productPrice}
+          basePrice={size.price}
+          thumbnail={thumbnail}
+          onRemove={handleOnRemove}
+        />
       )}
     </>
   )
