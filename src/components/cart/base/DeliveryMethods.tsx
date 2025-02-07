@@ -14,11 +14,9 @@ const DeliveryMethods = () => {
   useEffect(() => {
     const getDeliveryMethods = async () => {
       const options = await getShippingRates()
-
       if (!options.length) return
       setMethods(options)
     }
-
     getDeliveryMethods()
   }, [])
 
@@ -37,37 +35,31 @@ const DeliveryMethods = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <h3 className="font-bold">Delivery</h3>
+      <h4 className="font-semibold text-primary-700">Delivery</h4>
 
-      <ul className="grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 items-center gap-3">
+      <ul className="grid sm:grid-cols-2 items-center gap-2">
         {methods.map((method) => {
           const { min, max, unit } = getDeliveryEstimate(method)
 
           return (
             <li key={method.id}>
               <button
-                className={cn(
-                  'w-full flex flex-col items-start justify-between p-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300',
-                  {
-                    'border-secondary bg-secondary/5':
-                      shippingMethod?.id === method.id
-                  }
-                )}
                 onClick={() => setDeliveryMethod(method)}
+                className={cn(
+                  "w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300",
+                  { "border-secondary bg-secondary-100/10 dark:bg-secondary-100/5": shippingMethod?.id === method.id }
+                )}
               >
-                <h4 className="font-semibold text-primary-700">
-                  {method.display_name}
-                </h4>
-
-                <div className="text-md text-primary-500">
-                  <span>{min}</span>-<span>{max}</span> <span>{unit}.</span>
+                <div>
+                  <h4 className="font-semibold">{method.display_name}</h4>
+                  <p className="flex item-center font-medium text-md text-primary-600 dark:text-primary-700">
+                    {min}-{max}{" "}{unit}
+                  </p>
                 </div>
 
-                <span className="mt-2 font-semibold">
-                  {formatPrice(
-                    method.fixed_amount ? method.fixed_amount?.amount : 0
-                  )}
-                </span>
+                <h4 className="font-semibold">
+                  {formatPrice(method.fixed_amount ? method.fixed_amount?.amount : 0)}
+                </h4>
               </button>
             </li>
           )

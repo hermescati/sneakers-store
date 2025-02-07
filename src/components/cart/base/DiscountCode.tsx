@@ -6,6 +6,7 @@ import { validateDiscountCode } from '@/services/coupons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
+// FIXME: Refactor discount code logic to take into account the metadata field
 const DiscountCode = () => {
   const { discount: appliedDiscount, setDiscount } = useCart()
 
@@ -45,9 +46,9 @@ const DiscountCode = () => {
 
   return (
     <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-      <h3 className="font-bold">Discount Code</h3>
+      <h4 className="font-semibold text-primary-700">Discount Code</h4>
 
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex gap-2">
         <Input
           {...register('code')}
           placeholder="Add discount code"
@@ -55,21 +56,20 @@ const DiscountCode = () => {
           disabled={!!appliedDiscount}
           invalid={!!errors.code}
           error={errors.code?.message}
-          className="w-[55%]"
         />
         <Button
-          variant="outline"
+          variant="ghost"
           label={`${!!appliedDiscount ? 'Applied' : 'Apply'}`}
           disabled={!!appliedDiscount}
           iconPrepend={!!appliedDiscount ? 'solar:check-circle-linear' : ''}
-          className="w-full border-primary-400 sm:w-[45%]"
+          className="h-fit w-fit border-2 border-primary-400"
         />
       </div>
 
-      <div className="flex items-baseline gap-1 text-md text-primary-700">
-        <span className="font-bold">Note:</span>
+      <p className="font-medium text-md text-primary-600">
+        <span className="font-bold text-primary-700">Note:</span>{" "}
         <span>Only one discount code can be applied per order</span>
-      </div>
+      </p>
     </form>
   )
 }
