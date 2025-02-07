@@ -1,7 +1,6 @@
 import Button from '@/components/base/Button'
 import { useCart } from '@/hooks/use-cart'
 import { formatPrice } from '@/utils'
-import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,7 +9,6 @@ import CartItem from './CartItem'
 
 const ShoppingCart = () => {
   const router = useRouter()
-  const { resolvedTheme } = useTheme()
 
   const {
     items,
@@ -78,11 +76,10 @@ const ShoppingCart = () => {
           {hasItems && (
             <Button
               variant="outline"
-              intent={resolvedTheme === "dark" ? "secondary" : "primary"}
               label={`View Items (${items.length})`}
               iconAppend="solar:arrow-right-linear"
               onClick={handleViewItems}
-              className="hover:underline hover:underline-offset-4"
+              className="dark:border-primary-400 dark:hover:bg-primary-100 dark:text-primary-600 hover:underline hover:underline-offset-4"
             />
           )}
         </div>

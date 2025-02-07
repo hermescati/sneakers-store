@@ -27,7 +27,7 @@ const UserMenu = ({ user }: { user: User | null }) => {
         label="Sign in"
         size="small"
         variant="outline"
-        className="border-primary-500 text-primary-600 text-base hover:background-primary-200"
+        className="text-base border-primary-500 text-primary-600 dark:border-primary-400 dark:hover:bg-primary-100 dark:text-primary-600"
       />
     )
   }
