@@ -46,7 +46,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="flex-grow-0 bg-primary-200/50 font-medium text-primary-700">
+    <footer className="flex-grow-0 bg-primary-200/75 font-medium text-primary-700">
       <MainContainer className="py-8 md:py-12">
         <section className="flex flex-col gap-12">
 
