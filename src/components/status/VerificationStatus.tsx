@@ -16,7 +16,7 @@ const VerificationStatus = async ({ token }: VerifyEmailProps) => {
         <StatusIcon status="rejected" />
         <div className="flex flex-col gap-1 items-center">
           <h2 className="font-bold text-2xl">There was a problem</h2>
-          <p className="text-center font-medium text-gray-600">
+          <p className="text-center font-medium text-primary-700">
             This token is not valid or might be expired. Please try again!
           </p>
         </div>
@@ -29,7 +29,7 @@ const VerificationStatus = async ({ token }: VerifyEmailProps) => {
           <Image src="/email-sent.png" alt="email sent image" fill />
         </header>
         <h2 className="-mt-8 font-bold text-2xl">You&apos;re all set!</h2>
-        <p className="mt-1 text-center font-medium text-gray-600">
+        <p className="mt-1 text-center font-medium text-primary-700">
           Thank you for verifying your email.
         </p>
         <Button
@@ -46,7 +46,7 @@ const VerificationStatus = async ({ token }: VerifyEmailProps) => {
         <StatusIcon status="pending" />
         <div className="flex flex-col gap-1 items-center">
           <h2 className="font-bold text-2xl">Verifying...</h2>
-          <p className="text-center font-medium text-gray-600">
+          <p className="text-center font-medium text-primary-700">
             This wont take long. Please wait!
           </p>
         </div>

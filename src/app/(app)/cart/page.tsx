@@ -7,7 +7,7 @@ const Cart = async () => {
   const { products: relatedProducts } = await getProducts({ limit: 6 })
 
   return (
-    <MainContainer className="flex flex-col gap-8 py-6 lg:gap-12 lg:py-8">
+    <MainContainer className="flex flex-col gap-8 py-6 lg:py-8">
       <CartPage />
       {relatedProducts.length > 0 && (
         <ProductReel title="Related Sneakers" products={relatedProducts} />

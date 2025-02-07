@@ -66,7 +66,7 @@ const Signup = () => {
             <Link
               href="/login"
               underline
-              className="font-semibold hover:text-secondary ml-1"
+              className="font-semibold text-secondary ml-1"
             >
               Login
             </Link>

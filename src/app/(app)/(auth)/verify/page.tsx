@@ -3,27 +3,23 @@ import VerificationStatus from '@/components/status/VerificationStatus'
 import { cn } from '@/utils'
 import Image from 'next/image'
 
-const Verify = async (
-  { params } : { params: Promise<
-    { [key: string]: string | string[] | undefined }
-  >}) => {
-  const token = (await params).token
-  const toEmail = (await params).to
+const Verify = async ({ searchParams }: { searchParams: { token?: string, to?: string } }) => {
+  const { token, to: toEmail} = await searchParams
 
   return (
-    <MainContainer className="flex items-center justify-center">
+    <MainContainer className="flex h-[65dvh] items-center justify-center">
       <section className="my-auto relative flex flex-col items-center justify-center">
         {token && typeof token === 'string' ? (
-          <div className="-mt-32">
+          <div className="-mt-16">
             <VerificationStatus token={token} />
           </div>
         ) : (
-          <div className="-mt-32 flex flex-col items-center justify-center">
-            <header className="relative h-96 w-96 text-foreground">
+          <div className="flex flex-col items-center justify-center -mt-16">
+            <header className="relative h-80 w-80 text-foreground">
               <Image src="/email-sent.png" alt="email sent image" fill />
             </header>
-            <h2 className="-mt-8 font-bold text-2xl">Check your email!</h2>
-            <p className="mt-2 text-center font-medium text-gray-600">
+            <h2 className="font-bold text-2xl">Check your email!</h2>
+            <p className="text-center font-medium text-primary-700">
               We&apos;ve sent a verification link to{' '}
               <span
                 className={cn({ 'font-semibold text-foreground': toEmail })}
