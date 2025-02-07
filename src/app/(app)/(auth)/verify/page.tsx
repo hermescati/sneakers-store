@@ -3,8 +3,8 @@ import VerificationStatus from '@/components/status/VerificationStatus'
 import { cn } from '@/utils'
 import Image from 'next/image'
 
-const Verify = async ({ searchParams }: { searchParams: { token?: string, to?: string } }) => {
-  const { token, to: toEmail} = await searchParams
+const Verify = async (props: { searchParams: Promise<{ token: string, to: string }> }) => {
+  const { token, to } = await props.searchParams
 
   return (
     <MainContainer className="flex h-[65dvh] items-center justify-center">
@@ -22,9 +22,9 @@ const Verify = async ({ searchParams }: { searchParams: { token?: string, to?: s
             <p className="text-center font-medium text-primary-700">
               We&apos;ve sent a verification link to{' '}
               <span
-                className={cn({ 'font-semibold text-foreground': toEmail })}
+                className={cn({ 'font-semibold text-foreground': to })}
               >
-                {toEmail || 'your email'}.
+                {to || 'your email'}.
               </span>
             </p>
           </div>
