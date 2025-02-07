@@ -17,9 +17,9 @@ const StatusIcon = ({ status }: { status: Order['status'] | null }) => {
         className={cn(
           'w-fit p-10 rounded-full transition-colors ease-in-out duration-300',
           {
-            'bg-yellow-100/25': status === 'pending',
-            'bg-success/5': status === 'completed',
-            'bg-danger/5': status === 'rejected'
+            'bg-warning-400/10 dark:bg-warning-600/10': status === 'pending',
+            'bg-success-400/10 dark:bg-success-600/10': status === 'completed',
+            'bg-danger-400/10 dark:bg-danger-600/10': status === 'rejected'
           }
         )}
       >
@@ -27,9 +27,9 @@ const StatusIcon = ({ status }: { status: Order['status'] | null }) => {
           className={cn(
             'p-5 rounded-full transition-colors ease-in-out duration-300',
             {
-              'bg-yellow-200/50': status === 'pending',
-              'bg-success/15': status === 'completed',
-              'bg-danger/10': status === 'rejected'
+              'bg-warning-400/30 dark:bg-warning-400/20': status === 'pending',
+              'bg-success-400/30 dark:bg-success-400/20': status === 'completed',
+              'bg-danger-400/30 dark:bg-danger-400/20': status === 'rejected'
             }
           )}
         >
@@ -38,8 +38,8 @@ const StatusIcon = ({ status }: { status: Order['status'] | null }) => {
             className={cn(
               'text-6xl transition-colors ease-in-out duration-300',
               {
-                'text-yellow-500 animate-spin-180': status === 'pending',
-                'text-green-500': status === 'completed',
+                'text-warning animate-spin-180': status === 'pending',
+                'text-success': status === 'completed',
                 'text-danger': status === 'rejected'
               }
             )}

@@ -8,7 +8,6 @@ import FormControl from './FormControl'
 
 const baseInput = `
     w-full bg-transparent border-2
-    leading-none font-medium placeholder:text-primary-600
     has-[:focus-visible]:outline-none
     has-[:disabled]:opacity-40 has-[:disabled]:cursor-not-allowed
     transition ease-in-out duration-300
@@ -164,7 +163,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             type={inputType}
             className={cn(
-              "w-full outline-none disabled:cursor-not-allowed px-4",
+              "w-full outline-none disabled:cursor-not-allowed px-4 font-medium placeholder:text-primary-600",
               inputSize === "small" ? "py-2" : "py-3"
             )}
             {...props}

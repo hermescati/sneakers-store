@@ -13,10 +13,15 @@ export const formatPrice = (
   options: {
     currency?: 'USD' | 'EUR' | 'GBP'
     notation?: Intl.NumberFormatOptions['notation']
+    credit?: boolean
   } = {}
 ) => {
-  const { currency = 'USD', notation = 'standard' } = options
-  const numericPrice = typeof price === 'string' ? parseFloat(price) : price
+  const { currency = 'USD', notation = 'standard', credit = false } = options
+  let numericPrice = typeof price === 'string' ? parseFloat(price) : price
+
+  if (credit && numericPrice > 0) {
+    numericPrice = -numericPrice
+  }
 
   return Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -25,6 +30,7 @@ export const formatPrice = (
     maximumFractionDigits: 2
   }).format(numericPrice)
 }
+
 
 export const shuffleArray = <T>(array: T[]) =>
   array

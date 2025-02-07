@@ -74,22 +74,21 @@ const LoginForm = () => {
               error={errors.password?.message}
             />
             <Link
-              href="/login"
               underline
-              className="w-fit -mt-2 text=primary-600 hover:text-secondary"
+              href="/login"
+              className="w-fit -mt-2 font-medium text-md text-primary-600 hover:text-secondary"
             >
               Forgot password?
             </Link>
           </div>
-          <Button label="Sign in" className='w-full' />
+          <Button label="Sign in" className="w-full" />
+          <Button
+            variant="ghost"
+            intent="secondary"
+            href="/signup"
+            label="Don't have an account"
+            className="w-full mt-4 font-medium dark:font-medium hover:underline hover:underline-offset-4" />
         </form>
-        <Link
-          href="/signup"
-          underline
-          className="place-self-center w-fit py-2 mt-4 font-medium text-primary-700 hover:text-secondary"
-        >
-          Don&apos;t have an account?
-        </Link>
       </section>
     </MainContainer>
   )

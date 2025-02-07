@@ -10,7 +10,7 @@ import Link from './Link'
 // TODO: Optimize link button and link component
 const btnBase = `
     flex items-center justify-center
-    font-semibold dark:font-bold whitespace-nowrap
+    font-semibold whitespace-nowrap
     disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none
     active:outline-none active:ring-2 active:ring-offset-2
     transition ease-in-out duration-300
@@ -19,7 +19,7 @@ const btnBase = `
 export const buttonVariants = cva(btnBase, {
   variants: {
     variant: {
-      solid: '',
+      solid: 'dark:font-bold',
       outline: '',
       ghost: ''
     },
@@ -99,8 +99,8 @@ export const buttonVariants = cva(btnBase, {
       className: [
         'bg-transparent',
         'text-secondary',
-        'hover:bg-secondary-900/20',
-        'active:bg-secondary-900/20',
+        'hover:bg-secondary-100/20',
+        'active:bg-secondary-100/20',
         'active:ring-0 active:ring-offset-0',
         'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-300))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
       ]
