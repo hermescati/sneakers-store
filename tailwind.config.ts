@@ -42,6 +42,7 @@ const config: Config = {
         },
         danger: {
           DEFAULT: 'rgba(var(--danger-500))',
+          50: 'rgba(var(--danger-50))',
           100: 'rgba(var(--danger-100))',
           200: 'rgba(var(--danger-200))',
           300: 'rgba(var(--danger-300))',
@@ -50,10 +51,12 @@ const config: Config = {
           600: 'rgba(var(--danger-600))',
           700: 'rgba(var(--danger-700))',
           800: 'rgba(var(--danger-800))',
-          900: 'rgba(var(--danger-900))'
+          900: 'rgba(var(--danger-900))',
+          950: 'rgba(var(--danger-950))'
         },
         warning: {
           DEFAULT: 'rgba(var(--warning-500))',
+          50: 'rgba(var(--warning-50))',
           100: 'rgba(var(--warning-100))',
           200: 'rgba(var(--warning-200))',
           300: 'rgba(var(--warning-300))',
@@ -62,10 +65,12 @@ const config: Config = {
           600: 'rgba(var(--warning-600))',
           700: 'rgba(var(--warning-700))',
           800: 'rgba(var(--warning-800))',
-          900: 'rgba(var(--warning-900))'
+          900: 'rgba(var(--warning-900))',
+          950: 'rgba(var(--warning-950))',
         },
         success: {
           DEFAULT: 'rgba(var(--success-500))',
+          50: 'rgba(var(--success-50))',
           100: 'rgba(var(--success-100))',
           200: 'rgba(var(--success-200))',
           300: 'rgba(var(--success-300))',
@@ -74,7 +79,8 @@ const config: Config = {
           600: 'rgba(var(--success-600))',
           700: 'rgba(var(--success-700))',
           800: 'rgba(var(--success-800))',
-          900: 'rgba(var(--success-900))'
+          900: 'rgba(var(--success-900))',
+          950: 'rgba(var(--success-950))'
         }
       },
       fontSize: {

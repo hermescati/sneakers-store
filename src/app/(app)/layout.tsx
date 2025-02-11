@@ -1,13 +1,13 @@
-import Footer from '@/components/nav/Footer';
-import Navbar from '@/components/nav/Navbar';
-import ThemeProvider from '@/components/theme/ThemeProvider';
-import { cn } from '@/utils';
-import { Analytics } from '@vercel/analytics/next';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import type { Metadata } from 'next';
-import { Quicksand } from 'next/font/google';
-import { Toaster } from 'sonner';
-import './globals.scss';
+import Toaster from '@/components/base/Toaster'
+import Footer from '@/components/nav/Footer'
+import Navbar from '@/components/nav/Navbar'
+import ThemeProvider from '@/components/theme/ThemeProvider'
+import { cn } from '@/utils'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import type { Metadata } from 'next'
+import { Quicksand } from 'next/font/google'
+import './globals.scss'
 
 const quicksand = Quicksand({ subsets: ['latin'] })
 
@@ -32,7 +32,7 @@ const RootLayout = ({
           </main>
           <Analytics />
           <SpeedInsights />
-          <Toaster position="top-center" richColors />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
