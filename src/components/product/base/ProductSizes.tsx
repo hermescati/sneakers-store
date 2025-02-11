@@ -1,6 +1,6 @@
 import Input from '@/components/base/Input'
 import Link from '@/components/base/Link'
-import { useCart } from '@/hooks/use-cart'
+import { useCart } from '@/stores/useCart'
 import { ProductSize } from '@/types'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter, cn } from '@/utils'

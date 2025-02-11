@@ -14,7 +14,6 @@ interface CartItemProps {
   product: Product
   size: ProductSize
   index: number
-  href?: string
   compact?: boolean
   onRemove: () => void
 }

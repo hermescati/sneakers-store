@@ -4,14 +4,14 @@ import { cn } from "@/utils"
 const CollectionItemSkeleton = ({ layout }: { layout: 'normal' | 'alternate' }) => {
     return (
         <div className="flex flex-col gap-4">
-            <div className="h-7 bg-zinc-200/75 rounded w-1/4 md:w-1/5 xl:w-1/12" />
+            <span className="h-7 bg-skeleton rounded-md w-2/5 md:w-1/4 lg:w-1/6" />
 
             <div className="flex flex-col xl:flex-row gap-6">
                 <div className={cn(
-                    "relative aspect-video w-full xl:aspect-[3/2] xl:w-[50%] rounded-xl sm:rounded-2xl overflow-clip",
+                    "relative aspect-video w-full xl:aspect-[3/2] xl:w-[50%] overflow-clip",
                     layout === "normal" ? "xl:order-1" : "xl:order-2"
                 )}>
-                    <div className="w-full h-full rounded-2xl bg-zinc-200/75"></div>
+                    <div className="w-full h-full bg-skeleton rounded-xl md:rounded-2xl" />
                 </div>
 
                 <div className={cn(
@@ -27,7 +27,7 @@ const CollectionItemSkeleton = ({ layout }: { layout: 'normal' | 'alternate' }) 
 
 
 const CollectionReelSkeleton = ({ limit }: { limit: number }) => {
-    const collections: number[] = new Array(limit).fill(0)
+    const collections = Array.from({ length: limit })
 
     return (
         <ul className="animate-pulse flex flex-col gap-12">

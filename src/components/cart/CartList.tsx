@@ -1,40 +1,40 @@
 'use client'
 
-import { useCart } from '@/hooks/use-cart'
+import { useCart } from '@/stores/useCart'
 import { cn } from '@/utils'
 import { useMediaQuery } from 'usehooks-ts'
 import Link from '../base/Link'
 import CartItem from './CartItem'
 
-const CartList = () => {
-  const { items: cartItems, removeItem } = useCart()
-  const isMobile = useMediaQuery('(max-width: 767px)')
+interface CartListProps {
+  compact?: boolean
+}
 
-  const items = Array.from({ length: 15 }, (_, i) => ({
-    ...cartItems[i % cartItems.length], // Cycle through real cart items
-  }))
+const CartList = ({ compact = false }: CartListProps) => {
+  const { items, removeItem } = useCart()
+  const isMobile = useMediaQuery('(max-width: 767px)')
 
   return (
     <>
       <h2 className="sr-only">Items in your shopping cart</h2>
       <ul
         className={cn(
-          "py-4 md:mb-4 lg:mb-0 md:grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 md:gap-6",
-          { "divide-y divide-border": !!items.length && isMobile }
+          compact || isMobile
+            ? "pb-6 md:pb-0 flex flex-col divide-y divide-border overflow-y-auto"
+            : "md:pt-4 pb-8 lg:mb-0 md:grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 md:gap-6",
         )}>
         {items.map(({ product, size }, index) => (
-          <li key={`${product.id}-${size.size}`}>
-            <Link href={`/sneakers/${product.id}`}>
-              <CartItem
-                href={`${product.id}`}
-                product={product}
-                size={size}
-                compact={isMobile}
-                index={index}
-                onRemove={() => removeItem(product.id, size)}
-              />
-            </Link>
-          </li>
+          <Link
+            key={`${product.id}-${size.size}`}
+            href={compact ? "" : `/sneakers/${product.id}`}>
+            <CartItem
+              index={index}
+              product={product}
+              size={size}
+              compact={compact || isMobile}
+              onRemove={() => removeItem(product.id, size)}
+            />
+          </Link>
         ))}
       </ul>
     </>

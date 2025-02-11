@@ -1,5 +1,5 @@
 import { cn } from "@/utils"
-import ProductSkeleton from "./ProductCardSkeleton"
+import ProductCardSkeleton from "./ProductCardSkeleton"
 
 interface ProductReelSkeletonProps {
     title?: string
@@ -28,7 +28,7 @@ const ProductReelSkeleton = ({ title, className }: ProductReelSkeletonProps) => 
             >
                 {productsArray.map((_, index) => (
                     <li key={index}>
-                        <ProductSkeleton />
+                        <ProductCardSkeleton />
                     </li>
                 ))}
             </ul>

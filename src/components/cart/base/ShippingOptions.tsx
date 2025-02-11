@@ -1,26 +1,26 @@
 'use client'
 
-import { useCart } from '@/hooks/use-cart'
+import { useCart } from '@/stores/useCart'
 import { getShippingRates } from '@/services/checkout'
 import { cn, formatPrice } from '@/utils'
 import { useEffect, useState } from 'react'
 import Stripe from 'stripe'
-import DeliveryMethodsSkeleton from '../skeletons/DeliveryMethodsSkeleton'
+import ShippingOptionsSkeleton from '../skeletons/ShippingOptionsSkeleton'
 
-const DeliveryMethods = () => {
-  const { shippingMethod, setDeliveryMethod } = useCart()
-  const [methods, setMethods] = useState<Stripe.ShippingRate[]>([])
+const ShippingOptions = () => {
+  const { shipping, setShipping } = useCart()
+  const [options, setOptions] = useState<Stripe.ShippingRate[]>([])
 
   useEffect(() => {
-    const getDeliveryMethods = async () => {
+    const getShippingOptions = async () => {
       const options = await getShippingRates()
       if (!options.length) return
-      setMethods(options)
+      setOptions(options)
     }
-    getDeliveryMethods()
+    getShippingOptions()
   }, [])
 
-  if (!methods.length) return <DeliveryMethodsSkeleton />
+  if (!options.length) return <ShippingOptionsSkeleton length={2}/>
 
   const getDeliveryEstimate = (method: Stripe.ShippingRate) => {
     const min = method.delivery_estimate?.minimum?.value
@@ -38,27 +38,27 @@ const DeliveryMethods = () => {
       <h4 className="font-semibold text-primary-700">Delivery</h4>
 
       <ul className="grid sm:grid-cols-2 items-center gap-2">
-        {methods.map((method) => {
-          const { min, max, unit } = getDeliveryEstimate(method)
+        {options.map((option) => {
+          const { min, max, unit } = getDeliveryEstimate(option)
 
           return (
-            <li key={method.id}>
+            <li key={option.id}>
               <button
-                onClick={() => setDeliveryMethod(method)}
+                onClick={() => setShipping(option)}
                 className={cn(
                   "w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300",
-                  { "border-secondary bg-secondary-100/10 dark:bg-secondary-100/5": shippingMethod?.id === method.id }
+                  { "border-secondary bg-secondary-100/10 dark:bg-secondary-100/5": shipping?.id === option.id }
                 )}
               >
                 <div>
-                  <h4 className="font-semibold">{method.display_name}</h4>
+                  <h4 className="font-semibold">{option.display_name}</h4>
                   <p className="flex item-center font-medium text-md text-primary-600 dark:text-primary-700">
                     {min}-{max}{" "}{unit}
                   </p>
                 </div>
 
                 <h4 className="font-semibold">
-                  {formatPrice(method.fixed_amount ? method.fixed_amount?.amount : 0)}
+                  {formatPrice(option.fixed_amount ? option.fixed_amount?.amount : 0)}
                 </h4>
               </button>
             </li>
@@ -69,4 +69,4 @@ const DeliveryMethods = () => {
   )
 }
 
-export default DeliveryMethods
+export default ShippingOptions

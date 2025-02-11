@@ -45,7 +45,7 @@ const DiscoverSection = async () => {
         ))}
       </ul>
 
-      {brands.length > 0 ? <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {brands.length < 0 ? <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {discoverItems.map((item, index) => (
           <li key={index}>
             <DiscoverCard {...item} />

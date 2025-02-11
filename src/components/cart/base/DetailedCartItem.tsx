@@ -1,10 +1,10 @@
 'use client'
 
 import IconButton from '@/components/base/IconButton'
-import ProductCardSkeleton from '@/components/product/skeletons/ProductCardSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import CartItemSkeleton from '../skeletons/CartItemSkeleton'
 
 interface DetailedCartItemProps {
   index: number
@@ -41,7 +41,7 @@ const DetailedCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!isLoaded) return <ProductCardSkeleton />
+  if (!isLoaded) return <CartItemSkeleton />
 
   return (
     <div className="flex flex-col gap-2 w-full group">
@@ -61,17 +61,13 @@ const DetailedCartItem = ({
       </div>
 
       <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
-        <h3 className="font-semibold line-clamp-1">
-          {name}
-        </h3>
+        <h3 className="font-semibold line-clamp-1">{name}</h3>
         <span className="font-medium text-primary-600 text-md">
           {category} (US) - {size}
         </span>
 
         <div className="flex items-baseline gap-2 mt-1">
-          <span className="font-semibold text-lg">
-            {formatPrice(discountedPrice)}
-          </span>
+          <span className="font-semibold text-lg">{formatPrice(discountedPrice)}</span>
           {isDiscounted && (
             <span className="text-md line-through text-primary-600">
               {formatPrice(basePrice)}

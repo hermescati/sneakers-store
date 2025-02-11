@@ -1,6 +1,6 @@
 import Button from '@/components/base/Button'
 import Input from '@/components/base/Input'
-import { useCart } from '@/hooks/use-cart'
+import { useCart } from '@/stores/useCart'
 import { DiscountCodeSchema, TDiscountCodeSchema } from '@/lib/validators'
 import { validateDiscountCode } from '@/services/coupons'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -68,7 +68,7 @@ const DiscountCode = () => {
 
       <p className="font-medium text-md text-primary-600">
         <span className="font-bold text-primary-700">Note:</span>{" "}
-        <span>Only one discount code can be applied per order</span>
+        Only one discount code can be applied per order
       </p>
     </form>
   )

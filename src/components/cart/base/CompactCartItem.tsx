@@ -37,17 +37,17 @@ const CompactCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!isLoaded) return <CartItemSkeleton />
+  if (!isLoaded) return <CartItemSkeleton compact/>
 
   return (
-    <div className="flex items-center gap-4 py-5 lg:py-1 lg:px-5">
-      <div className="w-[40%] aspect-video">
+    <div className="flex items-center gap-5 py-4 lg:px-5">
+      <div className="aspect-[4/3]">
         <Image
           alt={name}
           src={thumbnail}
-          height={80}
-          width={130}
-          className="h-full w-full object-contain rounded-xl dark:bg-primary-700"
+          height={100}
+          width={100}
+          className="h-full w-full object-contain rounded-xl"
         />
       </div>
 
@@ -59,10 +59,9 @@ const CompactCartItem = ({
               {category} (US) - {size}
             </span>
           </div>
-
           <span className="font-semibold">{formatPrice(price)}</span>
         </div>
-
+        
         <IconButton
           icon={isMobile ? "tabler-x" : "solar:trash-bin-trash-linear"}
           className="h-fit p-2 text-xl hover:text-danger active:text-danger"
