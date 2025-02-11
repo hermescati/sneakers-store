@@ -163,7 +163,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             type={inputType}
             className={cn(
-              "w-full outline-none disabled:cursor-not-allowed px-4 font-medium placeholder:text-primary-600",
+              "w-full bg-transparent appearance-none outline-none disabled:cursor-not-allowed px-4 font-medium placeholder:text-primary-600",
               inputSize === "small" ? "py-2" : "py-3"
             )}
             {...props}
