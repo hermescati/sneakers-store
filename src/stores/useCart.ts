@@ -1,6 +1,6 @@
+import toast from '@/components/base/Toast'
 import { ProductSize } from '@/types'
 import { Product } from '@/types/payload'
-import { toast } from 'sonner'
 import Stripe from 'stripe'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'

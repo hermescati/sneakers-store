@@ -60,9 +60,7 @@ export const AccordionItem = ({
           {icon && <Icon icon={icon} className={iconClass} />}
           <h4>{title}</h4>
         </div>
-        <span
-          className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}
-        >
+        <span className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}>
           <Icon icon="mage:chevron-down" />
         </span>
       </div>

@@ -8,7 +8,7 @@ const Toaster = () => {
     const position = isMobile ? "top-center" : "bottom-right"
 
     return (
-        <ToasterSonner richColors expand closeButton duration={Infinity} position={position} />
+        <ToasterSonner position={position} />
     )
 }
 

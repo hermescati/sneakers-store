@@ -7,7 +7,7 @@ import { ComponentPropsWithoutRef, forwardRef, useMemo, useState } from 'react'
 import FormControl from './FormControl'
 
 const baseInput = `
-    w-full bg-transparent border-2
+    w-full bg-background border-2
     has-[:focus-visible]:outline-none
     has-[:disabled]:opacity-40 has-[:disabled]:cursor-not-allowed
     transition ease-in-out duration-300

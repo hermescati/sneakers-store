@@ -3,6 +3,7 @@
 import Button from '@/components/base/Button'
 import Input from '@/components/base/Input'
 import Link from '@/components/base/Link'
+import toast from '@/components/base/Toast'
 import MainContainer from '@/components/MainContainer'
 import {
   SignUpValidationSchema,
@@ -12,7 +13,6 @@ import { createUser } from '@/services/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 
 const Signup = () => {
   const router = useRouter()

@@ -1,8 +1,8 @@
 'use client'
 
+import toast from '@/components/base/Toast';
 import { useRouter } from 'next/navigation';
 import { useCallback } from 'react';
-import { toast } from 'sonner';
 
 const useLogout = () => {
     const router = useRouter()
@@ -17,7 +17,7 @@ const useLogout = () => {
                 }
             )
             if (!response.ok) throw new Error('Logout failed')
-                
+
             toast.success('Successfully logged out.')
             router.refresh()
         } catch (error) {

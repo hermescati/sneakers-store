@@ -79,7 +79,7 @@ const Toast = (props: ToastProps) => {
                 <div className="flex flex-1 items-center">
                     <div className="w-full leading-snug">
                         {title && <p className={cn("font-bold text-md", styles.title)}>{title}</p>}
-                        <p className={cn("font-semibold text-sm", styles.description)}>{description}</p>
+                        <p className={cn("font-semibold text-md", styles.description)}>{description}</p>
                     </div>
                 </div>
                 {action && (

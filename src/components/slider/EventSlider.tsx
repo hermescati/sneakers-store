@@ -6,7 +6,6 @@ import { Icon } from '@iconify/react'
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import { toast } from 'sonner'
 import type SwiperType from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -14,6 +13,7 @@ import { Autoplay, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useMediaQuery } from "usehooks-ts"
 import Button from "../base/Button"
+import toast from "../base/Toast"
 import EventSliderSkeleton from "./skeletons/EventSliderSkeleton"
 
 const EventItem = ({ event }: { event: Event }) => {

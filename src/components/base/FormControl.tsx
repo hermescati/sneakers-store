@@ -27,7 +27,7 @@ const FormControl = ({
       ) : hint ? (
         <span
           className={cn(
-            "text-md font-medium text-gray-500",
+            "text-md font-medium text-primary-600",
             { "opacity-40 pointer-events-none select-none": disabled }
           )}
         >
