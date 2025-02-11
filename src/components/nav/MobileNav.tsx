@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/hooks/use-cart'
+import { useCart } from '@/stores/useCart'
 import useOnKeyPress from '@/hooks/use-keypress'
 import { useSearch } from '@/hooks/use-search'
 import useUserMenu from '@/hooks/useUserMenu'

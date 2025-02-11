@@ -1,15 +1,15 @@
 'use client'
 
 import ShoppingCart from '@/components/cart/ShoppingCart'
-import { useCart } from '@/hooks/use-cart'
 import useOnEscapeKey from '@/hooks/use-escape-key'
+import { useCart } from '@/stores/useCart'
 import { Icon } from '@iconify/react'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useOnClickOutside } from 'usehooks-ts'
 
 const NavCart = () => {
-  const { items, cartOpen, openCart, closeCart } = useCart()
+  const { items, isOpen: cartOpen, open: openCart, close: closeCart } = useCart()
 
   const cartRef = useRef<HTMLDivElement>(null!)
   const buttonRef = useRef<HTMLButtonElement>(null!)
@@ -40,7 +40,7 @@ const NavCart = () => {
 
       {cartOpen &&
         createPortal(
-          <div ref={cartRef}>
+          <div ref={cartRef} className="relative max-w-screen-3xl">
             <ShoppingCart />
           </div>,
           document.body

@@ -16,6 +16,7 @@ const config: Config = {
         background: 'rgba(var(--background))',
         foreground: 'rgba(var(--foreground))',
         border: 'rgba(var(--border))',
+        skeleton: 'rgba(var(--skeleton))',
         primary: {
           100: 'rgba(var(--primary-100))',
           200: 'rgba(var(--primary-200))',

@@ -5,7 +5,9 @@
 .light {
   --background: 255, 255, 255; //#ffffff
   --foreground: 33, 33, 33; //#212121
+
   --border: 235, 235, 235; //#ebebeb
+  --skeleton: 228 228 231; //#
 
   --primary-100: 242, 242, 242; //#f2f2f2
   --primary-200: 233, 233, 233; //#e9e9e9
@@ -64,7 +66,9 @@
 .dark {
   --background: 21, 21, 21; //#151515
   --foreground: 230, 230, 230; //#ededed
+
   --border: 50, 50, 50; //#323232
+  --skeleton: 48, 48, 48; //#303030
 
   --primary-100: 32, 32, 32; //#202020
   --primary-200: 48, 48, 48; //#303030
