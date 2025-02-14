@@ -1,13 +1,9 @@
 import { cn } from '@/utils'
 import { default as NextLink } from 'next/link'
-import { ReactNode } from 'react'
+import { ComponentPropsWithoutRef } from 'react'
 
-interface LinkProps {
-  href?: string
-  children: ReactNode
+interface LinkProps extends ComponentPropsWithoutRef<'a'> {
   underline?: boolean
-  className?: string
-  onClick?: VoidFunction
 }
 
 const Link = ({
@@ -15,10 +11,11 @@ const Link = ({
   className,
   underline,
   children,
-  onClick
+  onClick,
+  ...props
 }: LinkProps) => {
   const baseClass = cn(
-    'transition-all ease-in-out duration-150',
+    'transition-all ease-in-out duration-300',
     {
       'cursor-pointer': onClick,
       'hover:underline hover:underline-offset-4': underline
@@ -28,16 +25,22 @@ const Link = ({
 
   if (href) {
     return (
-      <NextLink href={href} className={baseClass}>
+      <NextLink
+        href={href}
+        className={baseClass}
+        {...props}>
         {children}
       </NextLink>
     )
   }
 
   return (
-    <div className={baseClass} onClick={onClick}>
+    <a
+      className={baseClass}
+      onClick={onClick}
+      {...props}>
       {children}
-    </div>
+    </a>
   )
 }
 

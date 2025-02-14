@@ -13,6 +13,7 @@ const btnBase = `
     font-semibold whitespace-nowrap
     disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none
     active:outline-none active:ring-2 active:ring-offset-2
+    focus:outline-none focus:ring-2 focus:ring-offset-2
     transition ease-in-out duration-300
 `
 
@@ -42,6 +43,7 @@ export const buttonVariants = cva(btnBase, {
         'hover:bg-primary-900 dark:hover:bg-secondary-400',
         'active:bg-primary-900 dark:active:bg-secondary-400',
         'active:ring-offset-background active:ring-primary-900 dark:active:ring-secondary',
+        'focus:ring-offset-background focus:ring-primary-900 dark:focus:ring-secondary',
         'shadow-primary-800/40 dark:shadow-secondary-400/40'
       ]
     },
@@ -54,6 +56,7 @@ export const buttonVariants = cva(btnBase, {
         'hover:bg-secondary-400 dark:hover:bg-primary-800',
         'active:bg-secondary-400 dark:hover:bg-primary-800',
         'active:ring-offset-background active:ring-secondary-400 dark:active:ring-primary-800',
+        'focus:ring-offset-background focus:ring-secondary-400 dark:focus:ring-primary-800',
         'shadow-secondary-400/40 dark:shadow-primary-500/40'
       ]
     },
