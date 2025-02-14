@@ -31,3 +31,21 @@ export interface NavLink {
   href?: string
   imageSrc?: string
 }
+
+export interface ServerResponse {
+  code: number
+  message: string
+  data?: unknown
+}
+
+export class PayloadError extends Error {
+  public code: number
+  public details?: unknown
+
+  constructor(code: number, message: string, details?: unknown) {
+    super(message)
+    this.code = code
+    this.details = details
+    Object.setPrototypeOf(this, PayloadError.prototype)
+  }
+}
