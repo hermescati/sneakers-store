@@ -10,10 +10,23 @@ export const Users: CollectionConfig = {
     plural: 'Users'
   },
   auth: {
+    maxLoginAttempts: 0,
     verify: {
+      // Replace this with a React Email template
+      // Add a subject by using generateEmailSubject
       generateEmailHTML: ({ token }) => {
-        return `<a href='${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}'>Verify your account</a>`
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}`
+        return `<a href='${url}'>Verify your account</a>`
       }
+    },
+    forgotPassword: {
+      // Replace this with a React Email template
+      // Add a subject by using generateEmailSubject
+      // Add an expiration to configure how long password reset tokens remain valid, specified in miliseconds.
+      generateEmailHTML: (args) => {
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/reset?token=${args?.token}`
+        return `<a href='${url}'>Reset your password</a>`
+      },
     }
   },
   access: {

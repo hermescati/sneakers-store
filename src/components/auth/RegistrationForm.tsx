@@ -10,7 +10,7 @@ import Input from "../base/Input"
 import Link from "../base/Link"
 import toast from "../base/Toast"
 
-const SignupForm = () => {
+const RegistrationForm = () => {
     const router = useRouter()
 
     const {
@@ -18,7 +18,8 @@ const SignupForm = () => {
         handleSubmit,
         formState: { errors }
     } = useForm<RegistrationSchema>({
-        resolver: zodResolver(RegistrationSchemaObject)
+        resolver: zodResolver(RegistrationSchemaObject),
+        mode: 'onBlur'
     })
 
     const onSubmit = async (inputData: RegistrationSchema) => {
@@ -29,7 +30,6 @@ const SignupForm = () => {
                 return toast.warning(message)
             }
             if (code === 201) {
-                toast.success(`Verification email sent to ${sentToEmail}`)
                 return router.replace('/verify?to=' + sentToEmail)
             }
             toast.error(message)
@@ -43,47 +43,47 @@ const SignupForm = () => {
             className="flex flex-col gap-10"
             onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-3">
-                <div className='flex flex-col gap-4 lg:flex-row'>
-                    <Input
-                        {...register('firstName')}
-                        label="First Name"
-                        placeholder="John"
-                        required
-                        invalid={!!errors.firstName}
-                        error={errors.firstName?.message}
-                        autoComplete="new-password"
-                        tabIndex={1}
-                    />
-                    <Input
-                        {...register('lastName')}
-                        label="Last Name"
-                        placeholder="Doe"
-                        required
-                        invalid={!!errors.lastName}
-                        error={errors.lastName?.message}
-                        autoComplete="new-password"
-                        tabIndex={2}
-                    />
-                </div>
+                <Input
+                    {...register('name')}
+                    label="Name"
+                    placeholder="Enter your full name"
+                    required
+                    invalid={!!errors.name}
+                    error={errors.name?.message}
+                    autoComplete="new-password"
+                    tabIndex={1}
+                />
                 <Input
                     {...register('email')}
                     type="email"
                     label="Email"
-                    placeholder="you@example.com"
+                    placeholder="Enter your email address"
                     required
                     invalid={!!errors.email}
                     error={errors.email?.message}
                     autoComplete="new-password"
-                    tabIndex={3}
+                    tabIndex={2}
                 />
                 <Input
                     {...register('password')}
                     type="password"
                     label="Password"
-                    placeholder="Password"
+                    placeholder="Enter your password"
                     required
+                    hint="At least 8 characters, 1 uppercase, 1 number, 1 special character"
                     invalid={!!errors.password}
                     error={errors.password?.message}
+                    autoComplete="new-password"
+                    tabIndex={3}
+                />
+                <Input
+                    {...register('repeatPassword')}
+                    type="password"
+                    label="Repeat Password"
+                    placeholder="Confirm your password"
+                    required
+                    invalid={!!errors.repeatPassword}
+                    error={errors.repeatPassword?.message}
                     autoComplete="new-password"
                     tabIndex={4}
                 />
@@ -123,4 +123,4 @@ const SignupForm = () => {
     )
 }
 
-export default SignupForm
+export default RegistrationForm

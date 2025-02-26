@@ -1,5 +1,6 @@
-import SignupForm from '@/components/auth/SignupForm'
+import RegistrationForm from '@/components/auth/RegistrationForm'
 
+// TODO: Add SEO
 export default function Page() {
   return (
     <section className='flex flex-col gap-10 w-full sm:max-w-[450px]'>
@@ -10,7 +11,7 @@ export default function Page() {
         </p>
       </header>
 
-      <SignupForm />
+      <RegistrationForm />
     </section>
   )
 }

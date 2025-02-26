@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import { ReactNode } from 'react'
 
 export const metadata: Metadata = {
-    title: 'Auth - YourSiteName',
+    title: 'Auth - Senakers.',
     description: 'Authentication pages for YourSiteName. Sign up or login to access exclusive features.',
     openGraph: {
         title: 'Auth - YourSiteName',
