@@ -1,5 +1,9 @@
+'use client'
+
 import { verifyEmail } from '@/services/auth'
+import { ServerResponse } from '@/types'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import Button from '../base/Button'
 import StatusIcon from './StatusIcon'
 
@@ -7,22 +11,33 @@ interface VerifyEmailProps {
   token: string
 }
 
-const VerificationStatus = async ({ token }: VerifyEmailProps) => {
-  const response = await verifyEmail(token)
+const VerificationStatus = ({ token }: VerifyEmailProps) => {
+  const [response, setResponse] = useState<ServerResponse>()
 
-  if (response.code === 409) {
+  useEffect(() => {
+    const verify = async () => {
+      const result = await verifyEmail(token)
+      setResponse(result)
+    }
+
+    verify()
+  }, [token])
+
+  if (!response) {
     return (
       <div className="flex flex-col gap-8 items-center">
-        <StatusIcon status="rejected" />
-        <div className="flex flex-col gap-1 items-center">
-          <h2 className="font-bold text-2xl">There was a problem</h2>
+        <StatusIcon status="pending" />
+        <div className="flex flex-col gap-4 items-center">
+          <h2 className="font-bold text-2xl">Verifying...</h2>
           <p className="text-center font-medium text-primary-700">
-            This token is not valid or might be expired. Please try again!
+            This wont take long. Please wait!
           </p>
         </div>
       </div>
     )
-  } else if (response.code === 200) {
+  }
+
+  if (response.code === 200) {
     return (
       <div className="flex flex-col items-center justify-center">
         <header className="relative h-96 w-96">
@@ -40,14 +55,16 @@ const VerificationStatus = async ({ token }: VerifyEmailProps) => {
         />
       </div>
     )
-  } else {
+  }
+
+  if (response.code === 403) {
     return (
       <div className="flex flex-col gap-8 items-center">
-        <StatusIcon status="pending" />
-        <div className="flex flex-col gap-1 items-center">
-          <h2 className="font-bold text-2xl">Verifying...</h2>
-          <p className="text-center font-medium text-primary-700">
-            This wont take long. Please wait!
+        <StatusIcon status="rejected" />
+        <div className="flex flex-col items-center">
+          <h2 className="font-bold text-2xl">There was a problem</h2>
+          <p className="text-center font-medium text-primary-600 max-w-md leading-relaxed mt-2">
+            This token is not valid or might be expired. Please try again!
           </p>
         </div>
       </div>

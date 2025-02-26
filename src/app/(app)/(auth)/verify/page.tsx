@@ -3,8 +3,13 @@ import VerificationStatus from '@/components/status/VerificationStatus'
 import { cn } from '@/utils'
 import Image from 'next/image'
 
-const Verify = async (props: { searchParams: Promise<{ token: string, to: string }> }) => {
-  const { token, to } = await props.searchParams
+interface PageProps {
+  searchParams: Promise<{ token: string, to: string }>
+}
+
+// TODO: Add SEO
+export default async function Page(props: PageProps) {
+  const { to, token } = await props.searchParams
 
   return (
     <MainContainer className="flex h-[65dvh] items-center justify-center">
@@ -18,14 +23,15 @@ const Verify = async (props: { searchParams: Promise<{ token: string, to: string
             <header className="relative h-80 w-80 text-foreground">
               <Image src="/email-sent.png" alt="email sent image" fill />
             </header>
-            <h2 className="font-bold text-2xl">Check your email!</h2>
-            <p className="text-center font-medium text-primary-700">
+            <h2 className="font-bold text-2xl -mt-8">Check your email!</h2>
+            <p className="text-center font-medium text-primary-600 max-w-md leading-relaxed mt-4">
               We&apos;ve sent a verification link to{' '}
               <span
                 className={cn({ 'font-semibold text-foreground': to })}
               >
                 {to || 'your email'}.
-              </span>
+              </span>{' '}
+              Please check your inbox.
             </p>
           </div>
         )}
@@ -33,5 +39,3 @@ const Verify = async (props: { searchParams: Promise<{ token: string, to: string
     </MainContainer>
   )
 }
-
-export default Verify
