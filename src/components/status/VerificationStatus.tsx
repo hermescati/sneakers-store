@@ -1,6 +1,6 @@
 'use client'
 
-import { verifyEmail } from '@/services/auth'
+import { verifyUser } from '@/services/auth'
 import { ServerResponse } from '@/types'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -16,7 +16,7 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
 
   useEffect(() => {
     const verify = async () => {
-      const result = await verifyEmail(token)
+      const result = await verifyUser(token)
       setResponse(result)
     }
 

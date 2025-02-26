@@ -2,8 +2,10 @@
 
 import { LoginSchema, LoginSchemaObject } from "@/lib/validators"
 import { userLogin } from "@/services/auth"
+import { useUserStore } from "@/stores/userStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { User } from "payload"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
@@ -20,6 +22,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
     const [isForgotPassword, setIsForgotPassword] = useState(false)
 
     const router = useRouter()
+    const { setUser } = useUserStore()
 
     const {
         register,
@@ -31,13 +34,16 @@ const LoginForm = ({ origin }: LoginFormProps) => {
 
     const onSubmit = async (inputData: LoginSchema) => {
         try {
-            const { code, message, data: user } = await userLogin(inputData)
+            const { code, message, data } = await userLogin(inputData)
+            const user = data as User
 
             if (code === 401 || !user) {
                 return toast.error(message)
             }
 
+            setUser(user)
             toast.success(message)
+
             router.refresh()
             origin ? router.push(`/${origin}`) : router.push('/')
         } catch (error) {
