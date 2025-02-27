@@ -4,7 +4,7 @@ import { verifyUser } from '@/services/auth'
 import { ServerResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import Button from '../base/Button'
-import StatusIcon from '../status/StatusIcon'
+import StatusIcon from './StatusIcon'
 
 interface VerifyEmailProps {
   token: string
