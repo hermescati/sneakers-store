@@ -1,3 +1,4 @@
+import AuthProvider from '@/components/auth/AuthProvider'
 import Toaster from '@/components/base/Toaster'
 import Footer from '@/components/nav/Footer'
 import Navbar from '@/components/nav/Navbar'
@@ -24,16 +25,18 @@ const RootLayout = ({
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
       <body className={cn('relative h-full antialiased transition-colors ease-in-out duration-300', quicksand.className)}>
-        <ThemeProvider>
-          <main className="relative flex flex-col min-h-screen">
-            <Navbar />
-            <div className="flex flex-1 justify-center">{children}</div>
-            <Footer />
-          </main>
-          <Analytics />
-          <SpeedInsights />
-          <Toaster />
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <main className="relative flex flex-col min-h-screen">
+              <Navbar />
+              <div className="flex flex-1 justify-center">{children}</div>
+              <Footer />
+            </main>
+            <Analytics />
+            <SpeedInsights />
+            <Toaster />
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )

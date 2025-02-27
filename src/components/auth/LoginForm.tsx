@@ -5,7 +5,6 @@ import { userLogin } from "@/services/auth"
 import { useUserStore } from "@/stores/userStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { User } from "payload"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
@@ -34,8 +33,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
 
     const onSubmit = async (inputData: LoginSchema) => {
         try {
-            const { code, message, data } = await userLogin(inputData)
-            const user = data as User
+            const { code, message, data: user } = await userLogin(inputData)
 
             if (code === 401 || !user) {
                 return toast.error(message)

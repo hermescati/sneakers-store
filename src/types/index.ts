@@ -32,10 +32,10 @@ export interface NavLink {
   imageSrc?: string
 }
 
-export interface ServerResponse {
+export interface ServerResponse<T = unknown> {
   code: number
   message: string
-  data?: unknown
+  data?: T
 }
 
 export class PayloadError extends Error {
