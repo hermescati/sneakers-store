@@ -65,50 +65,46 @@ const LoginForm = ({ origin }: LoginFormProps) => {
             </header>
 
             <form
-                className="flex flex-col gap-10"
+                className="flex flex-col gap-y-4"
                 onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-3">
-                    <Input
-                        {...register('email')}
-                        type="email"
-                        label="Email"
-                        placeholder="you@example.com"
-                        required
-                        invalid={!!errors.email}
-                        error={errors.email?.message}
-                        tabIndex={1}
-                    />
-                    <Input
-                        {...register('password')}
-                        type="password"
-                        label="Password"
-                        placeholder="Password"
-                        required
-                        invalid={!!errors.password}
-                        error={errors.password?.message}
-                        tabIndex={2}
-                    />
+                <Input
+                    {...register('email')}
+                    type="email"
+                    label="Email"
+                    placeholder="e.g. you@example.com"
+                    required
+                    invalid={!!errors.email}
+                    error={errors.email?.message}
+                    tabIndex={1}
+                />
+                <Input
+                    {...register('password')}
+                    type="password"
+                    label="Password"
+                    placeholder="e.g. ••••••••••"
+                    required
+                    invalid={!!errors.password}
+                    error={errors.password?.message}
+                    tabIndex={2}
+                />
+                <Link
+                    underline
+                    onClick={() => setIsForgotPassword(true)}
+                    className="w-fit -mt-2 font-medium text-primary-600 hover:text-secondary"
+                >
+                    Forgot password?
+                </Link>
+                <Button label="Login" tabIndex={4} className="mt-4" />
+                <p className="font-medium text-primary-600">
+                    Don&apos;t have an account yet?{" "}
                     <Link
+                        href="/register"
                         underline
-                        onClick={() => setIsForgotPassword(true)}
-                        className="w-fit place-self-end -mt-1 font-medium text-primary-600 hover:text-secondary"
-                    >
-                        Forgot password?
+                        className="font-semibold text-secondary dark:text-foreground"
+                        tabIndex={5}>
+                        Create one
                     </Link>
-                </div>
-                <div className="flex flex-col gap-4">
-                    <Button label="Login" tabIndex={4} />
-                    <p className="font-medium text-primary-600">
-                        Don&apos;t have an account yet?{" "}
-                        <Link
-                            href="/register"
-                            underline
-                            className="font-semibold text-secondary dark:text-foreground"
-                            tabIndex={5}>
-                            Create one
-                        </Link>
-                    </p>
-                </div>
+                </p>
             </form>
         </>
     )

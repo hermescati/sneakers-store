@@ -1,6 +1,9 @@
+'use client'
+
 import { ForgotPassSchema, ForgotPassSchemaObject } from "@/lib/validators"
 import { forgotPassword } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
 import Input from "../base/Input"
@@ -12,6 +15,8 @@ interface ForgotPassFormProps {
 }
 
 const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
+    const router = useRouter()
+
     const {
         register,
         handleSubmit,
@@ -20,16 +25,14 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
         resolver: zodResolver(ForgotPassSchemaObject)
     })
 
-    const onSubmit = async ({ email }: ForgotPassSchema) => {
+    const onSubmit = async (inputData: ForgotPassSchema) => {
         try {
-            const { code, message } = await forgotPassword(email)
+            const { code, message, data: sentToEmail } = await forgotPassword(inputData)
 
-            if (code !== 200) {
-                toast.error(message)
+            if (code === 200) {
+                return router.replace('reset?to=' + sentToEmail)
             }
-
-            toast.success(message)
-            onBack()
+            toast.error(message)
         } catch (error) {
             toast.error('An unexpected error occured. Try again later.')
         }
@@ -38,36 +41,34 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
     return (
         <>
             <header>
-                <h1 className='font-bold text-2xl'>Forgot Your Password?</h1>
+                <h1 className='font-bold text-2xl'>Forgot your Password?</h1>
                 <p className='font-medium text-primary-600'>
-                    Please enter your email address below. You will receive a link shortly to reset your password.
+                    No worries! It happens. Enter your email address below and we&apost;ll send you a link shortly to reset your password.
                 </p>
             </header>
 
             <form
-                className="flex flex-col gap-4"
+                className="flex flex-col gap-y-4"
                 onSubmit={handleSubmit(onSubmit)}>
                 <Input
                     {...register('email')}
                     type="email"
                     label="Email"
-                    placeholder="you@example.com"
+                    placeholder="e.g. you@example.com"
                     required
                     invalid={!!errors.email}
                     error={errors.email?.message}
                 />
-                <div className="flex flex-col gap-4">
-                    <Button label="Reset my password" />
-                    <p className="font-medium text-primary-600">
-                        Remembered your password?{" "}
-                        <Link
-                            underline
-                            onClick={onBack}
-                            className="font-semibold text-secondary dark:text-foreground">
-                            Back to Login
-                        </Link>
-                    </p>
-                </div>
+                <Button label="Send Link"/>
+                <p className="font-medium text-primary-600">
+                    Remembered your password?{" "}
+                    <Link
+                        underline
+                        onClick={onBack}
+                        className="font-semibold text-secondary dark:text-foreground">
+                        Back to Login
+                    </Link>
+                </p>
             </form>
         </>
     )

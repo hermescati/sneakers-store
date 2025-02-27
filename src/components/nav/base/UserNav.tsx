@@ -73,7 +73,7 @@ const UserNav = () => {
   const { user } = useUserStore()
 
   return (
-    <div className="relative lg:flex lg:gap-x-4 lg:flex-1 lg:items-center lg:justify-end transition-all duration-300 ease-in-out">
+    <div className="relative lg:flex lg:gap-x-3 lg:flex-1 lg:items-center lg:justify-end transition-all duration-300 ease-in-out">
       <div className="flex items-center gap-2">
         {!user && <ThemeToggle floating />}
         <NavCart />
