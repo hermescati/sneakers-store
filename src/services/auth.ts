@@ -7,11 +7,12 @@ import {
   RegistrationSchema,
   ResetPassSchema
 } from '@/lib/validators'
+import { AuthUser } from '@/stores/userStore'
 import { PayloadError, ServerResponse } from '@/types'
-import { User } from '@/types/payload'
 import { cookies } from 'next/headers'
+import { User } from 'payload'
 
-export async function createUser(input: RegistrationSchema): Promise<ServerResponse> {
+export async function createUser(input: RegistrationSchema): Promise<ServerResponse<string>> {
   const { name, email, password } = input
   const payload = await getPayloadClient()
 
@@ -38,7 +39,11 @@ export async function createUser(input: RegistrationSchema): Promise<ServerRespo
       }
     })
 
-    return { code: 201, message: 'Account created successfully.', data: email }
+    return {
+      code: 201,
+      message: 'Account created successfully.',
+      data: email
+    }
   } catch (error) {
     console.error(error)
     return { code: 500, message: 'Something went wrong. Please try again!' }
@@ -70,7 +75,10 @@ export async function verifyUser(token: string): Promise<ServerResponse> {
   }
 }
 
-async function setTokenCookie(token: string, exp?: number): Promise<void> {
+async function setTokenCookie(token: string, exp?: number): Promise<number> {
+  const expiration = exp ?? Math.floor(Date.now() / 1000) + 3600; // 1 hour
+  // const expiration = Math.floor(Date.now() / 1000) + 60; // 1 minute
+
   (await cookies()).set({
     name: 'payload-token',
     value: token,
@@ -78,8 +86,10 @@ async function setTokenCookie(token: string, exp?: number): Promise<void> {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    expires: exp ? new Date(exp * 1000) : new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
+    expires: new Date(expiration * 1000),
   })
+
+  return expiration
 }
 
 async function getTokenCookie(): Promise<string | null> {
@@ -87,7 +97,7 @@ async function getTokenCookie(): Promise<string | null> {
   return nextCookies.get('payload-token')?.value ?? null
 }
 
-export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
+export async function userLogin(input: LoginSchema): Promise<ServerResponse<AuthUser>> {
   const { email, password } = input
   const payload = await getPayloadClient()
 
@@ -101,8 +111,14 @@ export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
       return { code: 401, message: 'Invalid email or password.' }
     }
 
-    await setTokenCookie(token, exp)
-    return { code: 200, message: 'Signed in successfully.', data: user }
+    const expiration = await setTokenCookie(token, exp)
+    const data: AuthUser = { ...user, token, exp: expiration }
+
+    return {
+      code: 200,
+      message: 'Signed in successfully.',
+      data: data
+    }
   } catch (error) {
     console.error(error)
 
@@ -114,9 +130,7 @@ export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
   }
 }
 
-// TODO: Figure out how to implement this method
-// TODO: Find a way how to connect the store to the token cookie, so that there shouldnt be cases where the token is expired and the user is still stored
-export async function refreshToken(): Promise<ServerResponse> {
+export async function refreshToken(): Promise<ServerResponse<AuthUser>> {
   const token = await getTokenCookie()
 
   try {
@@ -131,21 +145,27 @@ export async function refreshToken(): Promise<ServerResponse> {
       return { code: response.status, message: `Failed to refresh token: ${message}` }
     }
 
-    const { refreshedToken, exp } = await response.json()
+    const { user, refreshedToken, exp } = await response.json()
 
     if (!refreshedToken) {
       return { code: 401, message: 'Failed to refresh token. Please log in again.' }
     }
 
-    await setTokenCookie(refreshedToken, exp)
-    return { code: 200, message: 'Token refreshed successfully.' }
+    const expiration = await setTokenCookie(refreshedToken, exp)
+    const data: AuthUser = { ...(user as User), token: refreshedToken, exp: expiration }
+
+    return {
+      code: 200,
+      message: 'Token refreshed successfully.',
+      data: data
+    }
   } catch (error) {
     console.error(error)
     return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 
-export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse> {
+export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse<string>> {
   const { email } = input
   const payload = await getPayloadClient()
 
@@ -155,7 +175,11 @@ export async function forgotPassword(input: ForgotPassSchema): Promise<ServerRes
       data: { email }
     })
 
-    return { code: 400, message: 'Password reset email sent successfully.', data: email }
+    return {
+      code: 400,
+      message: 'Password reset email sent successfully.',
+      data: email
+    }
   } catch (error) {
     console.log(error)
     return { code: 500, message: 'Something went wrong. Please try again!' }
