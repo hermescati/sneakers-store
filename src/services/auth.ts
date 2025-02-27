@@ -70,6 +70,23 @@ export async function verifyUser(token: string): Promise<ServerResponse> {
   }
 }
 
+async function setTokenCookie(token: string, exp?: number): Promise<void> {
+  (await cookies()).set({
+    name: 'payload-token',
+    value: token,
+    path: '/',
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    expires: exp ? new Date(exp * 1000) : new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
+  })
+}
+
+async function getTokenCookie(): Promise<string | null> {
+  const nextCookies = await cookies()
+  return nextCookies.get('payload-token')?.value ?? null
+}
+
 export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
   const { email, password } = input
   const payload = await getPayloadClient()
@@ -84,16 +101,7 @@ export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
       return { code: 401, message: 'Invalid email or password.' }
     }
 
-    (await cookies()).set({
-      name: 'payload-token',
-      value: token,
-      path: '/',
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      expires: exp ? new Date(exp * 1000) : new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
-    })
-
+    await setTokenCookie(token, exp)
     return { code: 200, message: 'Signed in successfully.', data: user }
   } catch (error) {
     console.error(error)
@@ -106,7 +114,39 @@ export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
   }
 }
 
-export async function forgotPassword(email: ForgotPassSchema['email']) {
+// TODO: Figure out how to implement this method
+// TODO: Find a way how to connect the store to the token cookie, so that there shouldnt be cases where the token is expired and the user is still stored
+export async function refreshToken(): Promise<ServerResponse> {
+  const token = await getTokenCookie()
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
+      method: 'POST',
+      headers: { Authorization: `JWT ${token}` }
+    })
+
+    if (!response.ok) {
+      const message = await response.text()
+      return { code: response.status, message: `Failed to refresh token: ${message}` }
+    }
+
+    const { refreshedToken, exp } = await response.json()
+
+    if (!refreshedToken) {
+      return { code: 401, message: 'Failed to refresh token. Please log in again.' }
+    }
+
+    await setTokenCookie(refreshedToken, exp)
+    return { code: 200, message: 'Token refreshed successfully.' }
+  } catch (error) {
+    console.error(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
+  }
+}
+
+export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse> {
+  const { email } = input
   const payload = await getPayloadClient()
 
   try {
@@ -115,25 +155,33 @@ export async function forgotPassword(email: ForgotPassSchema['email']) {
       data: { email }
     })
 
-    return { code: 200, message: 'Password reset email sent successfully.' }
+    return { code: 400, message: 'Password reset email sent successfully.', data: email }
   } catch (error) {
-    throw new PayloadError(400, 'Error sending password reset email.', error)
+    console.log(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 
-export async function resetPassword(token: string, password: ResetPassSchema['password']) {
+export async function resetPassword(token: string, input: ResetPassSchema): Promise<ServerResponse> {
+  const { password } = input
   const payload = await getPayloadClient()
 
   try {
-    const { user } = await payload.resetPassword({
+    await payload.resetPassword({
       collection: 'users',
       data: { token, password },
       overrideAccess: true
     })
 
-    return { code: 200, message: 'Password reset successful.', user }
+    return { code: 200, message: 'Password reset successful.' }
   } catch (error) {
-    throw new PayloadError(400, 'Password reset failed.', error)
+    console.log(error)
+
+    if (error instanceof Error && error.message === 'Token is either invalid or has expired.') {
+      return { code: 403, message: error.message }
+    }
+
+    return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 

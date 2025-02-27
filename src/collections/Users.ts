@@ -23,6 +23,7 @@ export const Users: CollectionConfig = {
       // Replace this with a React Email template
       // Add a subject by using generateEmailSubject
       // Add an expiration to configure how long password reset tokens remain valid, specified in miliseconds.
+      expiration: 3600000, // 1 hour
       generateEmailHTML: (args) => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}/reset?token=${args?.token}`
         return `<a href='${url}'>Reset your password</a>`
