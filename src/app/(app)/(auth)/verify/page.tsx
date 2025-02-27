@@ -1,5 +1,5 @@
 import EmailSent from '@/components/auth/EmailSent'
-import VerificationStatus from '@/components/auth/VerificationStatus'
+import VerificationStatus from '@/components/status/VerificationStatus'
 
 interface PageProps {
   searchParams: Promise<{ token: string, to: string }>

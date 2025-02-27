@@ -41,11 +41,9 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
     return (
-        <MainContainer className="grid lg:grid-cols-2 gap-x-10 h-[92dvh] lg:h-auto items-center justify-center py-6">
-            <div className="flex items-center justify-center">
-                {children}
-            </div>
-            <div className="hidden lg:block h-[750px]">
+        <MainContainer className="flex flex-col gap-12 items-center justify-center lg:grid lg:grid-cols-2 gap-x-10 py-6">
+            <div className="flex items-center justify-center min-h-[65vh] lg:h-auto">{children}</div>
+            <div className="w-full lg:h-[750px]">
                 <Testimonials />
             </div>
         </MainContainer>
