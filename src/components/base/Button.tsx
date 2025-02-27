@@ -68,6 +68,7 @@ export const buttonVariants = cva(btnBase, {
         'text-foreground dark:text-secondary',
         'border-2 border-primary-800 dark:border-secondary',
         'hover:bg-primary-100/50 dark:hover:bg-secondary-100/10',
+        'focus:ring-0 focus:ring-offset-0',
         'active:ring-0 active:ring-offset-0',
         'shadow-none'
       ]
