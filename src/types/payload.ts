@@ -87,8 +87,6 @@ export interface User {
   hash?: string | null;
   _verified?: boolean | null;
   _verificationToken?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
   password?: string | null;
 }
 /**
@@ -390,8 +388,6 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   _verified?: T;
   _verificationToken?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

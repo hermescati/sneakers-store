@@ -1,11 +1,13 @@
 'use client'
 
-import toast from '@/components/base/Toast';
-import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
+import toast from '@/components/base/Toast'
+import { useUserStore } from '@/stores/userStore'
+import { useRouter } from 'next/navigation'
+import { useCallback } from 'react'
 
 const useLogout = () => {
     const router = useRouter()
+    const { clearUser } = useUserStore()
 
     const logout = useCallback(async () => {
         try {
@@ -16,13 +18,13 @@ const useLogout = () => {
                     credentials: 'include'
                 }
             )
-            if (!response.ok) throw new Error('Logout failed')
+            if (!response.ok) return toast.error(response.statusText)
 
-            toast.success('Successfully logged out.')
+            clearUser()
+            toast.success('User logged out successfully.')
             router.refresh()
         } catch (error) {
-            console.error('Error during logout:', error)
-            toast.error("Couldn't logout. Please try again!")
+            toast.error('An unexpected error occured. Try again later.')
         }
     }, [router])
 

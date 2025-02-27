@@ -1,117 +1,209 @@
 'use server'
 
+import { getPayloadClient } from '@/lib/payload'
 import {
-  TLoginValidationSchema,
-  TSignUpValidationSchema
+  ForgotPassSchema,
+  LoginSchema,
+  RegistrationSchema,
+  ResetPassSchema
 } from '@/lib/validators'
+import { PayloadError, ServerResponse } from '@/types'
 import { User } from '@/types/payload'
-import configPromise from '@payload-config'
-import { getPayload } from 'payload'
 import { cookies } from 'next/headers'
 
-// TODO: Find a better alternative to Errors, or define an error structure that is solid
-// TODO: Better toast messages, more professional
-// TODO: Find a way to have a loading state for these service methods
-// TODO: Add forgotPassword service method
-export async function createUser(input: TSignUpValidationSchema) {
-  const { firstName, lastName, email, password } = input
-  const payload = await getPayload({ config: configPromise })
+export async function createUser(input: RegistrationSchema): Promise<ServerResponse> {
+  const { name, email, password } = input
+  const payload = await getPayloadClient()
 
   const { docs: users } = await payload.find({
     collection: 'users',
-    where: {
-      email: { equals: email }
-    }
+    where: { email: { equals: email } }
   })
 
-  if (users.length !== 0) return { code: 409, message: 'UNAUTHORIZED' }
+  if (users.length !== 0) {
+    return { code: 409, message: 'This email is already in use. Maybe login?' }
+  }
 
   try {
+    const [firstName, lastName] = name.split(' ')
+
     await payload.create({
       collection: 'users',
       data: {
         firstName,
-        lastName,
+        lastName: lastName || '',
         email,
         password,
         role: 'user'
       }
     })
-  } catch (error) {
-    return { code: 400, message: 'BAD_REQUEST' }
-  }
 
-  return { code: 201, message: 'CREATED', sentToEmail: email }
+    return { code: 201, message: 'Account created successfully.', data: email }
+  } catch (error) {
+    console.error(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
+  }
 }
 
-export async function verifyEmail(token: string) {
-  const payload = await getPayload({ config: configPromise })
+export async function verifyUser(token: string): Promise<ServerResponse> {
+  const payload = await getPayloadClient()
 
   try {
     const isVerified = await payload.verifyEmail({
       collection: 'users',
       token
     })
-    if (!isVerified) return { code: 409, message: 'UNAUTHORIZED' }
 
-    return { code: 200, message: 'OK' }
+    if (!isVerified) {
+      return { code: 403, message: 'Invalid or expired verification token.' }
+    }
+
+    return { code: 200, message: 'User verified successfully.' }
   } catch (error) {
-    return { code: 400, message: 'BAD_REQUEST' }
+    console.error(error)
+
+    if (error instanceof Error && error.name === 'APIError') {
+      return { code: 403, message: error.message }
+    }
+
+    return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 
-export async function userLogin(input: TLoginValidationSchema) {
+async function setTokenCookie(token: string, exp?: number): Promise<void> {
+  (await cookies()).set({
+    name: 'payload-token',
+    value: token,
+    path: '/',
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    expires: exp ? new Date(exp * 1000) : new Date(Date.now() + 60 * 60 * 1000) // 1 hour from now
+  })
+}
+
+async function getTokenCookie(): Promise<string | null> {
+  const nextCookies = await cookies()
+  return nextCookies.get('payload-token')?.value ?? null
+}
+
+export async function userLogin(input: LoginSchema): Promise<ServerResponse> {
   const { email, password } = input
-  const payload = await getPayload({ config: configPromise })
+  const payload = await getPayloadClient()
 
   try {
-    const { user, token } = await payload.login({
+    const { user, token, exp } = await payload.login({
       collection: 'users',
       data: { email, password }
     })
 
-    if (token) {
-      (await cookies()).set({
-        name: 'payload-token',
-        value: token,
-        path: '/',
-        httpOnly: true,
-        sameSite: 'lax'
-      })
+    if (!token) {
+      return { code: 401, message: 'Invalid email or password.' }
     }
 
-    return { code: 200, message: 'OK', user }
+    await setTokenCookie(token, exp)
+    return { code: 200, message: 'Signed in successfully.', data: user }
   } catch (error) {
-    return { code: 409, message: 'UNAUTHORIZED' }
+    console.error(error)
+
+    if (error instanceof Error && error.name === 'AuthenticationError') {
+      return { code: 401, message: error.message }
+    }
+
+    return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 
+// TODO: Figure out how to implement this method
+// TODO: Find a way how to connect the store to the token cookie, so that there shouldnt be cases where the token is expired and the user is still stored
+export async function refreshToken(): Promise<ServerResponse> {
+  const token = await getTokenCookie()
+
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
+      method: 'POST',
+      headers: { Authorization: `JWT ${token}` }
+    })
+
+    if (!response.ok) {
+      const message = await response.text()
+      return { code: response.status, message: `Failed to refresh token: ${message}` }
+    }
+
+    const { refreshedToken, exp } = await response.json()
+
+    if (!refreshedToken) {
+      return { code: 401, message: 'Failed to refresh token. Please log in again.' }
+    }
+
+    await setTokenCookie(refreshedToken, exp)
+    return { code: 200, message: 'Token refreshed successfully.' }
+  } catch (error) {
+    console.error(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
+  }
+}
+
+export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse> {
+  const { email } = input
+  const payload = await getPayloadClient()
+
+  try {
+    await payload.forgotPassword({
+      collection: 'users',
+      data: { email }
+    })
+
+    return { code: 400, message: 'Password reset email sent successfully.', data: email }
+  } catch (error) {
+    console.log(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
+  }
+}
+
+export async function resetPassword(token: string, input: ResetPassSchema): Promise<ServerResponse> {
+  const { password } = input
+  const payload = await getPayloadClient()
+
+  try {
+    await payload.resetPassword({
+      collection: 'users',
+      data: { token, password },
+      overrideAccess: true
+    })
+
+    return { code: 200, message: 'Password reset successful.' }
+  } catch (error) {
+    console.log(error)
+
+    if (error instanceof Error && error.message === 'Token is either invalid or has expired.') {
+      return { code: 403, message: error.message }
+    }
+
+    return { code: 500, message: 'Something went wrong. Please try again!' }
+  }
+}
+
+// FIXME: Remove this method
 export async function getUser() {
   const nextCookies = await cookies()
   const token = nextCookies.get('payload-token')?.value
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
-    {
-      headers: {
-        Authorization: `JWT ${token}`
-      }
-    }
+    { headers: { Authorization: `JWT ${token}` } }
   )
 
   if (!response.ok) {
-    const errorText = await response.text()
-    console.error("Error in fetching user data.")
-    throw new Error(`Error fetching user: ${errorText}`)
+    const message = await response.text()
+    throw new PayloadError(response.status, 'Failed fetching user data.', message)
   }
 
-  let data: {user: User | null}
   try {
-    data = (await response.json()) as {user: User | null}
-  } catch (err) {
-    console.error("Error parsin JSON data", err)
-    throw new Error(`Failed to parse JSON response.`)
+    const data = (await response.json()) as { user: User | null; token?: string; exp?: number }
+    return { user: data.user, token: data.token, exp: data.exp }
+  } catch (error) {
+    throw new PayloadError(500, 'Failed parsing user data.', error)
   }
-
-  const { user } = data;
-  return { user }
 }

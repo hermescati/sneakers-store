@@ -67,6 +67,10 @@
 
   background: rgba(var(--background));
   color: rgba(var(--foreground));
+
+  .glow {
+    filter: drop-shadow(0 0 6px rgba(var(--warning-300), 0.5));
+  }
 }
 
 .dark {
@@ -134,4 +138,8 @@
 
   background: rgba(var(--background));
   color: rgba(var(--foreground));
+
+  .glow {
+    filter: drop-shadow(0 0 6px rgba(var(--warning-300), 0.5));
+  }
 }

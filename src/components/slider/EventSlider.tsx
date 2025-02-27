@@ -68,6 +68,7 @@ const EventItem = ({ event }: { event: Event }) => {
     )
 }
 
+// FIXME: Optimize colors based on theme
 const EventSlider = ({ events }: { events: Event[] }) => {
     const isMobile = useMediaQuery('(max-width: 1024px)')
 
@@ -79,7 +80,7 @@ const EventSlider = ({ events }: { events: Event[] }) => {
         '--swiper-pagination-bullet-inactive-color': '#FFFFFF40',
         '--swiper-pagination-bullet-inactive-opacity': '1',
         '--swiper-pagination-bullet-size': '0.5rem',
-    });
+    })
 
     const isStart = activeIndex === 0
     const isEnd = activeIndex === events.length - 1

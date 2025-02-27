@@ -1,11 +1,11 @@
 'use client'
 
-import { useCart } from '@/stores/useCart'
 import useOnKeyPress from '@/hooks/use-keypress'
 import { useSearch } from '@/hooks/use-search'
-import useUserMenu from '@/hooks/useUserMenu'
+import useNavigationMenu from '@/hooks/useNavigationMenu'
+import { useCart } from '@/stores/useCart'
+import { useUserStore } from '@/stores/userStore'
 import { NavItem } from '@/types'
-import { User } from '@/types/payload'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,18 +18,19 @@ import Link from '../base/Link'
 
 interface MobileNavProps {
   items: NavItem[]
-  user: User | null
 }
 
 // TODO: Add a sliding animation to it
 // TODO: Clean up the code - break it down to smaller components
-const MobileNav = ({ items, user }: MobileNavProps) => {
+const MobileNav = ({ items }: MobileNavProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
   const { expandSearch } = useSearch()
   const { items: cartItems } = useCart()
-  const menuItems = useUserMenu(user)
+  const { user } = useUserStore()
+  
+  const menuItems = useNavigationMenu()
 
   const [openIndex, setOpenIndex] = useState<number | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)

@@ -12,6 +12,7 @@ import { getUser } from './auth'
 import { createOrder } from './orders'
 import { getProducts } from './products'
 
+// FIXME: Could send the userid as a parameter to avoid the extra call to getUser
 export async function createStripeSession(
   selectedProducts: OrderItem[],
   deliveryOption?: Stripe.ShippingRate,

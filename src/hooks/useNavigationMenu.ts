@@ -1,9 +1,9 @@
 "use client"
 
 import ThemeToggle from "@/components/theme/ThemeToggle"
-import { User } from "@/types/payload"
-import { createElement, ReactNode, useEffect, useState } from "react"
-import useLogout from "./use-logout"
+import { useUserStore } from "@/stores/userStore"
+import { createElement, ReactNode, useMemo } from "react"
+import useLogout from "./useLogout"
 
 interface NavMenuItem {
     value: string
@@ -15,15 +15,15 @@ interface NavMenuItem {
     component?: ReactNode
 }
 
-const useUserMenu = (user: User | null) => {
+const useNavigationMenu = () => {
     const logout = useLogout()
-    const [menuItems, setMenuItems] = useState<NavMenuItem[]>([])
+    const { user } = useUserStore()
 
-    useEffect(() => {
-        const newMenuItems: NavMenuItem[] = []
+    const menuItems = useMemo<NavMenuItem[]>(() => {
+        const items: NavMenuItem[] = []
 
         if (user) {
-            newMenuItems.push({
+            items.push({
                 value: 'profile',
                 title: user.firstName,
                 subtitle: user.email,
@@ -31,14 +31,14 @@ const useUserMenu = (user: User | null) => {
                 route: '/profile'
             })
 
-            newMenuItems.push({
+            items.push({
                 value: 'dashboard',
                 title: 'Admin Dashboard',
                 icon: 'mage:dashboard',
                 route: '/admin'
             })
 
-            newMenuItems.push({
+            items.push({
                 value: 'orders',
                 title: 'My Orders',
                 icon: 'mage:box',
@@ -47,14 +47,14 @@ const useUserMenu = (user: User | null) => {
 
         }
 
-        newMenuItems.push({
+        items.push({
             value: 'theme',
             title: 'Theme',
             component: createElement(ThemeToggle),
         })
 
         if (user) {
-            newMenuItems.push({
+            items.push({
                 value: 'logout',
                 title: 'Log out',
                 icon: 'fluent:power-20-regular',
@@ -62,10 +62,10 @@ const useUserMenu = (user: User | null) => {
             })
         }
 
-        setMenuItems(newMenuItems)
-    }, [user, logout])
+        return items
+    }, [user])
 
     return menuItems
 }
 
-export default useUserMenu
+export default useNavigationMenu
