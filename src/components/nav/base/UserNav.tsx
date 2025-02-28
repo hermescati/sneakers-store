@@ -57,7 +57,7 @@ const UserMenu = () => {
                       "py-1.5": !!item.subtitle || item.component
                     }
                   )}>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col leading-tight">
                     <span className="font-medium text-md">{item.title}</span>
                     {item.subtitle && <span className="text-md text-primary-600">{item.subtitle}</span>}
                   </div>

@@ -25,18 +25,20 @@ const useNavigationMenu = () => {
         if (user) {
             items.push({
                 value: 'profile',
-                title: user.firstName,
+                title: 'Profile',
                 subtitle: user.email,
                 icon: 'solar:settings-outline',
                 route: '/profile'
             })
 
-            items.push({
-                value: 'dashboard',
-                title: 'Admin Dashboard',
-                icon: 'mage:dashboard',
-                route: '/admin'
-            })
+            if (user.role === 'admin') {
+                items.push({
+                    value: 'dashboard',
+                    title: 'Admin Dashboard',
+                    icon: 'mage:dashboard',
+                    route: '/admin'
+                })
+            }
 
             items.push({
                 value: 'orders',
