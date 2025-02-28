@@ -12,7 +12,7 @@ const useLogout = () => {
     const logout = useCallback(async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/users/logout`,
+                `/api/users/logout`,
                 {
                     method: 'POST',
                     credentials: 'include'
