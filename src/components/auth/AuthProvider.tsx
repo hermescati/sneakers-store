@@ -1,32 +1,36 @@
 'use client'
 
-import React, { ReactNode, useEffect } from "react"
+import useLogout from "@/hooks/useLogout"
 import { useUserStore } from "@/stores/userStore"
+import { ReactNode, useEffect } from "react"
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { user, isRefreshing, refreshToken } = useUserStore()
+    const logout = useLogout()
 
     useEffect(() => {
         if (!user) return
 
-        const refreshThreshold = 10 * 60 * 1000 // 10 minutes
         const tokenExpiryTime = user.exp * 1000
+        if (Date.now() >= tokenExpiryTime) {
+            logout()
+            return
+        }
+
+        const refreshThreshold = 10 * 60 * 1000 // 10 minutes
         const timeUntilRefresh = tokenExpiryTime - Date.now() - refreshThreshold
 
         if (timeUntilRefresh <= 0) {
-            if (!isRefreshing) {
-                refreshToken()
-            }
-        } else {
-            const timer = setTimeout(() => {
-                if (!isRefreshing) {
-                    refreshToken()
-                }
-            }, timeUntilRefresh)
-
-            return () => clearTimeout(timer)
+            if (!isRefreshing) refreshToken()
+            return
         }
-    }, [user, isRefreshing, refreshToken])
+
+        const timer = setTimeout(() => {
+            if (!isRefreshing) refreshToken()
+        }, timeUntilRefresh)
+
+        return () => clearTimeout(timer)
+    }, [user, isRefreshing, refreshToken, logout])
 
     return <>{children}</>
 };
