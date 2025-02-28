@@ -37,7 +37,7 @@ export default function Testimonials() {
 
             <div>
                 <h3 className="font-semibold text-xl text-primary-800">Step Up Your Sneaker Game</h3>
-                <p className="mt-2 font-medium text-primary-500 text-md text-pretty">
+                <p className="mt-2 font-medium text-primary-600 text-md text-pretty">
                     Join our community of sneaker enthusiasts and unlock exclusive perks—get early access to limited drops, special discounts, and personalized recommendations.
                     Experience the best in sneaker culture and never miss a beat!
                 </p>
