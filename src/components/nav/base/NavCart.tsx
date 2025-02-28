@@ -26,7 +26,7 @@ const NavCart = () => {
       <button
         ref={buttonRef}
         onClick={cartOpen ? closeCart : openCart}
-        className="group p-2 flex items-center gap-1 shrink-0 cursor-pointer text-primary-700 hover:text-foreground transition-all ease-in-out duration-300"
+        className="group flex items-center gap-1 shrink-0 cursor-pointer text-primary-700 hover:text-foreground transition-all ease-in-out duration-300"
       >
         <Icon
           icon="solar:cart-large-minimalistic-linear"

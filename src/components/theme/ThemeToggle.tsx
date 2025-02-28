@@ -16,6 +16,7 @@ const ThemeToggle = ({ floating }: { floating: boolean }) => {
     ]
 
     const activeIndex = themeOptions.findIndex(({ value }) => value === theme)
+    const resolvedThemeIcon = themeOptions.find(({ value }) => value === resolvedTheme)?.icon as string
 
     useEffect(() => setIsMounted(true), [])
 
@@ -25,13 +26,13 @@ const ThemeToggle = ({ floating }: { floating: boolean }) => {
         <div className="relative flex flex-col gap-2 group">
             {floating &&
                 <IconButton
-                    icon={resolvedTheme === "dark" ? "solar:moon-stars-outline" : "solar:sun-line-duotone"}
-                    className="hover:bg-transparent active:bg-transparent" />
+                    icon={resolvedThemeIcon}
+                    className="p-1.5 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none" />
             }
 
             <div className={cn(
                 "border border-border bg-background rounded-full",
-                { "hidden group-hover:block absolute top-11 left-1/2 -translate-x-1/2 z-40 shadow-md": floating }
+                { "hidden group-hover:block absolute top-9 left-1/2 -translate-x-1/2 z-40 shadow-md": floating }
             )}>
                 <div className="relative w-full flex items-center">
                     <div

@@ -13,9 +13,9 @@ const Navbar = async () => {
     <nav className="sticky z-20 top-0 inset-x-0">
       <div className="relative bg-background shadow dark:border-b dark:border-border">
         <MainContainer>
-          <div className="flex gap-14 py-3 lg:py-4 lg:pt-6 lg:pb-4 items-center justify-between">
+          <div className="flex gap-16 py-3 lg:py-4 lg:pt-6 lg:pb-4 items-center justify-between">
             <Link href="/" className="font-bold text-xl text-foreground">Sneakers.</Link>
-            <div className="hidden lg:flex lg:flex-grow items-center lg:gap-14">
+            <div className="hidden lg:flex lg:flex-grow items-center gap-16">
               <SearchBar />
               <UserNav />
             </div>
