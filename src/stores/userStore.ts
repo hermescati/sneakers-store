@@ -1,4 +1,3 @@
-
 import toast from "@/components/base/Toast"
 import { refreshToken } from "@/services/auth"
 import { User } from "payload"
@@ -26,14 +25,14 @@ export const useUserStore = create<UserState>()(
             set({ user })
         },
         clearUser: () => {
-            set({ user: null })
+            set({ user: null, isRefreshing: false })
         },   
         refreshToken: async () => {
             const { user, isRefreshing } = get()
             if (!user || isRefreshing) return
 
-            set({ isRefreshing: true })
             try {
+                set({ isRefreshing: true })
                 const { code, message, data } = await refreshToken()
 
                 if (code === 200) {

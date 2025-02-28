@@ -29,6 +29,6 @@ const useLogout = () => {
     }, [router])
 
     return logout
-};
+}
 
 export default useLogout
