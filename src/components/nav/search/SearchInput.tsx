@@ -8,11 +8,12 @@ import { ComponentPropsWithoutRef } from 'react'
 
 interface SearchInputProps extends ComponentPropsWithoutRef<'input'> {
     value: string,
+    isExpanded?: boolean,
     clearValue: () => void
 }
 
-const SearchInput = ({ value, clearValue, ...props }: SearchInputProps) => {
-    const { isExpanded, expandSearch } = useSearch()
+const SearchInput = ({ value, isExpanded = false, clearValue, ...props }: SearchInputProps) => {
+    const { expandSearch } = useSearch()
 
     return (
         <div className={cn(
