@@ -1,4 +1,4 @@
-import { CartItem } from "@/stores/useCart"
+import { CartItem } from "@/stores/cartStore"
 import Stripe from "stripe"
 
 const calculateSubtotal = (items: CartItem[]): number =>
