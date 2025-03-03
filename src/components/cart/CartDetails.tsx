@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { useEffect, useState } from 'react'
 import Button from '../base/Button'
 import CartList from './CartList'
@@ -8,7 +8,7 @@ import CartSummary from './CartSummary'
 import EmptyCart from './EmptyCart'
 
 const CartDetails = () => {
-  const { items, clearCart } = useCart()
+  const { items, clearCart } = useCartStore()
   const [isMounted, setIsMounted] = useState<boolean>(false)
 
   useEffect(() => {

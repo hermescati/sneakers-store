@@ -1,6 +1,6 @@
 import Button from '@/components/base/Button'
 import Input from '@/components/base/Input'
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { DiscountCodeSchema, TDiscountCodeSchema } from '@/lib/validators'
 import { validateDiscountCode } from '@/services/coupons'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 
 // FIXME: Refactor discount code logic to take into account the metadata field
 const DiscountCode = () => {
-  const { discount: appliedDiscount, setDiscount } = useCart()
+  const { discount: appliedDiscount, setDiscount } = useCartStore()
 
   const {
     register,
