@@ -5,7 +5,7 @@ import { useUserStore } from "@/stores/userStore"
 import { ReactNode, useEffect } from "react"
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const { user, isRefreshing, refreshToken } = useUserStore()
+    const { user, isRefreshing, refreshToken, clearUser } = useUserStore()
     const logout = useLogout()
 
     useEffect(() => {
@@ -13,7 +13,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const tokenExpiryTime = user.exp * 1000
         if (Date.now() >= tokenExpiryTime) {
-            logout()
+            clearUser()
             return
         }
 
@@ -33,6 +33,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, [user, isRefreshing, refreshToken, logout])
 
     return <>{children}</>
-};
+}
 
 export default AuthProvider
