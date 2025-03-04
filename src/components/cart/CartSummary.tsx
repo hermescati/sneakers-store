@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { createStripeSession } from '@/services/checkout'
 import { OrderItem } from '@/types'
 import { formatPrice } from '@/utils'
@@ -23,7 +23,7 @@ const CartSummary = () => {
     shipping,
     clearDiscount,
     clearCart
-  } = useCart()
+  } = useCartStore()
 
   const {
     subtotal,

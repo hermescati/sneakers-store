@@ -1,85 +1,36 @@
 'use server'
 
-import { Product } from '@/types/payload'
-import { shuffleArray } from '@/utils'
-import configPromise from '@payload-config'
-import { Where, getPayload } from 'payload'
+import { payloadClient } from '@/lib/payload'
+import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
+import { Brand, Collection, Model, Product } from '@/types/payload'
+import { Where } from 'payload'
+import { getPaginatedResponse } from '.'
 
-type QueryParams = {
-  query?: Where
-  limit?: number
-  sort?: string
-}
+export async function getProduct(productId: Product['id']): Promise<BaseResponse<Product>> {
+  try {
+    const product = await payloadClient.findByID({
+      collection: 'products',
+      id: productId,
+      depth: 2
+    })
 
-export async function getProduct(productId: Product['id']) {
-  const payload = await getPayload({ config: configPromise })
-
-  const product = await payload.findByID({
-    collection: 'products',
-    id: productId,
-    depth: 2
-  })
-
-  return product
-}
-
-export async function getProducts({ query, limit, sort }: QueryParams) {
-  const payload = await getPayload({ config: configPromise })
-
-  const {
-    docs: products,
-    hasNextPage,
-    nextPage,
-  } = await payload.find({
-    collection: 'products',
-    where: query,
-    limit,
-    sort,
-    depth: 1
-  })
-
-  return {
-    products,
-    nextPage: hasNextPage && nextPage
+    return { code: 200, message: "Product found", data: product }
+  } catch (error) {
+    console.error(error)
+    return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
 
-export async function getBrands({ query, limit, sort }: QueryParams) {
-  const payload = await getPayload({ config: configPromise })
-
-  const { docs: brands } = await payload.find({
-    collection: 'brands',
-    where: query,
-    limit,
-    sort,
-    depth: 0
-  })
-
-  return brands
-}
-
-export async function getCollections({ query, limit, sort }: QueryParams) {
-  const payload = await getPayload({ config: configPromise })
-
-  const {
-    docs: collections,
-    hasNextPage,
-    nextPage
-  } = await payload.find({
-    collection: 'collections',
-    where: query,
-    limit,
-    sort,
-    depth: 1
-  })
-
-  return {
-    collections,
-    nextPage: hasNextPage && nextPage
+export async function getProducts(params?: QueryParams): Promise<PaginatedResponse<Product>> {
+  try {
+    return await getPaginatedResponse<Product>('products', params)
+  } catch (error: any) {
+    console.error(error)
+    return { code: 500, message: error.message, data: [] }
   }
 }
 
-export async function searchProducts(query: string, category?: string):Promise<Product[]> {
+export async function findProducts(query: string, category?: string): Promise<BaseResponse<Product[]>> {
   const queryClause: Where = {
     and: [
       ...(category ? [{ "size_category": { equals: category } }] : []),
@@ -94,55 +45,136 @@ export async function searchProducts(query: string, category?: string):Promise<P
     ]
   }
 
-  const { products } = await getProducts({ query: queryClause, limit: 6 })
-  return products
+  try {
+    return await getProducts({ where: queryClause, limit: 6 })
+  } catch (error: any) {
+    console.error(error)
+    return { code: 500, message: error.message }
+  }
 }
 
-// TODO: Adjust the algorithm to not pick up the current product
-export async function getRelatedProducts(product: Product, limit = 6) {
-  let products: Product[] = []
+export async function filterProducts(filters: ProductFilters): Promise<BaseResponse<Product[]>> {
+  const conditions: Where[] = []
 
-  // First prioritize collection
-  const collectionQuery: Where = {
-    and: [
-      { id: { not_in: [product.id] } },
-      { collection: { equals: product.collection } }
-    ]
+  if (filters.brand) conditions.push({ 'brand.id': { equals: filters.brand } })
+  if (filters.model) conditions.push({ 'model.id': { equals: filters.model } })
+  if (filters.collection) conditions.push({ 'collection.id': { equals: filters.collection } })
+  if (filters.size) conditions.push({ size_category: { equals: filters.size } })
+
+  // TODO: Add cases for belowRetail and onSale
+  // if (filters.filter === 'belowRetail') {
+  //   conditions.push({
+  //     sizes: {
+  //       some: {
+  //         price: {
+  //           greater_than: 100, // This allows dynamic comparison
+  //         },
+  //       },
+  //     },
+  //   })
+  // }
+
+  if (filters.filter === 'onSale') {
+    conditions.push({ 'sizes.discount': { greater_than: 0 } })
   }
 
-  const { products: collectionProducts } = await getProducts({
-    query: collectionQuery
-  })
+  if (filters.filter === 'onSale') {
+    conditions.push({
+      sizes: {
+        contains: { discount: { greater_than: 0 } }
+      },
+    });
+  }
 
-  // If not enough, use the product name or the brand
-  if (collectionProducts.length < limit!) {
-    const remainder = limit! - collectionProducts.length
-
-    const relatedQuery: Where = {
-      and: [
-        {
-          id: { not_in: [product.id, ...collectionProducts.map((p) => p.id)] }
-        },
-        { size_category: { equals: product.size_category } },
-        {
-          or: [
-            { name: { like: product.name } },
-            { 'brand.name': { equals: product.brand } }
-          ]
-        }
-      ]
-    }
-
-    const { products: relatedProducts } = await getProducts({
-      limit: remainder,
-      query: relatedQuery
+  try {
+    return await getProducts({
+      ...(conditions.length && { where: { and: conditions } }),
+      ...(filters.sort && { sort: `${filters.dir === 'desc' ? '-' : ''}${filters.sort}` })
     })
+  } catch (error: any) {
+    console.log(error)
+    return { code: 500, message: error.message }
+  }
+}
 
-    products = [...collectionProducts, ...relatedProducts]
-  } else {
-    products = collectionProducts
+const extractId = (value: string | Collection | Brand | Model | null | undefined) => typeof value === 'string' ? value : value?.id
+
+export async function getRelatedProducts(products: Product[], limit = 6) {
+  let relatedProducts: Product[] = []
+  const excludedIds = products.map((p) => p.id)
+
+  const collectionIds = products.map((p) => extractId(p.collection)?.toString()).filter(Boolean)
+
+  if (collectionIds.length) {
+    const { data: similarCollection } = await getProducts({
+      limit,
+      where: {
+        and: [
+          { id: { not_in: excludedIds } },
+          { collection: { in: collectionIds } }
+        ]
+      }
+    })
+    relatedProducts.push(...similarCollection)
   }
 
-  // Randomly shuffle the array of products
-  return shuffleArray(products).slice(0, limit)
+  if (relatedProducts.length < limit) {
+    const remainder = limit - relatedProducts.length
+    const brandIds = products.map((p) => extractId(p.brand)?.toString()).filter(Boolean)
+    const modelIds = products.map((p) => extractId(p.model)?.toString()).filter(Boolean)
+
+    const { data: similarBrandModel } = await getProducts({
+      limit: remainder,
+      where: {
+        and: [
+          { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } },
+          {
+            or: [
+              { brand: { in: brandIds } },
+              { model: { in: modelIds } }
+            ]
+          }
+        ]
+      }
+    })
+    relatedProducts.push(...similarBrandModel)
+  }
+
+  if (relatedProducts.length < limit) {
+    const remainder = limit - relatedProducts.length
+    const { data: randomProducts } = await getProducts({
+      limit: remainder,
+      where: { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } }
+    })
+    relatedProducts.push(...randomProducts)
+  }
+
+  return relatedProducts
+}
+
+export async function getBrands(params?: QueryParams): Promise<PaginatedResponse<Brand>> {
+  try {
+    return await getPaginatedResponse<Brand>('brands', params)
+  } catch (error: any) {
+    console.error(error)
+    return { code: 500, message: error.message, data: [] }
+  }
+}
+
+export async function getModels(params?: QueryParams): Promise<PaginatedResponse<Model>> {
+  try {
+    return await getPaginatedResponse<Model>('models', params)
+  } catch (error: any) {
+    console.error(error)
+    return { code: 500, message: error.message, data: [] }
+  }
+}
+
+export async function getCollections(params?: QueryParams): Promise<PaginatedResponse<Collection>> {
+  try {
+    return await getPaginatedResponse<Collection>('collections', params)
+  } catch (error: any) {
+    console.error(error)
+    return { code: 500, message: error.message, data: [] }
+  }
 }

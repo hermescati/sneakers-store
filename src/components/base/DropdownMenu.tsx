@@ -1,6 +1,5 @@
 'use client'
 
-import useOnEscapeKey from '@/hooks/use-escape-key'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { ReactNode, useRef, useState } from 'react'
@@ -39,7 +38,6 @@ const DropdownMenu = ({
 
   const dropdownRef = useRef<HTMLDivElement>(null!)
   useOnClickOutside(dropdownRef, () => setIsOpen(false))
-  useOnEscapeKey(() => setIsOpen(false))
 
   const handleItemClick = (item: NavRoute) => {
     if (item.action) item.action()

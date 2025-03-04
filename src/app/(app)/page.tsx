@@ -8,44 +8,26 @@ import { getEvents } from '@/services/events'
 import { getCollections, getProducts } from '@/services/products'
 
 const Home = async () => {
-  const { events } = await getEvents()
+  const [
+    { data: newReleases },
+    { data: nikeSneakers },
+    { data: jordanSneakers },
+    { data: adidasSneakers },
+    { data: yeezySneakers },
+    { data: newBalanceSneakers },
+    { data: latestCollections },
+    { events }
+  ] = await Promise.all([
+    getProducts({ limit: 6, sort: '-release_date' }),
+    getProducts({ limit: 6, where: { 'brand.name': { equals: 'Nike' } } }),
+    getProducts({ limit: 6, where: { 'brand.name': { equals: 'Jordan' } } }),
+    getProducts({ limit: 6, where: { 'brand.name': { equals: 'Adidas' } } }),
+    getProducts({ limit: 6, where: { 'brand.name': { equals: 'Yeezy' } } }),
+    getProducts({ limit: 6, where: { 'brand.name': { equals: 'New Balance' } } }),
+    getCollections({ limit: 2, sort: '-createdAt' }),
+    getEvents()
+  ])
 
-  const { products: newReleases } = await getProducts({
-    limit: 6,
-    sort: '-release_date'
-  })
-
-  const { products: jordanSneakers } = await getProducts({
-    limit: 6,
-    query: { 'brand.name': { equals: 'Jordan' } }
-  })
-
-  const { products: nikeSneakers } = await getProducts({
-    limit: 6,
-    query: { 'brand.name': { equals: 'Nike' } }
-  })
-
-  const { products: adidasSneakers } = await getProducts({
-    limit: 6,
-    query: { 'brand.name': { equals: 'Adidas' } }
-  })
-
-  const { products: yeezySneakers } = await getProducts({
-    limit: 6,
-    query: { 'brand.name': { equals: 'Yeezy' } }
-  })
-
-  const { products: newBalanceSneakers } = await getProducts({
-    limit: 6,
-    query: { 'brand.name': { equals: 'New Balance' } }
-  })
-
-  const { collections: latestCollections } = await getCollections({
-    limit: 2,
-    sort: '-createdAt'
-  })
-
-  // TODO: Add width and height to the icons so the layout wont shift
   return (
     <MainContainer className="flex flex-col gap-10 py-6 md:py-8 md:pb-12">
       <EventSlider events={events} />
@@ -89,7 +71,6 @@ const Home = async () => {
       />
 
       <PerksSection />
-
       <DiscoverSection />
     </MainContainer>
   )

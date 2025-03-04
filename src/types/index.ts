@@ -1,5 +1,6 @@
 import { Product } from './payload'
 
+// TODO: Organize types and interfaces to be placed under types folder
 export type ProductSize = {
   size: number
   stock: number

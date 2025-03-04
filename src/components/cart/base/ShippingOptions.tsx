@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { getShippingRates } from '@/services/checkout'
 import { cn, formatPrice } from '@/utils'
 import { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ import Stripe from 'stripe'
 import ShippingOptionsSkeleton from '../skeletons/ShippingOptionsSkeleton'
 
 const ShippingOptions = () => {
-  const { shipping, setShipping } = useCart()
+  const { shipping, setShipping } = useCartStore()
   const [options, setOptions] = useState<Stripe.ShippingRate[]>([])
 
   useEffect(() => {

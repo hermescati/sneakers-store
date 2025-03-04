@@ -1,6 +1,6 @@
 'use client'
 
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { cn } from '@/utils'
 import { useMediaQuery } from 'usehooks-ts'
 import Link from '../base/Link'
@@ -11,7 +11,7 @@ interface CartListProps {
 }
 
 const CartList = ({ compact = false }: CartListProps) => {
-  const { items, removeItem } = useCart()
+  const { items, removeItem } = useCartStore()
   const isMobile = useMediaQuery('(max-width: 767px)')
 
   return (

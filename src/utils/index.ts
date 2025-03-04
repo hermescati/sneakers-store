@@ -4,6 +4,7 @@ import { ClassValue, clsx } from 'clsx'
 import Stripe from 'stripe'
 import { twMerge } from 'tailwind-merge'
 
+// TODO: Organize util functions
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs))
 }

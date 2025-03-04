@@ -1,6 +1,6 @@
 import Input from '@/components/base/Input'
 import Link from '@/components/base/Link'
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { ProductSize } from '@/types'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter, cn } from '@/utils'
@@ -50,7 +50,7 @@ const ProductSizes = ({
   setSelectedSize
 }: ProductSizeProps) => {
   const [showModal, setShowModal] = useState(false)
-  const { addItem } = useCart()
+  const { addItem } = useCartStore()
 
   return (
     <div className="flex flex-col gap-1">

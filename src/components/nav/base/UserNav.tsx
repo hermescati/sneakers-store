@@ -3,7 +3,7 @@
 import IconButton from '@/components/base/IconButton'
 import Link from '@/components/base/Link'
 import ThemeToggle from '@/components/theme/ThemeToggle'
-import useOnEscapeKey from '@/hooks/use-escape-key'
+import useOnKeyPress from '@/hooks/useOnKeyPress'
 import useNavigationMenu from '@/hooks/useNavigationMenu'
 import { useUserStore } from '@/stores/userStore'
 import { cn } from '@/utils'
@@ -14,18 +14,18 @@ import NavCart from './NavCart'
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const { user } = useUserStore()
-
   const dropdownRef = useRef<HTMLDivElement>(null!)
-  useOnClickOutside(dropdownRef, () => setIsOpen(false))
-  useOnEscapeKey(() => setIsOpen(false))
 
+  const { user } = useUserStore()
   const menuItems = useNavigationMenu()
+
+  useOnClickOutside(dropdownRef, () => setIsOpen(false))
+  useOnKeyPress({ key: 'Escape' }, () => setIsOpen(false))
 
   return (
     <div ref={dropdownRef} className="relative">
       <div
-        className="flex items-center gap-2 cursor-pointer"
+        className="flex items-center gap-2.5 cursor-pointer"
         aria-haspopup="true"
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
@@ -39,7 +39,7 @@ const UserMenu = () => {
           icon="solar:user-bold-duotone"
           className="p-1.5 border border-border bg-transparent"
         />
-        <span className="font-medium text-md text-primary-600 leading-none">{user?.firstName}</span>
+        <span className="font-semibold text-md text-primary-700 leading-none">{user?.firstName}</span>
       </div>
 
       {isOpen && (

@@ -26,7 +26,7 @@ type CartState = {
   close: VoidFunction
 }
 
-export const useCart = create<CartState>()(
+export const useCartStore = create<CartState>()(
   persist((set) => ({
     items: [],
     isOpen: false,

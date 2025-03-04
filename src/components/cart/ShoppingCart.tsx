@@ -1,5 +1,5 @@
 import Button from '@/components/base/Button'
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { formatPrice } from '@/utils'
 import { calculateCartSummary } from '@/utils/cart'
 import { useRouter } from 'next/navigation'
@@ -10,7 +10,7 @@ import EmptyCart from './EmptyCart'
 const ShoppingCart = () => {
   const router = useRouter()
 
-  const { items, close } = useCart()
+  const { items, close } = useCartStore()
   const { subtotal } = calculateCartSummary(items)
   const isEmpty = items.length === 0
 

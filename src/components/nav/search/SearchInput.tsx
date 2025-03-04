@@ -1,7 +1,7 @@
 'use client'
 
 import IconButton from '@/components/base/IconButton'
-import { useSearch } from '@/hooks/use-search'
+import { useSearchStore } from '@/stores/searchStore'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { ComponentPropsWithoutRef } from 'react'
@@ -13,7 +13,7 @@ interface SearchInputProps extends ComponentPropsWithoutRef<'input'> {
 }
 
 const SearchInput = ({ value, isExpanded = false, clearValue, ...props }: SearchInputProps) => {
-    const { expandSearch } = useSearch()
+    const { expandSearch } = useSearchStore()
 
     return (
         <div className={cn(

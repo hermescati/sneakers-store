@@ -1,9 +1,9 @@
 'use client'
 
-import useOnKeyPress from '@/hooks/use-keypress'
-import { useSearch } from '@/hooks/use-search'
+import useOnKeyPress from '@/hooks/useOnKeyPress'
+import { useSearchStore } from '@/stores/searchStore'
 import useNavigationMenu from '@/hooks/useNavigationMenu'
-import { useCart } from '@/stores/useCart'
+import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
 import { NavItem } from '@/types'
 import { cn } from '@/utils'
@@ -26,8 +26,8 @@ const MobileNav = ({ items }: MobileNavProps) => {
   const router = useRouter()
   const pathname = usePathname()
 
-  const { expandSearch } = useSearch()
-  const { items: cartItems } = useCart()
+  const { expandSearch } = useSearchStore()
+  const { items: cartItems } = useCartStore()
   const { user } = useUserStore()
   
   const menuItems = useNavigationMenu()

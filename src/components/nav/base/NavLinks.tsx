@@ -1,6 +1,6 @@
 'use client'
 
-import useOnEscapeKey from '@/hooks/use-escape-key'
+import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { NavItem } from '@/types'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
@@ -22,7 +22,7 @@ const NavLinks = ({ items }: { items: NavItem[] }) => {
   const linksRef = useRef<Array<HTMLLIElement | null>>([])
 
   useOnClickOutside(navRef, () => setActiveIndex(null))
-  useOnEscapeKey(() => setActiveIndex(null))
+  useOnKeyPress({ key: 'Escape' }, () => setActiveIndex(null))
 
   const handleOpen = useCallback((index: number, href?: string) => {
     setActiveIndex(

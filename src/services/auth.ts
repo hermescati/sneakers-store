@@ -1,6 +1,6 @@
 'use server'
 
-import { getPayloadClient } from '@/lib/payload'
+import { payloadClient } from '@/lib/payload'
 import {
   ForgotPassSchema,
   LoginSchema,
@@ -15,9 +15,8 @@ import { User as PayloadUser } from 'payload'
 
 export async function createUser(input: RegistrationSchema): Promise<ServerResponse<string>> {
   const { name, email, password } = input
-  const payload = await getPayloadClient()
 
-  const { docs: users } = await payload.find({
+  const { docs: users } = await payloadClient.find({
     collection: 'users',
     where: { email: { equals: email } }
   })
@@ -29,7 +28,7 @@ export async function createUser(input: RegistrationSchema): Promise<ServerRespo
   try {
     const [firstName, lastName] = name.split(' ')
 
-    await payload.create({
+    await payloadClient.create({
       collection: 'users',
       data: {
         firstName,
@@ -52,10 +51,8 @@ export async function createUser(input: RegistrationSchema): Promise<ServerRespo
 }
 
 export async function verifyUser(token: string): Promise<ServerResponse> {
-  const payload = await getPayloadClient()
-
   try {
-    const isVerified = await payload.verifyEmail({
+    const isVerified = await payloadClient.verifyEmail({
       collection: 'users',
       token
     })
@@ -99,10 +96,9 @@ async function getTokenCookie(): Promise<string | null> {
 
 export async function userLogin(input: LoginSchema): Promise<ServerResponse<AuthUser>> {
   const { email, password } = input
-  const payload = await getPayloadClient()
 
   try {
-    const { user, token, exp } = await payload.login({
+    const { user, token, exp } = await payloadClient.login({
       collection: 'users',
       data: { email, password }
     })
@@ -167,10 +163,9 @@ export async function refreshToken(): Promise<ServerResponse<AuthUser>> {
 
 export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse<string>> {
   const { email } = input
-  const payload = await getPayloadClient()
 
   try {
-    await payload.forgotPassword({
+    await payloadClient.forgotPassword({
       collection: 'users',
       data: { email }
     })
@@ -188,10 +183,9 @@ export async function forgotPassword(input: ForgotPassSchema): Promise<ServerRes
 
 export async function resetPassword(token: string, input: ResetPassSchema): Promise<ServerResponse> {
   const { password } = input
-  const payload = await getPayloadClient()
 
   try {
-    await payload.resetPassword({
+    await payloadClient.resetPassword({
       collection: 'users',
       data: { token, password },
       overrideAccess: true

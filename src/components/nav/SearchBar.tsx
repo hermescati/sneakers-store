@@ -1,9 +1,8 @@
 'use client'
 
-import useOnEscapeKey from '@/hooks/use-escape-key'
-import useOnKeyPress from '@/hooks/use-keypress'
-import { useSearch } from '@/hooks/use-search'
+import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { searchProducts } from '@/services/products'
+import { useSearchStore } from '@/stores/searchStore'
 import { Product } from '@/types/payload'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -26,12 +25,12 @@ const SearchBar = () => {
   const [results, setResults] = useState<Product[]>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const { isExpanded, expandSearch, closeSearch } = useSearch()
+  const { isExpanded, expandSearch, closeSearch } = useSearchStore()
   const [query] = useDebounceValue(queryInput, 500)
 
   const searchRef = useRef<HTMLDivElement>(null!)
   useOnKeyPress({ key: 'k', ctrl: true, preventDefault: true }, () => expandSearch())
-  useOnEscapeKey(closeSearch)
+  useOnKeyPress({ key: 'Escape' }, closeSearch)
 
   useEffect(() => {
     const fetchResults = async () => {
