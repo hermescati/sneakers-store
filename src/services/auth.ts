@@ -8,12 +8,12 @@ import {
   ResetPassSchema
 } from '@/lib/validators'
 import { AuthUser } from '@/stores/userStore'
-import { PayloadError, ServerResponse } from '@/types'
+import { BaseResponse, PayloadError } from '@/types'
 import { User } from '@/types/payload'
 import { cookies } from 'next/headers'
 import { User as PayloadUser } from 'payload'
 
-export async function createUser(input: RegistrationSchema): Promise<ServerResponse<string>> {
+export async function createUser(input: RegistrationSchema): Promise<BaseResponse<string>> {
   const { name, email, password } = input
 
   const { docs: users } = await payloadClient.find({
@@ -50,7 +50,7 @@ export async function createUser(input: RegistrationSchema): Promise<ServerRespo
   }
 }
 
-export async function verifyUser(token: string): Promise<ServerResponse> {
+export async function verifyUser(token: string): Promise<BaseResponse> {
   try {
     const isVerified = await payloadClient.verifyEmail({
       collection: 'users',
@@ -94,7 +94,7 @@ async function getTokenCookie(): Promise<string | null> {
   return nextCookies.get('payload-token')?.value ?? null
 }
 
-export async function userLogin(input: LoginSchema): Promise<ServerResponse<AuthUser>> {
+export async function userLogin(input: LoginSchema): Promise<BaseResponse<AuthUser>> {
   const { email, password } = input
 
   try {
@@ -126,7 +126,7 @@ export async function userLogin(input: LoginSchema): Promise<ServerResponse<Auth
   }
 }
 
-export async function refreshToken(): Promise<ServerResponse<AuthUser>> {
+export async function refreshToken(): Promise<BaseResponse<AuthUser>> {
   const token = await getTokenCookie()
 
   try {
@@ -161,7 +161,7 @@ export async function refreshToken(): Promise<ServerResponse<AuthUser>> {
   }
 }
 
-export async function forgotPassword(input: ForgotPassSchema): Promise<ServerResponse<string>> {
+export async function forgotPassword(input: ForgotPassSchema): Promise<BaseResponse<string>> {
   const { email } = input
 
   try {
@@ -171,7 +171,7 @@ export async function forgotPassword(input: ForgotPassSchema): Promise<ServerRes
     })
 
     return {
-      code: 400,
+      code: 200,
       message: 'Password reset email sent successfully.',
       data: email
     }
@@ -181,7 +181,7 @@ export async function forgotPassword(input: ForgotPassSchema): Promise<ServerRes
   }
 }
 
-export async function resetPassword(token: string, input: ResetPassSchema): Promise<ServerResponse> {
+export async function resetPassword(token: string, input: ResetPassSchema): Promise<BaseResponse> {
   const { password } = input
 
   try {

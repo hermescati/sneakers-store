@@ -25,8 +25,8 @@ export async function createStripeSession(
 
   if (!selectedProducts.length) return { code: 400, message: 'BAD_REQUEST' }
 
-  const { products } = await getProducts({
-    query: {
+  const { data: products } = await getProducts({
+    where: {
       id: { in: selectedProducts.map((p) => p.productId) }
     }
   })
