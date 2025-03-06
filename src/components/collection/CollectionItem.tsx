@@ -10,8 +10,8 @@ interface CollectionItemProps {
 }
 
 const CollectionItem = async ({ collection, layout = 'normal' }: CollectionItemProps) => {
-    const { products } = await getProducts({
-        query: { collection: { equals: collection.id } },
+    const { data: products } = await getProducts({
+        where: { collection: { equals: collection.id } },
         limit: 6
     })
 

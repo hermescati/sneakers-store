@@ -1,4 +1,4 @@
-import { getNavbarItems } from '@/services/config'
+import { getNavLinks } from '@/services'
 import Link from '../base/Link'
 import MainContainer from '../MainContainer'
 import NavLinks from './base/NavLinks'
@@ -7,7 +7,7 @@ import MobileNav from './MobileNav'
 import SearchBar from './SearchBar'
 
 const Navbar = async () => {
-  const navItems = await getNavbarItems()
+  const navItems = await getNavLinks()
 
   return (
     <nav className="sticky z-20 top-0 inset-x-0">

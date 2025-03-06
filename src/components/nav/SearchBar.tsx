@@ -1,7 +1,7 @@
 'use client'
 
 import useOnKeyPress from '@/hooks/useOnKeyPress'
-import { searchProducts } from '@/services/products'
+import { findProducts } from '@/services/products'
 import { useSearchStore } from '@/stores/searchStore'
 import { Product } from '@/types/payload'
 import { useRouter } from 'next/navigation'
@@ -37,8 +37,8 @@ const SearchBar = () => {
       setIsLoading(true)
 
       try {
-        const response = await searchProducts(query, selectedCategory)
-        setResults(response)
+        const { data } = await findProducts(query, selectedCategory)
+        setResults(data)
       } catch (error) {
         console.error("Error fetching results:", error)
       } finally {
