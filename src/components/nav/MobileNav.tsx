@@ -114,7 +114,7 @@ const MobileNav = ({ items }: MobileNavProps) => {
                           }
                         )}>
                         <div className="flex flex-col">
-                          <span className="font-semibold">{item.title}</span>
+                          <span className="font-medium">{item.title}</span>
                           {item.subtitle && <span className="font-medium text-md text-primary-600">{item.subtitle}</span>}
                         </div>
                         {item.icon && <Icon icon={item.icon} className="text-xl" />}
@@ -130,11 +130,11 @@ const MobileNav = ({ items }: MobileNavProps) => {
                       {item.items?.length ?
                         <AccordionItem
                           title={item.name}
-                          titleClass="px-4 py-3 rounded-lg font-semibold"
+                          titleClass="px-4 py-3 rounded-lg font-medium"
                           iconClass='w-5 h-5'
                           isOpen={openIndex === index}
                           onOpen={() => handleToggle(index)}>
-                          <ul className='grid grid-cols-2 md:grid-cols-3 gap-16 md:gap-0 px-8 mt-1 mb-2'>
+                          <ul className='grid grid-cols-2 md:grid-cols-3 gap-x-8 md:gap-0 px-8 mt-1 mb-2'>
                             {item.items.map((ft) =>
                               <Link
                                 key={ft.name}

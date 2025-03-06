@@ -53,7 +53,7 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
           })}
         >
           <div className='border border-border bg-primary-100/50 py-6'>
-            <div className="absolute inset-0 top-1/2 shadow-md" aria-hidden="true" />
+            <div className="absolute inset-0 top-[90%] shadow-md" aria-hidden="true" />
 
             <MainContainer className="flex flex-col gap-12">
               {/* All Models */}
