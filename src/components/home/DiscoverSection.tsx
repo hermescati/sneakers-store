@@ -4,13 +4,13 @@ import DiscoverCard, { DiscoverCardItem } from './base/DiscoverCard'
 import DiscoverySkeleton from './skeletons/DiscoverySkeleton'
 
 const DiscoverSection = async () => {
-  const brands = await getBrands({ limit: 5, sort: 'createdAt' })
+  const { data: brands } = await getBrands({ limit: 5, sort: 'createdAt' })
 
   const discoverItems: DiscoverCardItem[] = [
     {
       name: 'On Sale',
       icon: 'solar:sale-bold',
-      href: '/sneakers'
+      href: '/sneakers?filter=onSale'
     },
     ...brands.map((brand) => ({
       name: brand.name,
@@ -45,7 +45,7 @@ const DiscoverSection = async () => {
         ))}
       </ul>
 
-      {brands.length < 0 ? <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {brands.length > 0 ? <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {discoverItems.map((item, index) => (
           <li key={index}>
             <DiscoverCard {...item} />

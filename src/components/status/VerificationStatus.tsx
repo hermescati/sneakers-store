@@ -1,7 +1,7 @@
 'use client'
 
 import { verifyUser } from '@/services/auth'
-import { ServerResponse } from '@/types'
+import { BaseResponse } from '@/types'
 import { useEffect, useState } from 'react'
 import Button from '../base/Button'
 import StatusIcon from './StatusIcon'
@@ -11,7 +11,7 @@ interface VerifyEmailProps {
 }
 
 const VerificationStatus = ({ token }: VerifyEmailProps) => {
-  const [response, setResponse] = useState<ServerResponse>()
+  const [response, setResponse] = useState<BaseResponse>()
 
   useEffect(() => {
     const verify = async () => {

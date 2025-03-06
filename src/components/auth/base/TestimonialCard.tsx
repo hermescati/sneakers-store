@@ -10,7 +10,6 @@ export type TestmonialItem = {
     className?: string
 }
 
-// TODO: load them from the actual reviews
 const TestimonialCard = ({ testimonial }: { testimonial: TestmonialItem }) => {
     return (
         <article className={cn("flex flex-col w-full lg:max-w-64 gap-4 p-5 rounded-2xl bg-background border border-border shadow-lg", testimonial.className)}>
