@@ -43,7 +43,7 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
             <header>
                 <h1 className='font-bold text-2xl'>Forgot your Password?</h1>
                 <p className='font-medium text-primary-600'>
-                    No worries! It happens. Enter your email address below and we&apost;ll send you a link shortly to reset your password.
+                    No worries! It happens. Enter your email address below and we&apos;ll send you a link shortly to reset your password.
                 </p>
             </header>
 
