@@ -7,7 +7,8 @@ export const Brands: CollectionConfig = {
     plural: 'Brands'
   },
   admin: {
-    useAsTitle: 'name'
+    useAsTitle: 'name',
+    hidden: true
   },
   fields: [
     {
