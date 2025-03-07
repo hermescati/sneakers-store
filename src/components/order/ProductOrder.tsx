@@ -1,12 +1,9 @@
 'use client'
 
+import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import { Product } from '@/types/payload'
-import {
-  capitalizeFirstLetter,
-  formatPrice,
-  getProductInfo,
-  getThumbnailImage
-} from '@/utils'
+import { formatPrice } from '@/utils'
+import { getProductInfo } from '@/utils/product'
 import Image from 'next/image'
 import { useMediaQuery } from 'usehooks-ts'
 
@@ -17,9 +14,7 @@ interface ProductOrderProps {
 }
 
 const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
-  const { brand, model } = getProductInfo(product)
-  const category = capitalizeFirstLetter(product.size_category)
-  const imageUrl = getThumbnailImage(product)
+  const { brand, model, thumbnail } = getProductInfo(product)
 
   const isTablet = useMediaQuery('(min-width: 768px)')
 
@@ -27,8 +22,8 @@ const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
     <div className="flex items-center gap-6 py-4">
       <div className="aspect-square md:aspect-video">
         <Image
-          alt={product.name || 'order item image'}
-          src={imageUrl}
+          alt={product.nickname || 'order item image'}
+          src={thumbnail}
           height={80}
           width={isTablet ? 140 : 120}
           className="h-full w-full object-contain rounded-md"
@@ -42,7 +37,7 @@ const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
             <span>{brand}</span> - <span>{model}</span>
           </div>
           <div className="text-primary-600 text-md">
-            {category} (US) - {size}
+            {SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label} (US) - {size}
           </div>
         </div>
 

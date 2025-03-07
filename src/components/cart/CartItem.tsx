@@ -1,18 +1,15 @@
 'use client'
 
-import { ProductSize } from '@/types'
+import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
+import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
-import {
-  calculatePrice,
-  capitalizeFirstLetter,
-  getThumbnailImage
-} from '@/utils'
+import { getProductInfo, getProductPrice } from '@/utils/product'
 import CompactCartItem from './base/CompactCartItem'
 import DetailedCartItem from './base/DetailedCartItem'
 
 interface CartItemProps {
   product: Product
-  size: ProductSize
+  size: SelectedSize
   index: number
   compact?: boolean
   onRemove: () => void
@@ -25,11 +22,9 @@ const CartItem = ({
   compact,
   onRemove
 }: CartItemProps) => {
-  const isDiscounted = size.discount
-
-  const productPrice = isDiscounted ? calculatePrice(size) : size.price
-  const category = capitalizeFirstLetter(product.size_category)
-  const thumbnail = getThumbnailImage(product)
+  const { thumbnail } = getProductInfo(product)
+  const { finalPrice } = getProductPrice(product)
+  const category = SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label as string
 
   const handleOnRemove = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -44,22 +39,22 @@ const CartItem = ({
       {compact ? (
         <CompactCartItem
           index={index}
-          name={product.name!}
+          name={product.nickname}
           category={category}
-          size={size.size}
-          price={productPrice}
+          size={size?.size as number}
+          price={finalPrice}
           thumbnail={thumbnail}
           onRemove={handleOnRemove}
         />
       ) : (
         <DetailedCartItem
           index={index}
-          name={product.name!}
-          nickname={product.nickname!}
+          name={product.nickname}
+          nickname={product.nickname}
           category={category}
-          size={size.size}
-          discountedPrice={productPrice}
-          basePrice={size.price}
+          size={size?.size as number}
+          discountedPrice={finalPrice}
+          basePrice={size?.price as number}
           thumbnail={thumbnail}
           onRemove={handleOnRemove}
         />

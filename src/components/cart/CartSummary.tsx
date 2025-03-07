@@ -37,7 +37,7 @@ const CartSummary = () => {
 
   const handleCheckout = async () => {
     const selectedProducts: OrderItem[] = items.map(({ product, size }) => {
-      return { productId: product.id, size: size.size, price: size.price }
+      return { productId: product.id, size: size?.size as number, price: size?.price as number }
     })
 
     const response = await createStripeSession(

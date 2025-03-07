@@ -25,7 +25,7 @@ const CartList = ({ compact = false }: CartListProps) => {
         )}>
         {items.map(({ product, size }, index) => (
           <Link
-            key={`${product.id}-${size.size}`}
+            key={`${product.id}-${size?.size}`}
             href={compact ? "" : `/sneakers/${product.id}`}>
             <CartItem
               index={index}

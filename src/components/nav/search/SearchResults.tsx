@@ -1,7 +1,8 @@
 import IconButton from '@/components/base/IconButton'
 import Link from '@/components/base/Link'
 import { Product } from '@/types/payload'
-import { capitalizeFirstLetter, getProductInfo, getThumbnailImage } from '@/utils'
+import { capitalizeFirstLetter } from '@/utils'
+import { getProductInfo } from '@/utils/product'
 import Image from 'next/image'
 
 export type SearchItemClickEvent = {
@@ -10,8 +11,7 @@ export type SearchItemClickEvent = {
 }
 
 const ResultItem = ({ product, onClick }: { product: Product, onClick: (event: SearchItemClickEvent) => void }) => {
-    const { brand, model } = getProductInfo(product)
-    const thumbnail = getThumbnailImage(product)
+    const { brand, model, thumbnail } = getProductInfo(product)
 
     return (
         <div
@@ -19,13 +19,13 @@ const ResultItem = ({ product, onClick }: { product: Product, onClick: (event: S
             className="flex items-center justify-between gap-4 py-1.5 px-4 cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
             onClick={() => onClick(
                 {
-                    query: product.nickname as string,
+                    query: product.nickname,
                     href: `sneakers/${product.id}`
                 }
             )}>
             <div className="aspect-video">
                 <Image
-                    alt={product.name!}
+                    alt={product.nickname}
                     src={thumbnail}
                     height={80}
                     width={120}
