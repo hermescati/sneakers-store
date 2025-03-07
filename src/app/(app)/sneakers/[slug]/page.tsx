@@ -4,27 +4,24 @@ import ProductReel from '@/components/product/ProductReel'
 import { getProduct, getRelatedProducts } from '@/services/products'
 import { notFound } from 'next/navigation'
 
-const Product = async (
-  { params }: {
-    params: Promise<
-      { [key: string]: string | string[] | undefined }
-    >
-  }) => {
-  const productId = (await params).productId as string
+interface PageProps {
+  params: { slug: string }
+}
 
-  const product = await getProduct(productId)
-  if (!product) return notFound()
+export default async function Page({ params }: PageProps) {
+  const { slug } = await params
+  const { code, data: product } = await getProduct(slug)
+  if (code !== 200 || !product) return notFound()
 
-  const relatedProducts = await getRelatedProducts(product)
+  const relatedProducts = await getRelatedProducts([product])
 
   return (
-    <MainContainer className="flex flex-col gap-8 py-6">
+    <MainContainer className="flex flex-col gap-12 py-6">
       <ProductPage product={product} />
+
       {relatedProducts.length > 0 && (
         <ProductReel title="Related Sneakers" products={relatedProducts} />
       )}
     </MainContainer>
   )
 }
-
-export default Product
