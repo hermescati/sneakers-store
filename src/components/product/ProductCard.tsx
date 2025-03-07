@@ -2,15 +2,13 @@
 
 import { Product } from '@/types/payload'
 import {
-  calculateMinPrices,
   cn,
   formatPrice,
-  getProductInfo,
-  getThumbnailImage
 } from '@/utils'
+import { getProductInfo, getProductPrice } from '@/utils/product'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Link from '../base/Link'
 import BrandLogo from './base/BrandLogo'
 import ProductCardSkeleton from './skeletons/ProductCardSkeleton'
 
@@ -32,30 +30,28 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
   if (!product || !isLoaded) return <ProductCardSkeleton />
 
-  const { brand, model } = getProductInfo(product)
-  const { basePrice, discountedPrice } = calculateMinPrices(product)
-  const thumbnail = getThumbnailImage(product)
-
-  const productPrice = discountedPrice ? discountedPrice : basePrice
+  const { brand, model, thumbnail } = getProductInfo(product)
+  const { basePrice, finalPrice } = getProductPrice(product)
 
   return (
     <Link
-      href={`/sneakers/${product.id}`}
+      href={`/sneakers/${product.slug}`}
       className={cn(
         "invisible h-full w-full cursor-pointer group", {
         "visible animate-in fade-in-5": isLoaded
       })}
     >
       <div className="flex flex-col gap-2 w-full">
-        <div className="relative px-5 bg-primary-100 dark:bg-primary-700 rounded-2xl aspect-square sm:aspect-auto">
-          <Image
-            alt={`${product.nickname} thumbnail`}
-            src={thumbnail}
-            width={400}
-            height={300}
-            loading="lazy"
-            className="h-full w-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-          />
+        <div className="aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip">
+          <div className='relative w-full h-full'>
+            <Image
+              src={thumbnail}
+              alt={`${product.nickname} thumbnail`}
+              fill
+              loading='lazy'
+              className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
@@ -70,9 +66,9 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
           <div className="flex items-baseline gap-2 lg:mt-1">
             <span className="font-semibold text-lg lg:text-base">
-              {formatPrice(productPrice)}
+              {formatPrice(finalPrice)}
             </span>
-            {discountedPrice && (
+            {finalPrice !== basePrice && (
               <span className="text-md line-through text-primary-600">
                 {formatPrice(basePrice)}
               </span>
