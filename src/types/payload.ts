@@ -96,23 +96,31 @@ export interface User {
 export interface Product {
   id: string;
   sku: string;
+  slug?: string | null;
   brand: string | Brand;
   model: string | Model;
-  name?: string | null;
-  nickname?: string | null;
-  colorway: string;
   collection?: (string | null) | Collection;
-  description?: string | null;
-  release_date?: string | null;
   size_category: 'mens' | 'womens' | 'kids';
+  nickname: string;
+  colorway?: string | null;
   retail_price: number;
-  sizes: {
+  release_date?: string | null;
+  description?: string | null;
+  discount?: {
+    type?: ('percent_off' | 'amount_off') | null;
+    value?: number | null;
+  };
+  stock: {
     size: number;
     price: number;
-    discount?: number | null;
-    stock: number;
+    quantity: number;
     id?: string | null;
   }[];
+  min_price?: number | null;
+  total_stock?: number | null;
+  /**
+   * Upload product images (max 5)
+   */
   images: {
     image: string | Media;
     id?: string | null;
@@ -395,25 +403,32 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   sku?: T;
+  slug?: T;
   brand?: T;
   model?: T;
-  name?: T;
+  collection?: T;
+  size_category?: T;
   nickname?: T;
   colorway?: T;
-  collection?: T;
-  description?: T;
-  release_date?: T;
-  size_category?: T;
   retail_price?: T;
-  sizes?:
+  release_date?: T;
+  description?: T;
+  discount?:
+    | T
+    | {
+        type?: T;
+        value?: T;
+      };
+  stock?:
     | T
     | {
         size?: T;
         price?: T;
-        discount?: T;
-        stock?: T;
+        quantity?: T;
         id?: T;
       };
+  min_price?: T;
+  total_stock?: T;
   images?:
     | T
     | {
