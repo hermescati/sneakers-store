@@ -4,7 +4,7 @@ import { payloadClient } from '@/lib/payload'
 import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
 import { Brand, Collection, Model, Product } from '@/types/payload'
 import { Where } from 'payload'
-import { DEFAULT_ERROR_MESSAGE, getPaginatedResponse } from '.'
+import { getPaginatedResponse } from '.'
 
 export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Product>> {
   try {
@@ -18,7 +18,9 @@ export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Pr
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message }
   }
 }
@@ -35,7 +37,9 @@ export async function getProductById(productId: Product['id']): Promise<BaseResp
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message }
   }
 }
@@ -46,7 +50,9 @@ export async function getProducts(params?: QueryParams): Promise<PaginatedRespon
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
@@ -71,7 +77,9 @@ export async function findProducts(query: string, category?: string): Promise<Ba
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message }
   }
 }
@@ -101,7 +109,9 @@ export async function filterProducts(filters: ProductFilters): Promise<BaseRespo
   } catch (error) {
     console.log(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message }
   }
 }
@@ -167,7 +177,9 @@ export async function getBrands(params?: QueryParams): Promise<PaginatedResponse
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
@@ -178,7 +190,9 @@ export async function getModels(params?: QueryParams): Promise<PaginatedResponse
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
@@ -189,7 +203,9 @@ export async function getCollections(params?: QueryParams): Promise<PaginatedRes
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
