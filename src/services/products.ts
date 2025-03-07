@@ -4,9 +4,26 @@ import { payloadClient } from '@/lib/payload'
 import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
 import { Brand, Collection, Model, Product } from '@/types/payload'
 import { Where } from 'payload'
-import { getPaginatedResponse } from '.'
+import { DEFAULT_ERROR_MESSAGE, getPaginatedResponse } from '.'
 
-export async function getProduct(productId: Product['id']): Promise<BaseResponse<Product>> {
+export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Product>> {
+  try {
+    const { docs: products } = await payloadClient.find({
+      collection: 'products',
+      where: { slug: { equals: slug } },
+      depth: 2
+    })
+
+    return { code: 200, message: "Product found", data: products[0] }
+  } catch (error) {
+    console.error(error)
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message }
+  }
+}
+
+export async function getProductById(productId: Product['id']): Promise<BaseResponse<Product>> {
   try {
     const product = await payloadClient.findByID({
       collection: 'products',
@@ -17,16 +34,20 @@ export async function getProduct(productId: Product['id']): Promise<BaseResponse
     return { code: 200, message: "Product found", data: product }
   } catch (error) {
     console.error(error)
-    return { code: 500, message: 'Something went wrong. Please try again!' }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message }
   }
 }
 
 export async function getProducts(params?: QueryParams): Promise<PaginatedResponse<Product>> {
   try {
     return await getPaginatedResponse<Product>('products', params)
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
-    return { code: 500, message: error.message, data: [] }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message, data: [] }
   }
 }
 
@@ -47,12 +68,15 @@ export async function findProducts(query: string, category?: string): Promise<Ba
 
   try {
     return await getProducts({ where: queryClause, limit: 6 })
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
-    return { code: 500, message: error.message }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message }
   }
 }
 
+// TODO: Test filters if they work
 export async function filterProducts(filters: ProductFilters): Promise<BaseResponse<Product[]>> {
   const conditions: Where[] = []
 
@@ -61,29 +85,12 @@ export async function filterProducts(filters: ProductFilters): Promise<BaseRespo
   if (filters.collection) conditions.push({ 'collection.id': { equals: filters.collection } })
   if (filters.size) conditions.push({ size_category: { equals: filters.size } })
 
-  // TODO: Add cases for belowRetail and onSale
-  // if (filters.filter === 'belowRetail') {
-  //   conditions.push({
-  //     sizes: {
-  //       some: {
-  //         price: {
-  //           greater_than: 100, // This allows dynamic comparison
-  //         },
-  //       },
-  //     },
-  //   })
-  // }
-
-  if (filters.filter === 'onSale') {
-    conditions.push({ 'sizes.discount': { greater_than: 0 } })
+  if (filters.filter === 'belowRetail') {
+    conditions.push({ 'min_price': { less_than: 'retail_price' } })
   }
 
   if (filters.filter === 'onSale') {
-    conditions.push({
-      sizes: {
-        contains: { discount: { greater_than: 0 } }
-      },
-    });
+    conditions.push({ 'discount.value': { greater_than: 0 } })
   }
 
   try {
@@ -91,16 +98,18 @@ export async function filterProducts(filters: ProductFilters): Promise<BaseRespo
       ...(conditions.length && { where: { and: conditions } }),
       ...(filters.sort && { sort: `${filters.dir === 'desc' ? '-' : ''}${filters.sort}` })
     })
-  } catch (error: any) {
+  } catch (error) {
     console.log(error)
-    return { code: 500, message: error.message }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message }
   }
 }
 
 const extractId = (value: string | Collection | Brand | Model | null | undefined) => typeof value === 'string' ? value : value?.id
 
 export async function getRelatedProducts(products: Product[], limit = 6) {
-  let relatedProducts: Product[] = []
+  const relatedProducts: Product[] = []
   const excludedIds = products.map((p) => p.id)
 
   const collectionIds = products.map((p) => extractId(p.collection)?.toString()).filter(Boolean)
@@ -155,26 +164,32 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
 export async function getBrands(params?: QueryParams): Promise<PaginatedResponse<Brand>> {
   try {
     return await getPaginatedResponse<Brand>('brands', params)
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
-    return { code: 500, message: error.message, data: [] }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message, data: [] }
   }
 }
 
 export async function getModels(params?: QueryParams): Promise<PaginatedResponse<Model>> {
   try {
     return await getPaginatedResponse<Model>('models', params)
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
-    return { code: 500, message: error.message, data: [] }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message, data: [] }
   }
 }
 
 export async function getCollections(params?: QueryParams): Promise<PaginatedResponse<Collection>> {
   try {
     return await getPaginatedResponse<Collection>('collections', params)
-  } catch (error: any) {
+  } catch (error) {
     console.error(error)
-    return { code: 500, message: error.message, data: [] }
+
+    const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+    return { code: 500, message, data: [] }
   }
 }
