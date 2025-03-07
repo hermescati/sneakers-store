@@ -38,13 +38,13 @@ export const buttonVariants = cva(btnBase, {
       variant: 'solid',
       intent: 'primary',
       className: [
-        'bg-primary-800 dark:bg-secondary',
+        'bg-primary-900 dark:bg-secondary',
         'text-background',
-        'hover:bg-primary-900 dark:hover:bg-secondary-400',
-        'active:bg-primary-900 dark:active:bg-secondary-400',
+        'hover:bg-primary-800 dark:hover:bg-secondary-400',
+        'active:bg-primary-800 dark:active:bg-secondary-400',
         'active:ring-offset-background active:ring-primary-900 dark:active:ring-secondary',
         'focus:ring-offset-background focus:ring-primary-900 dark:focus:ring-secondary',
-        'shadow-primary-800/40 dark:shadow-secondary-400/40'
+        'shadow-primary-900/40 dark:shadow-secondary-400/40'
       ]
     },
     {
