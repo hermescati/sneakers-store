@@ -1,13 +1,8 @@
-import { Product } from './payload'
+import { Sort, Where } from 'payload'
+import { Brand, Collection, Model, Product } from './payload'
 
 // TODO: Organize types and interfaces to be placed under types folder
-export type ProductSize = {
-  size: number
-  stock: number
-  price: number
-  discount?: number | null
-  id?: string | null
-}
+export type SelectedSize = Product['stock'][0] | null
 
 export type OrderItem = {
   productId: Product['id']
@@ -33,10 +28,41 @@ export interface NavLink {
   imageSrc?: string
 }
 
-export interface ServerResponse<T = unknown> {
+export interface QueryParams {
+  where?: Where,
+  limit?: number,
+  sort?: Sort,
+  depth?: number
+}
+
+export interface BaseResponse<T = unknown> {
   code: number
   message: string
   data?: T
+}
+
+export interface PaginatedResponse<T> extends BaseResponse<T[]> {
+  data: T[]
+  metadata?: {
+    total: number
+    totalPages: number
+    currentPage?: number
+    nextPage?: number | null
+    prevPage?: number | null
+  }
+}
+
+export type SortDirection = 'asc' | 'desc'
+export type PriceFilters = 'belowRetail' | 'onSale'
+
+export interface ProductFilters {
+  brand?: Brand['id']
+  model?: Model['id']
+  collection?: Collection['id']
+  size?: Product['size_category']
+  sort?: keyof Product
+  dir?: SortDirection
+  filter?: PriceFilters
 }
 
 export class PayloadError extends Error {
