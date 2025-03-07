@@ -1,5 +1,5 @@
 import toast from '@/components/base/Toast'
-import { ProductSize } from '@/types'
+import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import Stripe from 'stripe'
 import { create } from 'zustand'
@@ -7,7 +7,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 export type CartItem = {
   product: Product
-  size: ProductSize
+  size: SelectedSize
 }
 
 type CartState = {
@@ -15,8 +15,8 @@ type CartState = {
   isOpen: boolean
   shipping: Stripe.ShippingRate | undefined
   discount: Stripe.PromotionCode | undefined
-  addItem: (product: Product, size: ProductSize) => void
-  removeItem: (productId: Product['id'], size: ProductSize) => void
+  addItem: (product: Product, size: SelectedSize) => void
+  removeItem: (productId: Product['id'], size: SelectedSize) => void
   setShipping: (method: Stripe.ShippingRate) => void
   setDiscount: (discount: Stripe.PromotionCode) => void
   clearShipping: VoidFunction
@@ -35,7 +35,7 @@ export const useCartStore = create<CartState>()(
     addItem: (product, size) =>
       set((state) => {
         const itemExists = state.items.some((item) =>
-          item.product.id === product.id && item.size.size === size.size
+          item.product.id === product.id && item.size?.size === size?.size
         )
         if (itemExists) {
           toast.warning('This product is already added to your cart.')

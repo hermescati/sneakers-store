@@ -2,10 +2,9 @@ import { CartItem } from "@/stores/cartStore"
 import Stripe from "stripe"
 
 const calculateSubtotal = (items: CartItem[]): number =>
-    items.reduce((total, { size: { stock, discount, price } }) => {
-        if (!stock) return total;
-        const effectivePrice = discount ? price * (1 - discount) : price;
-        return total + effectivePrice;
+    items.reduce((total, { size }) => {
+        if (!size?.quantity) return total
+        return total + size.price
     }, 0)
 
 const calculateDiscountValue = (

@@ -1,12 +1,9 @@
 'use server'
 
+import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import { stripeClient } from '@/lib/stripe'
 import { OrderItem } from '@/types'
-import {
-  calculatePrice,
-  capitalizeFirstLetter,
-  getThumbnailImage
-} from '@/utils'
+import { getProductInfo, getProductPrice } from '@/utils/product'
 import type Stripe from 'stripe'
 import { getUser } from './auth'
 import { createOrder } from './orders'
@@ -36,24 +33,25 @@ export async function createStripeSession(
 
     if (!product) return
 
-    const selectedSize = product.sizes.find((s) => s.size === selection.size)
+    const selectedSize = product.stock.find((s) => s.size === selection.size)
 
     if (!selectedSize) return
 
-    const category = capitalizeFirstLetter(product.size_category)
-    const productPrice = calculatePrice(selectedSize)
-    const productThumbnail = `${process.env.NEXT_PUBLIC_API_URL}${getThumbnailImage(product)}`
+    const category = SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label
+    const { finalPrice } = getProductPrice(product)
+    const { thumbnail } = getProductInfo(product)
+    const thumbnailURL = `${process.env.NEXT_PUBLIC_API_URL}${thumbnail}`
 
     line_items.push({
       price_data: {
         currency: 'USD',
         product_data: {
-          name: `${product.name} - ${product.nickname}`,
+          name: `${product.nickname} - ${product.nickname}`,
           description: `(US ${category}): ${selectedSize.size}`,
-          images: [productThumbnail],
+          images: [thumbnailURL],
           tax_code: 'txcd_99999999'
         },
-        unit_amount: Math.round(productPrice * 100)
+        unit_amount: Math.round(finalPrice * 100)
       },
       quantity: 1
     })
