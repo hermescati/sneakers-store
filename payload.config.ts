@@ -9,10 +9,9 @@ import {
   Users
 } from '@/collections'
 import { postgresAdapter } from '@payloadcms/db-postgres'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import { resendAdapter } from '@payloadcms/email-resend'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-import nodemailer from 'nodemailer'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { en } from 'payload/i18n/en'
@@ -64,19 +63,10 @@ export default buildConfig({
       })
     ]
     : [],
-  email: nodemailerAdapter({
+  email: resendAdapter({
     defaultFromAddress: `${process.env.EMAIL_FROM_ADDRESS}`,
     defaultFromName: 'Sneakers.',
-    transport: nodemailer.createTransport({
-      host: 'smtp.resend.com',
-      secure: true,
-      port: 465,
-      auth: {
-        user: 'resend',
-        pass: process.env.RESEND_SECRET
-      }
-    }),
-    skipVerify: true
+    apiKey: process.env.RESEND_SECRET || '',
   }),
   editor: lexicalEditor(),
   typescript: {
