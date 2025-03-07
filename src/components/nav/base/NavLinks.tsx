@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import NavLink from './NavLink'
 
-interface ActiveIndicator {
+export interface ActiveIndicator {
   left: number
   width: number
 }

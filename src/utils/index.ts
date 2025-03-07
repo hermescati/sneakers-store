@@ -1,4 +1,4 @@
-import { Event, Product } from '@/types/payload'
+import { Event } from '@/types/payload'
 import { ClassValue, clsx } from 'clsx'
 import Stripe from 'stripe'
 import { twMerge } from 'tailwind-merge'
