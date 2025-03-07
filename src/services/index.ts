@@ -6,6 +6,8 @@ import { generateNavLinkHref } from "@/utils"
 import { CollectionSlug, DataFromCollectionSlug } from "payload"
 import { getBrands, getCollections, getModels } from "./products"
 
+export const DEFAULT_ERROR_MESSAGE = 'Something went wrong. Please try again!'
+
 export async function getPaginatedResponse<T extends DataFromCollectionSlug<CollectionSlug>>(
     slug: CollectionSlug,
     params?: QueryParams
@@ -38,9 +40,11 @@ export async function getPaginatedResponse<T extends DataFromCollectionSlug<Coll
             }
         }
         return data
-    } catch (error: any) {
+    } catch (error) {
         console.error(error)
-        return { code: 500, message: error.message, data: [] }
+
+        const message = error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
+        return { code: 500, message, data: [] }
     }
 }
 
