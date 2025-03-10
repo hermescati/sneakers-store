@@ -2,14 +2,16 @@ import MainContainer from '@/components/MainContainer'
 import ProductPage from '@/components/product/ProductPage'
 import ProductReel from '@/components/product/ProductReel'
 import { getProduct, getRelatedProducts } from '@/services/products'
+import { Product } from '@/types/payload'
 import { notFound } from 'next/navigation'
 
 interface PageProps {
-  params: { slug: string }
+  params: Promise<{ slug: Product['slug'] }>
 }
 
 export default async function Page({ params }: PageProps) {
   const { slug } = await params
+
   const { code, data: product } = await getProduct(slug)
   if (code !== 200 || !product) return notFound()
 

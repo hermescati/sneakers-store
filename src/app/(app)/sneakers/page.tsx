@@ -5,7 +5,7 @@ import { PriceFilters, ProductFilters, SortDirection } from '@/types'
 import { Product } from '@/types/payload'
 
 interface PageProps {
-  searchParams: Record<string, string | undefined>
+  searchParams: Promise<Record<string, string | undefined>>
 }
 
 export default async function Page({ searchParams }: PageProps) {
