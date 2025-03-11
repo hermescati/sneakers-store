@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
-import Input from "../base/Input"
+import Input from "../base/input/Input"
 import Link from "../base/Link"
-import toast from "../base/Toast"
+import toast from "../base/toast/Toast"
 import ForgotPassForm from "./ForgotPassForm"
 
 interface LoginFormProps {

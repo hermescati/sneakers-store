@@ -6,9 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
-import Input from "../base/Input"
 import Link from "../base/Link"
-import toast from "../base/Toast"
+import toast from "../base/toast/Toast"
+import Input from "../base/input/Input"
 
 interface ForgotPassFormProps {
     onBack: VoidFunction

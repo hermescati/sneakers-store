@@ -1,7 +1,4 @@
-export type SelectOption = {
-    value: string,
-    label: string
-}
+import { SelectOption } from "@/types"
 
 export const SIZING_CATEGORY_OPTIONS: SelectOption[] = [
     { label: 'Mens', value: 'mens' },

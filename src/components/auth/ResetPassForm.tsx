@@ -4,10 +4,10 @@ import { ResetPassSchema, ResetPassSchemaObject } from "@/lib/validators"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import Button from "../base/Button"
-import Input from "../base/Input"
+import Input from "../base/input/Input"
 import Link from "../base/Link"
 import { resetPassword } from "@/services/auth"
-import toast from "../base/Toast"
+import toast from "../base/toast/Toast"
 import { useRouter } from "next/navigation"
 
 interface ResetPassFormProps {

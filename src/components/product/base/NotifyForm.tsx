@@ -1,5 +1,5 @@
 import Button from "@/components/base/Button"
-import Input from "@/components/base/Input"
+import Input from "@/components/base/input/Input"
 
 const NotifyForm = () => {
     return (

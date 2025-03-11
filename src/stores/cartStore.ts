@@ -1,4 +1,4 @@
-import toast from '@/components/base/Toast'
+import toast from '@/components/base/toast/Toast'
 import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import Stripe from 'stripe'
