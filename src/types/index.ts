@@ -1,8 +1,11 @@
 import { Sort, Where } from 'payload'
 import { Brand, Collection, Model, Product } from './payload'
+import { ReactNode } from 'react'
 
 // TODO: Organize types and interfaces to be placed under types folder
 export type SelectedSize = Product['stock'][0] | null
+
+export type MenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
 
 export type OrderItem = {
   productId: Product['id']
@@ -26,6 +29,13 @@ export interface NavLink {
   name: string
   href?: string
   imageSrc?: string
+}
+
+export interface SelectOption {
+  value: string
+  label: string
+  icon?: string
+  component?: ReactNode
 }
 
 export interface QueryParams {

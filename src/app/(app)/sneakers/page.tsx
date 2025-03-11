@@ -1,3 +1,4 @@
+import FilterPanel from '@/components/filters/FilterPanel'
 import MainContainer from '@/components/MainContainer'
 import ProductCard from '@/components/product/ProductCard'
 import { filterProducts } from '@/services/products'
@@ -20,20 +21,25 @@ export default async function Page({ searchParams }: PageProps) {
     sort: filterParams.sort as keyof Product,
     dir: filterParams.dir as SortDirection
   }
-  const { data: products } = await filterProducts(filters)
+  const { data: products, metadata } = await filterProducts(filters)
 
   return (
-    <MainContainer className="grid grid-cols-12 gap-x-12 py-6">
-      <div className="flex col-span-3">Filters Panel</div>
+    <MainContainer className="flex flex-col gap-4 py-6 lg:mt-4">
+      <FilterPanel appliedFilters={filters} total={metadata?.total} />
+
       {!products?.length
-        ? <>Nothing here</>
-        : <ul className="grid grid-cols-5 col-span-9 gap-2">
-          {products.map((product, index) => (
-            <li key={product.id}>
-              <ProductCard product={product} index={index} />
-            </li>
-          ))}
-        </ul>}
+        ? <p>Nothing here</p>
+        : <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
+          {products.flatMap((product, index) =>
+            Array.from({ length: 24 }).map((_, i) => (
+              <li key={`${product.id}-${i}`}>
+                <ProductCard product={product} index={index} />
+              </li>
+            ))
+          )}
+        </ul>
+      }
+
     </MainContainer>
   )
 }
