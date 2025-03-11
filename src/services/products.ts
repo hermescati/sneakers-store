@@ -85,7 +85,7 @@ export async function findProducts(query: string, category?: string): Promise<Ba
 }
 
 // TODO: Test filters if they work
-export async function filterProducts(filters: ProductFilters): Promise<BaseResponse<Product[]>> {
+export async function filterProducts(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
   const conditions: Where[] = []
 
   if (filters.brand) conditions.push({ 'brand.id': { equals: filters.brand } })
@@ -112,7 +112,7 @@ export async function filterProducts(filters: ProductFilters): Promise<BaseRespo
     const message = error instanceof Error
       ? error.message
       : 'Something went wrong. Please try again!'
-    return { code: 500, message }
+    return { code: 500, message, data: [] }
   }
 }
 

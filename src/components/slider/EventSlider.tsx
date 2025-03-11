@@ -13,7 +13,7 @@ import { Autoplay, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useMediaQuery } from "usehooks-ts"
 import Button from "../base/Button"
-import toast from "../base/Toast"
+import toast from "../base/toast/Toast"
 import EventSliderSkeleton from "./skeletons/EventSliderSkeleton"
 
 const EventItem = ({ event }: { event: Event }) => {

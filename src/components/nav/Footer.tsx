@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import Button from '../base/Button'
-import Input from '../base/Input'
+import Input from '../base/input/Input'
 import Link from '../base/Link'
 import MainContainer from '../MainContainer'
 

@@ -1,4 +1,4 @@
-import toast from "@/components/base/Toast"
+import toast from "@/components/base/toast/Toast"
 import { refreshToken } from "@/services/auth"
 import { User } from "payload"
 import { create } from "zustand"

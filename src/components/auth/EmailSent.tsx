@@ -4,7 +4,7 @@ import { forgotPassword } from "@/services/auth"
 import { cn } from "@/utils"
 import { Icon } from '@iconify/react'
 import Link from "../base/Link"
-import toast from "../base/Toast"
+import toast from "../base/toast/Toast"
 
 interface EmailSentProps {
     to: string

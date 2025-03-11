@@ -12,7 +12,7 @@ import { useState } from 'react'
 import Button from '../../base/Button'
 import NotifyForm from './NotifyForm'
 import SizeGuides from './SizeGuides'
-import toast from '@/components/base/Toast'
+import toast from '@/components/base/toast/Toast'
 
 interface ProductSizeProps {
   product: Product

@@ -1,6 +1,6 @@
 'use client'
 
-import toast from '@/components/base/Toast'
+import toast from '@/components/base/toast/Toast'
 import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'

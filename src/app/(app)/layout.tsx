@@ -1,5 +1,5 @@
 import AuthProvider from '@/components/auth/AuthProvider'
-import Toaster from '@/components/base/Toaster'
+import Toaster from '@/components/base/toast/Toaster'
 import Footer from '@/components/nav/Footer'
 import Navbar from '@/components/nav/Navbar'
 import ThemeProvider from '@/components/theme/ThemeProvider'
