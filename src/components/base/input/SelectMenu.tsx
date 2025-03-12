@@ -38,11 +38,11 @@ const SelectMenu = ({
 
         if (!multiple) {
             updatedSelections = [value]
+        } else {
+            updatedSelections = selected.includes(value)
+                ? selected.filter((option) => option !== value)
+                : [...selected, value]
         }
-
-        updatedSelections = selected.includes(value)
-            ? selected.filter((option) => option !== value)
-            : [...selected, value]
 
         onSelect(updatedSelections)
     }

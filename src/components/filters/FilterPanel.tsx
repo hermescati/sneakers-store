@@ -1,14 +1,17 @@
 'use client'
 
-import { getBrands } from "@/services/products"
+import { SORT_OPTIONS } from "@/lib/options"
+import { getBrands, getCollections, getModels } from "@/services/products"
 import { ProductFilters, SelectOption } from "@/types"
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
+import Button from "../base/Button"
 import MultiSelect from "../base/input/MultiSelect"
+import Select from "../base/input/Select"
+import { SIZE_CATEGORIES } from "../product/base/SizeGuides"
 import PriceRange from "./PriceRange"
 import SizeFilter from "./SizeFilter"
-import { SIZE_CATEGORIES } from "../product/base/SizeGuides"
 
 interface FilterPanelProps {
     appliedFilters: ProductFilters
@@ -16,11 +19,11 @@ interface FilterPanelProps {
 }
 
 const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
-    // const [isExpanded, setIsExpanded] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
 
     const [brands, setBrands] = useState<SelectOption[]>([])
-    // const [models, setModels] = useState<SelectOption[]>([])
-    // const [collections, setCollections] = useState<SelectOption[]>([])
+    const [models, setModels] = useState<SelectOption[]>([])
+    const [collections, setCollections] = useState<SelectOption[]>([])
 
     const isMobile = useMediaQuery('(max-width: 1023px)')
     const router = useRouter()
@@ -30,18 +33,18 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
         const fetchData = async () => {
             try {
                 const { data: brands } = await getBrands()
-                // const { data: models } = await getModels()
-                // const { data: collections } = await getCollections()
+                const { data: models } = await getModels()
+                const { data: collections } = await getCollections()
 
                 setBrands(brands.map((b) => (
                     { value: b.slug!, label: b.name }
                 )))
-                // setModels(models.map((m) => (
-                //     { value: m.slug!, label: m.name }
-                // )))
-                // setCollections(collections.map((c) => (
-                //     { value: c.slug!, label: c.name }
-                // )))
+                setModels(models.map((m) => (
+                    { value: m.slug!, label: m.name }
+                )))
+                setCollections(collections.map((c) => (
+                    { value: c.slug!, label: c.name }
+                )))
             } catch (e) {
                 console.error(e)
             }
@@ -55,15 +58,15 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
         updateURLParams(updatedFilters)
     }
 
-    // const handleModelChange = (selectedModels: string[]) => {
-    //     const updatedFilters = { ...appliedFilters, model: selectedModels }
-    //     updateURLParams(updatedFilters)
-    // }
+    const handleModelChange = (selectedModels: string[]) => {
+        const updatedFilters = { ...appliedFilters, model: selectedModels }
+        updateURLParams(updatedFilters)
+    }
 
-    // const handleCollectionChange = (selectedCollections: string[]) => {
-    //     const updatedFilters = { ...appliedFilters, collection: selectedCollections }
-    //     updateURLParams(updatedFilters)
-    // }
+    const handleCollectionChange = (selectedCollections: string[]) => {
+        const updatedFilters = { ...appliedFilters, collection: selectedCollections }
+        updateURLParams(updatedFilters)
+    }
 
     const handlePriceChange = (newRange: [number, number]) => {
         console.log(newRange)
@@ -71,6 +74,10 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
 
     const handleSizeChange = (selectedSizes: number[]) => {
         console.log(selectedSizes)
+    }
+
+    const handleSortChange = ([selectedOption]: string[]) => {
+        console.log(selectedOption)
     }
 
     const updateURLParams = (filters: ProductFilters) => {
@@ -117,24 +124,23 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
     ]
 
     return (
-        <div className='grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 items-end'>
-            <div className="leading-tight col-span-2">
+        <div className='flex items-end justify-between'>
+            {!isExpanded && <div className="leading-tight col-span-2">
                 <p className='font-medium text-primary-500 text-2xl'>All</p>
                 <span className="inline-flex items-baseline gap-2">
                     <p className='font-bold text-3xl'>Sneakers</p>
                     {!!total && <p className="font-semibold text-lg">({total})</p>}
                 </span>
-            </div>
+            </div>}
 
             {!isMobile &&
-                <div className="col-span-4 w-full grid grid-cols-5 items-center gap-3">
+                <div className='flex items-center gap-3'>
                     <MultiSelect
                         id='brands-select'
                         options={brands}
                         placeholder="Brand"
-                        onChange={handleBrandChange}
-                    />
-                    {/* {isExpanded &&
+                        onChange={handleBrandChange} />
+                    {isExpanded &&
                         <>
                             <MultiSelect
                                 id='models-select'
@@ -149,7 +155,7 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
                                 onChange={handleCollectionChange}
                             />
                         </>
-                    } */}
+                    }
                     <PriceRange
                         id='price-range'
                         placeholder='Price'
@@ -161,8 +167,16 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
                         id='size-filter'
                         placeholder='Sizes'
                         sizes={SIZE_CATEGORIES['US Men']}
-                        onChange={handleSizeChange}
-                    />
+                        onChange={handleSizeChange} />
+                    <Select
+                        id='sort'
+                        placeholder='Sort By'
+                        options={SORT_OPTIONS}
+                        onChange={handleSortChange} />
+                    <Button
+                        iconPrepend='hugeicons:filter-horizontal'
+                        label='More'
+                        onClick={() => setIsExpanded((prev => !prev))} />
                 </div>
             }
         </div>
