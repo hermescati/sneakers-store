@@ -26,10 +26,10 @@ const SelectMenu = ({
     const menuClass = cn(
         'absolute z-20 w-full max-h-54 border border-border rounded-lg bg-background overflow-y-auto shadow-lg',
         {
-            'top-full right-0 mt-1': position === 'bottom-right',
-            'top-full left-0 mt-1': position === 'bottom-left',
-            'bottom-full right-0 mb-1': position === 'top-right',
-            'bottom-full left-0 mb-1': position === 'top-left'
+            'top-full right-0 mt-2': position === 'bottom-right',
+            'top-full left-0 mt-2': position === 'bottom-left',
+            'bottom-full right-0 mb-2': position === 'top-right',
+            'bottom-full left-0 mb-2': position === 'top-left'
         }
     )
 
@@ -81,7 +81,7 @@ const SelectMenu = ({
             {multiple &&
                 <div className='flex border-t border-border'>
                     <button
-                        className='flex-1 px-4 py-2 font-medium text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
+                        className='flex-1 px-4 py-3 font-medium text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
                         disabled={!selected.length}
                         onClick={onClear}>
                         Clear
