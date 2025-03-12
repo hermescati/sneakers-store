@@ -3,7 +3,7 @@
 import { BreadcrumbItem, SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
-import { getProductInfo } from '@/utils/product'
+import { getProductInfo, getProductSlugs } from '@/utils/product'
 import { useEffect, useRef, useState } from 'react'
 import Breadcrumbs from '../base/Breadcrumbs'
 import { ActiveIndicator } from '../nav/base/NavLinks'
@@ -25,13 +25,14 @@ const ProductPage = ({ product }: { product: Product }) => {
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
 
   const { brand, model, collection } = getProductInfo(product)
+  const { brandSlug, modelSlug, collectionSlug } = getProductSlugs(product)
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Sneakers', href: '/sneakers' },
-    { label: `${brand} Shoes`, href: `/sneakers?brand=${brand}` },
+    { label: `${brand} Shoes`, href: `/sneakers?brand=${brandSlug}` },
     collection
-      ? { label: `${collection}`, href: `/sneakers?brand=${brand}&collection=${collection}` }
-      : { label: `${model}`, href: `/sneakers?brand=${brand}&model=${model}` },
+      ? { label: `${collection}`, href: `/sneakers?brand=${brand}&collection=${collectionSlug}` }
+      : { label: `${model}`, href: `/sneakers?brand=${brand}&model=${modelSlug}` },
     { label: `${product.nickname}` }
   ]
 

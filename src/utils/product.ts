@@ -21,6 +21,14 @@ export const getProductInfo = (product: Product) => {
     return { brand, model, collection, thumbnail }
 }
 
+export const getProductSlugs = (product: Product) => {
+    const brandSlug = typeof product.brand === 'string' ? '' : product.brand.slug
+    const modelSlug = typeof product.model === 'string' ? '' : product.model.slug
+    const collectionSlug = typeof product.collection === 'string' ? '' : product.collection?.slug
+
+    return { brandSlug, modelSlug, collectionSlug }
+}
+
 export const getProductPrice = (product: Product, size?: SelectedSize) => {
     const basePrice = size ? size.price : (product.min_price as number)
 

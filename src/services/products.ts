@@ -25,25 +25,6 @@ export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Pr
   }
 }
 
-export async function getProductById(productId: Product['id']): Promise<BaseResponse<Product>> {
-  try {
-    const product = await payloadClient.findByID({
-      collection: 'products',
-      id: productId,
-      depth: 2
-    })
-
-    return { code: 200, message: "Product found", data: product }
-  } catch (error) {
-    console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message }
-  }
-}
-
 export async function getProducts(params?: QueryParams): Promise<PaginatedResponse<Product>> {
   try {
     return await getPaginatedResponse<Product>('products', params)
@@ -84,13 +65,23 @@ export async function findProducts(query: string, category?: string): Promise<Ba
   }
 }
 
+export async function retrieveFilterOptions() {
+  
+}
+
 // TODO: Test filters if they work
 export async function filterProducts(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
   const conditions: Where[] = []
 
-  if (filters.brand) conditions.push({ 'brand.id': { equals: filters.brand } })
-  if (filters.model) conditions.push({ 'model.id': { equals: filters.model } })
-  if (filters.collection) conditions.push({ 'collection.id': { equals: filters.collection } })
+  if (filters.brand && filters.brand.length > 0) {
+    conditions.push({ 'brand.slug': { in: filters.brand } })
+  }
+  if (filters.model && filters.model.length) {
+    conditions.push({ 'model.slug': { in: filters.model } })
+  }
+  if (filters.collection && filters.collection.length) {
+    conditions.push({ 'collection.slug': { in: filters.collection } })
+  }
   if (filters.size) conditions.push({ size_category: { equals: filters.size } })
 
   if (filters.filter === 'belowRetail') {
