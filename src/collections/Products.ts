@@ -49,6 +49,7 @@ export const Products: CollectionConfig = {
       name: 'slug',
       type: 'text',
       unique: true,
+      index: true,
       admin: { hidden: true }
     },
     {
