@@ -39,9 +39,7 @@ const inputVariants = cva(baseInput, {
   }
 })
 
-export interface InputProps
-  extends ComponentPropsWithoutRef<"input">,
-    VariantProps<typeof inputVariants> {
+export interface InputProps extends ComponentPropsWithoutRef<"input">, VariantProps<typeof inputVariants> {
   label?: string
   hint?: string
   error?: string
