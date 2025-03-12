@@ -7,6 +7,8 @@ import { useEffect, useState } from "react"
 import { useMediaQuery } from "usehooks-ts"
 import MultiSelect from "../base/input/MultiSelect"
 import PriceRange from "./PriceRange"
+import SizeFilter from "./SizeFilter"
+import { SIZE_CATEGORIES } from "../product/base/SizeGuides"
 
 interface FilterPanelProps {
     appliedFilters: ProductFilters
@@ -67,6 +69,10 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
         console.log(newRange)
     }
 
+    const handleSizeChange = (selectedSizes: number[]) => {
+        console.log(selectedSizes)
+    }
+
     const updateURLParams = (filters: ProductFilters) => {
         const queryParams = new URLSearchParams()
 
@@ -81,6 +87,7 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
         router.push(`${pathname}?${queryParams.toString()}`)
     }
 
+    // Get these from the backend
     const bins = [
         { minRange: 100, maxRange: 120, count: 5 },
         { minRange: 120, maxRange: 140, count: 3 },
@@ -150,6 +157,12 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
                         max={600}
                         bins={bins}
                         onChange={handlePriceChange} />
+                    <SizeFilter
+                        id='size-filter'
+                        placeholder='Sizes'
+                        sizes={SIZE_CATEGORIES['US Men']}
+                        onChange={handleSizeChange}
+                    />
                 </div>
             }
         </div>
