@@ -81,12 +81,12 @@ export async function getNavLinks(): Promise<NavItem[]> {
             ])
 
             if (!models.length && !collections.length) {
-                return { name: b.name, href: `/sneakers?brand=${b.id}` }
+                return { name: b.name, href: `/sneakers?brand=${b.slug}` }
             }
 
             const modelLinks: NavLink[] = models.map((m) => ({
                 name: m.name,
-                href: generateNavLinkHref('model', b.id, m.id),
+                href: generateNavLinkHref('model', b.slug!, m.slug!),
                 ...(m.featured && {
                     imageSrc: (typeof m.image === 'string'
                         ? m.image
@@ -97,13 +97,13 @@ export async function getNavLinks(): Promise<NavItem[]> {
 
             const collectionLinks: NavLink[] = collections.map((c) => ({
                 name: c.name,
-                href: generateNavLinkHref('model', b.id, c.id)
+                href: generateNavLinkHref('collection', b.slug!, c.slug!)
             }))
 
             const items: NavLink[] = [
                 ...modelLinks,
                 ...collectionLinks,
-                { name: 'View All', href: `/sneakers?brand=${b.id}` }
+                { name: 'View All', href: `/sneakers?brand=${b.slug}` }
             ]
 
             return {
@@ -121,7 +121,7 @@ export async function getNavLinks(): Promise<NavItem[]> {
             name: 'Others',
             items: otherBrands.map((b) => ({
                 name: b.name,
-                href: `/sneakers?brand=${b.id}`
+                href: `/sneakers?brand=${b.slug}`
             }))
         })
     }

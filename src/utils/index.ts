@@ -13,10 +13,11 @@ export const formatPrice = (
   options: {
     currency?: 'USD' | 'EUR' | 'GBP'
     notation?: Intl.NumberFormatOptions['notation']
-    credit?: boolean
+    credit?: boolean,
+    fractionDigits?: number
   } = {}
 ) => {
-  const { currency = 'USD', notation = 'standard', credit = false } = options
+  const { currency = 'USD', notation = 'standard', credit = false, fractionDigits = 2 } = options
   let numericPrice = typeof price === 'string' ? parseFloat(price) : price
 
   if (credit && numericPrice > 0) {
@@ -27,7 +28,7 @@ export const formatPrice = (
     style: 'currency',
     currency,
     notation,
-    maximumFractionDigits: 2
+    maximumFractionDigits: fractionDigits
   }).format(numericPrice)
 }
 
@@ -38,10 +39,10 @@ export const capitalizeFirstLetter = (input: string) => {
 
 export const generateNavLinkHref = (
   type: 'model' | 'collection',
-  brandId: string,
-  itemId: string
+  brandSlug: string,
+  itemSlug: string
 ) =>
-  `/sneakers?brand=${brandId}&${type}=${itemId}`
+  `/sneakers?brand=${brandSlug}&${type}=${itemSlug}`
 
 export const constructCouponMetadata = (event: Event) => {
   const metadata: Stripe.MetadataParam = {}

@@ -134,6 +134,7 @@ export interface Product {
  */
 export interface Brand {
   id: string;
+  slug?: string | null;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -144,9 +145,16 @@ export interface Brand {
  */
 export interface Model {
   id: string;
+  slug?: string | null;
   brand: string | Brand;
   name: string;
+  /**
+   * Mark this model as featured to display it in the navbar under popular models.
+   */
   featured?: boolean | null;
+  /**
+   * Upload an image for the featured model.
+   */
   image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -202,9 +210,16 @@ export interface Media {
  */
 export interface Collection {
   id: string;
+  slug?: string | null;
   brand: string | Brand;
   name: string;
+  /**
+   * Mark this collection as featured to display it on the homepage
+   */
   featured?: boolean | null;
+  /**
+   * Upload an image for the featured model.
+   */
   image?: (string | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -517,6 +532,7 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "brands_select".
  */
 export interface BrandsSelect<T extends boolean = true> {
+  slug?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -526,6 +542,7 @@ export interface BrandsSelect<T extends boolean = true> {
  * via the `definition` "models_select".
  */
 export interface ModelsSelect<T extends boolean = true> {
+  slug?: T;
   brand?: T;
   name?: T;
   featured?: T;
@@ -538,6 +555,7 @@ export interface ModelsSelect<T extends boolean = true> {
  * via the `definition` "collections_select".
  */
 export interface CollectionsSelect<T extends boolean = true> {
+  slug?: T;
   brand?: T;
   name?: T;
   featured?: T;

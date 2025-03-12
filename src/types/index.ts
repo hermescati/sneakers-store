@@ -66,9 +66,9 @@ export type SortDirection = 'asc' | 'desc'
 export type PriceFilters = 'belowRetail' | 'onSale'
 
 export interface ProductFilters {
-  brand?: Brand['id']
-  model?: Model['id']
-  collection?: Collection['id']
+  brand?: Brand['slug'][]
+  model?: Model['slug'][]
+  collection?: Collection['slug'][]
   size?: Product['size_category']
   sort?: keyof Product
   dir?: SortDirection
