@@ -84,7 +84,7 @@ const SelectMenu = ({
                         className='flex-1 px-4 py-3 font-medium text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
                         disabled={!selected.length}
                         onClick={onClear}>
-                        Clear
+                        Reset
                     </button>
                 </div>
             }

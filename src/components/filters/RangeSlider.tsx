@@ -39,21 +39,47 @@ const RangeSlider = ({
         setMaxInput(values[1].toString())
     }, [values])
 
-    const handleMinBlur = () => {
-        const parsed = parseInt(minInput)
-        if (!isNaN(parsed)) {
+    const updateMinValue = (value: string) => {
+        setMinInput(value)
+        const parsed = parseInt(value)
+
+        if (!isNaN(parsed) && parsed >= min && parsed <= max && parsed <= values[1]) {
             onChange([parsed, values[1]])
-        } else {
-            setMinInput(values[0].toString())
         }
     }
 
-    const handleMaxBlur = () => {
-        const parsed = parseInt(maxInput)
-        if (!isNaN(parsed)) {
+    const updateMaxValue = (value: string) => {
+        setMaxInput(value)
+        const parsed = parseInt(value)
+
+        if (!isNaN(parsed) && parsed >= min && parsed <= max && parsed >= values[0]) {
             onChange([values[0], parsed])
+        }
+    }
+
+    const handleMinBlur = (value: string) => {
+        const parsed = parseInt(value)
+
+        if (isNaN(parsed)) {
+            setMinInput(values[0].toString())
         } else {
+            const clampedValue = Math.max(min, Math.min(parsed, max))
+            const newMin = Math.min(clampedValue, values[1])
+            setMinInput(newMin.toString())
+            onChange([newMin, values[1]])
+        }
+    }
+
+    const handleMaxBlur = (value: string) => {
+        const parsed = parseInt(value)
+
+        if (isNaN(parsed)) {
             setMaxInput(values[1].toString())
+        } else {
+            const clampedValue = Math.max(min, Math.min(parsed, max))
+            const newMax = Math.max(clampedValue, values[0])
+            setMaxInput(newMax.toString())
+            onChange([values[0], newMax])
         }
     }
 
@@ -134,8 +160,8 @@ const RangeSlider = ({
                     value={minInput}
                     iconAppend="iconoir:dollar"
                     inputSize='small'
-                    onChange={(e) => setMinInput(e.target.value)}
-                    onBlur={handleMinBlur}
+                    onChange={(e) => updateMinValue(e.target.value)}
+                    onBlur={() => handleMinBlur(minInput)}
                 />
                 <span className="border-t-2 border-border min-w-6 mb-5 mt-auto"></span>
                 <Input
@@ -145,8 +171,8 @@ const RangeSlider = ({
                     max={max}
                     iconAppend="iconoir:dollar"
                     inputSize='small'
-                    onChange={(e) => setMaxInput(e.target.value)}
-                    onBlur={handleMaxBlur}
+                    onChange={(e) => updateMaxValue(e.target.value)}
+                    onBlur={() => handleMaxBlur(maxInput)}
                 />
             </div>
         </div>
