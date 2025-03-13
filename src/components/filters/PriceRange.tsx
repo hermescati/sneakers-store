@@ -11,6 +11,7 @@ interface PriceRangeProps {
     min: number
     max: number
     bins?: HistogramBin[]
+    className?: string
     onChange: (value: [number, number]) => void
 }
 
@@ -19,6 +20,7 @@ const PriceRange = ({
     placeholder,
     min,
     max,
+    className,
     onChange,
     ...props
 }: PriceRangeProps) => {
@@ -56,14 +58,16 @@ const PriceRange = ({
                     </div>
                 </div>
             }>
-            {selectedRange[0] === min && selectedRange[1] === max
-                ? <p className="text-md font-medium text-primary-600">{placeholder}</p>
-                : (
-                    <p className="text-md font-medium">
-                        {formatPrice(selectedRange[0], { fractionDigits: 0 })} - {formatPrice(selectedRange[1], { fractionDigits: 0 })}
-                    </p>
-                )
-            }
+            <div className={className}>
+                {selectedRange[0] === min && selectedRange[1] === max
+                    ? <p className="text-md font-medium text-primary-600">{placeholder}</p>
+                    : (
+                        <p className="text-md font-medium">
+                            {formatPrice(selectedRange[0], { fractionDigits: 0 })} - {formatPrice(selectedRange[1], { fractionDigits: 0 })}
+                        </p>
+                    )
+                }
+            </div>
         </FilterControl>
     )
 }

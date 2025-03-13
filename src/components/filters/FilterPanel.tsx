@@ -1,15 +1,14 @@
 'use client'
 
-import { SORT_OPTIONS } from "@/lib/options"
+import { SIZING_CATEGORY_OPTIONS, SORT_OPTIONS } from "@/lib/options"
 import { getBrands, getCollections, getModels } from "@/services/products"
 import { ProductFilters, SelectOption } from "@/types"
+import { cn } from "@/utils"
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from "react"
-import { useMediaQuery } from "usehooks-ts"
-import Button from "../base/Button"
+import IconButton from "../base/IconButton"
 import MultiSelect from "../base/input/MultiSelect"
 import Select from "../base/input/Select"
-import { SIZE_CATEGORIES } from "../product/base/SizeGuides"
 import PriceRange from "./PriceRange"
 import SizeFilter from "./SizeFilter"
 
@@ -18,6 +17,14 @@ interface FilterPanelProps {
     total?: number
 }
 
+// TODO: Filter the model and collection based on the selected brand, if no selected brand, then show them all
+// TODO: Persist filters in the query params (not sure to use replace or push)
+// TODO: Get bins from backend
+// TODO: More optimized function to update filters not have them separate
+// TODO: Better way to fetch data, maybe fetching them in the server component and passing them as props here
+// TODO: Better layout to handle the filters (maybe using grid might make more sense)
+// TODO: Update filters colors to match the themes
+// TODO: Update filters to work with dark mode
 const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -25,7 +32,6 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
     const [models, setModels] = useState<SelectOption[]>([])
     const [collections, setCollections] = useState<SelectOption[]>([])
 
-    const isMobile = useMediaQuery('(max-width: 1023px)')
     const router = useRouter()
     const pathname = usePathname()
 
@@ -124,8 +130,8 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
     ]
 
     return (
-        <div className='flex items-end justify-between'>
-            {!isExpanded && <div className="leading-tight col-span-2">
+        <div className='grid grid-cols-3 items-end justify-between'>
+            {!isExpanded && <div className="leading-tight">
                 <p className='font-medium text-primary-500 text-2xl'>All</p>
                 <span className="inline-flex items-baseline gap-2">
                     <p className='font-bold text-3xl'>Sneakers</p>
@@ -133,52 +139,78 @@ const FilterPanel = ({ appliedFilters, total }: FilterPanelProps) => {
                 </span>
             </div>}
 
-            {!isMobile &&
+            <div className={cn(isExpanded ? 'col-span-3' : 'col-span-2')}>
+                {isExpanded && <p className='font-semibold text-md text-primary-700 leading-loose'>Showing {total} item(s)</p>}
+
                 <div className='flex items-center gap-3'>
-                    <MultiSelect
-                        id='brands-select'
-                        options={brands}
-                        placeholder="Brand"
-                        onChange={handleBrandChange} />
-                    {isExpanded &&
+                    <div className="flex-1">
+                        <MultiSelect
+                            id='brands-select'
+                            options={brands}
+                            placeholder='Brand'
+                            className=''
+                            onChange={handleBrandChange}
+                        />
+                    </div>
+                    {isExpanded && (
                         <>
-                            <MultiSelect
-                                id='models-select'
-                                options={models}
-                                placeholder="Models"
-                                onChange={handleModelChange}
-                            />
-                            <MultiSelect
-                                id='collections-select'
-                                options={collections}
-                                placeholder="Collections"
-                                onChange={handleCollectionChange}
-                            />
+                            <div className="flex-1">
+                                <MultiSelect
+                                    id='models-select'
+                                    options={models}
+                                    placeholder='Models'
+                                    className=''
+                                    onChange={handleModelChange}
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <MultiSelect
+                                    id='collections-select'
+                                    options={collections}
+                                    placeholder='Collections'
+                                    className=''
+                                    onChange={handleCollectionChange}
+                                />
+                            </div>
                         </>
-                    }
-                    <PriceRange
-                        id='price-range'
-                        placeholder='Price'
-                        min={0}
-                        max={600}
-                        bins={bins}
-                        onChange={handlePriceChange} />
-                    <SizeFilter
-                        id='size-filter'
-                        placeholder='Sizes'
-                        sizes={SIZE_CATEGORIES['US Men']}
-                        onChange={handleSizeChange} />
-                    <Select
-                        id='sort'
-                        placeholder='Sort By'
-                        options={SORT_OPTIONS}
-                        onChange={handleSortChange} />
-                    <Button
-                        iconPrepend='hugeicons:filter-horizontal'
-                        label='More'
-                        onClick={() => setIsExpanded((prev => !prev))} />
+                    )}
+                    <div className="flex-1">
+                        <PriceRange
+                            id='price-range'
+                            placeholder='Price'
+                            min={0}
+                            max={600}
+                            bins={bins}
+                            className=''
+                            onChange={handlePriceChange}
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <SizeFilter
+                            id='size-filter'
+                            placeholder='Sizes'
+                            categories={SIZING_CATEGORY_OPTIONS}
+                            className=''
+                            onChange={handleSizeChange}
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <Select
+                            id='sort'
+                            placeholder='Sort By'
+                            options={SORT_OPTIONS}
+                            className=''
+                            onChange={handleSortChange}
+                        />
+                    </div>
+                    <span className="h-6 border-l border-border mx-1" />
+                    <IconButton
+                        icon={isExpanded ? 'tabler:arrow-bar-to-right' : 'hugeicons:filter-horizontal'}
+                        className="p-2 rounded-xl shadow-none border border-border text-primary-600"
+                        onClick={() => setIsExpanded((prev) => !prev)}
+                    />
                 </div>
-            }
+            </div>
         </div>
     )
 }
