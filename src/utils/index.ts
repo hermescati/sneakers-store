@@ -32,6 +32,16 @@ export const formatPrice = (
   }).format(numericPrice)
 }
 
+export const getSizeCategoryKey = (selection: string): string => {
+  const categoryMap: Record<string, string> = {
+    'mens': 'US Mens',
+    'womens': 'US Womens',
+    'kids': 'US Kids'
+  }
+
+  return categoryMap[selection || 'US Mens']
+}
+
 export const capitalizeFirstLetter = (input: string) => {
   if (!input) return ''
   return input.charAt(0).toUpperCase() + input.slice(1)
