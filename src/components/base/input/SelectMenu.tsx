@@ -60,9 +60,10 @@ const SelectMenu = ({
                             onClick={() => handleSelect(option.value)}
                         >
                             <span className="inline-flex items-center gap-2">
-                                {option.icon && <Icon icon={option.icon} className="text-xl" />}
+                                {option.icon && multiple && <Icon icon={option.icon} className="text-xl text-primary-700" />}
                                 <p className="font-medium text-md leading-none">{option.label}</p>
                             </span>
+                            {option.icon && <Icon icon={option.icon} className="text-xl text-primary-700" />}
                             {multiple && (
                                 <span
                                     className={cn(
