@@ -6,15 +6,17 @@ import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
 interface FilterControlProps {
-    id: string,
-    children: ReactNode,
-    menu: ReactNode
+    id: string
+    children: ReactNode
+    placeholder: string
+    value: string
 }
 
 const FilterControl = ({
     id,
     children,
-    menu
+    placeholder,
+    value
 }: FilterControlProps) => {
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -28,9 +30,24 @@ const FilterControl = ({
                 aria-label='toggle menu'
                 aria-haspopup='true'
                 aria-expanded={isExpanded}
-                className='flex items-center justify-between gap-3 w-full px-3 py-2 rounded-xl border border-border cursor-pointer'
+                className='flex items-center justify-between gap-3 w-full px-3 py-1.5 rounded-xl border border-border cursor-pointer'
                 onClick={() => setIsExpanded((prev) => !prev)}>
-                <div className='flex-1 overflow-hidden text-ellipsis line-clamp-1'>{children}</div>
+
+                <div className="relative flex flex-col justify-center flex-1 h-9">
+                    <span className={cn(
+                        "absolute font-medium text-md text-primary-600 transition-all duration-150 ease-linear pointer-events-none",
+                        !!value ? "top-0 text-sm" : "top-1/2 transform -translate-y-1/2"
+                    )}>
+                        {placeholder}
+                    </span>
+
+                    {!!value && (
+                        <p className="absolute bottom-0 overflow-hidden font-semibold text-md line-clamp-1">
+                            {value}
+                        </p>
+                    )}
+                </div>
+
                 <span className='p-1 text-primary-600'>
                     <Icon
                         icon='mage:chevron-down'
@@ -40,8 +57,7 @@ const FilterControl = ({
                         )} />
                 </span>
             </div>
-
-            {isExpanded && menu}
+            {isExpanded && children}
         </div>
     )
 }

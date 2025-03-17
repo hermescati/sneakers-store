@@ -17,9 +17,9 @@ const ToggleButton = ({
     const selectedIndex = options.findIndex(option => option.value === selected)
 
     return (
-        <div className='relative flex border border-border rounded-2xl overflow-hidden shadow-inner'>
+        <div className='relative flex border border-border rounded-xl overflow-hidden shadow-inner'>
             <div
-                className='absolute top-1 left-1 bottom-1 right-1 bg-primary-900 dark:bg-secondary rounded-xl transition-all duration-300 shadow-md'
+                className='absolute top-1 left-1 bottom-1 right-1 bg-primary-900 rounded-lg transition-all duration-300 shadow-md'
                 style={{
                     width: `calc(${100 / options.length}% - 0.5rem)`,
                     transform: `translateX(calc(${selectedIndex * 100}% + ${selectedIndex * 0.5}rem))`
