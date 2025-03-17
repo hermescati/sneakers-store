@@ -9,48 +9,43 @@ interface SelectProps {
     id: string,
     options: SelectOption[]
     placeholder?: string
-    className?: string
+    showClear?: boolean
     onChange: (selected: string[]) => void
+    onClear: VoidFunction
 }
 
 const Select = ({
     id,
     options,
-    placeholder,
-    className,
-    onChange
+    placeholder = 'Select a value',
+    showClear,
+    onChange,
+    onClear
 }: SelectProps) => {
     const [selectedOption, setSelectedOption] = useState<string[]>([])
 
-    const handleSelectionChange = (selectedOption: string[]) => {
+    const handleOnSelect = (selectedOption: string[]) => {
         setSelectedOption(selectedOption)
         onChange(selectedOption)
+    }
+
+    const handleOnClear = () => {
+        setSelectedOption([])
+        onClear()
     }
 
     return (
         <FilterControl
             id={id}
-            menu={
-                <SelectMenu
-                    options={options}
-                    selectId={id}
-                    selected={selectedOption}
-                    onSelect={handleSelectionChange} />
-            }>
-            <div className={className}>
-                {selectedOption.length > 0
-                    ? (
-                        <p className="font-medium text-md">
-                            {selectedOption.map((value) => {
-                                const option = options.find((opt) => opt.value === value)
-                                return option ? option.label : ''
-                            })
-                            }
-                        </p>
-                    )
-                    : <p className="text-md font-medium text-primary-600">{placeholder}</p>
-                }
-            </div>
+            placeholder={placeholder}
+            value={options.find((o) => o.value === selectedOption[0])?.label || ''}>
+            <SelectMenu
+                options={options}
+                selectId={id}
+                selected={selectedOption}
+                showClear={showClear}
+                onSelect={handleOnSelect}
+                onClear={handleOnClear} />
         </FilterControl>
     )
 }

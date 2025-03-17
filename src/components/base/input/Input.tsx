@@ -7,7 +7,7 @@ import { ComponentPropsWithoutRef, forwardRef, useMemo, useState } from 'react'
 import FormControl from './FormControl'
 
 const baseInput = `
-    w-full bg-background border-2
+    w-full bg-background
     has-[:focus-visible]:outline-none
     has-[:disabled]:opacity-40 has-[:disabled]:cursor-not-allowed
     transition ease-in-out duration-300
@@ -16,8 +16,8 @@ const baseInput = `
 const inputVariants = cva(baseInput, {
   variants: {
     inputSize: {
-      small: ['rounded-xl', 'text-md', 'has-[:focus-visible]:ring'],
-      default: ['rounded-2xl', 'text-base', 'has-[:focus-visible]:ring-4']
+      small: ['rounded-xl', 'border', 'text-md', 'has-[:focus-visible]:ring'],
+      default: ['rounded-2xl', 'border-2', 'text-base', 'has-[:focus-visible]:ring-4']
     },
     invalid: {
       true: [
@@ -58,7 +58,7 @@ const IconWrapper = ({
 }) => (
   <div
     className={cn(
-      "flex px-4 items-center bg-primary-100 border-primary-400",
+      "flex px-4 items-center bg-primary-100/50 border-primary-400",
       position === "prepend" ? "border-r" : "border-l"
     )}
   >

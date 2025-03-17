@@ -1,9 +1,8 @@
 import FilterPanel from '@/components/filters/FilterPanel'
 import MainContainer from '@/components/MainContainer'
 import ProductCard from '@/components/product/ProductCard'
-import { filterProducts } from '@/services/products'
-import { PriceFilters, ProductFilters, SortDirection } from '@/types'
-import { Product } from '@/types/payload'
+import { filterProducts, getBrands, getCollections, getModels } from '@/services/products'
+import { ProductFilters, SortOrder } from '@/types'
 
 interface PageProps {
   searchParams: Promise<Record<string, string | undefined>>
@@ -13,28 +12,77 @@ export default async function Page({ searchParams }: PageProps) {
   const filterParams = await searchParams
 
   const filters: ProductFilters = {
-    brand: filterParams.brand ? (Array.isArray(filterParams.brand) ? filterParams.brand : [filterParams.brand]) : undefined,
-    model: filterParams.model ? (Array.isArray(filterParams.model) ? filterParams.model : [filterParams.model]) : undefined,
-    collection: filterParams.collection ? (Array.isArray(filterParams.collection) ? filterParams.collection : [filterParams.collection]) : undefined,
-    size: filterParams.size as Product['size_category'],
-    filter: filterParams.filter as PriceFilters,
-    sort: filterParams.sort as keyof Product,
-    dir: filterParams.dir as SortDirection
+    brand: filterParams.brand
+      ? (Array.isArray(filterParams.brand) ? filterParams.brand : [filterParams.brand])
+      : undefined,
+    model: filterParams.model
+      ? (Array.isArray(filterParams.model) ? filterParams.model : [filterParams.model])
+      : undefined,
+    collection: filterParams.collection
+      ? (Array.isArray(filterParams.collection) ? filterParams.collection
+        : [filterParams.collection]) : undefined,
+    category: filterParams.size,
+    price: filterParams.price,
+    size: filterParams.size
+      ? (Array.isArray(filterParams.size)
+        ? filterParams.size.map(Number)
+        : [Number(filterParams.size)])
+      : undefined,
+    sort: filterParams.sort,
+    order: filterParams.dir as SortOrder
   }
 
   const { data: products, metadata } = await filterProducts(filters)
-  
+  const { data: brands } = await getBrands()
+  const { data: models } = await getModels()
+  const { data: collections } = await getCollections()
+  const bins = [
+    { minRange: 100, maxRange: 120, count: 5 },
+    { minRange: 120, maxRange: 140, count: 3 },
+    { minRange: 140, maxRange: 160, count: 6 },
+    { minRange: 160, maxRange: 180, count: 4 },
+    { minRange: 180, maxRange: 200, count: 7 },
+    { minRange: 200, maxRange: 220, count: 8 },
+    { minRange: 220, maxRange: 240, count: 5 },
+    { minRange: 240, maxRange: 260, count: 9 },
+    { minRange: 260, maxRange: 280, count: 6 },
+    { minRange: 280, maxRange: 300, count: 10 },
+    { minRange: 300, maxRange: 320, count: 12 },
+    { minRange: 320, maxRange: 340, count: 15 },
+    { minRange: 340, maxRange: 360, count: 11 },
+    { minRange: 360, maxRange: 380, count: 9 },
+    { minRange: 380, maxRange: 400, count: 13 },
+    { minRange: 400, maxRange: 420, count: 7 },
+    { minRange: 420, maxRange: 440, count: 10 },
+    { minRange: 440, maxRange: 460, count: 8 },
+    { minRange: 460, maxRange: 480, count: 6 },
+    { minRange: 480, maxRange: 500, count: 4 },
+    { minRange: 500, maxRange: 520, count: 10 },
+    { minRange: 520, maxRange: 540, count: 12 },
+    { minRange: 540, maxRange: 560, count: 11 },
+    { minRange: 560, maxRange: 580, count: 9 },
+    { minRange: 580, maxRange: 600, count: 10 },
+  ]
+
   return (
-    <MainContainer className="flex flex-col gap-4 lg:gap-6 py-6 lg:mt-2">
-      <FilterPanel appliedFilters={filters} total={metadata?.total} />
+    <MainContainer className="relative flex flex-col gap-6 py-6 lg:mt-6">
+      <FilterPanel
+        appliedFilters={filters}
+        brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
+        modelOptions={models.map((m) => ({ value: m.slug!, label: m.name }))}
+        collectionOptions={collections.map((c) => ({ value: c.slug!, label: c.name }))}
+        priceBins={bins}
+        total={metadata?.total} />
 
       {!products?.length
         ? <p>Nothing here</p>
         : <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           {products.flatMap((product, index) =>
-            <li key={product.id}>
-              <ProductCard product={product} index={index} />
-            </li>
+            Array.from({ length: 24 }).map((_, i) => (
+              <li key={`${product.id}-${i}`}>
+                <ProductCard product={product} index={index} />
+              </li>
+            ))
           )}
         </ul>
       }
