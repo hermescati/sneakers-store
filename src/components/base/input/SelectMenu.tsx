@@ -3,6 +3,7 @@
 import { MenuPosition, SelectOption } from "@/types"
 import { cn } from "@/utils"
 import { Icon } from '@iconify/react'
+import { useCallback } from "react"
 
 interface SelectMenuProps {
     selectId: string
@@ -35,35 +36,33 @@ const SelectMenu = ({
         }
     )
 
-    const handleSelect = (value: string) => {
-        let updatedSelections: string[]
-
-        if (!multiple) {
-            updatedSelections = [value]
-        } else {
-            updatedSelections = selected.includes(value)
+    const handleSelect = useCallback((value: string) => {
+        onSelect(multiple
+            ? selected.includes(value)
                 ? selected.filter((option) => option !== value)
                 : [...selected, value]
-        }
-
-        onSelect(updatedSelections)
-    }
+            : [value])
+    }, [multiple, selected, onSelect])
 
     return (
         <div aria-label="select-menu" className={menuClass}>
-            <ul aria-labelledby={selectId} aria-orientation="vertical" role="menu" className="p-1 max-h-80 overflow-auto">
+            <ul aria-labelledby={selectId} aria-orientation="vertical" role="menu" className="p-1 space-y-1 max-h-80 overflow-auto">
                 {options.map((option) => {
                     const isSelected = selected.includes(option.value)
 
                     return (
                         <li
                             key={option.value}
-                            className="flex items-center justify-between gap-4 p-3 cursor-pointer hover:bg-primary-100 rounded-md transition-all duration-300 ease-in-out"
+                            className={cn(
+                                'flex items-center justify-between gap-4 p-3 cursor-pointer font-medium hover:bg-primary-100/50 rounded-md transition-all duration-300 ease-in-out',
+                                { 'bg-primary-100/50': isSelected && !multiple },
+                                { 'font-semibold': isSelected }
+                            )}
                             onClick={() => handleSelect(option.value)}
                         >
                             <span className="inline-flex items-center gap-2">
                                 {option.icon && multiple && <Icon icon={option.icon} className="text-xl text-primary-700" />}
-                                <p className="font-medium text-md leading-none">{option.label}</p>
+                                <p className="text-md leading-none">{option.label}</p>
                             </span>
                             {option.icon && <Icon icon={option.icon} className="text-xl text-primary-700" />}
                             {multiple && (
@@ -81,13 +80,13 @@ const SelectMenu = ({
                 })}
             </ul>
 
-            {(showClear || multiple) && 
+            {(showClear || multiple) &&
                 <div className='flex border-t border-border'>
                     <button
-                        className='flex-1 px-4 py-3 font-medium text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
+                        className='flex-1 px-4 py-3 font-semibold text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
                         disabled={!selected.length}
                         onClick={onClear}>
-                        Reset
+                        Clear
                     </button>
                 </div>
             }
