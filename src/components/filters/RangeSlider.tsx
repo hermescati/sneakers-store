@@ -15,7 +15,6 @@ export interface HistogramBin {
 
 interface RangeSliderProps {
     id: string
-    placeholder: string
     min: number
     max: number
     values: [number, number]
@@ -23,11 +22,8 @@ interface RangeSliderProps {
     onChange: (value: [number, number]) => void
 }
 
-// TODO: Make the bins clickable and update the style to show hover also
-// TODO: Correct values for the bin - currently when selecting a bin from min_range to max_range, 3 bins get selected, only one should
 const RangeSlider = ({
     id,
-    placeholder,
     min,
     max,
     values,
@@ -161,7 +157,7 @@ const RangeSlider = ({
 
             <div className="flex justify-between gap-2 mt-4">
                 <Input
-                    label={`Min. ${placeholder}`}
+                    label='From'
                     type="number"
                     value={minInput}
                     iconPrepend="iconoir:dollar"
@@ -171,7 +167,7 @@ const RangeSlider = ({
                 />
                 <span className="border-t border-primary-400 dark:border-border min-w-6 mb-5 mt-auto"></span>
                 <Input
-                    label={`Max. ${placeholder}`}
+                    label='To'
                     type="number"
                     value={maxInput}
                     max={max}

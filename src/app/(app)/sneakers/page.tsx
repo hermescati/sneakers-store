@@ -3,39 +3,39 @@ import MainContainer from '@/components/MainContainer'
 import ProductCard from '@/components/product/ProductCard'
 import { filterProducts, getBrands, getCollections, getModels } from '@/services/products'
 import { ProductFilters, SortOrder } from '@/types'
+import { Product } from '@/types/payload'
+import { parseQueryParams } from '@/utils'
 
 interface PageProps {
   searchParams: Promise<Record<string, string | undefined>>
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const filterParams = await searchParams
+  const queryParams = await searchParams
 
-  const filters: ProductFilters = {
-    brand: filterParams.brand
-      ? (Array.isArray(filterParams.brand) ? filterParams.brand : [filterParams.brand])
-      : undefined,
-    model: filterParams.model
-      ? (Array.isArray(filterParams.model) ? filterParams.model : [filterParams.model])
-      : undefined,
-    collection: filterParams.collection
-      ? (Array.isArray(filterParams.collection) ? filterParams.collection
-        : [filterParams.collection]) : undefined,
-    category: filterParams.size,
-    price: filterParams.price,
-    size: filterParams.size
-      ? (Array.isArray(filterParams.size)
-        ? filterParams.size.map(Number)
-        : [Number(filterParams.size)])
-      : undefined,
-    sort: filterParams.sort,
-    order: filterParams.dir as SortOrder
+  const appliedFilters: ProductFilters = {
+    brand: parseQueryParams(queryParams.brand),
+    model: parseQueryParams(queryParams.model),
+    collection: parseQueryParams(queryParams.collection),
+    category: queryParams.size as Product['size_category'],
+    size: parseQueryParams(queryParams.size)?.map(Number),
+    price: queryParams.price,
+    sort: queryParams.sort,
+    order: queryParams.order as SortOrder
   }
 
-  const { data: products, metadata } = await filterProducts(filters)
-  const { data: brands } = await getBrands()
-  const { data: models } = await getModels()
-  const { data: collections } = await getCollections()
+  const [
+    { data: products, metadata },
+    { data: brands },
+    { data: models },
+    { data: collections }
+  ] = await Promise.all([
+    await filterProducts(appliedFilters),
+    await getBrands(),
+    await getModels(),
+    await getCollections(),
+  ])
+
   const bins = [
     { minRange: 100, maxRange: 120, count: 5 },
     { minRange: 120, maxRange: 140, count: 3 },
@@ -65,9 +65,9 @@ export default async function Page({ searchParams }: PageProps) {
   ]
 
   return (
-    <MainContainer className="relative flex flex-col gap-6 py-6 lg:mt-6">
+    <MainContainer className="relative flex flex-col gap-6 py-6 lg:mt-4">
       <FilterPanel
-        appliedFilters={filters}
+        initialFilters={appliedFilters}
         brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
         modelOptions={models.map((m) => ({ value: m.slug!, label: m.name }))}
         collectionOptions={collections.map((c) => ({ value: c.slug!, label: c.name }))}

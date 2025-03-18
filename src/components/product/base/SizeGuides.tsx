@@ -1,7 +1,7 @@
-import { SIZE_CATEGORIES } from '@/lib/options'
+import { SIZES } from '@/lib/options'
 
 const SizeGuides = () => {
-    const filteredCategories = Object.keys(SIZE_CATEGORIES).filter(category => category !== "US Kids")
+    const filteredCategories = Object.keys(SIZES).filter(category => category !== "US Kids")
 
     return (
         <div className="min-w-max md:min-w-0 w-full">
@@ -16,14 +16,14 @@ const SizeGuides = () => {
                 ))}
             </div>
 
-            {SIZE_CATEGORIES["US Mens"].map((_, index) => (
+            {SIZES["US Mens"].map((_, index) => (
                 <div key={index} className="grid grid-cols-6 border-primary-300 dark:border-border hover:bg-primary-100/50">
                     {filteredCategories.map((category, idx) => (
                         <div
                             key={idx}
                             className="place-content-center p-2 border-b border-l last:border-r border-primary-300 dark:border-border text-md text-center font-medium text-primary-700"
                         >
-                            {SIZE_CATEGORIES[category][index] || '-'}
+                            {SIZES[category][index] || '-'}
                         </div>
                     ))}
                 </div>

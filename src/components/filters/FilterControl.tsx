@@ -30,12 +30,12 @@ const FilterControl = ({
                 aria-label='toggle menu'
                 aria-haspopup='true'
                 aria-expanded={isExpanded}
-                className='flex items-center justify-between gap-3 w-full px-3 py-1.5 rounded-xl border border-border cursor-pointer'
+                className='flex items-center justify-between gap-1 w-full px-3 py-1.5 rounded-xl border border-border cursor-pointer'
                 onClick={() => setIsExpanded((prev) => !prev)}>
 
-                <div className="relative flex flex-col justify-center flex-1 h-9">
+                <div className="relative flex flex-col justify-center flex-1 h-9 overflow-hidden">
                     <span className={cn(
-                        "absolute font-medium text-md text-primary-600 transition-all duration-150 ease-linear pointer-events-none",
+                        "absolute font-medium text-md text-primary-600 truncate transition-all duration-150 ease-linear pointer-events-none",
                         !!value ? "top-0 text-sm" : "top-1/2 transform -translate-y-1/2"
                     )}>
                         {placeholder}

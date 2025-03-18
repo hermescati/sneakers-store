@@ -1,14 +1,17 @@
 'use client'
 
 import FilterControl from "@/components/filters/FilterControl"
-import { SelectOption } from "@/types"
-import { useState } from "react"
+import { MenuPosition, SelectOption } from "@/types"
+import { useMemo, useState } from "react"
 import SelectMenu from "./SelectMenu"
 
 interface SelectProps {
     id: string,
     options: SelectOption[]
+    selected?: string[]
+    multiple?: boolean
     placeholder?: string
+    position?: MenuPosition
     showClear?: boolean
     onChange: (selected: string[]) => void
     onClear: VoidFunction
@@ -17,20 +20,35 @@ interface SelectProps {
 const Select = ({
     id,
     options,
+    selected = [],
+    multiple = false,
     placeholder = 'Select a value',
-    showClear,
+    position = 'bottom-left',
+    showClear = false,
     onChange,
     onClear
 }: SelectProps) => {
-    const [selectedOption, setSelectedOption] = useState<string[]>([])
+    const [selectedOptions, setSelectedOptions] = useState<string[]>(selected)
+
+    const displayedValue = useMemo(() => {
+        const selectedLabels = selectedOptions
+            .map((value) => options.find((o) => o.value === value)?.label)
+            .filter(Boolean)
+
+        return multiple
+            ? selectedLabels.length >= 3
+                ? `${selectedLabels.length} selected`
+                : selectedLabels.join(', ')
+            : selectedLabels[0] || ''
+    }, [selectedOptions])
 
     const handleOnSelect = (selectedOption: string[]) => {
-        setSelectedOption(selectedOption)
+        setSelectedOptions(selectedOption)
         onChange(selectedOption)
     }
 
     const handleOnClear = () => {
-        setSelectedOption([])
+        setSelectedOptions([])
         onClear()
     }
 
@@ -38,11 +56,13 @@ const Select = ({
         <FilterControl
             id={id}
             placeholder={placeholder}
-            value={options.find((o) => o.value === selectedOption[0])?.label || ''}>
+            value={displayedValue}>
             <SelectMenu
                 options={options}
                 selectId={id}
-                selected={selectedOption}
+                selected={selectedOptions}
+                multiple={multiple}
+                position={position}
                 showClear={showClear}
                 onSelect={handleOnSelect}
                 onClear={handleOnClear} />

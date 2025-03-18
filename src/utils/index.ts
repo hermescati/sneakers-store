@@ -32,14 +32,16 @@ export const formatPrice = (
   }).format(numericPrice)
 }
 
-export const getSizeCategoryKey = (selection: string): string => {
-  const categoryMap: Record<string, string> = {
-    'mens': 'US Mens',
-    'womens': 'US Womens',
-    'kids': 'US Kids'
-  }
+export const parseQueryParams = (param?: string | string[]): string[] | undefined => {
+  if (!param) return undefined
+  return Array.isArray(param) ? param : [param]
+}
 
-  return categoryMap[selection || 'US Mens']
+export const arraysEqual = <T>(a: T[], b: T[]): boolean => {
+  if (a.length !== b.length) return false
+  const sortedA = [...a].sort()
+  const sortedB = [...b].sort()
+  return sortedA.every((value, index) => value === sortedB[index])
 }
 
 export const capitalizeFirstLetter = (input: string) => {

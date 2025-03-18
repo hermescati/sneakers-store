@@ -62,17 +62,18 @@ export interface PaginatedResponse<T> extends BaseResponse<T[]> {
   }
 }
 
-export type SortDirection = 'asc' | 'desc'
+export type SortOrder = 'asc' | 'desc'
 export type PriceFilters = 'belowRetail' | 'onSale'
 
 export interface ProductFilters {
   brand?: Brand['slug'][]
   model?: Model['slug'][]
   collection?: Collection['slug'][]
-  size?: Product['size_category']
-  sort?: keyof Product
-  dir?: SortDirection
-  filter?: PriceFilters
+  category?: Product['size_category']
+  size?: number[]
+  sort?: string
+  order?: SortOrder
+  price?: string
 }
 
 export class PayloadError extends Error {

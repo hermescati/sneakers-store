@@ -2,15 +2,17 @@
 
 import { SIZING_CATEGORY_OPTIONS, SORT_OPTIONS } from "@/lib/options"
 import { ProductFilters, SelectOption, SortOrder } from "@/types"
+import { Product } from "@/types/payload"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import MultiSelect from "../base/input/MultiSelect"
+import { useEffect, useState } from "react"
+import { useDebounceCallback, useMediaQuery } from "usehooks-ts"
 import Select from "../base/input/Select"
 import PriceRange from "./PriceRange"
 import { HistogramBin } from "./RangeSlider"
 import SizeFilter from "./SizeFilter"
 
 interface FilterPanelProps {
-    appliedFilters: ProductFilters
+    initialFilters: ProductFilters
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
     collectionOptions: SelectOption[]
@@ -19,23 +21,40 @@ interface FilterPanelProps {
 }
 
 // TODO: Filter the model and collection based on the selected brand, if no selected brand, then show them all
-// FIXME: onClear doesnt work at all
-// TODO: Fix the idea of the updateFilters to have a function to clear them
+// To be completed once a mechanism to have a centralized config is done so it takes the values from there and
+// and constructs the SelectOption array in this component.
 const FilterPanel = ({
-    appliedFilters,
+    initialFilters,
     brandOptions,
     modelOptions,
     collectionOptions,
     priceBins,
     total
 }: FilterPanelProps) => {
+    const [filters, setFilters] = useState<ProductFilters>(initialFilters)
+
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
+    useEffect(() => {
+        const updatedFilters: ProductFilters = {
+            brand: searchParams.getAll('brand') || undefined,
+            model: searchParams.getAll('model') || undefined,
+            collection: searchParams.getAll('collection') || undefined,
+            category: searchParams.get('category') as Product['size_category'] || undefined,
+            size: searchParams.getAll('size').map(Number) || undefined,
+            price: searchParams.get('price') || undefined,
+            sort: searchParams.get('sort') || undefined,
+            order: searchParams.get('order') as SortOrder | undefined
+        }
+        setFilters(updatedFilters)
+    }, [searchParams])
+
     const updateFilters = (newFilters: Partial<ProductFilters>) => {
-        const mergedFilters = { ...appliedFilters, ...newFilters }
-        const queryParams = new URLSearchParams(searchParams.toString())
+        const queryParams = new URLSearchParams()
+        const mergedFilters = { ...filters, ...newFilters }
+        setFilters(mergedFilters)
 
         Object.entries(mergedFilters).forEach(([key, value]) => {
             if (Array.isArray(value)) {
@@ -43,19 +62,29 @@ const FilterPanel = ({
                 value.forEach(v => queryParams.append(key, String(v)))
             } else if (value) {
                 queryParams.set(key, String(value))
-            } else {
-                queryParams.delete(key)
             }
         })
 
         router.replace(`${pathname}?${queryParams.toString()}`)
     }
+    const debounceUpdateFilters = useDebounceCallback(updateFilters, 500)
 
     return (
-        <div className='grid grid-cols-6 gap-x-6 items-stretch justify-between'>
+        <div className='hidden lg:grid grid-cols-6 gap-x-6 items-stretch justify-between'>
             <div className="text-3xl leading-tight">
-                <p className='font-medium text-primary-500'>All</p>
-                <p className='font-bold'>Sneakers</p>
+                <p className="font-medium text-primary-500">
+                    {Array.isArray(filters.brand) && filters.brand.length > 0 ? 'Brand' : 'All'}
+                </p>
+                <span className="inline-flex items-baseline gap-2">
+                    <p className="font-bold">
+                        {Array.isArray(filters.brand) && filters.brand[0]
+                            ? brandOptions.find((o) => o.value === filters.brand[0])?.label || 'Unknown Brand'
+                            : 'Sneakers'}
+                    </p>
+                    {Array.isArray(filters.brand) && filters.brand.length > 1 && (
+                        <p className="text-xl">& others</p>
+                    )}
+                </span>
             </div>
 
             <div className='flex flex-col justify-between h-full col-span-5'>
@@ -66,33 +95,39 @@ const FilterPanel = ({
 
                 <div className='flex items-center gap-3'>
                     <div className="flex-1">
-                        <MultiSelect
+                        <Select
                             id='brands-select'
-                            options={brandOptions}
                             placeholder='Brand'
-                            selected={appliedFilters.brand?.filter((x): x is string => x != null) || []}
-                            onChange={(selected) => updateFilters({ brand: selected })}
-                            onClear={() => updateFilters({ brand: undefined })}
+                            options={brandOptions}
+                            selected={filters.brand?.filter((v): v is string => v != null) || []}
+                            multiple
+                            showClear
+                            onChange={(selected) => debounceUpdateFilters({ brand: selected })}
+                            onClear={() => debounceUpdateFilters({ brand: undefined })}
                         />
                     </div>
                     <div className="flex-1">
-                        <MultiSelect
+                        <Select
                             id='models-select'
-                            options={modelOptions}
-                            selected={appliedFilters.model?.filter((x): x is string => x != null) || []}
                             placeholder='Models'
-                            onChange={(selected) => updateFilters({ model: selected })}
-                            onClear={() => updateFilters({ model: undefined })}
+                            options={modelOptions}
+                            selected={filters.model?.filter((v): v is string => v != null) || []}
+                            multiple
+                            showClear
+                            onChange={(selected) => debounceUpdateFilters({ model: selected })}
+                            onClear={() => debounceUpdateFilters({ model: undefined })}
                         />
                     </div>
                     <div className="flex-1">
-                        <MultiSelect
+                        <Select
                             id='collections-select'
-                            options={collectionOptions}
-                            selected={appliedFilters.collection?.filter((x): x is string => x != null) || []}
                             placeholder='Collections'
-                            onChange={(selected) => updateFilters({ collection: selected })}
-                            onClear={() => updateFilters({ collection: undefined })}
+                            options={collectionOptions}
+                            selected={filters.collection?.filter((v): v is string => v != null) || []}
+                            multiple
+                            showClear
+                            onChange={(selected) => debounceUpdateFilters({ collection: selected })}
+                            onClear={() => debounceUpdateFilters({ collection: undefined })}
                         />
                     </div>
                     <div className="flex-1">
@@ -101,9 +136,10 @@ const FilterPanel = ({
                             placeholder='Price'
                             min={0}
                             max={600}
+                            selected={filters.price}
                             bins={priceBins}
-                            onChange={(priceRange) => updateFilters({ price: `${priceRange[0]}-${priceRange[1]}` })}
-                            onClear={() => updateFilters({ price: undefined })}
+                            onChange={(priceRange) => debounceUpdateFilters({ price: `${priceRange[0]}-${priceRange[1]}` })}
+                            onClear={() => debounceUpdateFilters({ price: undefined })}
                         />
                     </div>
                     <div className="flex-1">
@@ -111,22 +147,29 @@ const FilterPanel = ({
                             id='size-filter'
                             placeholder='Sizes'
                             categories={SIZING_CATEGORY_OPTIONS}
-                            onChange={(category, sizes) => updateFilters({ category, size: sizes })}
-                            onClear={() => updateFilters({ category: undefined, size: undefined })}
+                            selected={{ category: filters.category || 'mens', sizes: filters.size || [] }}
+                            onChange={(category, sizes) => debounceUpdateFilters({ category, size: sizes })}
+                            onClear={() => debounceUpdateFilters({ category: undefined, size: undefined })}
                         />
                     </div>
                     <span className="h-6 border-l border-border mx-1" />
                     <div className="flex-1">
                         <Select
-                            id='sort'
+                            id='sort-select'
                             placeholder='Sort By'
-                            showClear
                             options={SORT_OPTIONS}
+                            selected={filters.sort
+                                ? filters.order
+                                    ? [`${filters.sort}|${filters.order}`]
+                                    : [filters.sort]
+                                : []}
+                            showClear
+                            position='bottom-right'
                             onChange={([selected]) => {
                                 const [field, order] = selected.split('|')
-                                updateFilters({ sort: field, order: order as SortOrder })
+                                debounceUpdateFilters({ sort: field, order: order as SortOrder })
                             }}
-                            onClear={() => updateFilters({ sort: undefined, order: undefined })}
+                            onClear={() => debounceUpdateFilters({ sort: undefined, order: undefined })}
                         />
                     </div>
                 </div>
