@@ -1,4 +1,4 @@
-import IconButton from '@/components/base/IconButton'
+import IconButton from '@/components/base/button/IconButton'
 import Link from '@/components/base/Link'
 import { Product } from '@/types/payload'
 import { capitalizeFirstLetter } from '@/utils'

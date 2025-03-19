@@ -5,10 +5,10 @@ import { forgotPassword } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import Button from "../base/Button"
+import Button from "../base/button/Button"
+import Input from "../base/input/Input"
 import Link from "../base/Link"
 import toast from "../base/toast/Toast"
-import Input from "../base/input/Input"
 
 interface ForgotPassFormProps {
     onBack: VoidFunction
@@ -59,7 +59,7 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
                     invalid={!!errors.email}
                     error={errors.email?.message}
                 />
-                <Button label="Send Link"/>
+                <Button label="Send Link" />
                 <p className="font-medium text-primary-600">
                     Remembered your password?{" "}
                     <Link

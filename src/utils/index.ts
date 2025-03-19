@@ -44,18 +44,13 @@ export const arraysEqual = <T>(a: T[], b: T[]): boolean => {
   return sortedA.every((value, index) => value === sortedB[index])
 }
 
+// FIXME: Deprecate this function
 export const capitalizeFirstLetter = (input: string) => {
   if (!input) return ''
   return input.charAt(0).toUpperCase() + input.slice(1)
 }
 
-export const generateNavLinkHref = (
-  type: 'model' | 'collection',
-  brandSlug: string,
-  itemSlug: string
-) =>
-  `/sneakers?brand=${brandSlug}&${type}=${itemSlug}`
-
+// TODO: Move this function to where its needed
 export const constructCouponMetadata = (event: Event) => {
   const metadata: Stripe.MetadataParam = {}
 

@@ -1,6 +1,6 @@
 'use client'
 
-import Button from '@/components/base/Button'
+import Button from '@/components/base/button/Button'
 import { Collection } from '@/types/payload'
 import { darkenHexColor } from '@/utils/colors'
 import { useColor } from 'color-thief-react'

@@ -1,14 +1,14 @@
 'use client'
 
 import { ResetPassSchema, ResetPassSchemaObject } from "@/lib/validators"
+import { resetPassword } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import Button from "../base/Button"
+import Button from "../base/button/Button"
 import Input from "../base/input/Input"
 import Link from "../base/Link"
-import { resetPassword } from "@/services/auth"
 import toast from "../base/toast/Toast"
-import { useRouter } from "next/navigation"
 
 interface ResetPassFormProps {
     token: string

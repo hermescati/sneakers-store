@@ -1,18 +1,18 @@
 'use client'
 
-import IconButton from '@/components/base/IconButton'
+import Button from '@/components/base/button/Button'
+import IconButton from '@/components/base/button/IconButton'
 import Link from '@/components/base/Link'
 import Modal from '@/components/base/Modal'
+import toast from '@/components/base/toast/Toast'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import { useCartStore } from '@/stores/cartStore'
 import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
 import { useState } from 'react'
-import Button from '../../base/Button'
 import NotifyForm from './NotifyForm'
 import SizeGuides from './SizeGuides'
-import toast from '@/components/base/toast/Toast'
 
 interface ProductSizeProps {
   product: Product

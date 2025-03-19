@@ -3,7 +3,7 @@
 import { verifyUser } from '@/services/auth'
 import { BaseResponse } from '@/types'
 import { useEffect, useState } from 'react'
-import Button from '../base/Button'
+import Button from '../base/button/Button'
 import StatusIcon from './StatusIcon'
 
 interface VerifyEmailProps {

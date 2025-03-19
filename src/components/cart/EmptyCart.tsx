@@ -1,6 +1,8 @@
+'use client'
+
 import Image from 'next/image'
-import Button from '../base/Button'
 import Link from '../base/Link'
+import Button from '../base/button/Button'
 
 interface EmptyCartProps {
   compact?: boolean

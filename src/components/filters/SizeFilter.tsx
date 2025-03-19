@@ -5,8 +5,8 @@ import { SelectOption } from '@/types'
 import { Product } from '@/types/payload'
 import { arraysEqual, cn } from '@/utils'
 import { useEffect, useMemo, useState } from 'react'
-import Button from '../base/Button'
-import ToggleButton from '../base/ToggleButton'
+import Button from '../base/button/Button'
+import ToggleButton from '../base/button/ToggleButton'
 import FilterControl from './FilterControl'
 
 interface SizeFilterProps {

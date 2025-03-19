@@ -1,6 +1,6 @@
 'use client'
 
-import IconButton from '@/components/base/IconButton'
+import IconButton from '@/components/base/button/IconButton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'

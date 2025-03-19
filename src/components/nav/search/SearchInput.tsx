@@ -1,6 +1,6 @@
 'use client'
 
-import IconButton from '@/components/base/IconButton'
+import IconButton from '@/components/base/button/IconButton'
 import { useSearchStore } from '@/stores/searchStore'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'

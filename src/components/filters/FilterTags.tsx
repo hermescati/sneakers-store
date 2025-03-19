@@ -2,8 +2,8 @@
 
 import { ProductFilters, SelectOption } from "@/types"
 import { formatPrice } from "@/utils"
-import Button from "../base/Button"
-import IconButton from "../base/IconButton"
+import Button from "../base/button/Button"
+import IconButton from "../base/button/IconButton"
 
 interface TagProps {
     label: string
