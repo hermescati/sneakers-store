@@ -42,7 +42,7 @@ const FilterControl = ({
                     </span>
 
                     {!!value && (
-                        <p className="absolute bottom-0 overflow-hidden font-semibold text-md line-clamp-1">
+                        <p className="absolute bottom-0 overflow-hidden font-semibold text-md truncate">
                             {value}
                         </p>
                     )}

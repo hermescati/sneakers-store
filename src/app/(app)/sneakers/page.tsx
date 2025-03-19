@@ -17,7 +17,7 @@ export default async function Page({ searchParams }: PageProps) {
     brand: parseQueryParams(queryParams.brand),
     model: parseQueryParams(queryParams.model),
     collection: parseQueryParams(queryParams.collection),
-    category: queryParams.size as Product['size_category'],
+    category: queryParams.category as Product['size_category'],
     size: parseQueryParams(queryParams.size)?.map(Number),
     price: queryParams.price,
     sort: queryParams.sort,
@@ -65,7 +65,7 @@ export default async function Page({ searchParams }: PageProps) {
   ]
 
   return (
-    <MainContainer className="relative flex flex-col gap-6 py-6 lg:mt-4">
+    <MainContainer className="relative flex flex-col gap-8 my-6 2xl:my-10">
       <FilterPanel
         initialFilters={appliedFilters}
         brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}

@@ -65,37 +65,27 @@ export async function findProducts(query: string, category?: string): Promise<Ba
   }
 }
 
-export async function retrieveFilterOptions() {
-  
-}
-
-// TODO: Test filters if they work
+// TODO: Add all the filters here
 export async function filterProducts(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
   const conditions: Where[] = []
 
   if (filters.brand && filters.brand.length > 0) {
     conditions.push({ 'brand.slug': { in: filters.brand } })
   }
-  if (filters.model && filters.model.length) {
+  if (filters.model && filters.model.length > 0) {
     conditions.push({ 'model.slug': { in: filters.model } })
   }
-  if (filters.collection && filters.collection.length) {
+  if (filters.collection && filters.collection.length > 0) {
     conditions.push({ 'collection.slug': { in: filters.collection } })
   }
-  if (filters.size) conditions.push({ size_category: { equals: filters.size } })
-
-  if (filters.filter === 'belowRetail') {
-    conditions.push({ 'min_price': { less_than: 'retail_price' } })
-  }
-
-  if (filters.filter === 'onSale') {
-    conditions.push({ 'discount.value': { greater_than: 0 } })
+  if (filters.category) {
+    conditions.push({ 'size_category': { equals: filters.category } })
   }
 
   try {
     return await getProducts({
       ...(conditions.length && { where: { and: conditions } }),
-      ...(filters.sort && { sort: `${filters.dir === 'desc' ? '-' : ''}${filters.sort}` })
+      ...(filters.sort && { sort: `${filters.order === 'desc' ? '-' : ''}${filters.sort}` })
     })
   } catch (error) {
     console.log(error)
