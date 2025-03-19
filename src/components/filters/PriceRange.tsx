@@ -1,7 +1,7 @@
 'use client'
 
 import { formatPrice } from '@/utils'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Button from '../base/Button'
 import FilterControl from './FilterControl'
 import RangeSlider, { HistogramBin } from './RangeSlider'
@@ -22,8 +22,8 @@ const PriceRange = ({
     placeholder,
     min,
     max,
-    selected,
-    bins,
+    selected = '',
+    bins = [],
     onChange,
     onClear,
 }: PriceRangeProps) => {
@@ -36,6 +36,10 @@ const PriceRange = ({
     const [selectedRange, setSelectedRange] = useState<[number, number]>(
         () => parseSelected(selected)
     )
+
+    useEffect(() => {
+        setSelectedRange(parseSelected(selected))
+    }, [selected])
 
     const displayedValue = useMemo(() => {
         if (selectedRange[0] === min && selectedRange[1] === max) return ''
@@ -60,7 +64,7 @@ const PriceRange = ({
             <div className='absolute top-full w-full min-w-[400px] left-0 mt-2 z-10 border border-border rounded-xl bg-background shadow-lg'>
                 <div className='flex flex-col gap-6 px-6 py-4'>
                     <div>
-                        <h3 className='font-semibold text-lg'>Price Range</h3>
+                        <h3 className='font-semibold text-lg'>Price range</h3>
                         <p className='font-medium text-md text-primary-600'>Based on the minimum price of the product.</p>
                     </div>
                     <RangeSlider

@@ -27,7 +27,7 @@ const SelectMenu = ({
     onClear
 }: SelectMenuProps) => {
     const menuClass = cn(
-        'absolute z-10 min-w-48 w-full border border-border rounded-lg bg-background overflow-y-auto shadow-lg',
+        'absolute z-10 min-w-52 w-full border border-border rounded-lg bg-background overflow-y-auto shadow-lg',
         {
             'top-full right-0 mt-2': position === 'bottom-right',
             'top-full left-0 mt-2': position === 'bottom-left',
@@ -56,15 +56,15 @@ const SelectMenu = ({
                             className={cn(
                                 'flex items-center justify-between gap-4 p-3 cursor-pointer font-medium hover:bg-primary-100/50 rounded-md transition-all duration-300 ease-in-out',
                                 { 'bg-primary-100/50': isSelected && !multiple },
-                                { 'font-semibold': isSelected }
+                                { 'font-semibold dark:text-secondary': isSelected }
                             )}
                             onClick={() => handleSelect(option.value)}
                         >
                             <span className="inline-flex items-center gap-2">
-                                {option.icon && multiple && <Icon icon={option.icon} className="text-xl text-primary-700" />}
+                                {option.icon && multiple && <Icon icon={option.icon} className="text-xl" />}
                                 <p className="text-md leading-none">{option.label}</p>
                             </span>
-                            {option.icon && <Icon icon={option.icon} className="text-xl text-primary-700" />}
+                            {option.icon && !multiple && <Icon icon={option.icon} className="text-xl" />}
                             {multiple && (
                                 <span
                                     className={cn(

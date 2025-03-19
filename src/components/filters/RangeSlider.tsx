@@ -1,11 +1,11 @@
 'use client'
 
 import { cn, formatPrice } from '@/utils'
+import { useTheme } from 'next-themes'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import { useEffect, useState } from 'react'
 import Input from "../base/input/Input"
-import { useTheme } from 'next-themes'
 
 export interface HistogramBin {
     minRange: number

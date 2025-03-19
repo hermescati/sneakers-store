@@ -94,6 +94,7 @@ export const buttonVariants = cva(btnBase, {
         'hover:bg-primary-100',
         'active:bg-primary-100',
         'active:ring-0 active:ring-offset-0',
+        'focus:ring-0 focus:ring-offset-0',
         'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-400))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
       ]
     },
@@ -106,6 +107,7 @@ export const buttonVariants = cva(btnBase, {
         'hover:bg-secondary-100/20',
         'active:bg-secondary-100/20',
         'active:ring-0 active:ring-offset-0',
+        'focus:ring-0 focus:ring-offset-0',
         'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-300))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
       ]
     }
