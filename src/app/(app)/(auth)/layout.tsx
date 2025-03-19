@@ -1,4 +1,4 @@
-import Testimonials from '@/components/auth/Testimonials'
+import Testimonials from '@/components/testimonials/Testimonials'
 import MainContainer from '@/components/MainContainer'
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'

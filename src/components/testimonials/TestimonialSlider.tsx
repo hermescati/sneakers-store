@@ -7,7 +7,7 @@ import 'swiper/css/pagination'
 import { Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useMediaQuery } from 'usehooks-ts'
-import TestimonialCard, { TestmonialItem } from '../auth/base/TestimonialCard'
+import TestimonialCard, { TestmonialItem } from './TestimonialCard'
 
 interface TestimonialSliderProps {
     items: TestmonialItem[]

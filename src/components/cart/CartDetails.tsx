@@ -2,7 +2,7 @@
 
 import { useCartStore } from '@/stores/cartStore'
 import { useEffect, useState } from 'react'
-import Button from '../base/Button'
+import Button from '../base/button/Button'
 import CartList from './CartList'
 import CartSummary from './CartSummary'
 import EmptyCart from './EmptyCart'
@@ -32,17 +32,18 @@ const CartDetails = () => {
             <h2 className="text-xl md:text-2xl font-bold leading-snug">Shopping Cart</h2>
             <h3 className="font-medium text-md text-primary-600">{items.length} item(s)</h3>
           </div>
+
           <Button
             variant="ghost"
             label="Remove all"
             size="small"
             iconPrepend="solar:trash-bin-trash-outline"
             className="py-3 dark:font-semibold text-primary-600 hover:text-danger active:text-danger"
-            onClick={clearCart}
-          />
+            onClick={clearCart} />
         </div>
         <CartList />
       </div>
+
       <section className="lg:w-[45%] xl:w-[35%]">
         <CartSummary />
       </section>

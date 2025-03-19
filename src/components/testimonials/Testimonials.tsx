@@ -1,9 +1,9 @@
 'use client'
 
-import TestimonialSlider from "../slider/TestimonialSlider"
-import TestimonialCard, { TestmonialItem } from "./base/TestimonialCard"
+import TestimonialCard, { TestmonialItem } from "./TestimonialCard"
+import TestimonialSlider from "./TestimonialSlider"
 
-export default function Testimonials() {
+const Testimonials = () => {
     const testimonials: TestmonialItem[] = [
         {
             user: 'Alex H.',
@@ -49,3 +49,5 @@ export default function Testimonials() {
         </section>
     )
 }
+
+export default Testimonials

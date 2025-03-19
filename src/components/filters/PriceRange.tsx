@@ -2,7 +2,7 @@
 
 import { formatPrice } from '@/utils'
 import { useEffect, useMemo, useState } from 'react'
-import Button from '../base/Button'
+import Button from '../base/button/Button'
 import FilterControl from './FilterControl'
 import RangeSlider, { HistogramBin } from './RangeSlider'
 

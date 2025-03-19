@@ -3,7 +3,7 @@
 import { cn } from "@/utils"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
-import IconButton from "../base/IconButton"
+import IconButton from "../base/button/IconButton"
 
 const ThemeToggle = ({ floating }: { floating: boolean }) => {
     const [isMounted, setIsMounted] = useState(false)

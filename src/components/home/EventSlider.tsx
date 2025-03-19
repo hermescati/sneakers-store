@@ -12,7 +12,7 @@ import 'swiper/css/pagination'
 import { Autoplay, Keyboard, Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useMediaQuery } from "usehooks-ts"
-import Button from "../base/Button"
+import Button from "../base/button/Button"
 import toast from "../base/toast/Toast"
 import EventSliderSkeleton from "./skeletons/EventSliderSkeleton"
 

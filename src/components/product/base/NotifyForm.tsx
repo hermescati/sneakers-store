@@ -1,4 +1,4 @@
-import Button from "@/components/base/Button"
+import Button from "@/components/base/button/Button"
 import Input from "@/components/base/input/Input"
 
 const NotifyForm = () => {

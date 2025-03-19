@@ -2,7 +2,6 @@
 
 import { payloadClient } from "@/lib/payload"
 import { NavItem, NavLink, PaginatedResponse, QueryParams } from "@/types"
-import { generateNavLinkHref } from "@/utils"
 import { CollectionSlug, DataFromCollectionSlug } from "payload"
 import { getBrands, getCollections, getModels } from "./products"
 
@@ -86,7 +85,7 @@ export async function getNavLinks(): Promise<NavItem[]> {
 
             const modelLinks: NavLink[] = models.map((m) => ({
                 name: m.name,
-                href: generateNavLinkHref('model', b.slug!, m.slug!),
+                href: `/sneakers?brand=${b.slug}&model=${m.slug}`,
                 ...(m.featured && {
                     imageSrc: (typeof m.image === 'string'
                         ? m.image
@@ -97,7 +96,7 @@ export async function getNavLinks(): Promise<NavItem[]> {
 
             const collectionLinks: NavLink[] = collections.map((c) => ({
                 name: c.name,
-                href: generateNavLinkHref('collection', b.slug!, c.slug!)
+                href: `/sneakers?brand=${b.slug}&=collection${c.slug}`
             }))
 
             const items: NavLink[] = [

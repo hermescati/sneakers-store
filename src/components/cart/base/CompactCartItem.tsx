@@ -1,6 +1,6 @@
 'use client'
 
-import IconButton from '@/components/base/IconButton'
+import IconButton from '@/components/base/button/IconButton'
 import CartItemSkeleton from '@/components/cart/skeletons/CartItemSkeleton'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
@@ -37,7 +37,7 @@ const CompactCartItem = ({
     return () => clearTimeout(timer)
   }, [index])
 
-  if (!isLoaded) return <CartItemSkeleton compact/>
+  if (!isLoaded) return <CartItemSkeleton compact />
 
   return (
     <div className="flex items-center gap-5 py-4 lg:px-5">
@@ -61,7 +61,7 @@ const CompactCartItem = ({
           </div>
           <span className="font-semibold">{formatPrice(price)}</span>
         </div>
-        
+
         <IconButton
           icon={isMobile ? "tabler-x" : "solar:trash-bin-trash-linear"}
           className="h-fit p-2 text-xl hover:text-danger active:text-danger"
