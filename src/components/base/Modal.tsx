@@ -4,7 +4,7 @@ import useOnKeyPress from "@/hooks/useOnKeyPress"
 import { cn } from "@/utils"
 import { ReactNode } from "react"
 import { createPortal } from "react-dom"
-import IconButton from "./IconButton"
+import IconButton from "./button/IconButton"
 
 interface ModalProps {
     title: string

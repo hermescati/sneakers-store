@@ -81,18 +81,22 @@ const FilterPanel = ({
         : ['Sneakers']
 
     return (
-        <div className="flex flex-col gap-3">
-            <div className='grid grid-cols-6 gap-x-6 items-stretch justify-between'>
-                <div className="text-3xl leading-tight">
-                    <p className="font-medium text-primary-500">{filters.brand?.length ? 'Brand' : 'All'}</p>
-                    <span className="inline-flex items-baseline gap-2">
-                        <p className="font-bold">{selectedBrandLabels[0]}</p>
-                        {selectedBrandLabels.length > 1 && <p className="text-xl">& others</p>}
-                    </span>
+        <div className="hidden lg:flex flex-col gap-3">
+            <div className="flex flex-col 2xl:grid 2xl:grid-cols-6 gap-3 2xl:gap-6">
+                <div className="flex items-end justify-between">
+                    <div className="leading-tight">
+                        <p className="font-medium text-3xl text-primary-500">{filters.brand?.length ? 'Brand' : 'All'}</p>
+                        <span className="inline-flex flex-wrap items-baseline gap-x-2">
+                            <p className="font-bold text-3xl">{selectedBrandLabels[0]}</p>
+                            {selectedBrandLabels.length > 1 && <p className="text-lg">& others</p>}
+                        </span>
+                    </div>
+                    
+                    <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>
                 </div>
 
-                <div className='flex flex-col justify-between h-full col-span-5'>
-                    <p className='font-semibold text-md text-primary-700 w-fit'>{total} results</p>
+                <div className="flex flex-col gap-1 2xl:col-span-5">
+                    <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>
 
                     <div className='flex items-center gap-3'>
                         <div className="flex-1">
