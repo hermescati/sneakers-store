@@ -1,7 +1,7 @@
 import { cn } from "@/utils"
 import { Icon } from '@iconify/react'
 import { ComponentPropsWithoutRef } from "react"
-import Link from "./Link"
+import Link from "../Link"
 
 export interface IconButtonProps
     extends ComponentPropsWithoutRef<"button"> {
@@ -25,8 +25,6 @@ const IconButton = ({
         transition ease-in-out duration-300
         shadow-none active:shadow-[inset_0_0px_4px_rgba(var(--primary-300))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]
     `
-
-
 
     if (href) return (
         <Link href={href} className={cn(btnIconBase, className)}>

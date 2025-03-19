@@ -1,9 +1,9 @@
 import CollectionReel from '@/components/collection/CollectionReel'
 import DiscoverSection from '@/components/home/DiscoverSection'
+import EventSlider from '@/components/home/EventSlider'
 import PerksSection from '@/components/home/PerksSection'
 import MainContainer from '@/components/MainContainer'
 import ProductReel from '@/components/product/ProductReel'
-import EventSlider from '@/components/slider/EventSlider'
 import { getEvents } from '@/services/events'
 import { getCollections, getProducts } from '@/services/products'
 

@@ -2,11 +2,10 @@ import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { ComponentPropsWithoutRef } from 'react'
-import Link from './Link'
+import Link from '../Link'
 
 // TODO: Find a way to handle icon size
-// TODO: Extract the icon only to a new component
-// TODO: Create a base Icon component to avoid layout shifting as icons need a bit to load at first time
+// TODO: Extract the icon only to a new component - Create a base Icon component to avoid layout shifting as icons need a bit to load at first time
 // TODO: Optimize link button and link component
 const btnBase = `
     flex items-center justify-center
