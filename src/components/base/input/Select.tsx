@@ -2,7 +2,7 @@
 
 import FilterControl from "@/components/filters/FilterControl"
 import { MenuPosition, SelectOption } from "@/types"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import SelectMenu from "./SelectMenu"
 
 interface SelectProps {
@@ -29,6 +29,10 @@ const Select = ({
     onClear
 }: SelectProps) => {
     const [selectedOptions, setSelectedOptions] = useState<string[]>(selected)
+
+    useEffect(() => {
+        setSelectedOptions(selected)
+    }, [selected])
 
     const displayedValue = useMemo(() => {
         const selectedLabels = selectedOptions

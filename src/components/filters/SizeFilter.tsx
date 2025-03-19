@@ -5,9 +5,9 @@ import { SelectOption } from '@/types'
 import { Product } from '@/types/payload'
 import { arraysEqual, cn } from '@/utils'
 import { useEffect, useMemo, useState } from 'react'
+import Button from '../base/Button'
 import ToggleButton from '../base/ToggleButton'
 import FilterControl from './FilterControl'
-import Button from '../base/Button'
 
 interface SizeFilterProps {
     id: string
@@ -52,8 +52,6 @@ const SizeFilter = ({
     }, [selectedSizes, selectedCategory])
 
     useEffect(() => {
-        if (!selected.category || !selected.sizes?.length) return
-
         setSelectedCategory(selected.category)
         setSelectedSizes(prev => ({
             ...prev,
@@ -120,7 +118,7 @@ const SizeFilter = ({
                                     'flex items-center justify-center px-4 py-2.5 border border-border rounded-xl bg-primary-100/20 font-semibold text-primary-700 cursor-pointer transition-color ease-in-out duration-300',
                                     {
                                         'hover:bg-primary-100/50': !selectedSizes[selectedCategory]?.includes(size),
-                                        'ring-1 ring-primary-900 border-primary-900 bg-primary-100/50 text-foreground dark:border-secondary dark:bg-secondary-100/10 dark:text-secondary': selectedSizes[selectedCategory]?.includes(size)
+                                        'ring-1 ring-primary-900 border-primary-900 bg-primary-100/50 text-foreground dark:ring-secondary dark:border-secondary dark:bg-secondary-100/10 dark:text-secondary': selectedSizes[selectedCategory]?.includes(size)
                                     }
                                 )}
                                 onClick={() => handleOnChange(size)} >
@@ -140,9 +138,10 @@ const SizeFilter = ({
                         Clear
                     </Button>
                     <Button
-                        disabled={!canApply}
+                        variant='ghost'
                         size='small'
-                        className='flex-1 py-3 rounded-none active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none'
+                        disabled={!canApply}
+                        className='flex-1 py-3 rounded-none text-secondary hover:underline hover:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none'
                         onClick={() => onChange(selectedCategory, selectedSizes[selectedCategory] || [])}>
                         Apply
                     </Button>
