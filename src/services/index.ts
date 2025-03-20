@@ -49,11 +49,11 @@ export async function getPaginatedResponse<T extends DataFromCollectionSlug<Coll
 
 export async function getNavLinks(): Promise<NavItem[]> {
     const staticLinks: NavItem[] = [
-        { name: 'New Releases', href: '/sneakers?sort=release_date&dir=desc' },
+        { name: 'New Releases', href: '/sneakers?sort=release_date&order=desc' },
         { name: 'Womens', href: '/sneakers?category=womens' },
         { name: 'Kids', href: '/sneakers?category=kids' },
-        { name: 'Below Retail', href: '/sneakers?filter=belowRetail' },
-        { name: 'On Sale', href: '/sneakers?filter=onSale' }
+        { name: 'Below Retail', href: '/sneakers/belowRetail' },
+        { name: 'On Sale', href: '/sneakers/sale' }
     ]
 
     const navItems: NavItem[] = [staticLinks[0]]

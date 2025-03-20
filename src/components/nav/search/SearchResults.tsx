@@ -20,7 +20,7 @@ const ResultItem = ({ product, onClick }: { product: Product, onClick: (event: S
             onClick={() => onClick(
                 {
                     query: product.nickname,
-                    href: `sneakers/${product.id}`
+                    href: `sneakers/${product.slug}`
                 }
             )}>
             <div className="aspect-video">

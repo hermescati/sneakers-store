@@ -39,9 +39,9 @@ export interface SelectOption {
 }
 
 export interface QueryParams {
-  where?: Where,
-  limit?: number,
-  sort?: Sort,
+  where?: Where
+  limit?: number
+  sort?: Sort
   depth?: number
 }
 
@@ -51,19 +51,20 @@ export interface BaseResponse<T = unknown> {
   data?: T
 }
 
+export interface ResponseMetadata {
+  total: number
+  totalPages: number
+  currentPage?: number
+  nextPage?: number | null
+  prevPage?: number | null
+}
+
 export interface PaginatedResponse<T> extends BaseResponse<T[]> {
   data: T[]
-  metadata?: {
-    total: number
-    totalPages: number
-    currentPage?: number
-    nextPage?: number | null
-    prevPage?: number | null
-  }
+  metadata?: ResponseMetadata
 }
 
 export type SortOrder = 'asc' | 'desc'
-export type PriceFilters = 'belowRetail' | 'onSale'
 
 export interface ProductFilters {
   brand?: Brand['slug'][]
@@ -74,6 +75,7 @@ export interface ProductFilters {
   sort?: string
   order?: SortOrder
   price?: string
+  query?: 'belowRetail' | 'onSale' | string
 }
 
 export class PayloadError extends Error {

@@ -17,7 +17,7 @@ interface FilterPanelProps {
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
     collectionOptions: SelectOption[]
-    priceBins: HistogramBin[]
+    priceBins?: HistogramBin[]
     total?: number,
 }
 
@@ -47,7 +47,7 @@ const FilterPanel = ({
             size: searchParams.getAll('size').map(Number) || undefined,
             price: searchParams.get('price') || undefined,
             sort: searchParams.get('sort') || undefined,
-            order: searchParams.get('order') as SortOrder | undefined
+            order: searchParams.get('order') as SortOrder | undefined,
         }
         setFilters(updatedFilters)
     }, [searchParams])
@@ -82,7 +82,7 @@ const FilterPanel = ({
 
     return (
         <div className="hidden lg:flex flex-col gap-3">
-            <div className="flex flex-col 2xl:grid 2xl:grid-cols-6 gap-3 2xl:gap-6">
+            <div className="flex flex-col 2xl:grid 2xl:grid-cols-6 gap-3 2xl:gap-6 2xl:items-end">
                 <div className="flex items-end justify-between">
                     <div className="leading-tight">
                         <p className="font-medium text-3xl text-primary-500">{filters.brand?.length ? 'Brand' : 'All'}</p>
@@ -91,12 +91,12 @@ const FilterPanel = ({
                             {selectedBrandLabels.length > 1 && <p className="text-lg">& others</p>}
                         </span>
                     </div>
-                    
-                    <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>
+
+                    {total && <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>}
                 </div>
 
                 <div className="flex flex-col gap-1 2xl:col-span-5">
-                    <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>
+                    {total && <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>}
 
                     <div className='flex items-center gap-3'>
                         <div className="flex-1">
