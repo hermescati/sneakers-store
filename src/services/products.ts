@@ -3,7 +3,7 @@
 import { payloadClient } from '@/lib/payload'
 import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
 import { Brand, Collection, Model, Product } from '@/types/payload'
-import { Where } from 'payload'
+import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
 
 export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Product>> {
@@ -36,120 +36,6 @@ export async function getProducts(params?: QueryParams): Promise<PaginatedRespon
       : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
-}
-
-export async function findProducts(query: string, category?: string): Promise<BaseResponse<Product[]>> {
-  const queryClause: Where = {
-    and: [
-      ...(category ? [{ "size_category": { equals: category } }] : []),
-      {
-        or: [
-          { "brand.name": { like: query } },
-          { "model.name": { like: query } },
-          { name: { like: query } },
-          { nickname: { like: query } }
-        ]
-      }
-    ]
-  }
-
-  try {
-    return await getProducts({ where: queryClause, limit: 6 })
-  } catch (error) {
-    console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message }
-  }
-}
-
-// TODO: Add all the filters here
-export async function filterProducts(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
-  const conditions: Where[] = []
-
-  if (filters.brand && filters.brand.length > 0) {
-    conditions.push({ 'brand.slug': { in: filters.brand } })
-  }
-  if (filters.model && filters.model.length > 0) {
-    conditions.push({ 'model.slug': { in: filters.model } })
-  }
-  if (filters.collection && filters.collection.length > 0) {
-    conditions.push({ 'collection.slug': { in: filters.collection } })
-  }
-  if (filters.category) {
-    conditions.push({ 'size_category': { equals: filters.category } })
-  }
-
-  try {
-    return await getProducts({
-      ...(conditions.length && { where: { and: conditions } }),
-      ...(filters.sort && { sort: `${filters.order === 'desc' ? '-' : ''}${filters.sort}` })
-    })
-  } catch (error) {
-    console.log(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
-  }
-}
-
-const extractId = (value: string | Collection | Brand | Model | null | undefined) => typeof value === 'string' ? value : value?.id
-
-export async function getRelatedProducts(products: Product[], limit = 6) {
-  const relatedProducts: Product[] = []
-  const excludedIds = products.map((p) => p.id)
-
-  const collectionIds = products.map((p) => extractId(p.collection)?.toString()).filter(Boolean)
-
-  if (collectionIds.length) {
-    const { data: similarCollection } = await getProducts({
-      limit,
-      where: {
-        and: [
-          { id: { not_in: excludedIds } },
-          { collection: { in: collectionIds } }
-        ]
-      }
-    })
-    relatedProducts.push(...similarCollection)
-  }
-
-  if (relatedProducts.length < limit) {
-    const remainder = limit - relatedProducts.length
-    const brandIds = products.map((p) => extractId(p.brand)?.toString()).filter(Boolean)
-    const modelIds = products.map((p) => extractId(p.model)?.toString()).filter(Boolean)
-
-    const { data: similarBrandModel } = await getProducts({
-      limit: remainder,
-      where: {
-        and: [
-          { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } },
-          {
-            or: [
-              { brand: { in: brandIds } },
-              { model: { in: modelIds } }
-            ]
-          }
-        ]
-      }
-    })
-    relatedProducts.push(...similarBrandModel)
-  }
-
-  if (relatedProducts.length < limit) {
-    const remainder = limit - relatedProducts.length
-    const { data: randomProducts } = await getProducts({
-      limit: remainder,
-      where: { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } }
-    })
-    relatedProducts.push(...randomProducts)
-  }
-
-  return relatedProducts
 }
 
 export async function getBrands(params?: QueryParams): Promise<PaginatedResponse<Brand>> {
@@ -189,4 +75,186 @@ export async function getCollections(params?: QueryParams): Promise<PaginatedRes
       : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
+}
+
+export async function filterProducts(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
+  const where = applyFilters(filters)
+  const sort = applySorting(filters)
+
+  try {
+    return await getProducts({ where, sort })
+  } catch (error) {
+    console.error(error)
+
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
+    return { code: 500, message, data: [] }
+  }
+}
+
+export async function getProductsUnderRetail(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
+  const where = applyFilters(filters)
+  const sort = applySorting(filters)
+
+  try {
+    const { data } = await getProducts({ where, sort })
+    const products: Product[] = data.filter((p) => {
+      if (!p.min_price) return
+      p.min_price <= p.retail_price
+    })
+
+    return {
+      code: 200,
+      message: "Products found",
+      data: products,
+      metadata: {
+        total: products.length,
+        totalPages: 1
+      }
+    }
+  } catch (error) {
+    console.error(error)
+
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
+    return { code: 500, message, data: [] }
+  }
+}
+
+// TODO: Add logic to get the sales from events also
+export async function getProductsOnSale(filters: ProductFilters) {
+  const where = applyFilters(filters) || { and: [] }
+  where.and?.push({ 'discount.value': { greater_than: 0 } })
+  const sort = applySorting(filters)
+
+  try {
+    return await getProducts({ where, sort })
+  } catch (error) {
+    console.error(error)
+
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
+    return { code: 500, message, data: [] }
+  }
+}
+
+export async function findProducts(query: string, category?: string): Promise<BaseResponse<Product[]>> {
+  const where: Where = {
+    or: [
+      { "brand.slug": { like: query } },
+      { "model.slug": { like: query } },
+      { "collection.slug": { like: query } },
+      { nickname: { like: query } },
+    ],
+  }
+
+  if (category) where.and = [{ "size_category": { equals: category } }]
+
+  try {
+    return await getProducts({ where, limit: 6 })
+  } catch (error) {
+    console.error(error)
+
+    const message = error instanceof Error
+      ? error.message
+      : 'Something went wrong. Please try again!'
+    return { code: 500, message }
+  }
+}
+
+export async function getRelatedProducts(products: Product[], limit = 6) {
+  const excludedIds = products.map((p) => p.id)
+  const brandIds = products.map((p) => extractId(p.brand)?.toString()).filter(Boolean)
+  const modelIds = products.map((p) => extractId(p.model)?.toString()).filter(Boolean)
+  const collectionIds = products.map((p) => extractId(p.collection)?.toString()).filter(Boolean)
+
+  const queries: Promise<PaginatedResponse<Product>>[] = []
+
+  if (collectionIds.length) {
+    queries.push(
+      getProducts({
+        limit,
+        where: { and: [{ id: { not_in: excludedIds } }, { collection: { in: collectionIds } }] },
+      })
+    )
+  }
+
+  if (brandIds.length || modelIds.length) {
+    queries.push(
+      getProducts({
+        limit,
+        where: {
+          and: [{ id: { not_in: excludedIds } }, { or: [{ brand: { in: brandIds } }, { model: { in: modelIds } }] }],
+        },
+      })
+    )
+  }
+
+  const results = await Promise.all(queries)
+  const relatedProducts = results.flatMap((res) => res.data)
+
+  if (relatedProducts.length < limit) {
+    const { data: randomProducts } = await getProducts({
+      limit: limit - relatedProducts.length,
+      where: { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } },
+    })
+    relatedProducts.push(...randomProducts)
+  }
+
+  return relatedProducts
+}
+
+// Private functions
+function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | undefined {
+  const conditions: Where[] = []
+
+  if (filters.brand && filters.brand.length > 0) {
+    conditions.push({ 'brand.slug': { in: filters.brand } })
+  }
+  if (filters.model && filters.model.length > 0) {
+    conditions.push({ 'model.slug': { in: filters.model } })
+  }
+  if (filters.collection && filters.collection.length > 0) {
+    conditions.push({ 'collection.slug': { in: filters.collection } })
+  }
+  if (filters.category) {
+    conditions.push({ 'size_category': { equals: filters.category } })
+  }
+  if (filters.size) {
+    conditions.push({
+      and: [
+        { 'stock.size': { in: filters.size } },
+        { 'stock.quantity': { greater_than: 0 } }
+      ]
+    })
+  }
+  if (filters.price) {
+    const [min, max] = filters.price.split('-').map(Number)
+    conditions.push({
+      and: [
+        { 'min_price': { greater_than_equal: min } },
+        { 'min_price': { less_than_equal: max } }
+      ]
+    })
+  }
+
+  return conditions.length ? { and: conditions } : undefined
+}
+
+function applySorting(filters: Pick<ProductFilters, 'sort' | 'order'>): Sort | undefined {
+  if (!filters.sort) return undefined
+
+  // TODO: Implement the logic here
+  if (filters.sort === 'best_selling') {
+    return undefined
+  }
+
+  return `${filters.order === 'desc' ? '-' : ''}${filters.sort}`
+}
+
+function extractId(value: string | Collection | Brand | Model | null | undefined) {
+  return typeof value === 'string' ? value : value?.id
 }
