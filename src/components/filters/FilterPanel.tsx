@@ -11,6 +11,7 @@ import FilterTags from "./FilterTags"
 import PriceRange from "./PriceRange"
 import { HistogramBin } from "./RangeSlider"
 import SizeFilter from "./SizeFilter"
+import Button from "../base/button/Button"
 
 interface FilterPanelProps {
     initialFilters: ProductFilters
@@ -24,6 +25,7 @@ interface FilterPanelProps {
 // TODO: Filter the model and collection based on the selected brand, if no selected brand, then show them all
 // To be completed once a mechanism to have a centralized config is done so it takes the values from there and
 // and constructs the SelectOption array in this component.
+// TODO: Add sheets to show the filters and sorting options
 const FilterPanel = ({
     initialFilters,
     brandOptions,
@@ -80,23 +82,27 @@ const FilterPanel = ({
         }, [])
         : ['Sneakers']
 
+    const activeFilterCount = Object.entries(filters)
+        .filter(([key, value]) => key !== 'sort' && value && (Array.isArray(value) ? value.length > 0 : true))
+        .length
+
     return (
-        <div className="hidden lg:flex flex-col gap-3">
+        <div className="flex flex-col gap-3">
             <div className="flex flex-col 2xl:grid 2xl:grid-cols-6 gap-3 2xl:gap-6 2xl:items-end">
                 <div className="flex items-end justify-between">
                     <div className="leading-tight">
-                        <p className="font-medium text-3xl text-primary-500">{filters.brand?.length ? 'Brand' : 'All'}</p>
+                        <p className="font-medium text-xl lg:text-3xl text-primary-500">{filters.brand?.length ? 'Brand' : 'All'}</p>
                         <span className="inline-flex flex-wrap items-baseline gap-x-2">
                             <p className="font-bold text-3xl">{selectedBrandLabels[0]}</p>
-                            {selectedBrandLabels.length > 1 && <p className="text-lg">& others</p>}
+                            {selectedBrandLabels.length > 1 && <p className="text-base md:text-lg">& others</p>}
                         </span>
                     </div>
 
-                    {total && <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>}
+                    {!!total && <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>}
                 </div>
 
-                <div className="flex flex-col gap-1 2xl:col-span-5">
-                    {total && <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>}
+                <div className="hidden lg:flex flex-col gap-2 2xl:col-span-5">
+                    {!!total && <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>}
 
                     <div className='flex items-center gap-3'>
                         <div className="flex-1">
@@ -173,15 +179,35 @@ const FilterPanel = ({
                         </div>
                     </div>
                 </div>
+
+                <div className="flex lg:hidden items-center justify-evenly border-y border-border h-fit">
+                    <Button
+                        variant='ghost'
+                        label={activeFilterCount > 0 ? `Filters (${activeFilterCount})` : 'Filters'}
+                        size='small'
+                        iconAppend='hugeicons:filter-horizontal'
+                        className="w-full py-4 rounded-none text-base gap-4"
+                    />
+                    <span className='w-px h-8 bg-border' />
+                    <Button
+                        variant='ghost'
+                        label={SORT_OPTIONS.find((o) => o.value === `${filters.sort}|${filters.order}`)?.label ?? 'Sort'}
+                        size='small'
+                        iconAppend='solar:sort-outline'
+                        className="w-full py-4 rounded-none text-base gap-4"
+                    />
+                </div>
             </div>
 
-            <FilterTags
-                filters={filters}
-                brandOptions={brandOptions}
-                modelOptions={modelOptions}
-                collectionOptions={collectionOptions}
-                categoryOptions={SIZING_CATEGORY_OPTIONS}
-                updateFilters={updateFilters} />
+            <div className="hidden md:block">
+                <FilterTags
+                    filters={filters}
+                    brandOptions={brandOptions}
+                    modelOptions={modelOptions}
+                    collectionOptions={collectionOptions}
+                    categoryOptions={SIZING_CATEGORY_OPTIONS}
+                    updateFilters={updateFilters} />
+            </div>
         </div>
     )
 }

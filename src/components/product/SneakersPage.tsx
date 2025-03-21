@@ -65,7 +65,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
     ]
 
     return (
-        <MainContainer className="relative flex flex-col gap-6 my-6 2xl:my-10">
+        <MainContainer className="relative flex flex-col gap-6 my-8 2xl:my-10">
             <FilterPanel
                 initialFilters={appliedFilters}
                 brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
