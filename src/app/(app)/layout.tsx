@@ -24,12 +24,12 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className={cn('relative h-full antialiased transition-colors ease-in-out duration-300', quicksand.className)}>
+      <body className={cn('relative h-full antialiased', quicksand.className)}>
         <AuthProvider>
           <ThemeProvider>
-            <main className="relative flex flex-col min-h-screen">
+            <main data-vaul-drawer-wrapper className="relative flex flex-col min-h-screen">
               <Navbar />
-              <div className="flex flex-1 justify-center">{children}</div>
+              <div className="flex flex-1 justify-center bg-background">{children}</div>
               <Footer />
             </main>
             <Analytics />

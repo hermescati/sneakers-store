@@ -1,11 +1,11 @@
 'use client'
 
+import Input from '@/components/base/input/Input'
 import { cn, formatPrice } from '@/utils'
 import { useTheme } from 'next-themes'
 import Slider from 'rc-slider'
 import 'rc-slider/assets/index.css'
 import { useEffect, useState } from 'react'
-import Input from "../base/input/Input"
 
 export interface HistogramBin {
     minRange: number
@@ -86,7 +86,7 @@ const RangeSlider = ({
 
     return (
         <div className="flex flex-col gap-5 w-full">
-            <div className='flex flex-col'>
+            <div className='flex flex-col mx-4'>
                 <div className="relative h-20 -mb-0.5">
                     {bins && bins.length > 0 && bins.map((bin, index) => {
                         const totalRange = max - min

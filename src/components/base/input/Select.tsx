@@ -1,6 +1,6 @@
 'use client'
 
-import FilterControl from "@/components/filters/FilterControl"
+import FilterControl from "@/components/filters/base/FilterControl"
 import { MenuPosition, SelectOption } from "@/types"
 import { useEffect, useMemo, useState } from "react"
 import SelectMenu from "./SelectMenu"

@@ -1,9 +1,9 @@
 'use client'
 
+import Button from "@/components/base/button/Button"
+import IconButton from "@/components/base/button/IconButton"
 import { ProductFilters, SelectOption } from "@/types"
 import { formatPrice } from "@/utils"
-import Button from "../base/button/Button"
-import IconButton from "../base/button/IconButton"
 
 interface TagProps {
     label: string
