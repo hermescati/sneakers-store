@@ -65,7 +65,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
     ]
 
     return (
-        <MainContainer className="relative flex flex-col gap-6 my-8 2xl:my-10">
+        <MainContainer className="relative flex flex-col gap-2">
             <FilterPanel
                 initialFilters={appliedFilters}
                 brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
@@ -78,11 +78,9 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
                 ? <p>Nothing here</p>
                 : <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
                     {products.flatMap((product, index) =>
-                        Array.from({ length: 24 }).map((_, i) => (
-                            <li key={`${product.id}-${i}`}>
-                                <ProductCard product={product} index={index} />
-                            </li>
-                        ))
+                        <li key={product.id}>
+                            <ProductCard product={product} index={index} />
+                        </li>
                     )}
                 </ul>
             }
