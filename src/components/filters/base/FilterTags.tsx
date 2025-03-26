@@ -39,7 +39,6 @@ const FilterTags = ({
     updateFilters,
 }: FilterTagsProps) => {
     const cleanedFilters = Object.entries(filters).filter(([key]) => key !== 'sort' && key !== 'order')
-    if (!cleanedFilters.some(([, value]) => value && value.length)) return null
 
     const getLabelFromValue = (value: string, options: SelectOption[]) => {
         const option = options.find((opt) => opt.value === value)
@@ -53,6 +52,8 @@ const FilterTags = ({
             updateFilters({ [key]: undefined })
         }
     }
+
+    if (!cleanedFilters.some(([, value]) => value && value.length)) return null
 
     return (
         <div className="flex items-stretch gap-2 flex-wrap">
