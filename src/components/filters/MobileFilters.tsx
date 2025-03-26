@@ -20,7 +20,7 @@ const MobileFilters = ({
     const { sort, order, ...filters } = initialFilters
 
     return (
-        <div className="flex flex-col gap-3 mt-6 mb-4 md:mb-0">
+        <div className="flex flex-col gap-3 mt-6">
             <div className="flex items-end justify-between">
                 <div className="text-2xl leading-tight">
                     <p className="font-medium text-primary-500">{initialFilters.brand?.length ? 'Brand' : 'All'}</p>

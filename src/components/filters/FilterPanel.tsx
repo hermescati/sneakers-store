@@ -76,7 +76,7 @@ const FilterPanel = ({
         : ['Sneakers']
 
     return (
-        <div className="flex flex-col gap-3">
+        <div className="space-y-3">
             <div className="hidden lg:block">
                 <DesktopFilters
                     initialFilters={filters}
@@ -94,7 +94,7 @@ const FilterPanel = ({
                     {...props} />
             </div>
 
-            <div className="hidden md:block mb-4">
+            <div className="hidden md:block">
                 <FilterTags
                     filters={filters}
                     brandOptions={props.brandOptions}
