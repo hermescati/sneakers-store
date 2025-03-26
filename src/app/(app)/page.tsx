@@ -28,45 +28,48 @@ const Home = async () => {
     getEvents()
   ])
 
+  // FIXME: Add the corresponding brand slugs to the href
   return (
     <MainContainer className="flex flex-col gap-10 py-6 md:py-8 md:pb-12">
+      {/* FIXME: Hide this slider if no events */}
       <EventSlider events={events} />
 
       <ProductReel
         title="New Releases"
-        href="/sneakers?sort=release_date"
+        href="/sneakers?sort=release_date&order=desc"
         products={newReleases}
       />
 
+      {/* FIXME: Dont show the collection if it doesnt have any sneakers in it. Or maybe change the logic to load only the collections with 6+ sneakers */}
       <CollectionReel collections={latestCollections} />
 
       <ProductReel
         title="Jordan"
-        href="/sneakers?sort=release_date"
+        href="/sneakers/"
         products={jordanSneakers}
       />
 
       <ProductReel
         title="Nike"
-        href="/sneakers?sort=release_date"
+        href="/sneakers/"
         products={nikeSneakers}
       />
 
       <ProductReel
         title="Adidas"
-        href="/sneakers?sort=release_date"
+        href="/sneakers/"
         products={adidasSneakers}
       />
 
       <ProductReel
         title="Yeezy"
-        href="/sneakers?sort=release_date"
+        href="/sneakers/"
         products={yeezySneakers}
       />
 
       <ProductReel
         title="New Balance"
-        href="/sneakers?sort=release_date"
+        href="/sneakers/"
         products={newBalanceSneakers}
       />
 

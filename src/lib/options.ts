@@ -14,8 +14,8 @@ export const DISCOUNT_TYPE_OPTIONS: SelectOption[] = [
 export const SORT_OPTIONS: SelectOption[] = [
   { label: 'Best Selling', value: 'best_selling', icon: 'ph:fire-simple' },
   { label: 'Newest', value: 'release_date|desc', icon: 'solar:calendar-outline' },
-  { label: 'Highest Price', value: 'min_price|desc', icon: 'hugeicons:sorting-19' },
-  { label: 'Lowest Price', value: 'min_price|asc', icon: 'hugeicons:sorting-91' }
+  { label: 'Highest Price', value: 'min_price|desc', icon: 'hugeicons:sorting-91' },
+  { label: 'Lowest Price', value: 'min_price|asc', icon: 'hugeicons:sorting-19' }
 ]
 
 export const SIZES = [

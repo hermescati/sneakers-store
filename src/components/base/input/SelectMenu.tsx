@@ -4,6 +4,7 @@ import { MenuPosition, SelectOption } from "@/types"
 import { cn } from "@/utils"
 import { Icon } from '@iconify/react'
 import { useCallback } from "react"
+import Button from "../button/Button"
 
 interface SelectMenuProps {
     selectId: string
@@ -45,7 +46,7 @@ const SelectMenu = ({
     }, [multiple, selected, onSelect])
 
     return (
-        <div aria-label="select-menu" className={menuClass}>
+        <div aria-label={`${selectId}-menu`} className={menuClass}>
             <ul aria-labelledby={selectId} aria-orientation="vertical" role="menu" className="p-1 space-y-1 max-h-80 overflow-auto">
                 {options.map((option) => {
                     const isSelected = selected.includes(option.value)
@@ -82,12 +83,13 @@ const SelectMenu = ({
 
             {(showClear || multiple) &&
                 <div className='flex border-t border-border'>
-                    <button
-                        className='flex-1 px-4 py-3 font-semibold text-md text-right hover:bg-primary-100/50 hover:underline hover:underline-offset-4 disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none'
+                    <Button
+                        variant='ghost'
+                        size='small'
+                        label='Clear'
                         disabled={!selected.length}
-                        onClick={onClear}>
-                        Clear
-                    </button>
+                        className='flex-1 py-3 justify-end rounded-none hover:underline hover:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none'
+                        onClick={onClear} />
                 </div>
             }
         </div>
