@@ -40,7 +40,7 @@ const Select = ({
             .filter(Boolean)
 
         return multiple
-            ? selectedLabels.length >= 3
+            ? selectedLabels.length >= 2
                 ? `${selectedLabels.length} selected`
                 : selectedLabels.join(', ')
             : selectedLabels[0] || ''

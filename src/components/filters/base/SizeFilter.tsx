@@ -42,7 +42,7 @@ const SizeFilter = ({
 
     const displayedValue = currentSizes.length === 0
         ? ''
-        : currentSizes.length < 5
+        : currentSizes.length < 3
             ? `US - ${currentSizes.join(', ')}`
             : `${currentSizes.length} selected`
 
