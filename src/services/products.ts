@@ -6,6 +6,8 @@ import { Brand, Collection, Model, Product } from '@/types/payload'
 import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
 
+const MIN_QUERY_LENGTH = 3
+
 export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Product>> {
   try {
     const { docs: products } = await payloadClient.find({
@@ -17,11 +19,10 @@ export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Pr
     return { code: 200, message: "Product found", data: products[0] }
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!'
+    }
   }
 }
 
@@ -30,11 +31,11 @@ export async function getProducts(params?: QueryParams): Promise<PaginatedRespon
     return await getPaginatedResponse<Product>('products', params)
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -43,11 +44,11 @@ export async function getBrands(params?: QueryParams): Promise<PaginatedResponse
     return await getPaginatedResponse<Brand>('brands', params)
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -56,11 +57,11 @@ export async function getModels(params?: QueryParams): Promise<PaginatedResponse
     return await getPaginatedResponse<Model>('models', params)
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -69,11 +70,37 @@ export async function getCollections(params?: QueryParams): Promise<PaginatedRes
     return await getPaginatedResponse<Collection>('collections', params)
   } catch (error) {
     console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
+  }
+}
 
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+export async function discoverProducts(query: ProductFilters['query'], category?: Product['size_category']): Promise<PaginatedResponse<Product>> {
+  if (!query || query.trim().length < MIN_QUERY_LENGTH) {
+    return {
+      code: 400,
+      message: 'Query too short',
+      data: []
+    }
+  }
+
+  const where = applyFilters({
+    query,
+    ...(category ? { category } : {})
+  })
+
+  try {
+    return await getProducts({ where, limit: 6 })
+  } catch (error) {
+    console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -85,11 +112,11 @@ export async function filterProducts(filters: ProductFilters): Promise<Paginated
     return await getProducts({ where, sort })
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -115,15 +142,14 @@ export async function getProductsUnderRetail(filters: ProductFilters): Promise<P
     }
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
-// TODO: Add logic to get the sales from events also
 export async function getProductsOnSale(filters: ProductFilters) {
   const where = applyFilters(filters) || { and: [] }
   where.and?.push({ 'discount.value': { greater_than: 0 } })
@@ -133,35 +159,11 @@ export async function getProductsOnSale(filters: ProductFilters) {
     return await getProducts({ where, sort })
   } catch (error) {
     console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message, data: [] }
-  }
-}
-
-export async function findProducts(query: string, category?: string): Promise<BaseResponse<Product[]>> {
-  const where: Where = {
-    or: [
-      { "brand.slug": { like: query } },
-      { "model.slug": { like: query } },
-      { "collection.slug": { like: query } },
-      { nickname: { like: query } },
-    ],
-  }
-
-  if (category) where.and = [{ "size_category": { equals: category } }]
-
-  try {
-    return await getProducts({ where, limit: 6 })
-  } catch (error) {
-    console.error(error)
-
-    const message = error instanceof Error
-      ? error.message
-      : 'Something went wrong. Please try again!'
-    return { code: 500, message }
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
   }
 }
 
@@ -211,19 +213,30 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
 function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | undefined {
   const conditions: Where[] = []
 
-  if (filters.brand && filters.brand.length > 0) {
+  if (filters.query && filters.query.trim().length >= MIN_QUERY_LENGTH) {
+    conditions.push({
+      or: [
+        { "brand.slug": { like: filters.query } },
+        { "model.slug": { like: filters.query } },
+        { "collection.slug": { like: filters.query } },
+        { slug: { like: filters.query } },
+      ],
+    })
+  }
+
+  if (filters.brand?.length) {
     conditions.push({ 'brand.slug': { in: filters.brand } })
   }
-  if (filters.model && filters.model.length > 0) {
+  if (filters.model?.length) {
     conditions.push({ 'model.slug': { in: filters.model } })
   }
-  if (filters.collection && filters.collection.length > 0) {
+  if (filters.collection?.length) {
     conditions.push({ 'collection.slug': { in: filters.collection } })
   }
   if (filters.category) {
     conditions.push({ 'size_category': { equals: filters.category } })
   }
-  if (filters.size) {
+  if (filters.size?.length) {
     conditions.push({
       and: [
         { 'stock.size': { in: filters.size } },

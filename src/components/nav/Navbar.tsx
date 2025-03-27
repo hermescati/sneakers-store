@@ -1,10 +1,10 @@
 import { getNavLinks } from '@/services'
 import Link from '../base/Link'
+import SearchDrawer from '../drawers/SearchDrawer'
 import MainContainer from '../MainContainer'
 import NavLinks from './base/NavLinks'
 import UserNav from './base/UserNav'
 import MobileNav from './MobileNav'
-import SearchBar from './SearchBar'
 
 const Navbar = async () => {
   const navItems = await getNavLinks()
@@ -15,11 +15,19 @@ const Navbar = async () => {
         <MainContainer>
           <div className="flex gap-16 py-3 lg:py-4 lg:pt-6 lg:pb-4 items-center justify-between">
             <Link href="/" className="font-bold text-xl text-foreground">Sneakers.</Link>
-            <div className="hidden lg:flex lg:flex-grow items-center gap-16">
-              <SearchBar />
-              <UserNav />
+            <div className="flex items-center gap-3 lg:flex-grow lg:gap-16">
+              <SearchDrawer />
+              <div className='hidden lg:block'>
+                <UserNav />
+              </div>
+              <span
+                className="lg:hidden h-8 w-px bg-border"
+                aria-hidden="true"
+              />
+              <div className='lg:hidden'>
+                <MobileNav items={navItems} />
+              </div>
             </div>
-            <MobileNav items={navItems} />
           </div>
           <NavLinks items={navItems} />
         </MainContainer>
