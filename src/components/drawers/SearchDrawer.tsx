@@ -85,10 +85,10 @@ const SearchDrawer = () => {
             <Drawer.Portal>
                 <Drawer.Overlay className='fixed inset-0 bg-black/40 z-30' />
                 <Drawer.Content className='max-w-3xl mx-auto fixed top-5 inset-x-5 z-30 mb-96 max-h-[75dvh] outline-none'>
-                    <div className='w-full h-full flex flex-col relative bg-background rounded-xl border shadow-lg overflow-hidden'>
+                    <div className='w-full h-full flex flex-col border border-border relative bg-background rounded-xl shadow-lg overflow-hidden'>
                         <Drawer.Title></Drawer.Title>
 
-                        <div className='relative h-full w-full'>
+                        <div className='relative h-full w-full divide-y divide-border'>
                             <SearchInput
                                 autoFocus
                                 isExpanded
@@ -96,8 +96,8 @@ const SearchDrawer = () => {
                                 onClear={handleOnClear}
                                 onChange={(e) => setQuery(e.target.value)} />
 
-                            <div className='flex flex-col gap-2 h-full border-t'>
-                                <div className='flex flex-col gap-1.5 mx-4 my-3'>
+                            <div className='flex flex-col gap-4 h-full'>
+                                <div className='flex flex-col gap-1.5 m-4'>
                                     <span className='font-medium text-md text-primary-600'>I&apos;m searching for</span>
                                     <ul className='flex flex-flex-wrap items-center gap-1.5'>
                                         {SIZING_CATEGORY_OPTIONS.map((option) => (
@@ -123,7 +123,7 @@ const SearchDrawer = () => {
                                 ) : results.length > 0 && (
                                     <div className='flex flex-col gap-1.5 h-full overflow-y-auto'>
                                         <p className='px-4 font-medium text-md text-primary-600'>Results</p>
-                                        <ul className='divide-y'>
+                                        <ul className='divide-y divide-border border-t border-border'>
                                             {results.map((product) => (
                                                 <SearchItem
                                                     key={product.id}
@@ -141,7 +141,7 @@ const SearchDrawer = () => {
                                     variant='ghost'
                                     size='small'
                                     label='Show more results'
-                                    className='w-full py-3 border-t rounded-none hover:underline'
+                                    className='w-full py-3 rounded-none hover:underline'
                                     onClick={handleOnSubmit} />
                             )}
                         </div>

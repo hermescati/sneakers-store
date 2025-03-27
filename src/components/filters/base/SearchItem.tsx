@@ -15,7 +15,7 @@ const SearchItem = ({ product, onClick }: SearchItemProps) => {
     return (
         <div
             key={product.id}
-            className="flex items-center justify-between gap-2 py-2 pl-2 pr-6 first:border-t border-border cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
+            className="flex items-center justify-between gap-2 py-2 pl-2 pr-6 cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
             onClick={onClick}>
             <div className="relative aspect-video h-16">
                 <Image
