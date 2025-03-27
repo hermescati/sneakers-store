@@ -91,7 +91,7 @@ export const buttonVariants = cva(btnBase, {
         'bg-transparent',
         'text-foreground',
         'hover:bg-primary-100',
-        'active:bg-primary-100',
+        'active:transparent',
         'active:ring-0 active:ring-offset-0',
         'focus:ring-0 focus:ring-offset-0',
         'shadow-none active:shadow-[inset_0_0px_6px_rgba(var(--primary-400))] dark:active:shadow-[inset_0_0px_8px_rgba(var(--background))]'
@@ -125,6 +125,7 @@ export interface ButtonProps
   href?: string
   iconAppend?: string
   iconPrepend?: string
+  iconClass?: string
 }
 
 const Button = ({
@@ -135,18 +136,24 @@ const Button = ({
   href,
   iconAppend,
   iconPrepend,
+  iconClass,
   className,
   children,
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
 
-  const iconClass = size === "small" ? "text-xl" : "text-2xl"
+  const iconStyles = !!iconClass
+    ? iconClass
+    : size === "small"
+      ? "text-xl"
+      : "text-2xl"
+      
   const btnContent =
     <>
-      {iconPrepend && <Icon className={iconClass} icon={iconPrepend} />}
+      {iconPrepend && <Icon className={iconStyles} icon={iconPrepend} />}
       {label || children}
-      {iconAppend && <Icon className={iconClass} icon={iconAppend} />}
+      {iconAppend && <Icon className={iconStyles} icon={iconAppend} />}
     </>
 
   return href && !props.disabled ? (

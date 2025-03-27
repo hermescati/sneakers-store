@@ -5,10 +5,10 @@ import { ProductFilters, SortOrder } from "@/types"
 import Select from "../base/input/Select"
 import PriceRange from "./base/PriceRange"
 import SizeFilter from "./base/SizeFilter"
-import { FilterPanelProps } from "./FilterPanel"
+import { DynamicFilterHeading, FilterPanelProps } from "./FilterPanel"
 
 interface DesktopFiltersProps extends FilterPanelProps {
-    dynamicLabels: string[]
+    dynamicHeading: DynamicFilterHeading
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }
 
@@ -19,26 +19,24 @@ const DesktopFilters = ({
     collectionOptions,
     priceBins,
     total,
-    dynamicLabels,
+    dynamicHeading,
     updateFilters
 }: DesktopFiltersProps) => {
     return (
-        <div className="flex flex-col 2xl:grid 2xl:grid-cols-6 gap-3 2xl:gap-6 2xl:items-end mt-8">
+        <div className="flex flex-col gap-4 mt-8">
             <div className="flex items-end justify-between">
-                <div className="text-3xl leading-tight">
-                    <p className="font-medium text-primary-500">{initialFilters.brand?.length ? 'Brand' : 'All'}</p>
+                <div className="leading-tight">
+                    <p className="font-medium text-xl 2xl:text-2xl text-primary-500">{dynamicHeading.heading}</p>
                     <span className="inline-flex flex-wrap items-baseline gap-x-2">
-                        <p className="font-bold">{dynamicLabels[0]}</p>
-                        {dynamicLabels.length > 1 && <p className="text-lg">& others</p>}
+                        <p className="font-bold text-2xl 2xl:text-3xl">{dynamicHeading.labels[0]}</p>
+                        {dynamicHeading.labels.length > 1 && <p className="text-base">& others</p>}
                     </span>
                 </div>
 
-                {!!total && <p className='2xl:hidden font-semibold text-md text-primary-700 w-fit'>{total} results</p>}
+                {!!total && <p className='font-semibold text-md text-primary-700 w-fit'>{total} results</p>}
             </div>
 
-            <div className="flex flex-col gap-2 2xl:col-span-5">
-                {!!total && <p className='hidden 2xl:block font-semibold text-md text-primary-700 w-fit self-end'>{total} results</p>}
-
+            <div className="flex flex-col gap-2">
                 <div className='flex items-center gap-3'>
                     <div className="flex-1">
                         <Select
