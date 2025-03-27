@@ -49,7 +49,7 @@ const SortDrawer = ({
             </Drawer.Trigger>
             <Drawer.Portal>
                 <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
-                <Drawer.Content className="flex flex-col fixed bottom-0 inset-x-0 z-30 mt-24 max-h-[96%] bg-background rounded-t-xl outline-none">
+                <Drawer.Content className="flex flex-col fixed bottom-0 inset-x-0 z-30 mt-24 max-h-[96%] bg-background rounded-t-2xl outline-none">
                     <div className="max-w-lg w-full mx-auto h-full relative flex flex-col p-3">
                         <Drawer.Handle className="relative !mx-0 !w-full !flex !items-center !justify-center mb-6 !bg-transparent">
                             <div className="mx-auto mt-5 w-24 h-1 bg-primary-200 rounded-full"></div>

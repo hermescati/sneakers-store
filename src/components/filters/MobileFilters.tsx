@@ -3,17 +3,17 @@
 import { ProductFilters } from "@/types";
 import FiltersDrawer from "../drawers/FiltersDrawer";
 import SortDrawer from "../drawers/SortDrawer";
-import { FilterPanelProps } from "./FilterPanel";
+import { DynamicFilterHeading, FilterPanelProps } from "./FilterPanel";
 
 interface MobileFiltersProps extends FilterPanelProps {
-    dynamicLabels: string[]
+    dynamicHeading: DynamicFilterHeading
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }
 
 const MobileFilters = ({
     initialFilters,
     total,
-    dynamicLabels,
+    dynamicHeading,
     updateFilters,
     ...props
 }: MobileFiltersProps) => {
@@ -21,12 +21,12 @@ const MobileFilters = ({
 
     return (
         <div className="flex flex-col gap-3 mt-6">
-            <div className="flex items-end justify-between">
-                <div className="text-2xl leading-tight">
-                    <p className="font-medium text-primary-500">{initialFilters.brand?.length ? 'Brand' : 'All'}</p>
+            <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+                <div className="leading-tight">
+                    <p className="font-medium text-xl text-primary-500">{dynamicHeading.heading}</p>
                     <span className="inline-flex flex-wrap items-baseline gap-x-2">
-                        <p className="font-bold">{dynamicLabels[0]}</p>
-                        {dynamicLabels.length > 1 && <p className="text-base">& others</p>}
+                        <p className="font-bold text-xl md:text-2xl">{dynamicHeading.labels[0]}</p>
+                        {dynamicHeading.labels.length > 1 && <p className="text-base">& others</p>}
                     </span>
                 </div>
 

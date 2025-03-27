@@ -20,6 +20,11 @@ export interface FilterPanelProps {
     total?: number,
 }
 
+export type DynamicFilterHeading = {
+    heading: string
+    labels: string[]
+}
+
 // TODO: Filter the model and collection based on the selected brand, if no selected brand, then show them all
 // To be completed once a mechanism to have a centralized config is done so it takes the values from there and
 // and constructs the SelectOption array in this component.
@@ -43,13 +48,15 @@ const FilterPanel = ({
             price: searchParams.get('price') || undefined,
             sort: searchParams.get('sort') || undefined,
             order: searchParams.get('order') as SortOrder | undefined,
+            query: searchParams.get('query') || ''
         }
         setFilters(updatedFilters)
     }, [searchParams])
 
     const updateFilters = (newFilters: Partial<ProductFilters>) => {
-        const queryParams = new URLSearchParams()
+        const queryParams = new URLSearchParams(searchParams.toString())
         const mergedFilters = { ...filters, ...newFilters }
+
         setFilters(mergedFilters)
 
         Object.entries(mergedFilters).forEach(([key, value]) => {
@@ -67,20 +74,44 @@ const FilterPanel = ({
     }
     const debounceUpdateFilters = useDebounceCallback(updateFilters, 500)
 
-    const selectedBrandLabels = filters.brand?.length
-        ? filters.brand.reduce<string[]>((acc, b) => {
-            const label = props.brandOptions.find((o) => o.value === b)?.label
-            if (label) acc.push(label)
-            return acc
-        }, [])
-        : ['Sneakers']
+    const dynamicHeading = (): DynamicFilterHeading => {
+        if (!!filters.query) {
+            return { heading: 'Term', labels: [`"${filters.query}"`] }
+        }
+
+        if (filters.brand?.length) {
+            const brandsLabels = filters.brand
+                .map((b) => props.brandOptions.find((o) => o.value === b)?.label || '')
+                .filter(Boolean)
+
+            return { heading: 'Brand', labels: brandsLabels }
+        }
+
+        if (filters.model?.length) {
+            const modelsLabels = filters.model
+                .map((m) => props.modelOptions.find((o) => o.value === m)?.label || '')
+                .filter(Boolean)
+
+            return { heading: 'Model', labels: modelsLabels }
+        }
+
+        if (filters.collection?.length) {
+            const collectionsLabels = filters.collection
+                .map((c) => props.collectionOptions.find((o) => o.value === c)?.label || '')
+                .filter(Boolean)
+
+            return { heading: 'Collection', labels: collectionsLabels }
+        }
+
+        return { heading: 'All', labels: ['Sneakers'] }
+    }
 
     return (
-        <div className="space-y-3">
+        <>
             <div className="hidden lg:block">
                 <DesktopFilters
                     initialFilters={filters}
-                    dynamicLabels={selectedBrandLabels}
+                    dynamicHeading={dynamicHeading()}
                     updateFilters={debounceUpdateFilters}
                     {...props}
                 />
@@ -89,12 +120,12 @@ const FilterPanel = ({
             <div className="lg:hidden">
                 <MobileFilters
                     initialFilters={filters}
-                    dynamicLabels={selectedBrandLabels}
+                    dynamicHeading={dynamicHeading()}
                     updateFilters={updateFilters}
                     {...props} />
             </div>
 
-            <div className="hidden md:block">
+            <div className="hidden md:block my-3">
                 <FilterTags
                     filters={filters}
                     brandOptions={props.brandOptions}
@@ -103,7 +134,7 @@ const FilterPanel = ({
                     categoryOptions={SIZING_CATEGORY_OPTIONS}
                     updateFilters={updateFilters} />
             </div>
-        </div>
+        </>
     )
 }
 
