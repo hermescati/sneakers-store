@@ -1,5 +1,6 @@
 import Image from 'next/image'
 
+// TODO: Update this to a better image or just icon
 const NoResultsFound = () => {
     return (
         <div className="flex flex-col lg:flex-row gap-y-2 gap-x-8 pb-8 items-center justify-center">
