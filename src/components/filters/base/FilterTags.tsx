@@ -101,10 +101,12 @@ const FilterTags = ({
             })}
 
             <Button
-                variant="ghost"
+                variant="outline"
                 size="small"
                 label="Clear All"
-                className="rounded-lg text-sm text-primary-700 underline underline-offset-4"
+                iconAppend="tabler:x"
+                iconClass="text-base ml-0.5"
+                className="px-3 py-1.5 rounded-lg border border-border text-sm hover:underline hover:underline-offset-4"
                 onClick={() => updateFilters({
                     brand: undefined,
                     model: undefined,
@@ -112,6 +114,7 @@ const FilterTags = ({
                     category: undefined,
                     size: undefined,
                     price: undefined,
+                    query: undefined
                 })}
             />
         </div>
