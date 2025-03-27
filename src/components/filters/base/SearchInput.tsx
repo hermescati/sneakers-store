@@ -40,7 +40,7 @@ const SearchInput = ({
                 {isExpanded ? "ESC" : "Ctrl+K"}
             </span>
             {!props.readOnly && <span
-                className='flex items-center justify-center p-2.5 rounded-full bg-transparent hover:bg-primary-100/50 transition ease-in-out duration-300'
+                className='flex items-center justify-center p-2.5 rounded-full bg-transparent hover:bg-primary-100/50 transition ease-in-out duration-300 cursor-pointer'
                 onClick={onClear}>
                 <Icon icon='tabler:x' className='text-xl text-primary-600' />
             </span>}
