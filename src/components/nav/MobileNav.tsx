@@ -1,6 +1,7 @@
 'use client'
 
 import useNavigationMenu from '@/hooks/useNavigationMenu'
+import routes from '@/lib/routes'
 import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
 import { NavItem } from '@/types'
@@ -13,7 +14,6 @@ import { Accordion, AccordionItem } from '../base/Accordion'
 import Button from '../base/button/Button'
 import IconButton from '../base/button/IconButton'
 import Link from '../base/Link'
-import routes from '@/lib/routes'
 
 const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -90,41 +90,39 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
 
                 <span className='w-full h-px border-t border-border' />
 
-                <ul className="mx-3 space-y-0.5">
+                <Accordion className='mx-3 space-y-0.5'>
                   {navLinks.map((link, index) =>
-                    !link.items?.length ? (
-                      <Link
+                    link.items?.length
+                      ? <AccordionItem
+                        key={link.name}
+                        index={index}
+                        title={link.name}
+                        titleClasses={navLinkClasses}>
+                        <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
+                          {link.items.map((ft) => (
+                            <Link
+                              key={ft.name}
+                              underline
+                              onClick={() => closeOnCurrent(ft.href!)}
+                              className="w-fit font-medium text-md text-primary-700"
+                            >
+                              {ft.name}
+                            </Link>
+                          ))}
+                        </ul>
+                      </AccordionItem>
+                      : <Link
                         key={link.name}
                         underline
                         onClick={() => closeOnCurrent(link.href!)}
                         className={cn(navLinkClasses, {
                           "hover:bg-primary-100": link.href,
                           "text-secondary hover:text-secondary": link.name === "On Sale",
-                        })}
-                      >
+                        })}>
                         {link.name}
                       </Link>
-                    ) : (
-                      <Accordion key={link.name}>
-                        <AccordionItem index={index} title={link.name} titleClasses={navLinkClasses}>
-                          <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
-                            {link.items.map((ft) => (
-                              <Link
-                                key={ft.name}
-                                underline
-                                onClick={() => closeOnCurrent(ft.href!)}
-                                className="w-fit font-medium text-md text-primary-700"
-                              >
-                                {ft.name}
-                              </Link>
-                            ))}
-                          </ul>
-                        </AccordionItem>
-                      </Accordion>
-                    )
                   )}
-                </ul>
-
+                </Accordion>
               </div>
 
               {!user
