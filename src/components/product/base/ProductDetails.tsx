@@ -1,7 +1,8 @@
 'use client'
 
-import { Accordion, AccordionItem } from '@/components/base/Accordion'
+import { Accordion } from '@/components/base/Accordion'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
+import { AccordionItem } from '@/types'
 import { Product } from '@/types/payload'
 import { cn, formatPrice } from '@/utils'
 import { getProductInfo } from '@/utils/product'
@@ -20,7 +21,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
   const productInfo = [
     { label: 'Manufactured SKU', value: product.sku },
     { label: 'Brand', value: brand },
-    { label: 'Colorway', value: product.colorway || '-'},
+    { label: 'Colorway', value: product.colorway || '-' },
     { label: 'Gender', value: SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label },
     { label: 'Retail Price', value: formatPrice(product.retail_price) || '-' },
     { label: 'Release Date', value: format(new Date(product.release_date as string), 'MM/dd/yyyy') || '-' }
@@ -86,10 +87,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
       <div className='lg:mt-2 lg:col-span-1'>
         <Accordion
           activeIndex={0}
-          items={accordionItems}
-          titleClass="px-0 py-2 rounded-xl hover:bg-primary-100/50 font-semibold hover:bg-transparent"
-          contentClass="px-0 dark:text-primary-800"
-          iconClass="text-2xl" />
+          items={accordionItems} />
       </div>
     </section>
   )

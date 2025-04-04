@@ -1,80 +1,75 @@
 "use client"
 
+import { AccordionItem as IAccordionItem } from "@/types"
 import { cn } from "@/utils"
 import { Icon } from "@iconify/react"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { createContext, ReactNode, useContext, useState } from "react"
 
-export interface AccordionItem {
-  title: string
-  icon?: string
-  content?: string
-}
-
-interface AccordionItemProps extends AccordionItem {
-  iconClass?: string
-  titleClass?: string
-  contentClass?: string
+interface AccordionItemProps extends IAccordionItem {
+  index: number
   children?: ReactNode
-  isOpen?: boolean
-  onOpen?: () => void
+  titleClasses?: string
+  contentClasses?: string
+  iconClasses?: string
 }
 
 interface AccordionProps {
-  items?: AccordionItem[]
-  activeIndex?: number
+  items?: IAccordionItem[]
+  activeIndex?: number | number[]
   children?: ReactNode
-  iconClass?: string
-  titleClass?: string
-  contentClass?: string
+  multiple?: boolean
 }
 
+interface AccordionContext {
+  openIndexes: number[]
+  multiple: boolean
+  toggleItem: (index: number) => void
+}
+
+const AccordionContext = createContext<AccordionContext | null>(null)
+
 export const AccordionItem = ({
+  index,
   title,
   icon,
   content,
   children,
-  titleClass,
-  contentClass,
-  iconClass,
-  isOpen,
-  onOpen
+  titleClasses,
+  contentClasses,
+  iconClasses,
 }: AccordionItemProps) => {
-  const contentRef = useRef<HTMLDivElement>(null)
-  const [height, setHeight] = useState<string | undefined>(undefined)
+  const context = useContext(AccordionContext)
+  if (!context) return null
 
-  useEffect(() => {
-    if (isOpen && contentRef.current) {
-      setHeight(`${contentRef.current.scrollHeight}px`)
-    } else {
-      setHeight('0px')
-    }
-  }, [isOpen])
+  const { openIndexes, toggleItem } = context
+  const isOpen = openIndexes.includes(index)
 
   return (
-    <div className="w-full">
+    <div className="w-full transition-all duration-300 ease-in-out">
       <div
-        className={cn("flex justify-between items-center rounded-2xl cursor-pointer px-4 py-3 hover:bg-primary-100", titleClass)}
-        onClick={onOpen}
+        className={cn(
+          "flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary-100 font-medium cursor-pointer transition-all duration-300 ease-in-out",
+          { 'bg-primary-100 lg:bg-transparent': isOpen },
+          titleClasses
+        )}
+        onClick={() => toggleItem(index)}
       >
         <div className="flex items-center gap-3">
-          {icon && <Icon icon={icon} className={iconClass} />}
+          {icon && <Icon icon={icon} className={cn('text-2xl', iconClasses)} />}
           <h4>{title}</h4>
         </div>
         <span className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}>
-          <Icon icon="mage:chevron-down" />
+          <Icon icon="mage:chevron-down" className="text-lg" />
         </span>
       </div>
-      <div
-        ref={contentRef}
-        className="overflow-hidden transition-all duration-300 ease-in-out"
-        style={{ height }}
-      >
+
+      {isOpen && <div className="overflow-hidden transition-all duration-300 ease-in-out">
         {children ??
-          <p className={cn("px-4 py-1 bg-background text-primary-700 text-pretty", contentClass)}>
+          <p className={cn("px-4 my-2 text-primary-700 leading-relaxed text-pretty", contentClasses)}>
             {content}
           </p>
         }
-      </div>
+      </div>}
     </div>
   )
 }
@@ -83,35 +78,41 @@ export const Accordion = ({
   items,
   activeIndex,
   children,
-  titleClass,
-  contentClass,
-  iconClass }: AccordionProps) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(activeIndex ?? null)
+  multiple = false
+}: AccordionProps) => {
+  const [openIndexes, setOpenIndexes] = useState<number[]>(
+    Array.isArray(activeIndex)
+      ? activeIndex
+      : activeIndex !== undefined
+        ? [activeIndex]
+        : []
+  )
 
-  const handleToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index)
+  const toggleItem = (index: number) => {
+    setOpenIndexes((prev) => {
+      if (multiple) {
+        return prev.includes(index)
+          ? prev.filter(i => i !== index)
+          : [...prev, index]
+      }
+      return prev.includes(index) ? [] : [index]
+    })
   }
 
   return (
-    <ul className="w-full flex flex-col gap-4 3xl:gap-2">
-      {children ??
-        <>
-          {items?.map((item, index) => (
+    <AccordionContext.Provider value={{ openIndexes, multiple, toggleItem }}>
+      <ul className="w-full flex flex-col gap-2">
+        {items
+          ? items.map((item, index) => (
             <li key={index}>
               <AccordionItem
-                title={item.title}
-                titleClass={titleClass}
-                content={item.content}
-                contentClass={contentClass}
-                icon={item.icon}
-                iconClass={iconClass}
-                isOpen={openIndex === index}
-                onOpen={() => handleToggle(index)}
+                index={index}
+                {...item}
               />
             </li>
-          ))}
-        </>
-      }
-    </ul>
+          ))
+          : children}
+      </ul>
+    </AccordionContext.Provider>
   )
 }
