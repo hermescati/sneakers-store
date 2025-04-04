@@ -1,5 +1,3 @@
-'use client'
-
 import { SelectOption } from '@/types'
 import { cn } from '@/utils'
 
@@ -39,7 +37,7 @@ const ToggleButton = ({
                 </button>
             ))}
         </div>
-    );
+    )
 }
 
 export default ToggleButton

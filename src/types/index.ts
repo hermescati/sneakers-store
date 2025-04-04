@@ -13,6 +13,12 @@ export type OrderItem = {
   price: number
 }
 
+export interface AccordionItem {
+  title: string
+  content?: string
+  icon?: string
+}
+
 export interface BreadcrumbItem {
   label: string
   href?: string

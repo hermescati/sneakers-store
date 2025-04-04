@@ -9,14 +9,14 @@ import { Icon } from '@iconify/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Drawer } from 'vaul'
-import { AccordionItem } from '../base/Accordion'
+import { Accordion, AccordionItem } from '../base/Accordion'
 import Button from '../base/button/Button'
 import IconButton from '../base/button/IconButton'
 import Link from '../base/Link'
+import routes from '@/lib/routes'
 
 const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
   const menuItems = useNavigationMenu()
   const { items: cartItems } = useCartStore()
@@ -57,7 +57,7 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
                   onClick={() => setIsOpen(false)} />
                 <div className='relative'>
                   <IconButton
-                    href="/cart"
+                    href={routes.cart}
                     icon="solar:cart-large-minimalistic-linear"
                     className="text-primary-700 text-2xl" />
                   {cartItems.length > 0 && <span className='absolute top-[20%] right-[15%] w-2 h-2 rounded-full bg-secondary' />}
@@ -91,49 +91,46 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
                 <span className='w-full h-px border-t border-border' />
 
                 <ul className="mx-3 space-y-0.5">
-                  {navLinks.map((link, index) => (
-                    <li key={link.name}>
-                      {link.items?.length ?
-                        <AccordionItem
-                          title={link.name}
-                          titleClass={navLinkClasses}
-                          iconClass='w-5 h-5'
-                          isOpen={openIndex === index}
-                          onOpen={() => setOpenIndex(prev => (prev === index ? null : index))}
-                        >
-                          <ul className='grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border'>
-                            {link.items.map((ft) =>
+                  {navLinks.map((link, index) =>
+                    !link.items?.length ? (
+                      <Link
+                        key={link.name}
+                        underline
+                        onClick={() => closeOnCurrent(link.href!)}
+                        className={cn(navLinkClasses, {
+                          "hover:bg-primary-100": link.href,
+                          "text-secondary hover:text-secondary": link.name === "On Sale",
+                        })}
+                      >
+                        {link.name}
+                      </Link>
+                    ) : (
+                      <Accordion key={link.name}>
+                        <AccordionItem index={index} title={link.name} titleClasses={navLinkClasses}>
+                          <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
+                            {link.items.map((ft) => (
                               <Link
                                 key={ft.name}
                                 underline
                                 onClick={() => closeOnCurrent(ft.href!)}
-                                className='w-fit font-medium text-md text-primary-700'>
+                                className="w-fit font-medium text-md text-primary-700"
+                              >
                                 {ft.name}
                               </Link>
-                            )}
+                            ))}
                           </ul>
                         </AccordionItem>
-                        : <Link
-                          underline
-                          onClick={() => closeOnCurrent(link.href!)}
-                          className={cn(
-                            navLinkClasses,
-                            {
-                              "hover:bg-primary-100": link.href,
-                              "text-secondary hover:text-secondary": link.name === 'On Sale'
-                            })}>
-                          {link.name}
-                        </Link>
-                      }
-                    </li>
-                  ))}
+                      </Accordion>
+                    )
+                  )}
                 </ul>
+
               </div>
 
               {!user
                 ? <div className="py-3 px-4">
                   <Button
-                    href="/login"
+                    href={routes.auth.login}
                     label="Sign in"
                     className="w-full" />
                 </div>
