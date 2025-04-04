@@ -17,6 +17,7 @@ interface AccordionProps {
   items?: IAccordionItem[]
   activeIndex?: number | number[]
   children?: ReactNode
+  className?: string
   multiple?: boolean
 }
 
@@ -49,13 +50,13 @@ export const AccordionItem = ({
       <div
         className={cn(
           "flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary-100 font-medium cursor-pointer transition-all duration-300 ease-in-out",
-          { 'bg-primary-100 lg:bg-transparent': isOpen },
+          { "bg-primary-100 lg:bg-transparent": isOpen },
           titleClasses
         )}
         onClick={() => toggleItem(index)}
       >
         <div className="flex items-center gap-3">
-          {icon && <Icon icon={icon} className={cn('text-2xl', iconClasses)} />}
+          {icon && <Icon icon={icon} className={cn("text-2xl", iconClasses)} />}
           <h4>{title}</h4>
         </div>
         <span className={`transition-transform duration-300 ease-in-out ${isOpen ? "rotate-90" : "rotate-0"}`}>
@@ -63,13 +64,20 @@ export const AccordionItem = ({
         </span>
       </div>
 
-      {isOpen && <div className="overflow-hidden transition-all duration-300 ease-in-out">
-        {children ??
-          <p className={cn("px-4 my-2 text-primary-700 leading-relaxed text-pretty", contentClasses)}>
-            {content}
-          </p>
-        }
-      </div>}
+      <div
+        className={cn(
+          "grid transition-[grid-template-rows] duration-300 ease-in-out",
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        )}
+      >
+        <div className="overflow-hidden">
+          {children ?? (
+            <p className={cn("px-4 my-2 text-primary-700 leading-relaxed text-pretty", contentClasses)}>
+              {content}
+            </p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
@@ -78,6 +86,7 @@ export const Accordion = ({
   items,
   activeIndex,
   children,
+  className,
   multiple = false
 }: AccordionProps) => {
   const [openIndexes, setOpenIndexes] = useState<number[]>(
@@ -101,7 +110,7 @@ export const Accordion = ({
 
   return (
     <AccordionContext.Provider value={{ openIndexes, multiple, toggleItem }}>
-      <ul className="w-full flex flex-col gap-2">
+      <ul className={cn("flex flex-col gap-2", className)}>
         {items
           ? items.map((item, index) => (
             <li key={index}>
