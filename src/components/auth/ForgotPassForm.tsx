@@ -1,5 +1,6 @@
 'use client'
 
+import routes from "@/lib/routes"
 import { ForgotPassSchema, ForgotPassSchemaObject } from "@/lib/validators"
 import { forgotPassword } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -30,7 +31,7 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
             const { code, message, data: sentToEmail } = await forgotPassword(inputData)
 
             if (code === 200) {
-                return router.replace('reset?to=' + sentToEmail)
+                return router.replace(`${routes.auth.reset}?to=${sentToEmail}`)
             }
             toast.error(message)
         } catch (error) {

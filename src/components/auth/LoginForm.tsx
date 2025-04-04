@@ -1,5 +1,6 @@
 'use client'
 
+import routes from "@/lib/routes"
 import { LoginSchema, LoginSchemaObject } from "@/lib/validators"
 import { userLogin } from "@/services/auth"
 import { useUserStore } from "@/stores/userStore"
@@ -43,7 +44,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
             toast.success(message)
 
             router.refresh()
-            origin ? router.push(`/${origin}`) : router.push('/')
+            origin ? router.push(`/${origin}`) : router.push(routes.home)
         } catch (error) {
             toast.error('An unexpected error occured. Try again later.')
         }
@@ -96,7 +97,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
                 <p className="font-medium text-primary-600">
                     Don&apos;t have an account yet?{" "}
                     <Link
-                        href="/register"
+                        href={routes.auth.register}
                         underline
                         className="font-semibold text-secondary dark:text-foreground"
                         tabIndex={5}>

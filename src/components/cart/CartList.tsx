@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import { useCartStore } from '@/stores/cartStore'
 import { cn } from '@/utils'
 import { useMediaQuery } from 'usehooks-ts'
@@ -26,7 +27,7 @@ const CartList = ({ compact = false }: CartListProps) => {
         {items.map(({ product, size }, index) => (
           <Link
             key={`${product.id}-${size?.size}`}
-            href={compact ? "" : `/sneakers/${product.id}`}>
+            href={compact ? "" : routes.products.product(product.slug)}>
             <CartItem
               index={index}
               product={product}

@@ -2,6 +2,7 @@
 
 import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
+import routes from '@/lib/routes'
 import { discoverProducts } from '@/services/products'
 import { SelectOption } from '@/types'
 import { Product } from '@/types/payload'
@@ -61,7 +62,7 @@ const SearchDrawer = () => {
     }
 
     const handleOnSubmit = () => {
-        router.push(`/sneakers?query=${debouncedQuery}`)
+        router.push(`${routes.products.home}?query=${debouncedQuery}`)
         setQuery('')
         setIsOpen((prev) => !prev)
     }
@@ -128,7 +129,7 @@ const SearchDrawer = () => {
                                                 <SearchItem
                                                     key={product.id}
                                                     product={product}
-                                                    onClick={() => router.push(`/sneakers/${product.slug}`)}
+                                                    onClick={() => router.push(routes.products.product(product.slug))}
                                                 />
                                             ))}
                                         </ul>

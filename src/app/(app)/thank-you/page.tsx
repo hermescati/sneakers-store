@@ -2,6 +2,7 @@ import Link from '@/components/base/Link'
 import MainContainer from '@/components/MainContainer'
 import ProductOrder from '@/components/order/ProductOrder'
 import PaymentStatus from '@/components/status/PaymentStatus'
+import routes from '@/lib/routes'
 import { getUser } from '@/services/auth'
 import { getOrder } from '@/services/orders'
 import { formatPrice } from '@/utils'
@@ -10,9 +11,11 @@ import { format } from 'date-fns'
 import { notFound, redirect } from 'next/navigation'
 
 const ThankYou = async (
-  { params } : { params: Promise<
-    { [key: string]: string | string[] | undefined }
-  >}) => {
+  { params }: {
+    params: Promise<
+      { [key: string]: string | string[] | undefined }
+    >
+  }) => {
   const orderId = (await params).orderId as string
 
   const { user } = await getUser()
@@ -24,14 +27,14 @@ const ThankYou = async (
     typeof order.user === 'string' ? order.user : order.user.id
 
   if (orderUserId !== user?.id) {
-    return redirect(`/login?origin=thank-you?orderId=${order.id}`)
+    return redirect(`${routes.auth.login}?origin=thank-you?orderId=${order.id}`)
   }
 
   return (
     <MainContainer className="flex flex-col gap-8 lg:gap-12 pt-6 pb-12">
       {/* Back to Shopping */}
       <Link
-        href="/sneakers"
+        href={routes.products.home}
         className="w-fit flex items-center gap-2 py-2 font-semibold text-primary-700 hover:text-secondary"
       >
         <Icon icon="solar:arrow-left-linear" className="text-xl" />

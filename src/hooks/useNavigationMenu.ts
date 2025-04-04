@@ -1,6 +1,7 @@
 "use client"
 
 import ThemeToggle from "@/components/theme/ThemeToggle"
+import routes from "@/lib/routes"
 import { useUserStore } from "@/stores/userStore"
 import { createElement, ReactNode, useMemo } from "react"
 import useLogout from "./useLogout"
@@ -28,7 +29,7 @@ const useNavigationMenu = () => {
                 title: 'Profile',
                 subtitle: user.email,
                 icon: 'solar:settings-outline',
-                route: '/profile'
+                route: routes.profile
             })
 
             if (user.role === 'admin') {
@@ -36,7 +37,7 @@ const useNavigationMenu = () => {
                     value: 'dashboard',
                     title: 'Admin Dashboard',
                     icon: 'mage:dashboard',
-                    route: '/admin'
+                    route: routes.admin
                 })
             }
 
@@ -44,7 +45,7 @@ const useNavigationMenu = () => {
                 value: 'orders',
                 title: 'My Orders',
                 icon: 'mage:box',
-                route: '/orders'
+                route: routes.orders.home
             })
 
         }

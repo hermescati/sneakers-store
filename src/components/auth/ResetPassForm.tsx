@@ -1,5 +1,6 @@
 'use client'
 
+import routes from "@/lib/routes"
 import { ResetPassSchema, ResetPassSchemaObject } from "@/lib/validators"
 import { resetPassword } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -32,7 +33,7 @@ const ResetPassForm = ({ token }: ResetPassFormProps) => {
 
             if (code === 200) {
                 toast.success(message)
-                return router.push('/login')
+                return router.push(routes.auth.login)
             }
 
             toast.error(message)
@@ -75,7 +76,7 @@ const ResetPassForm = ({ token }: ResetPassFormProps) => {
                 <p className="font-medium text-primary-600">
                     Remembered your password?{" "}
                     <Link
-                        href="/login"
+                        href={routes.auth.login}
                         underline
                         className="font-semibold text-secondary dark:text-foreground">
                         Back to Login

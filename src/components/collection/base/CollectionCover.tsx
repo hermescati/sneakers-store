@@ -1,6 +1,7 @@
 'use client'
 
 import Button from '@/components/base/button/Button'
+import routes from '@/lib/routes'
 import { Collection } from '@/types/payload'
 import { darkenHexColor } from '@/utils/colors'
 import { useColor } from 'color-thief-react'
@@ -44,7 +45,7 @@ const CollectionCover = ({ collection }: { collection: Collection }) => {
                     variant="ghost"
                     label="Cop now"
                     iconAppend="solar:arrow-right-linear"
-                    href={`/sneakers?collection=${collection.id}`}
+                    href={`${routes.products.home}?collection=${collection.slug}`}
                     className="text-white hover:text-foreground hover:bg-primary-100 hover:underline hover:underline-offset-4 hover:shadow-md"
                 />
             </header>

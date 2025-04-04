@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import Image from 'next/image'
 import Link from '../base/Link'
 import Button from '../base/button/Button'
@@ -17,7 +18,7 @@ const EmptyCartCompact = () => (
       height={200}
     />
     <Link
-      href="/sneakers"
+      href={routes.products.home}
       className="font-semibold hover:underline underline-offset-4"
     >
       Add items to your cart to checkout
@@ -41,7 +42,7 @@ const EmptyCartFull = () => (
         <span className="font-medium text-md lg:text-base text-center text-primary-600 mb-6">
           Whoops! Nothing to show here yet.
         </span>
-        <Button label="Shop now" href="/sneakers" />
+        <Button label="Shop now" href={routes.products.home} />
       </div>
     </div>
   </div>

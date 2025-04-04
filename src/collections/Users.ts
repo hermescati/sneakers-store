@@ -1,3 +1,4 @@
+import routes from '@/lib/routes'
 import { User } from '@/types/payload'
 import { CollectionConfig } from 'payload'
 
@@ -15,7 +16,7 @@ export const Users: CollectionConfig = {
       // Replace this with a React Email template
       // Add a subject by using generateEmailSubject
       generateEmailHTML: ({ token }) => {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/verify?token=${token}`
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/${routes.auth.verify}?token=${token}`
         return `<a href='${url}'>Verify your account</a>`
       }
     },
@@ -25,7 +26,7 @@ export const Users: CollectionConfig = {
       // Add an expiration to configure how long password reset tokens remain valid, specified in miliseconds.
       expiration: 3600000, // 1 hour
       generateEmailHTML: (args) => {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/reset?token=${args?.token}`
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/${routes.auth.reset}?token=${args?.token}`
         return `<a href='${url}'>Reset your password</a>`
       },
     }

@@ -5,6 +5,7 @@ import Link from '@/components/base/Link'
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import useNavigationMenu from '@/hooks/useNavigationMenu'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
+import routes from '@/lib/routes'
 import { useUserStore } from '@/stores/userStore'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
@@ -89,7 +90,10 @@ const UserNav = () => {
       <div className={cn("flex items-center gap-2.5", !mounted ? 'opacity-0' : 'opacity-100')}>
         {!user && <ThemeToggle floating />}
         {!user
-          ? <IconButton href='/login' icon='solar:user-outline' className='p-1.5 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none' />
+          ? <IconButton
+            href={routes.auth.login}
+            icon='solar:user-outline'
+            className='p-1.5 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none' />
           : <UserMenu />
         }
       </div>

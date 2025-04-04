@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import { Product } from '@/types/payload'
 import {
   cn,
@@ -35,7 +36,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
 
   return (
     <Link
-      href={`/sneakers/${product.slug}`}
+      href={`${routes.products.product(product.slug)}`}
       className={cn(
         "invisible h-full w-full cursor-pointer group", {
         "visible animate-in fade-in-5": isLoaded

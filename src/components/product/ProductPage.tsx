@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import { BreadcrumbItem, SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
@@ -28,11 +29,11 @@ const ProductPage = ({ product }: { product: Product }) => {
   const { brandSlug, modelSlug, collectionSlug } = getProductSlugs(product)
 
   const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Sneakers', href: '/sneakers' },
-    { label: `${brand} Shoes`, href: `/sneakers?brand=${brandSlug}` },
+    { label: 'Sneakers', href: routes.products.home },
+    { label: `${brand} Shoes`, href: `${routes.products.home}?brand=${brandSlug}` },
     collection
-      ? { label: `${collection}`, href: `/sneakers?brand=${brand}&collection=${collectionSlug}` }
-      : { label: `${model}`, href: `/sneakers?brand=${brand}&model=${modelSlug}` },
+      ? { label: `${collection}`, href: `${routes.products.home}?brand=${brand}&collection=${collectionSlug}` }
+      : { label: `${model}`, href: `${routes.products.home}?brand=${brand}&model=${modelSlug}` },
     { label: `${product.nickname}` }
   ]
 

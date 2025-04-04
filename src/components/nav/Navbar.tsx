@@ -1,3 +1,4 @@
+import routes from '@/lib/routes'
 import { getNavLinks } from '@/services'
 import Link from '../base/Link'
 import SearchDrawer from '../drawers/SearchDrawer'
@@ -13,7 +14,7 @@ const Navbar = async () => {
     <nav className="sticky z-20 top-0 inset-x-0 bg-background shadow dark:border-b dark:border-border/50">
       <MainContainer>
         <div className="flex items-center justify-between gap-6 lg:gap-16 py-3 lg:py-4 lg:pt-6 lg:pb-4">
-          <Link href="/" className="font-bold text-xl text-foreground" aria-label='Home - Sneakers'>
+          <Link href={routes.home} className="font-bold text-xl text-foreground" aria-label='Home - Sneakers'>
             Sneakers.
           </Link>
           <div className="flex items-center gap-3 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
