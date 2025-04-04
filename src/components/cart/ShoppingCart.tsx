@@ -1,4 +1,5 @@
 
+import routes from '@/lib/routes'
 import { useCartStore } from '@/stores/cartStore'
 import { formatPrice } from '@/utils'
 import { calculateCartSummary } from '@/utils/cart'
@@ -44,7 +45,7 @@ const ShoppingCart = () => {
               className="dark:border-primary-600 dark:hover:bg-primary-100 dark:text-primary-700 hover:underline hover:underline-offset-4"
               onClick={() => {
                 close()
-                router.push('/cart')
+                router.push(routes.cart)
               }}
             />
           )}

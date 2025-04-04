@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import { createStripeSession } from '@/services/checkout'
 import { useCartStore } from '@/stores/cartStore'
 import { OrderItem } from '@/types'
@@ -46,7 +47,7 @@ const CartSummary = () => {
       discount || undefined
     )
 
-    if (response?.code === 409) router.push(`/login?origin=cart`)
+    if (response?.code === 409) router.push(`${routes.auth.login}?origin=cart`)
     if (!response || !response.url) return
 
     clearCart()
@@ -114,7 +115,7 @@ const CartSummary = () => {
         <span className="ml-2 text-primary-800">
           Need help with your order?{" "}
           <Link
-            href="/cart"
+            href={routes.cart}
             className="text-secondary underline underline-offset-4"
           >
             We&apos;re here to help

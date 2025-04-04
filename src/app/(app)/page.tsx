@@ -4,6 +4,7 @@ import EventSlider from '@/components/home/EventSlider'
 import PerksSection from '@/components/home/PerksSection'
 import MainContainer from '@/components/MainContainer'
 import ProductReel from '@/components/product/ProductReel'
+import routes from '@/lib/routes'
 import { getEvents } from '@/services/events'
 import { getCollections, getProducts } from '@/services/products'
 
@@ -36,9 +37,8 @@ const Home = async () => {
 
       <ProductReel
         title="New Releases"
-        href="/sneakers?sort=release_date&order=desc"
-        products={newReleases}
-      />
+        href={routes.products.newReleases}
+        products={newReleases} />
 
       {/* FIXME: Dont show the collection if it doesnt have any sneakers in it. Or maybe change the logic to load only the collections with 6+ sneakers */}
       <CollectionReel collections={latestCollections} />

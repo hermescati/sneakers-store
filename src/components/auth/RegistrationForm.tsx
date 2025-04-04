@@ -1,5 +1,6 @@
 'use client'
 
+import routes from "@/lib/routes"
 import { RegistrationSchema, RegistrationSchemaObject } from "@/lib/validators"
 import { createUser } from "@/services/auth"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -30,7 +31,7 @@ const RegistrationForm = () => {
                 return toast.warning(message)
             }
             if (code === 201) {
-                return router.replace('/verify?to=' + sentToEmail)
+                return router.replace(`${routes.auth.verify}?to=${sentToEmail}`)
             }
 
             toast.error(message)
@@ -90,25 +91,25 @@ const RegistrationForm = () => {
             <p className="font-normal text-primary-700 text-md">
                 By clicking &#8220;Create Account&#8221;, you agree to our{' '}
                 <Link
-                    href="/register"
+                    href={routes.home}
                     className="underline underline-offset-4 font-medium hover:text-secondary"
                 >
                     Terms and Conditions
                 </Link>{' '}
                 and{' '}
                 <Link
-                    href="/register"
+                    href={routes.home}
                     className="underline underline-offset-4 font-medium hover:text-secondary"
                 >
                     Privacy Policy
                 </Link>
                 .
             </p>
-            <Button label="Create Account" tabIndex={5} className="mt-4"/>
+            <Button label="Create Account" tabIndex={5} className="mt-4" />
             <p className="font-medium text-primary-600">
                 Already have an account?{" "}
                 <Link
-                    href="/login"
+                    href={routes.auth.login}
                     underline
                     className="font-semibold text-secondary dark:text-foreground"
                     tabIndex={6}>

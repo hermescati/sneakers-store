@@ -1,5 +1,6 @@
 'use client'
 
+import routes from '@/lib/routes'
 import { verifyUser } from '@/services/auth'
 import { BaseResponse } from '@/types'
 import { useEffect, useState } from 'react'
@@ -47,7 +48,7 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
           </p>
         </div>
         <Button
-          href="/login"
+          href={routes.auth.login}
           label="Sign in"
           className='mt-2'
           iconPrepend="solar:login-2-outline"

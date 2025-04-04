@@ -1,3 +1,4 @@
+import routes from '@/lib/routes'
 import { getBrands } from '@/services/products'
 import CategoryCard, { CategoryCardItem } from './base/CategoryCard'
 import DiscoverCard, { DiscoverCardItem } from './base/DiscoverCard'
@@ -10,24 +11,24 @@ const DiscoverSection = async () => {
     {
       name: 'On Sale',
       icon: 'solar:sale-bold',
-      href: '/sneakers?filter=onSale'
+      href: routes.products.sale
     },
     ...brands.map((brand) => ({
       name: brand.name,
-      href: `/sneakers?brand=${brand.id}`
+      href: `${routes.products.home}?brand=${brand.slug}`
     }))
   ]
 
   const categoryItems: CategoryCardItem[] = [
     {
       name: "Men's Collection",
-      href: '/sneakers?size_category=mens',
+      href: `${routes.products.home}?category=mens`,
       imageSrc: '/mens-shoes-collection.jpg',
       imageAlt: 'mens shoes collection'
     },
     {
       name: "Women's Collection",
-      href: '/sneakers?size_category=womens',
+      href: `${routes.products.home}?category=womens`,
       imageSrc: '/womens-shoes-collection.jpg',
       imageAlt: 'womens shoes collection'
     }

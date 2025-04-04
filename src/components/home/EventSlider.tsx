@@ -1,5 +1,6 @@
 'use client'
 
+import routes from "@/lib/routes"
 import { Event } from "@/types/payload"
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
@@ -26,13 +27,13 @@ const EventItem = ({ event }: { event: Event }) => {
     const handleOnClick = () => {
         if (event.type === 'drop' && !!event.product) {
             const productId = typeof event.product === 'string' ? event.product : event.product.id
-            router.push(`/sneakers/${productId}`)
+            router.push(routes.products.product(productId))
             return
         }
         if (event.type === 'spotlight' && event.appliedTo && event.appliedTo?.length > 0) {
             const relation = event.appliedTo[0].relationTo
             const relationId = typeof event.appliedTo[0].value !== 'string' ? event.appliedTo[0].value.id : event.appliedTo[0].value
-            router.push(`/sneakers?${relation}=${relationId}`)
+            router.push(`${routes.products.home}?${relation}=${relationId}`)
             return
         }
 
