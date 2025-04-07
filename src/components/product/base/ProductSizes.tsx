@@ -25,7 +25,6 @@ const ProductSizes = ({
   selectedSize,
   setSelectedSize
 }: ProductSizeProps) => {
-  const [showGuidesModal, setShowGuidesModal] = useState(false)
   const [showNotifyModal, setShowNotifyModal] = useState(false)
 
   const { addItem } = useCartStore()
@@ -49,12 +48,8 @@ const ProductSizes = ({
           ))}
         </ul>
 
-        <Link
-          underline
-          className="w-fit py-2 mb-4 font-medium text-md text-primary-600 hover:text-secondary cursor-pointer transition-colors ease-in-out duration-300"
-          onClick={() => setShowGuidesModal(true)}>
-          Size Guide
-        </Link>
+        <SizeGuides />
+
 
         <div className='flex gap-2 items-center'>
           <Button
@@ -73,17 +68,9 @@ const ProductSizes = ({
       <Link
         underline
         className="w-fit py-2 lg:pb-0 font-medium text-md leading-none hover:text-secondary cursor-pointer transition-colors ease-in-out duration-300"
-        onClick={() => setShowNotifyModal(!showGuidesModal)}>
+        onClick={() => setShowNotifyModal(!showNotifyModal)}>
         Can&apos;t find your size? Get notified!
       </Link>
-
-      <Modal
-        title='Size Guides'
-        size='big'
-        isOpen={showGuidesModal}
-        onClose={() => setShowGuidesModal(false)}>
-        <SizeGuides />
-      </Modal>
 
       <Modal
         title='Notify Me'
