@@ -1,11 +1,11 @@
 'use client'
 
-import { ProductFilters } from "@/types";
-import FiltersDrawer from "../drawers/FiltersDrawer";
-import SortDrawer from "../drawers/SortDrawer";
-import { DynamicFilterHeading, FilterPanelProps } from "./FilterPanel";
+import { ProductFilters } from "@/types"
+import { DynamicFilterHeading, FiltersPanelProps } from "./FiltersPanel"
+import FiltersDrawer from "./drawers/FiltersDrawer"
+import SortDrawer from "./drawers/SortDrawer"
 
-interface MobileFiltersProps extends FilterPanelProps {
+interface MobileFiltersProps extends FiltersPanelProps {
     dynamicHeading: DynamicFilterHeading
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }

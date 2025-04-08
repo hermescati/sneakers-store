@@ -1,7 +1,7 @@
 import routes from '@/lib/routes'
 import { getNavLinks } from '@/services'
 import Link from '../base/Link'
-import SearchDrawer from '../drawers/SearchDrawer'
+import SearchDrawer from '../filters/drawers/SearchDrawer'
 import MainContainer from '../MainContainer'
 import NavLinks from './base/NavLinks'
 import UserNav from './base/UserNav'

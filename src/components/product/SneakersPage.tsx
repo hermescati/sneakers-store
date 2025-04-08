@@ -1,4 +1,4 @@
-import FilterPanel from "@/components/filters/FilterPanel"
+import FiltersPanel from "@/components/filters/FiltersPanel"
 import MainContainer from "@/components/MainContainer"
 import ProductCard from "@/components/product/ProductCard"
 import { getBrands, getCollections, getModels } from "@/services/products"
@@ -66,7 +66,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
 
     return (
         <MainContainer className="relative">
-            <FilterPanel
+            <FiltersPanel
                 initialFilters={appliedFilters}
                 brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
                 modelOptions={models.map((m) => ({ value: m.slug!, label: m.name }))}

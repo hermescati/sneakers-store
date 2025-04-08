@@ -4,12 +4,12 @@ import { getProductInfo } from '@/utils/product'
 import { Icon } from '@iconify/react'
 import Image from 'next/image'
 
-interface SearchItemProps {
+interface SearchResultItem {
     product: Product
     onClick: VoidFunction
 }
 
-const SearchItem = ({ product, onClick }: SearchItemProps) => {
+const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
     const { brand, model, thumbnail } = getProductInfo(product)
 
     return (
@@ -43,4 +43,4 @@ const SearchItem = ({ product, onClick }: SearchItemProps) => {
     )
 }
 
-export default SearchItem
+export default SearchResultItem

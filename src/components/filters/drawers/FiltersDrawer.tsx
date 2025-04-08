@@ -5,12 +5,12 @@ import { SIZING_CATEGORY_OPTIONS } from "@/lib/options"
 import { ProductFilters } from "@/types"
 import { useEffect, useMemo, useState } from "react"
 import { Drawer } from 'vaul'
-import AccordionFilter from "../filters/base/AccordionFilter"
-import PriceRange from "../filters/base/PriceRange"
-import SizeFilter from "../filters/base/SizeFilter"
-import { FilterPanelProps } from "../filters/FilterPanel"
+import { FiltersPanelProps } from "../FiltersPanel"
+import MultiSelectFilter from "../base/MultiSelectFilter"
+import PriceRange from "../base/PriceRange"
+import SizeFilter from "../base/SizeFilter"
 
-interface FiltersDrawerProps extends FilterPanelProps {
+interface FiltersDrawerProps extends FiltersPanelProps {
     initialFilters: Omit<ProductFilters, 'sort' | 'order'>
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }
@@ -28,7 +28,7 @@ const FiltersDrawer = ({
 
     const initialFiltersCount = useMemo(() => {
         return Object.entries(initialFilters)
-            .filter(([,value]) => value && (Array.isArray(value) ? value.length > 0 : true))
+            .filter(([, value]) => value && (Array.isArray(value) ? value.length > 0 : true))
             .length
     }, [initialFilters])
 
@@ -115,19 +115,19 @@ const FiltersDrawer = ({
 
                         <div className="px-3 h-full divide-y divide-border overflow-y-auto">
                             <div>
-                                <AccordionFilter
+                                <MultiSelectFilter
                                     title="Brands"
                                     options={brandOptions}
                                     selectedValues={getSelectedValues('brand')}
                                     onSelect={value => handleSelect('brand', value)}
                                     onClear={() => updateFilters({ ...filters, brand: undefined })} />
-                                <AccordionFilter
+                                <MultiSelectFilter
                                     title="Models"
                                     options={modelOptions}
                                     selectedValues={getSelectedValues('model')}
                                     onSelect={value => handleSelect('model', value)}
                                     onClear={() => updateFilters({ ...filters, model: undefined })} />
-                                <AccordionFilter
+                                <MultiSelectFilter
                                     title="Collections"
                                     options={collectionOptions}
                                     selectedValues={getSelectedValues('collection')}

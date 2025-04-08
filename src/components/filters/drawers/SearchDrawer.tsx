@@ -1,5 +1,6 @@
 'use client'
 
+import Button from '@/components/base/button/Button'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import routes from '@/lib/routes'
@@ -12,10 +13,9 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useDebounceValue, useOnClickOutside } from 'usehooks-ts'
 import { Drawer } from 'vaul'
-import Button from '../base/button/Button'
-import SearchInput from '../filters/base/SearchInput'
-import SearchItem from '../filters/base/SearchItem'
-import NoResultsFound from '../nav/search/NoResultsFound'
+import NoResultsFound from '../search/NoResultsFound'
+import SearchInput from '../search/SearchInput'
+import SearchResultItem from '../search/SearchResultItem'
 
 const SearchDrawer = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -129,7 +129,7 @@ const SearchDrawer = () => {
                                         <p className='px-4 font-medium text-md text-primary-600'>Results</p>
                                         <ul className='divide-y divide-border border-t border-border'>
                                             {results.map((product) => (
-                                                <SearchItem
+                                                <SearchResultItem
                                                     key={product.id}
                                                     product={product}
                                                     onClick={() => router.push(routes.products.product(product.slug))}
