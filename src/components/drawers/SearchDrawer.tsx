@@ -9,8 +9,8 @@ import { Product } from '@/types/payload'
 import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useDebounceValue } from 'usehooks-ts'
+import { useEffect, useRef, useState } from 'react'
+import { useDebounceValue, useOnClickOutside } from 'usehooks-ts'
 import { Drawer } from 'vaul'
 import Button from '../base/button/Button'
 import SearchInput from '../filters/base/SearchInput'
@@ -24,6 +24,9 @@ const SearchDrawer = () => {
     const [selectedCategory, setSelectedCategory] = useState<SelectOption | null>(null)
     const [results, setResults] = useState<Product[]>([])
     const [isLoading, setIsLoading] = useState(false)
+
+    const contentRef = useRef<HTMLDivElement>(null!)
+    useOnClickOutside(contentRef, () => setIsOpen(false))
 
     const router = useRouter()
     useOnKeyPress({ key: 'k', ctrl: true, preventDefault: true }, () => setIsOpen(true))
@@ -85,8 +88,8 @@ const SearchDrawer = () => {
             </Drawer.Trigger>
             <Drawer.Portal>
                 <Drawer.Overlay className='fixed inset-0 bg-black/40 z-30' />
-                <Drawer.Content className='max-w-3xl mx-auto fixed top-5 inset-x-5 z-30 mb-96 max-h-[75dvh] outline-none'>
-                    <div className='w-full h-full flex flex-col border border-border relative bg-background rounded-xl shadow-lg overflow-hidden'>
+                <Drawer.Content className='fixed inset-0 z-30 outline-none'>
+                    <div ref={contentRef} className='max-w-3xl mt-6 mx-4 md:mx-auto rounded-2xl border border-border bg-background shadow-lg'>
                         <Drawer.Title></Drawer.Title>
 
                         <div className='relative h-full w-full divide-y divide-border'>

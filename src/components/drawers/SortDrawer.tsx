@@ -38,7 +38,7 @@ const SortDrawer = ({
     }
 
     return (
-        <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={setIsOpen}>
+        <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
             <Drawer.Trigger asChild>
                 <Button
                     variant='ghost'
