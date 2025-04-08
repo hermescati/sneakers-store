@@ -2,17 +2,45 @@
 
 import Button from '@/components/base/button/Button'
 import IconButton from '@/components/base/button/IconButton'
-import Link from '@/components/base/Link'
-import Modal from '@/components/base/Modal'
 import toast from '@/components/base/toast/Toast'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import { useCartStore } from '@/stores/cartStore'
 import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
-import { useState } from 'react'
 import NotifyForm from './NotifyForm'
 import SizeGuides from './SizeGuides'
+
+interface SizeBoxProps {
+  size: number
+  stock: number
+  selected: boolean
+  onSelect: VoidFunction
+}
+
+const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
+  const baseStyle = `
+    flex items-center justify-center p-4
+    rounded-xl border border-border 
+    bg-background 
+    font-semibold text-primary-700
+    disabled:opacity-40 disabled:cursor-not-allowed
+    enabled:hover:border-primary-400
+    cursor-pointer transition-color ease-in-out duration-300
+  `
+
+  return (
+    <button
+      disabled={!stock}
+      className={cn(baseStyle, {
+        "border-none bg-primary-900 text-background shadow-[0_2px_8px_-2px_rgba(var(--primary-800),0.35)]": selected
+      })}
+      onClick={onSelect}
+    >
+      {size}
+    </button>
+  )
+}
 
 interface ProductSizeProps {
   product: Product
@@ -25,8 +53,6 @@ const ProductSizes = ({
   selectedSize,
   setSelectedSize
 }: ProductSizeProps) => {
-  const [showNotifyModal, setShowNotifyModal] = useState(false)
-
   const { addItem } = useCartStore()
 
   return (
@@ -50,7 +76,6 @@ const ProductSizes = ({
 
         <SizeGuides />
 
-
         <div className='flex gap-2 items-center'>
           <Button
             disabled={!selectedSize}
@@ -65,53 +90,8 @@ const ProductSizes = ({
         </div>
       </div>
 
-      <Link
-        underline
-        className="w-fit py-2 lg:pb-0 font-medium text-md leading-none hover:text-secondary cursor-pointer transition-colors ease-in-out duration-300"
-        onClick={() => setShowNotifyModal(!showNotifyModal)}>
-        Can&apos;t find your size? Get notified!
-      </Link>
-
-      <Modal
-        title='Notify Me'
-        isOpen={showNotifyModal}
-        childrenClasses='overflow-visible'
-        onClose={() => setShowNotifyModal(false)}
-      >
-        <NotifyForm />
-      </Modal>
+      <NotifyForm />
     </div>
-  )
-}
-
-interface SizeBoxProps {
-  size: number
-  stock: number
-  selected: boolean
-  onSelect: VoidFunction
-}
-
-const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
-  const baseStyle = `
-    flex items-center justify-center p-4
-    rounded-xl border border-border 
-    bg-background 
-    font-semibold text-primary-700
-    hover:border-primary-400
-    cursor-pointer transition-color ease-in-out duration-300
-  `
-
-  return (
-    <button
-      disabled={!stock}
-      className={cn(baseStyle, {
-        "opacity-40 cursor-not-allowed": !stock,
-        "border-none bg-primary-900 text-background shadow-[0_2px_8px_-2px_rgba(var(--primary-800),0.35)]": selected
-      })}
-      onClick={onSelect}
-    >
-      {size}
-    </button>
   )
 }
 
