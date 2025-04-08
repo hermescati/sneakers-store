@@ -5,9 +5,9 @@ import { ProductFilters, SortOrder } from "@/types"
 import Select from "../base/input/Select"
 import PriceRange from "./base/PriceRange"
 import SizeFilter from "./base/SizeFilter"
-import { DynamicFilterHeading, FilterPanelProps } from "./FilterPanel"
+import { DynamicFilterHeading, FiltersPanelProps } from "./FiltersPanel"
 
-interface DesktopFiltersProps extends FilterPanelProps {
+interface DesktopFiltersProps extends FiltersPanelProps {
     dynamicHeading: DynamicFilterHeading
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }

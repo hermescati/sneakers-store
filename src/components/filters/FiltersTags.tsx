@@ -21,8 +21,8 @@ const Tag = ({ label, onRemove }: TagProps) => (
     </span>
 );
 
-interface FilterTagsProps {
-    filters: ProductFilters
+interface FiltersTagsProps {
+    appliedFilters: ProductFilters
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
     collectionOptions: SelectOption[]
@@ -31,14 +31,14 @@ interface FilterTagsProps {
 }
 
 const FilterTags = ({
-    filters,
+    appliedFilters,
     brandOptions,
     modelOptions,
     collectionOptions,
     categoryOptions,
     updateFilters,
-}: FilterTagsProps) => {
-    const cleanedFilters = Object.entries(filters).filter(([key]) => key !== 'sort' && key !== 'order')
+}: FiltersTagsProps) => {
+    const cleanedFilters = Object.entries(appliedFilters).filter(([key]) => key !== 'sort' && key !== 'order')
 
     const getLabelFromValue = (value: string, options: SelectOption[]) => {
         const option = options.find((opt) => opt.value === value)

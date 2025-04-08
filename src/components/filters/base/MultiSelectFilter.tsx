@@ -7,7 +7,7 @@ import { cn } from '@/utils'
 import { Icon } from '@iconify/react'
 import { useMemo } from 'react'
 
-interface AccordionFilterProps {
+interface MultiSelectFilterProps {
     title: string
     options: SelectOption[]
     selectedValues: string[]
@@ -15,13 +15,13 @@ interface AccordionFilterProps {
     onClear: VoidFunction
 }
 
-const AccordionFilter = ({
+const MultiSelectFilter = ({
     title,
     options,
     selectedValues,
     onSelect,
     onClear
-}: AccordionFilterProps) => {
+}: MultiSelectFilterProps) => {
     const isOpen = useMemo(() => selectedValues.length > 0, [selectedValues])
 
     return (
@@ -73,4 +73,4 @@ const AccordionFilter = ({
     )
 }
 
-export default AccordionFilter
+export default MultiSelectFilter

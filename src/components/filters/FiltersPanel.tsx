@@ -6,12 +6,12 @@ import { Product } from "@/types/payload"
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from "react"
 import { useDebounceCallback } from "usehooks-ts"
-import FilterTags from "./base/FilterTags"
 import { HistogramBin } from "./base/RangeSlider"
 import DesktopFilters from "./DesktopFilters"
+import FilterTags from "./FiltersTags"
 import MobileFilters from "./MobileFilters"
 
-export interface FilterPanelProps {
+export interface FiltersPanelProps {
     initialFilters: ProductFilters
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
@@ -28,10 +28,10 @@ export type DynamicFilterHeading = {
 // TODO: Filter the model and collection based on the selected brand, if no selected brand, then show them all
 // To be completed once a mechanism to have a centralized config is done so it takes the values from there and
 // and constructs the SelectOption array in this component.
-const FilterPanel = ({
+const FiltersPanel = ({
     initialFilters,
     ...props
-}: FilterPanelProps) => {
+}: FiltersPanelProps) => {
     const [filters, setFilters] = useState<ProductFilters>(initialFilters)
 
     const router = useRouter()
@@ -127,7 +127,7 @@ const FilterPanel = ({
 
             <div className="hidden md:block my-3">
                 <FilterTags
-                    filters={filters}
+                    appliedFilters={filters}
                     brandOptions={props.brandOptions}
                     modelOptions={props.modelOptions}
                     collectionOptions={props.collectionOptions}
@@ -138,4 +138,4 @@ const FilterPanel = ({
     )
 }
 
-export default FilterPanel
+export default FiltersPanel
