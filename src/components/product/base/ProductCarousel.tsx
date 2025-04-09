@@ -1,7 +1,8 @@
 'use client'
 
-import { Product } from '@/types/payload'
+import { Media } from '@/types/payload'
 import { cn } from '@/utils'
+import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type SwiperType from 'swiper'
@@ -11,20 +12,12 @@ import { Keyboard } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 interface ProductCarouselProps {
-  images: Product['images']
+  images: Media[]
 }
 
 const ProductCarousel = ({ images }: ProductCarouselProps) => {
   const [swiper, setSwiper] = useState<SwiperType | null>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-
-  const imageUrls = images
-    .map(({ image }) => (typeof image === 'string' ? image : image.url))
-    .filter(Boolean) as string[]
-
-  const thumbnailUrls = images
-    .map(({ image }) => (typeof image === 'string' ? image : image.sizes?.thumbnail?.url))
-    .filter(Boolean) as string[]
 
   useEffect(() => {
     if (!swiper) return
@@ -35,7 +28,17 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative flex-1 aspect-square sm:aspect-video lg:aspect-[4/3] xl:aspect-video rounded-2xl bg-primary-100 dark:bg-primary-800 overflow-hidden">
+      <div className="relative flex-1 aspect-[3/2] md:aspect-video lg:aspect-[3/2] xl:aspect-video rounded-2xl bg-primary-100 dark:bg-primary-800 overflow-hidden">
+        <button
+          aria-label="previous image"
+          className='md:hidden absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:-translate-x-1 duration-300'
+          onClick={(e) => {
+            e.preventDefault()
+            swiper?.slidePrev()
+          }}
+        >
+          <Icon icon="mage:chevron-left" />
+        </button>
         <Swiper
           spaceBetween={12}
           slidesPerView={1}
@@ -46,41 +49,49 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
           grabCursor
           loop
         >
-          {imageUrls.map((url, i) => (
-            <SwiperSlide key={i}>
+          {images.map((media) => (
+            <SwiperSlide key={media.id} className='relative !flex items-center justify-center p-6'>
               <Image
-                src={url}
+                src={media.url!}
                 alt="product image"
-                fill
+                width={media.width!}
+                height={media.height!}
                 priority
                 loading="eager"
-                className="object-contain"
                 draggable={false}
               />
             </SwiperSlide>
           ))}
         </Swiper>
+        <button
+          aria-label="next image"
+          onClick={(e) => {
+            e.preventDefault()
+            swiper?.slideNext()
+          }}
+          className='md:hidden absolute inset-y-0 right-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:translate-x-1 duration-300'
+        >
+          <Icon icon="mage:chevron-right" />
+        </button>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
-        {thumbnailUrls.map((url, i) => (
+      <div className="hidden md:grid grid-cols-3 sm:grid-cols-5 gap-3">
+        {images.map((media, index) => (
           <button
-            key={i}
-            onClick={() => swiper?.slideToLoop(i)}
+            key={media.id}
+            onClick={() => swiper?.slideToLoop(index)}
             className={cn(
-              'flex items-center justify-center p-2 aspect-square md:aspect-[4/3] border-2 rounded-xl bg-primary-100 dark:bg-primary-800 overflow-hidden transition',
-              activeIndex === i ? 'border-secondary ' : 'border-transparent opacity-70'
+              'flex items-center justify-center p-2 xl:p-4 aspect-square md:aspect-[3/2] border-2 rounded-xl bg-primary-100 dark:bg-primary-800 overflow-hidden transition',
+              activeIndex === index ? 'border-secondary ' : 'border-transparent opacity-70'
             )}
           >
-            <div className='relative w-full h-full'>
-              <Image
-                src={url}
-                alt={`thumbnail ${i + 1}`}
-                fill
-                className="object-contain"
-                draggable={false}
-              />
-            </div>
+            <Image
+              src={media.sizes?.thumbnail?.url || ''}
+              alt={`thumbnail ${index + 1}`}
+              width={media.sizes?.thumbnail?.width || 400}
+              height={media.sizes?.thumbnail?.height || 300}
+              draggable={false}
+            />
           </button>
         ))}
       </div>

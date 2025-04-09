@@ -22,8 +22,8 @@ const SizeGuides = () => {
             handleOnly={!isMobile}
             open={isOpen}
             onOpenChange={setIsOpen}>
-            <Drawer.Trigger className='w-fit py-2 mb-4 font-medium text-md text-primary-600 hover:text-secondary hover:underline hover:underline-offset-4 cursor-pointer transition-colors ease-in-out duration-300'>
-                Size Guide
+            <Drawer.Trigger className='w-fit font-medium text-md text-primary-600 hover:text-secondary hover:underline hover:underline-offset-4 cursor-pointer transition-colors ease-in-out duration-300'>
+                Size Guides
             </Drawer.Trigger>
             <Drawer.Portal>
                 <Drawer.Overlay className='fixed inset-0 bg-black/40 z-30' />

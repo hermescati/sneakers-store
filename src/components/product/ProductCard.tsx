@@ -42,31 +42,27 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
         "visible animate-in fade-in-5": isLoaded
       })}
     >
-      <div className="flex flex-col gap-2 w-full">
-        <div className="aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip">
-          <div className='relative w-full h-full'>
-            <Image
-              src={thumbnail}
-              alt={`${product.nickname} thumbnail`}
-              fill
-              loading='lazy'
-              className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-            />
-          </div>
+      <div className="flex flex-col gap-2">
+        <div className='relative flex items-center justify-center aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip'>
+          <Image
+            src={thumbnail.url!}
+            alt={`${product.nickname} thumbnail`}
+            height={thumbnail.height!}
+            width={thumbnail.width!}
+            className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+          />
         </div>
 
         <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
-          <h3 className="font-semibold line-clamp-1 text-lg lg:text-base">
-            {product.nickname}
-          </h3>
+          <h3 className="font-semibold">{product.nickname}</h3>
 
-          <span className="flex items-center gap-2 text-primary-600">
+          <span className="flex items-center gap-2 text-primary-500">
             <BrandLogo brand={brand} />
             <p className="font-medium text-md">{model}</p>
           </span>
 
           <div className="flex items-baseline gap-2 lg:mt-1">
-            <span className="font-semibold text-lg lg:text-base">
+            <span className="font-bold text-lg">
               {formatPrice(finalPrice)}
             </span>
             {finalPrice !== basePrice && (

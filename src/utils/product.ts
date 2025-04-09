@@ -1,5 +1,5 @@
 import { SelectedSize } from "@/types"
-import { Product } from "@/types/payload"
+import { Media, Product } from "@/types/payload"
 
 export const getProductInfo = (product: Product) => {
     const brand = typeof product.brand === 'string'
@@ -14,11 +14,13 @@ export const getProductInfo = (product: Product) => {
         ? product.collection
         : product.collection?.name
 
-    const thumbnail = typeof product.images[0].image === 'string'
-        ? product.images[0].image
-        : product.images[0].image.url as string
+    const thumbnail = product.images[0].image as Media
 
-    return { brand, model, collection, thumbnail }
+    const images = product.images
+        .map(i => (typeof i.image === 'string' ? null : i.image))
+        .filter((img): img is Media => !!img)
+
+    return { brand, model, collection, thumbnail, images }
 }
 
 export const getProductSlugs = (product: Product) => {
