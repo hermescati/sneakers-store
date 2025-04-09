@@ -99,10 +99,15 @@ const config: Config = {
           '0%': { transform: 'rotate(0deg)' },
           '50%': { transform: 'rotate(180deg)' },
           '100%': { transform: 'rotate(360deg)' }
+        },
+        bump: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(4px)' },
         }
       },
       animation: {
-        'spin-180': 'rotate 4s ease-in-out infinite'
+        'spin-180': 'rotate 4s ease-in-out infinite',
+        bump: 'bump 0.6s ease-in-out infinite',
       }
     }
   },

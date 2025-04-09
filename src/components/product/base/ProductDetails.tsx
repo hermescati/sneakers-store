@@ -36,7 +36,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
     {
       title: 'In Stock & Ready to Ship',
       icon: 'hugeicons:delivery-truck-01',
-      content: "We hold and authenticate inventory on site so you don’t have to wait to receive product from a 3rd party seller. Processing and order verification typically occur 1-3 business days prior to shipping."
+      content: "We hold and authenticate inventory on site so you don't have to wait to receive product from a 3rd party seller. Processing and order verification typically occur 1-3 business days prior to shipping."
     },
     {
       title: 'Returns Accepted',

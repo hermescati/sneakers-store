@@ -25,7 +25,7 @@ const ProductPage = ({ product }: { product: Product }) => {
   })
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
 
-  const { brand, model, collection } = getProductInfo(product)
+  const { brand, model, collection, images } = getProductInfo(product)
   const { brandSlug, modelSlug, collectionSlug } = getProductSlugs(product)
 
   const breadcrumbs: BreadcrumbItem[] = [
@@ -53,7 +53,7 @@ const ProductPage = ({ product }: { product: Product }) => {
           <div className="lg:hidden">
             <ProductPricing product={product} selectedSize={selectedSize} />
           </div>
-          <ProductCarousel images={product.images} />
+          <ProductCarousel images={images} />
         </div>
 
         <div className="flex flex-col gap-4 xl:gap-8 lg:justify-between lg:col-span-1">

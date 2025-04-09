@@ -24,11 +24,17 @@ const ProductReel = ({
 
   return (
     <section className="flex flex-col gap-3">
-      {/* TODO: Change the icon and add a small animation that the arrow is moving when hovering */}
       {title && (
-        <Link href={href} className="flex items-center justify-start gap-3">
+        <Link
+          href={href}
+          className="group flex items-center justify-start gap-3"
+        >
           <h2 className="font-bold text-xl">{title}</h2>
-          <Icon icon="solar:arrow-right-linear" height="1.5rem" />
+          <Icon
+            icon="flowbite:arrow-right-outline"
+            height="1.5rem"
+            className="group-hover:animate-bump"
+          />
         </Link>
       )}
 
