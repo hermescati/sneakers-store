@@ -20,8 +20,9 @@ const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
             <div className="relative aspect-video h-16">
                 <Image
                     alt={product.nickname}
-                    src={thumbnail}
-                    fill
+                    src={thumbnail.url!}
+                    width={thumbnail.width!}
+                    height={thumbnail.height!}
                     className="object-contain" />
             </div>
 

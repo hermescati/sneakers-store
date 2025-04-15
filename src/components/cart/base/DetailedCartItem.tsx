@@ -1,6 +1,7 @@
 'use client'
 
 import IconButton from '@/components/base/button/IconButton'
+import { Media } from '@/types/payload'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -10,7 +11,7 @@ interface DetailedCartItemProps {
   index: number
   name: string
   nickname: string
-  thumbnail: string
+  thumbnail: Media
   category: string
   size: number
   basePrice: number
@@ -49,14 +50,15 @@ const DetailedCartItem = ({
         <IconButton
           icon="tabler-x"
           className="absolute top-2 left-2 z-10 p-1.5 dark:text-primary-300 hover:text-danger hover:bg-primary-300 dark:hover:bg-primary-600 active:bg-primary-300"
-          onClick={onRemove} />
+          onClick={onRemove}
+        />
         <Image
           alt={`${nickname} thumbnail`}
-          src={thumbnail}
-          width={400}
-          height={300}
+          src={thumbnail.url!}
+          width={thumbnail.width!}
+          height={thumbnail.height!}
           loading="lazy"
-          className="h-full w-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
+          className="object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
       </div>
 
@@ -67,7 +69,9 @@ const DetailedCartItem = ({
         </span>
 
         <div className="flex items-baseline gap-2 mt-1">
-          <span className="font-semibold text-lg">{formatPrice(discountedPrice)}</span>
+          <span className="font-semibold text-lg">
+            {formatPrice(discountedPrice)}
+          </span>
           {isDiscounted && (
             <span className="text-md line-through text-primary-600">
               {formatPrice(basePrice)}
