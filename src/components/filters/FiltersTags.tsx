@@ -25,7 +25,7 @@ interface FiltersTagsProps {
     appliedFilters: ProductFilters
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
-    collectionOptions: SelectOption[]
+    collabOptions: SelectOption[]
     categoryOptions: SelectOption[]
     updateFilters: (newFilters: Partial<ProductFilters>) => void
 }
@@ -34,7 +34,7 @@ const FilterTags = ({
     appliedFilters,
     brandOptions,
     modelOptions,
-    collectionOptions,
+    collabOptions,
     categoryOptions,
     updateFilters,
 }: FiltersTagsProps) => {
@@ -72,9 +72,9 @@ const FilterTags = ({
                     ))
                 }
 
-                if (key === 'collection' && Array.isArray(value)) {
+                if (key === 'collaboration' && Array.isArray(value)) {
                     return value.map((v) => (
-                        <Tag key={v} label={getLabelFromValue(v, collectionOptions)} onRemove={() => handleTagRemove(key, value, v)} />
+                        <Tag key={v} label={getLabelFromValue(v, collabOptions)} onRemove={() => handleTagRemove(key, value, v)} />
                     ))
                 }
 
@@ -110,7 +110,7 @@ const FilterTags = ({
                 onClick={() => updateFilters({
                     brand: undefined,
                     model: undefined,
-                    collection: undefined,
+                    collaboration: undefined,
                     category: undefined,
                     size: undefined,
                     price: undefined,

@@ -17,7 +17,7 @@ export interface Config {
     events: Event;
     brands: Brand;
     models: Model;
-    collections: Collection;
+    collaborations: Collaboration;
     media: Media;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -31,7 +31,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
-    collections: CollectionsSelect<false> | CollectionsSelect<true>;
+    collaborations: CollaborationsSelect<false> | CollaborationsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -99,7 +99,7 @@ export interface Product {
   slug?: string | null;
   brand: string | Brand;
   model: string | Model;
-  collection?: (string | null) | Collection;
+  collaboration?: (string | null) | Collaboration;
   size_category: 'mens' | 'womens' | 'kids';
   nickname: string;
   colorway?: string | null;
@@ -206,15 +206,17 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collections".
+ * via the `definition` "collaborations".
  */
-export interface Collection {
+export interface Collaboration {
   id: string;
   slug?: string | null;
-  brand: string | Brand;
-  name: string;
+  brand: (string | Brand)[];
+  title: string;
+  name?: string | null;
+  description?: string | null;
   /**
-   * Mark this collection as featured to display it on the homepage
+   * Mark this collaboration as featured to display it on the homepage
    */
   featured?: boolean | null;
   /**
@@ -286,8 +288,8 @@ export interface Event {
             value: string | Model;
           }
         | {
-            relationTo: 'collections';
-            value: string | Collection;
+            relationTo: 'collaborations';
+            value: string | Collaboration;
           }
       )[]
     | null;
@@ -345,8 +347,8 @@ export interface PayloadLockedDocument {
         value: string | Model;
       } | null)
     | ({
-        relationTo: 'collections';
-        value: string | Collection;
+        relationTo: 'collaborations';
+        value: string | Collaboration;
       } | null)
     | ({
         relationTo: 'media';
@@ -421,7 +423,7 @@ export interface ProductsSelect<T extends boolean = true> {
   slug?: T;
   brand?: T;
   model?: T;
-  collection?: T;
+  collaboration?: T;
   size_category?: T;
   nickname?: T;
   colorway?: T;
@@ -552,12 +554,14 @@ export interface ModelsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "collections_select".
+ * via the `definition` "collaborations_select".
  */
-export interface CollectionsSelect<T extends boolean = true> {
+export interface CollaborationsSelect<T extends boolean = true> {
   slug?: T;
   brand?: T;
+  title?: T;
   name?: T;
+  description?: T;
   featured?: T;
   image?: T;
   updatedAt?: T;

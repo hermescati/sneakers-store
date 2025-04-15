@@ -2,7 +2,7 @@
 
 import { payloadClient } from '@/lib/payload'
 import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
-import { Brand, Collection, Model, Product } from '@/types/payload'
+import { Brand, Collaboration, Model, Product } from '@/types/payload'
 import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
 
@@ -65,9 +65,9 @@ export async function getModels(params?: QueryParams): Promise<PaginatedResponse
   }
 }
 
-export async function getCollections(params?: QueryParams): Promise<PaginatedResponse<Collection>> {
+export async function getCollabs(params?: QueryParams): Promise<PaginatedResponse<Collaboration>> {
   try {
-    return await getPaginatedResponse<Collection>('collections', params)
+    return await getPaginatedResponse<Collaboration>('collaborations', params)
   } catch (error) {
     console.error(error)
     return {
@@ -171,15 +171,15 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
   const excludedIds = products.map((p) => p.id)
   const brandIds = products.map((p) => extractId(p.brand)?.toString()).filter(Boolean)
   const modelIds = products.map((p) => extractId(p.model)?.toString()).filter(Boolean)
-  const collectionIds = products.map((p) => extractId(p.collection)?.toString()).filter(Boolean)
+  const collabIds = products.map((p) => extractId(p.collaboration)?.toString()).filter(Boolean)
 
   const queries: Promise<PaginatedResponse<Product>>[] = []
 
-  if (collectionIds.length) {
+  if (collabIds.length) {
     queries.push(
       getProducts({
         limit,
-        where: { and: [{ id: { not_in: excludedIds } }, { collection: { in: collectionIds } }] },
+        where: { and: [{ id: { not_in: excludedIds } }, { collaboration: { in: collabIds } }] },
       })
     )
   }
@@ -218,7 +218,7 @@ function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | 
       or: [
         { "brand.slug": { like: filters.query } },
         { "model.slug": { like: filters.query } },
-        { "collection.slug": { like: filters.query } },
+        { "collaboration.slug": { like: filters.query } },
         { slug: { like: filters.query } },
       ],
     })
@@ -230,8 +230,8 @@ function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | 
   if (filters.model?.length) {
     conditions.push({ 'model.slug': { in: filters.model } })
   }
-  if (filters.collection?.length) {
-    conditions.push({ 'collection.slug': { in: filters.collection } })
+  if (filters.collaboration?.length) {
+    conditions.push({ 'collaboration.slug': { in: filters.collaboration } })
   }
   if (filters.category) {
     conditions.push({ 'size_category': { equals: filters.category } })
@@ -268,6 +268,6 @@ function applySorting(filters: Pick<ProductFilters, 'sort' | 'order'>): Sort | u
   return `${filters.order === 'desc' ? '-' : ''}${filters.sort}`
 }
 
-function extractId(value: string | Collection | Brand | Model | null | undefined) {
+function extractId(value: string | Collaboration | Brand | Model | null | undefined) {
   return typeof value === 'string' ? value : value?.id
 }

@@ -10,9 +10,9 @@ export const getProductInfo = (product: Product) => {
         ? product.model
         : product.model.name
 
-    const collection = typeof product.collection === 'string'
-        ? product.collection
-        : product.collection?.name
+    const collaboration = typeof product.collaboration === 'string'
+        ? product.collaboration
+        : product.collaboration?.name
 
     const thumbnail = product.images[0].image as Media
 
@@ -20,15 +20,15 @@ export const getProductInfo = (product: Product) => {
         .map(i => (typeof i.image === 'string' ? null : i.image))
         .filter((img): img is Media => !!img)
 
-    return { brand, model, collection, thumbnail, images }
+    return { brand, model, collaboration, thumbnail, images }
 }
 
 export const getProductSlugs = (product: Product) => {
     const brandSlug = typeof product.brand === 'string' ? '' : product.brand.slug
     const modelSlug = typeof product.model === 'string' ? '' : product.model.slug
-    const collectionSlug = typeof product.collection === 'string' ? '' : product.collection?.slug
+    const collabSlug = typeof product.collaboration === 'string' ? '' : product.collaboration?.slug
 
-    return { brandSlug, modelSlug, collectionSlug }
+    return { brandSlug, modelSlug, collabSlug }
 }
 
 export const getProductPrice = (product: Product, size?: SelectedSize) => {

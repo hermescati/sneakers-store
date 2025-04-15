@@ -1,6 +1,6 @@
 import {
   Brands,
-  Collections,
+  Collaborations,
   Events,
   Media,
   Models,
@@ -46,7 +46,7 @@ export default buildConfig({
     }
   },
   secret: process.env.PAYLOAD_SECRET || '',
-  collections: [Users, Products, Orders, Events, Brands, Models, Collections, Media],
+  collections: [Users, Products, Orders, Events, Brands, Models, Collaborations, Media],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {

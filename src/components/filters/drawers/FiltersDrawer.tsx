@@ -19,7 +19,7 @@ const FiltersDrawer = ({
     initialFilters,
     brandOptions,
     modelOptions,
-    collectionOptions,
+    collabOptions,
     priceBins,
     updateFilters
 }: FiltersDrawerProps) => {
@@ -74,7 +74,7 @@ const FiltersDrawer = ({
         updateFilters({
             brand: undefined,
             model: undefined,
-            collection: undefined,
+            collaboration: undefined,
             category: undefined,
             size: undefined,
             price: undefined,
@@ -128,11 +128,11 @@ const FiltersDrawer = ({
                                     onSelect={value => handleSelect('model', value)}
                                     onClear={() => updateFilters({ ...filters, model: undefined })} />
                                 <MultiSelectFilter
-                                    title="Collections"
-                                    options={collectionOptions}
-                                    selectedValues={getSelectedValues('collection')}
-                                    onSelect={value => handleSelect('collection', value)}
-                                    onClear={() => updateFilters({ ...filters, collection: undefined })} />
+                                    title="Collaborations"
+                                    options={collabOptions}
+                                    selectedValues={getSelectedValues('collaboration')}
+                                    onSelect={value => handleSelect('collaboration', value)}
+                                    onClear={() => updateFilters({ ...filters, collaboration: undefined })} />
                             </div>
                             <div className="pt-3 pb-2">
                                 <PriceRange

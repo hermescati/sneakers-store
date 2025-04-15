@@ -86,9 +86,9 @@ export const Products: CollectionConfig = {
       type: 'row',
       fields: [
         {
-          name: 'collection',
+          name: 'collaboration',
           type: 'relationship',
-          relationTo: 'collections',
+          relationTo: 'collaborations',
           hasMany: false,
           admin: { width: '50%' }
         },
