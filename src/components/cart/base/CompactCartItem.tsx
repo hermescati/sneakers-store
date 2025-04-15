@@ -2,6 +2,7 @@
 
 import IconButton from '@/components/base/button/IconButton'
 import CartItemSkeleton from '@/components/cart/skeletons/CartItemSkeleton'
+import { Media } from '@/types/payload'
 import { formatPrice } from '@/utils'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -13,7 +14,7 @@ interface CompactCartItemProps {
   category: string
   size: number
   price: number
-  thumbnail: string
+  thumbnail: Media
   onRemove: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
@@ -24,7 +25,7 @@ const CompactCartItem = ({
   size,
   price,
   thumbnail,
-  onRemove,
+  onRemove
 }: CompactCartItemProps) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
   const isMobile = useMediaQuery('(max-width: 1023px)')
@@ -41,13 +42,13 @@ const CompactCartItem = ({
 
   return (
     <div className="flex items-center gap-5 py-4 lg:px-5">
-      <div className="aspect-[4/3]">
+      <div className="relative aspect-[4/3]">
         <Image
           alt={name}
-          src={thumbnail}
-          height={100}
-          width={100}
-          className="h-full w-full object-contain rounded-xl"
+          src={thumbnail.url!}
+          width={thumbnail.width!}
+          height={thumbnail.height!}
+          className="object-contain rounded-xl"
         />
       </div>
 
@@ -63,9 +64,10 @@ const CompactCartItem = ({
         </div>
 
         <IconButton
-          icon={isMobile ? "tabler-x" : "solar:trash-bin-trash-linear"}
+          icon={isMobile ? 'tabler-x' : 'solar:trash-bin-trash-linear'}
           className="h-fit p-2 text-xl hover:text-danger active:text-danger"
-          onClick={onRemove} />
+          onClick={onRemove}
+        />
       </div>
     </div>
   )

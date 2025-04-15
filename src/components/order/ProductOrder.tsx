@@ -5,7 +5,6 @@ import { Product } from '@/types/payload'
 import { formatPrice } from '@/utils'
 import { getProductInfo } from '@/utils/product'
 import Image from 'next/image'
-import { useMediaQuery } from 'usehooks-ts'
 
 interface ProductOrderProps {
   product: Product
@@ -16,17 +15,15 @@ interface ProductOrderProps {
 const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
   const { brand, model, thumbnail } = getProductInfo(product)
 
-  const isTablet = useMediaQuery('(min-width: 768px)')
-
   return (
     <div className="flex items-center gap-6 py-4">
-      <div className="aspect-square md:aspect-video">
+      <div className="relative aspect-square md:aspect-video">
         <Image
           alt={product.nickname || 'order item image'}
-          src={thumbnail}
-          height={80}
-          width={isTablet ? 140 : 120}
-          className="h-full w-full object-contain rounded-md"
+          src={thumbnail.url!}
+          width={thumbnail.width!}
+          height={thumbnail.height!}
+          className="object-contain rounded-md"
         />
       </div>
 
