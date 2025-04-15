@@ -3,7 +3,7 @@
 import { payloadClient } from "@/lib/payload"
 import { NavItem, NavLink, PaginatedResponse, QueryParams } from "@/types"
 import { CollectionSlug, DataFromCollectionSlug } from "payload"
-import { getBrands, getCollections, getModels } from "./products"
+import { getBrands, getCollabs, getModels } from "./products"
 
 export async function getPaginatedResponse<T extends DataFromCollectionSlug<CollectionSlug>>(
     slug: CollectionSlug,
@@ -65,21 +65,21 @@ export async function getNavLinks(): Promise<NavItem[]> {
         brands.map(async (b) => {
             const [
                 { data: models },
-                { data: collections }
+                { data: collabs }
             ] = await Promise.all([
                 getModels({
                     where: { brand: { equals: b.id } },
                     limit: 20,
                     sort: 'createdAt'
                 }),
-                getCollections({
+                getCollabs({
                     where: { brand: { equals: b.id } },
                     limit: 5,
                     sort: 'createdAt'
                 })
             ])
 
-            if (!models.length && !collections.length) {
+            if (!models.length && !collabs.length) {
                 return { name: b.name, href: `/sneakers?brand=${b.slug}` }
             }
 
@@ -94,14 +94,14 @@ export async function getNavLinks(): Promise<NavItem[]> {
                 })
             }))
 
-            const collectionLinks: NavLink[] = collections.map((c) => ({
-                name: c.name,
-                href: `/sneakers?brand=${b.slug}&collection=${c.slug}`
+            const collabLinks: NavLink[] = collabs.map((c) => ({
+                name: c.name!,
+                href: `/sneakers?brand=${b.slug}&collaboration=${c.slug}`
             }))
 
             const items: NavLink[] = [
                 ...modelLinks,
-                ...collectionLinks,
+                ...collabLinks,
                 { name: 'View All', href: `/sneakers?brand=${b.slug}` }
             ]
 

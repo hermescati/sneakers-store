@@ -81,7 +81,7 @@ export const Events: CollectionConfig = {
             name: 'appliedTo',
             label: 'Apply To',
             type: 'relationship',
-            relationTo: ['brands', 'models', 'collections'],
+            relationTo: ['brands', 'models', 'collaborations'],
             hasMany: true,
             required: true,
             admin: {

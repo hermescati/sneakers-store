@@ -1,7 +1,7 @@
 import FiltersPanel from "@/components/filters/FiltersPanel"
 import MainContainer from "@/components/MainContainer"
 import ProductCard from "@/components/product/ProductCard"
-import { getBrands, getCollections, getModels } from "@/services/products"
+import { getBrands, getCollabs, getModels } from "@/services/products"
 import { PaginatedResponse, ProductFilters, SortOrder } from "@/types"
 import { Product } from "@/types/payload"
 import { parseQueryParams } from "@/utils"
@@ -15,7 +15,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
     const appliedFilters: ProductFilters = {
         brand: parseQueryParams(searchParams.brand),
         model: parseQueryParams(searchParams.model),
-        collection: parseQueryParams(searchParams.collection),
+        collaboration: parseQueryParams(searchParams.collaboration),
         category: searchParams.category as Product['size_category'],
         size: parseQueryParams(searchParams.size)?.map(Number),
         price: searchParams.price,
@@ -28,12 +28,12 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
         { data: products, metadata },
         { data: brands },
         { data: models },
-        { data: collections }
+        { data: collabs }
     ] = await Promise.all([
         await fetchCallback(appliedFilters),
         await getBrands(),
         await getModels(),
-        await getCollections(),
+        await getCollabs(),
     ])
 
     const bins = [
@@ -70,7 +70,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
                 initialFilters={appliedFilters}
                 brandOptions={brands.map((b) => ({ value: b.slug!, label: b.name }))}
                 modelOptions={models.map((m) => ({ value: m.slug!, label: m.name }))}
-                collectionOptions={collections.map((c) => ({ value: c.slug!, label: c.name }))}
+                collabOptions={collabs.map((c) => ({ value: c.slug!, label: c.name! }))}
                 priceBins={bins}
                 total={metadata?.total} />
 

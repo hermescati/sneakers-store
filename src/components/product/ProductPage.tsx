@@ -25,14 +25,14 @@ const ProductPage = ({ product }: { product: Product }) => {
   })
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
 
-  const { brand, model, collection, images } = getProductInfo(product)
-  const { brandSlug, modelSlug, collectionSlug } = getProductSlugs(product)
+  const { brand, model, collaboration, images } = getProductInfo(product)
+  const { brandSlug, modelSlug, collabSlug } = getProductSlugs(product)
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Sneakers', href: routes.products.home },
     { label: `${brand} Shoes`, href: `${routes.products.home}?brand=${brandSlug}` },
-    collection
-      ? { label: `${collection}`, href: `${routes.products.home}?brand=${brand}&collection=${collectionSlug}` }
+    collaboration
+      ? { label: `${collaboration}`, href: `${routes.products.home}?brand=${brand}&collaboration=${collabSlug}` }
       : { label: `${model}`, href: `${routes.products.home}?brand=${brand}&model=${modelSlug}` },
     { label: `${product.nickname}` }
   ]

@@ -15,7 +15,7 @@ export interface FiltersPanelProps {
     initialFilters: ProductFilters
     brandOptions: SelectOption[]
     modelOptions: SelectOption[]
-    collectionOptions: SelectOption[]
+    collabOptions: SelectOption[]
     priceBins?: HistogramBin[]
     total?: number,
 }
@@ -42,7 +42,7 @@ const FiltersPanel = ({
         const updatedFilters: ProductFilters = {
             brand: searchParams.getAll('brand') || undefined,
             model: searchParams.getAll('model') || undefined,
-            collection: searchParams.getAll('collection') || undefined,
+            collaboration: searchParams.getAll('collaboration') || undefined,
             category: searchParams.get('category') as Product['size_category'] || undefined,
             size: searchParams.getAll('size').map(Number) || undefined,
             price: searchParams.get('price') || undefined,
@@ -95,12 +95,12 @@ const FiltersPanel = ({
             return { heading: 'Model', labels: modelsLabels }
         }
 
-        if (filters.collection?.length) {
-            const collectionsLabels = filters.collection
-                .map((c) => props.collectionOptions.find((o) => o.value === c)?.label || '')
+        if (filters.collaboration?.length) {
+            const collabLabels = filters.collaboration
+                .map((c) => props.collabOptions.find((o) => o.value === c)?.label || '')
                 .filter(Boolean)
 
-            return { heading: 'Collection', labels: collectionsLabels }
+            return { heading: 'Collaboration', labels: collabLabels }
         }
 
         return { heading: 'All', labels: ['Sneakers'] }
@@ -130,7 +130,7 @@ const FiltersPanel = ({
                     appliedFilters={filters}
                     brandOptions={props.brandOptions}
                     modelOptions={props.modelOptions}
-                    collectionOptions={props.collectionOptions}
+                    collabOptions={props.collabOptions}
                     categoryOptions={SIZING_CATEGORY_OPTIONS}
                     updateFilters={updateFilters} />
             </div>

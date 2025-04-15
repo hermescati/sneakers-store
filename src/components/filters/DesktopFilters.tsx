@@ -16,7 +16,7 @@ const DesktopFilters = ({
     initialFilters,
     brandOptions,
     modelOptions,
-    collectionOptions,
+    collabOptions,
     priceBins,
     total,
     dynamicHeading,
@@ -62,14 +62,14 @@ const DesktopFilters = ({
                     </div>
                     <div className="flex-1">
                         <Select
-                            id='collections'
-                            placeholder='Collections'
-                            options={collectionOptions}
-                            selected={initialFilters.collection?.filter((v): v is string => v != null) || []}
+                            id='collaborations'
+                            placeholder='Collaborations'
+                            options={collabOptions}
+                            selected={initialFilters.collaboration?.filter((v): v is string => v != null) || []}
                             multiple
                             showClear
-                            onChange={(selected) => updateFilters({ collection: selected })}
-                            onClear={() => updateFilters({ collection: undefined })} />
+                            onChange={(selected) => updateFilters({ collaboration: selected })}
+                            onClear={() => updateFilters({ collaboration: undefined })} />
                     </div>
                     <div className="flex-1">
                         <PriceRange

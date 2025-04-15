@@ -1,5 +1,5 @@
 import { Brands } from './Brands'
-import { Collections } from './Collections'
+import { Collaborations } from './Collaborations'
 import { Events } from './Events'
 import { Media } from './Media'
 import { Models } from './Models'
@@ -8,6 +8,6 @@ import { Products } from './Products'
 import { Users } from './Users'
 
 export {
-    Brands, Collections, Events, Media, Models, Orders, Products, Users
+    Brands, Collaborations, Events, Media, Models, Orders, Products, Users
 }
 

@@ -1,5 +1,5 @@
 import { Sort, Where } from 'payload'
-import { Brand, Collection, Model, Product } from './payload'
+import { Brand, Collaboration, Model, Product } from './payload'
 import { ReactNode } from 'react'
 
 // TODO: Organize types and interfaces to be placed under types folder
@@ -75,7 +75,7 @@ export type SortOrder = 'asc' | 'desc'
 export interface ProductFilters {
   brand?: Brand['slug'][]
   model?: Model['slug'][]
-  collection?: Collection['slug'][]
+  collaboration?: Collaboration['slug'][]
   category?: Product['size_category']
   size?: number[]
   sort?: string
