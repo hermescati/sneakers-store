@@ -24,6 +24,12 @@ export interface BreadcrumbItem {
   href?: string
 }
 
+export interface NavLink {
+  name: string
+  href?: string
+  imageSrc?: string
+}
+
 export interface NavItem {
   name: string
   href?: string
@@ -31,10 +37,19 @@ export interface NavItem {
   featured?: NavLink[]
 }
 
-export interface NavLink {
-  name: string
-  href?: string
-  imageSrc?: string
+export interface NavItemGroups {
+  featured: NavItem[]
+  brands: NavItem[]
+  others: NavItem[]
+}
+
+export type FooterItem = {
+  header: string
+  links: {
+    name?: string
+    icon?: string
+    href: string
+  }[]
 }
 
 export interface SelectOption {

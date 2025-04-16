@@ -11,7 +11,7 @@ const DiscoverSection = async () => {
     {
       name: 'On Sale',
       icon: 'solar:sale-bold',
-      href: routes.products.sale
+      href: routes.products.onSale
     },
     ...brands.map((brand) => ({
       name: brand.name,

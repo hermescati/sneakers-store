@@ -16,9 +16,10 @@ const routes = {
         product: (slug: Product['slug']) => `/sneakers/${slug}`,
         newReleases: '/sneakers?sort=release_date&order=desc',
         belowRetail: '/sneakers/belowRetail',
-        sale: '/sneakers/sale',
-        mens: '/sneakers/category=mens',
-        womens: '/sneakers/category=womens'
+        onSale: '/sneakers/sale',
+        mens: '/sneakers?category=mens',
+        womens: '/sneakers?category=womens',
+        kids: '/sneakers?category=kids'
     },
     orders: {
         home: '/orders',
