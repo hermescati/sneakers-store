@@ -100,7 +100,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
 
       const collabLinks: NavLink[] = collabs.map((c) => ({
         name: c.name!,
-        href: `${routes.products.home}?brand=${b.slug}&collaboration=${c.slug}`
+        href: `${routes.products.home}?collaboration=${c.slug}`
       }))
 
       const items: NavLink[] = [
