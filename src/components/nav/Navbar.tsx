@@ -1,22 +1,24 @@
-import routes from '@/lib/routes'
-import { getNavLinks } from '@/services'
-import Link from '../base/Link'
+import { NavItemGroups, NavLink } from '@/types'
 import SearchDrawer from '../filters/drawers/SearchDrawer'
 import MainContainer from '../MainContainer'
+import Logo from './base/Logo'
 import NavLinks from './base/NavLinks'
 import UserNav from './base/UserNav'
 import MobileNav from './MobileNav'
 
-const Navbar = async () => {
-  const navItems = await getNavLinks()
+const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
+  const flattenedItems: NavLink[] = [
+    ...(navItems.featured.length ? [navItems.featured[0]] : []),
+    ...navItems.brands,
+    ...navItems.others,
+    ...navItems.featured.slice(1)
+  ]
 
   return (
-    <nav className="sticky z-20 top-0 inset-x-0 bg-background shadow dark:border-b dark:border-border/50">
+    <nav className="sticky z-20 top-0 inset-x-0 min-h-16 bg-background dark:border-b dark:border-border/50 shadow">
       <MainContainer>
         <div className="flex items-center justify-between gap-6 lg:gap-16 py-3 lg:py-4 lg:pt-6 lg:pb-4">
-          <Link href={routes.home} className="font-bold text-xl text-foreground" aria-label='Home - Sneakers'>
-            Sneakers.
-          </Link>
+          <Logo />
           <div className="flex items-center gap-3 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
             <SearchDrawer />
             <div className="flex items-center gap-3">
@@ -24,12 +26,12 @@ const Navbar = async () => {
                 <UserNav />
               </div>
               <div className="lg:hidden ml-3">
-                <MobileNav navLinks={navItems} />
+                <MobileNav navLinks={flattenedItems} />
               </div>
             </div>
           </div>
         </div>
-        <NavLinks items={navItems} />
+        <NavLinks items={flattenedItems} />
       </MainContainer>
     </nav>
   )

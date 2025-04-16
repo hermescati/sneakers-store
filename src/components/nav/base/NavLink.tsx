@@ -17,14 +17,14 @@ interface NavItemProps {
 const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
   const router = useRouter()
 
-  const handleOnClick = (href?: string) => {
-    if (!href) {
+  const handleOnClick = (item: NavItem) => {
+    if (item.items?.length || !item.href) {
       handleOpen()
       return
     }
 
-    router.push(href)
-    handleOpen(href)
+    router.push(item.href)
+    handleOpen(item.href)
   }
 
   return (
@@ -40,13 +40,13 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
             }
           )}
           underline={false}
-          onClick={() => handleOnClick(item.href)}
+          onClick={() => handleOnClick(item)}
         >
           {item.name}
         </Link>
       </div>
 
-      {isActive && !item.href && (
+      {isActive && item.items && item.items?.length > 0 && (
         <div
           className={cn('absolute inset-x-0 top-full bg-background', {
             'animate-in fade-in-10 slide-in-from-top-5': !isAnyActive

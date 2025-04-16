@@ -41,8 +41,13 @@ export const DiscountCodeSchema = z.object({
   code: z.string().trim().min(1, { message: 'Invalid disount code.' })
 })
 
+export const NewsletterSchemaObject = z.object({
+  email: emailValidation
+})
+
 export type RegistrationSchema = z.infer<typeof RegistrationSchemaObject>
 export type LoginSchema = z.infer<typeof LoginSchemaObject>
 export type ForgotPassSchema = z.infer<typeof ForgotPassSchemaObject>
 export type ResetPassSchema = z.infer<typeof ResetPassSchemaObject>
 export type TDiscountCodeSchema = z.infer<typeof DiscountCodeSchema>
+export type NewsletterSchema = z.infer<typeof NewsletterSchemaObject>
