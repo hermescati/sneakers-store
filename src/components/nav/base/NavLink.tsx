@@ -65,7 +65,7 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
                       <Link
                         className="font-medium text-md text-primary-700 hover:text-foreground"
                         underline
-                        onClick={() => handleOnClick(model.href)}
+                        onClick={() => handleOnClick(model)}
                       >
                         {model.name}
                       </Link>
@@ -84,7 +84,7 @@ const NavLink = ({ item, isActive, isAnyActive, handleOpen }: NavItemProps) => {
                         <Link
                           underline
                           className="group relative flex flex-col gap-2"
-                          onClick={() => handleOnClick(featuredItem.href)}
+                          onClick={() => handleOnClick(featuredItem)}
                         >
                           <div className="relative aspect-video overflow-hidden rounded-2xl bg-white">
                             <Image
