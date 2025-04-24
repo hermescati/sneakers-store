@@ -60,7 +60,7 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
 
   return (
     <footer className="flex flex-col flex-grow-0 bg-primary-300/75 dark:bg-primary-100 text-foreground font-medium">
-      <MainContainer className="flex flex-col gap-8 pt-8 pb-6">
+      <MainContainer className="flex flex-col gap-8 pt-8 lg:pt-12 pb-6">
         <div className="grid md:grid-cols-2 gap-8">
           <div className="flex flex-col gap-8 md:max-w-xl">
             <div className="space-y-2">
