@@ -5,7 +5,19 @@ import { ReactNode } from 'react'
 // TODO: Organize types and interfaces to be placed under types folder
 export type SelectedSize = Product['stock'][0] | null
 
-export type MenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
+export type MenuPosition =
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'top-right'
+  | 'top-left'
+
+export type Sizes = 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl' | '2xl'
+export type Animations = 'none' | 'spin' | 'bump' | 'shrink' | 'grow'
+
+export interface ActiveIndicator {
+  left: number
+  width: number
+}
 
 export type OrderItem = {
   productId: Product['id']

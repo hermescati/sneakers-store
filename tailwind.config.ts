@@ -66,7 +66,7 @@ const config: Config = {
           700: 'rgba(var(--warning-700))',
           800: 'rgba(var(--warning-800))',
           900: 'rgba(var(--warning-900))',
-          950: 'rgba(var(--warning-950))',
+          950: 'rgba(var(--warning-950))'
         },
         success: {
           DEFAULT: 'rgba(var(--success-500))',
@@ -102,8 +102,8 @@ const config: Config = {
         },
         bump: {
           '0%, 100%': { transform: 'translateX(0)' },
-          '50%': { transform: 'translateX(4px)' },
-        }
+          '50%': { transform: 'translateX(4px)' }
+        },
       },
       animation: {
         'spin-180': 'rotate 4s ease-in-out infinite',

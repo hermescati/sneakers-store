@@ -39,7 +39,7 @@ const NewsletterForm = () => {
 
       <form
         noValidate
-        className="flex flex-col sm:flex-row items-start gap-3 my-2"
+        className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start gap-3 my-2"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
@@ -53,7 +53,7 @@ const NewsletterForm = () => {
         <Button
           intent="secondary"
           label="Sign up"
-          className="w-full sm:w-fit md:w-1/3 dark:text-background"
+          className="w-full sm:w-fit md:w-full lg:w-1/3 dark:text-background"
         />
       </form>
 

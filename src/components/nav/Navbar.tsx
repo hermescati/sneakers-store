@@ -2,12 +2,12 @@ import { NavItemGroups, NavLink } from '@/types'
 import SearchDrawer from '../filters/drawers/SearchDrawer'
 import MainContainer from '../MainContainer'
 import Logo from './base/Logo'
-import NavLinks from './base/NavLinks'
+import NavMenu from './base/NavMenu'
 import UserNav from './base/UserNav'
 import MobileNav from './MobileNav'
 
 const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
-  const flattenedItems: NavLink[] = [
+  const navMenuItems: NavLink[] = [
     ...(navItems.featured.length ? [navItems.featured[0]] : []),
     ...navItems.brands,
     ...navItems.others,
@@ -15,9 +15,12 @@ const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
   ]
 
   return (
-    <nav className="sticky z-20 top-0 inset-x-0 min-h-16 bg-background dark:border-b dark:border-border/50 shadow">
-      <MainContainer>
-        <div className="flex items-center justify-between gap-6 lg:gap-16 py-3 lg:py-4 lg:pt-6 lg:pb-4">
+    <nav
+      role="navigation"
+      className="sticky z-20 top-0 inset-x-0 min-h-16 bg-background dark:bg-background/95 dark:backdrop-blur dark:border-b dark:border-border/50 shadow"
+    >
+      <MainContainer className="py-1">
+        <div className="flex items-center justify-between gap-6 lg:gap-16 py-2 lg:py-4">
           <Logo />
           <div className="flex items-center gap-3 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
             <SearchDrawer />
@@ -26,12 +29,12 @@ const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
                 <UserNav />
               </div>
               <div className="lg:hidden ml-3">
-                <MobileNav navLinks={flattenedItems} />
+                <MobileNav navLinks={navMenuItems} />
               </div>
             </div>
           </div>
         </div>
-        <NavLinks items={flattenedItems} />
+        <NavMenu items={navMenuItems} />
       </MainContainer>
     </nav>
   )

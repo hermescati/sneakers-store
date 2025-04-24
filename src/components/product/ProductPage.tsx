@@ -1,13 +1,12 @@
 'use client'
 
 import routes from '@/lib/routes'
-import { BreadcrumbItem, SelectedSize } from '@/types'
+import { ActiveIndicator, BreadcrumbItem, SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
 import { getProductInfo, getProductSlugs } from '@/utils/product'
 import { useEffect, useRef, useState } from 'react'
 import Breadcrumbs from '../base/Breadcrumbs'
-import { ActiveIndicator } from '../nav/base/NavLinks'
 import ProductCarousel from './base/ProductCarousel'
 import ProductDetails from './base/ProductDetails'
 import ProductPricing from './base/ProductPricing'
@@ -30,10 +29,19 @@ const ProductPage = ({ product }: { product: Product }) => {
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: 'Sneakers', href: routes.products.home },
-    { label: `${brand} Shoes`, href: `${routes.products.home}?brand=${brandSlug}` },
+    {
+      label: `${brand} Shoes`,
+      href: `${routes.products.home}?brand=${brandSlug}`
+    },
     collaboration
-      ? { label: `${collaboration}`, href: `${routes.products.home}?brand=${brand}&collaboration=${collabSlug}` }
-      : { label: `${model}`, href: `${routes.products.home}?brand=${brand}&model=${modelSlug}` },
+      ? {
+          label: `${collaboration}`,
+          href: `${routes.products.home}?brand=${brand}&collaboration=${collabSlug}`
+        }
+      : {
+          label: `${model}`,
+          href: `${routes.products.home}?brand=${brand}&model=${modelSlug}`
+        },
     { label: `${product.nickname}` }
   ]
 
@@ -45,7 +53,7 @@ const ProductPage = ({ product }: { product: Product }) => {
   }, [activeTab])
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className="flex flex-col gap-4">
       <Breadcrumbs items={breadcrumbs} className="hidden sm:block" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-6 lg:gap-x-8 xl:gap-x-12">
@@ -78,10 +86,10 @@ const ProductPage = ({ product }: { product: Product }) => {
                   tabRefs.current[index] = el
                 }}
                 onClick={() => setActiveTab(index)}
-                className={cn(
-                  'px-4 py-3 font-semibold',
-                  { 'text-primary-500': activeTab !== index }
-                )}>
+                className={cn('px-4 py-3 font-semibold', {
+                  'text-primary-500': activeTab !== index
+                })}
+              >
                 {tab}
               </button>
             ))}
@@ -96,11 +104,12 @@ const ProductPage = ({ product }: { product: Product }) => {
           />
         </div>
 
-        <div className='mt-2'>
-          {activeTab === 0
-            ? <ProductDetails product={product} />
-            : <p>Reviews section here</p>
-          }
+        <div className="mt-2">
+          {activeTab === 0 ? (
+            <ProductDetails product={product} />
+          ) : (
+            <p>Reviews section here</p>
+          )}
         </div>
       </div>
     </div>

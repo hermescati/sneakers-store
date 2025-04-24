@@ -19,8 +19,8 @@ const FooterItem = ({ item, isSocial = false }: FooterItemProps) => {
           isSocial ? 'items-center gap-4' : 'flex-col gap-2'
         )}
       >
-        {item.links.map((link) => (
-          <li key={link.name}>
+        {item.links.map((link, index) => (
+          <li key={`${link.name}-${index}`}>
             <Link
               href={link.href}
               underline
