@@ -1,12 +1,10 @@
 'use client'
 
+import Icon from '@/components/base/Icon'
 import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
-import {
-  formatPrice
-} from '@/utils'
+import { formatPrice } from '@/utils'
 import { getProductInfo, getProductPrice } from '@/utils/product'
-import { Icon } from '@iconify/react'
 import BrandLogo from './BrandLogo'
 
 interface ProductDetailsProps {
@@ -32,15 +30,17 @@ const ProductPricing = ({ product, selectedSize }: ProductDetailsProps) => {
       <div className="flex flex-col gap-y-1">
         <div className="flex items-baseline gap-x-2">
           <h1 className="font-bold text-2xl md:text-3xl">{formatPrice(finalPrice)}</h1>
-          {finalPrice !== basePrice && <span className="font-medium text-primary-600 line-through">{formatPrice(basePrice)}</span>}
+          {finalPrice !== basePrice && (
+            <span className="font-medium text-primary-600 line-through">{formatPrice(basePrice)}</span>
+          )}
         </div>
 
-        {!!selectedSize && selectedSize.quantity <= 2 &&
-          <p className='inline-flex items-center gap-x-1 text-secondary dark:text-secondary-700 font-semibold'>
-            <Icon icon="ph:fire-simple-duotone" height="1.25rem" />
+        {!!selectedSize && selectedSize.quantity <= 2 && (
+          <p className="inline-flex items-center gap-x-1 text-secondary dark:text-secondary-700 font-semibold">
+            <Icon icon="ph:fire-simple-duotone" className="text-xl" />
             <span>Hurry up! Only {!!selectedSize && selectedSize.quantity} in stock.</span>
           </p>
-        }
+        )}
       </div>
     </div>
   )

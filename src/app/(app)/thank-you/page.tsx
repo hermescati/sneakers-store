@@ -1,3 +1,4 @@
+import Icon from '@/components/base/Icon'
 import Link from '@/components/base/Link'
 import MainContainer from '@/components/MainContainer'
 import ProductOrder from '@/components/order/ProductOrder'
@@ -6,16 +7,14 @@ import routes from '@/lib/routes'
 import { getUser } from '@/services/auth'
 import { getOrder } from '@/services/orders'
 import { formatPrice } from '@/utils'
-import { Icon } from '@iconify/react'
 import { format } from 'date-fns'
 import { notFound, redirect } from 'next/navigation'
 
-const ThankYou = async (
-  { params }: {
-    params: Promise<
-      { [key: string]: string | string[] | undefined }
-    >
-  }) => {
+const ThankYou = async ({
+  params
+}: {
+  params: Promise<{ [key: string]: string | string[] | undefined }>
+}) => {
   const orderId = (await params).orderId as string
 
   const { user } = await getUser()

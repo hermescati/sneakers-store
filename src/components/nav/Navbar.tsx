@@ -22,13 +22,13 @@ const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
       <MainContainer className="py-1">
         <div className="flex items-center justify-between gap-6 lg:gap-16 py-2 lg:py-4">
           <Logo />
-          <div className="flex items-center gap-3 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
+          <div className="flex items-center gap-4 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
             <SearchDrawer />
             <div className="flex items-center gap-3">
               <div className="hidden lg:flex">
                 <UserNav />
               </div>
-              <div className="lg:hidden ml-3">
+              <div className="lg:hidden ml-4">
                 <MobileNav navLinks={navMenuItems} />
               </div>
             </div>

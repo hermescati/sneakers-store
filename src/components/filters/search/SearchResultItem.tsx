@@ -1,7 +1,7 @@
+import Icon from '@/components/base/Icon'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import { Product } from '@/types/payload'
 import { getProductInfo } from '@/utils/product'
-import { Icon } from '@iconify/react'
 import Image from 'next/image'
 
 interface SearchResultItem {

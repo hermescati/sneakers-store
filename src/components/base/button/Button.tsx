@@ -1,8 +1,8 @@
 import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import Link from 'next/link'
 import { ComponentPropsWithoutRef } from 'react'
+import Icon from '../Icon'
 
 const btnBase = `
     flex items-center justify-center
@@ -142,7 +142,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
-  const iconSize = iconClass || (size === "small" ? "text-xl" : "text-2xl")
+  const iconSize = iconClass || (size === "small" ? "text-lg" : "text-2xl")
 
   const btnContent =
     <>

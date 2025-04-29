@@ -1,8 +1,8 @@
 'use client'
 
+import Icon from '@/components/base/Icon'
 import { Media } from '@/types/payload'
 import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import type SwiperType from 'swiper'
@@ -31,7 +31,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
       <div className="relative flex-1 aspect-[3/2] md:aspect-video lg:aspect-[3/2] xl:aspect-video rounded-2xl bg-primary-100 dark:bg-primary-800 overflow-hidden">
         <button
           aria-label="previous image"
-          className='md:hidden absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:-translate-x-1 duration-300'
+          className="md:hidden absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:-translate-x-1 duration-300"
           onClick={(e) => {
             e.preventDefault()
             swiper?.slidePrev()
@@ -50,7 +50,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
           loop
         >
           {images.map((media) => (
-            <SwiperSlide key={media.id} className='relative !flex items-center justify-center p-6'>
+            <SwiperSlide key={media.id} className="relative !flex items-center justify-center p-6">
               <Image
                 src={media.url!}
                 alt="product image"
@@ -69,7 +69,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
             e.preventDefault()
             swiper?.slideNext()
           }}
-          className='md:hidden absolute inset-y-0 right-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:translate-x-1 duration-300'
+          className="md:hidden absolute inset-y-0 right-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:translate-x-1 duration-300"
         >
           <Icon icon="mage:chevron-right" />
         </button>

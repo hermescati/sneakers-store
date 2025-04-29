@@ -102,6 +102,7 @@ const FiltersDrawer = ({
                     label={initialFiltersCount ? `Filters (${initialFiltersCount})` : 'Filters'}
                     iconAppend="hugeicons:filter-horizontal"
                     className="w-full justify-between gap-4 py-3.5 pr-6 rounded-none hover:bg-transparent"
+                    iconClass="text-xl"
                 />
             </Drawer.Trigger>
             <Drawer.Portal>

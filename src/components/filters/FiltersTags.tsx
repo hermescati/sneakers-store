@@ -11,11 +11,12 @@ interface TagProps {
 }
 
 const Tag = ({ label, onRemove }: TagProps) => (
-    <span className="flex items-center gap-1 pl-3 pr-1.5 py-1 rounded-lg bg-primary-100 font-semibold text-sm">
+    <span className="flex items-center gap-2 pl-3 pr-2 py-1 rounded-lg bg-primary-100 font-semibold text-sm">
         {label}
         <IconButton
             icon="tabler:x"
-            className="p-1 text-base text-primary-600"
+            className="p-0"
+            iconClass="text-base text-primary-600"
             onClick={onRemove}
         />
     </span>
@@ -105,8 +106,8 @@ const FilterTags = ({
                 size="small"
                 label="Clear All"
                 iconAppend="tabler:x"
-                iconClass="text-base ml-0.5"
-                className="px-3 py-1.5 rounded-lg border border-border text-sm hover:underline hover:underline-offset-4"
+                iconClass="text-base"
+                className="pl-3 pr-2 py-1.5 rounded-lg border border-border text-sm hover:underline hover:underline-offset-4"
                 onClick={() => updateFilters({
                     brand: undefined,
                     model: undefined,

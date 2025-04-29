@@ -1,5 +1,5 @@
+import Icon from '@/components/base/Icon'
 import { Brand } from '@/types/payload'
-import { Icon } from '@iconify/react'
 
 interface BrandLogoProps {
   brand: Brand['name']
@@ -7,13 +7,22 @@ interface BrandLogoProps {
 }
 
 const BrandLogo = ({ brand, className }: BrandLogoProps) => {
-  const getBrandName = () => {
-    if (brand === 'Yeezy') return 'simple-icons:adidas'
+  if (brand === 'Yeezy') {
+    return (
+      <Icon
+        src="/assets/yeezy-logo.svg"
+        alt="Yeezy logo"
+        className={className}
+      />
+    )
+  }
+
+  const getBrandIcon = () => {
     if (brand === 'New Balance') return 'simple-icons:newbalance'
     return `simple-icons:${brand.toLowerCase()}`
   }
 
-  return <Icon icon={getBrandName()} className={className} />
+  return <Icon icon={getBrandIcon()} className={className} />
 }
 
 export default BrandLogo

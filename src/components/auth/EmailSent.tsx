@@ -2,9 +2,9 @@
 
 import { forgotPassword } from "@/services/auth"
 import { cn } from "@/utils"
-import { Icon } from '@iconify/react'
 import Link from "../base/Link"
 import toast from "../base/toast/Toast"
+import Icon from "../base/Icon"
 
 interface EmailSentProps {
     to: string

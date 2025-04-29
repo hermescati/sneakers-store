@@ -1,7 +1,7 @@
+import Icon from '@/components/base/Icon'
 import Link from '@/components/base/Link'
 import { FooterItem as TFooterItem } from '@/types'
 import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
 
 interface FooterItemProps {
   item: TFooterItem
