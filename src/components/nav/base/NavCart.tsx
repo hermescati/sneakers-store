@@ -1,15 +1,20 @@
 'use client'
 
+import Icon from '@/components/base/Icon'
 import ShoppingCart from '@/components/cart/ShoppingCart'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { useCartStore } from '@/stores/cartStore'
-import { Icon } from '@iconify/react'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useOnClickOutside } from 'usehooks-ts'
 
 const NavCart = () => {
-  const { items, isOpen: cartOpen, open: openCart, close: closeCart } = useCartStore()
+  const {
+    items,
+    isOpen: cartOpen,
+    open: openCart,
+    close: closeCart
+  } = useCartStore()
 
   const cartRef = useRef<HTMLDivElement>(null!)
   const buttonRef = useRef<HTMLButtonElement>(null!)
@@ -34,7 +39,7 @@ const NavCart = () => {
           className="text-2xl"
         />
         <span className="w-3 font-medium select-none">
-          {items.length > 9 ? "+9" : items.length}
+          {items.length > 9 ? '+9' : items.length}
         </span>
       </button>
 

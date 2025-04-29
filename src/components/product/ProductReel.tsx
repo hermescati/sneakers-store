@@ -2,7 +2,7 @@
 
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
+import Icon from '../base/Icon'
 import Link from '../base/Link'
 import ProductCard from './ProductCard'
 import ProductReelSkeleton from './skeletons/ProductReelSkeleton'
@@ -14,27 +14,15 @@ interface ProductReelProps {
   className?: string
 }
 
-const ProductReel = ({
-  products,
-  title,
-  href,
-  className
-}: ProductReelProps) => {
+const ProductReel = ({ products, title, href, className }: ProductReelProps) => {
   if (!products || !products.length) return <ProductReelSkeleton title={title} className={className} />
 
   return (
     <section className="flex flex-col gap-3">
       {title && (
-        <Link
-          href={href}
-          className="group flex items-center justify-start gap-3"
-        >
+        <Link href={href} className="group flex items-center justify-start gap-3">
           <h2 className="font-bold text-xl">{title}</h2>
-          <Icon
-            icon="flowbite:arrow-right-outline"
-            height="1.5rem"
-            className="group-hover:animate-bump"
-          />
+          <Icon icon="flowbite:arrow-right-outline" className="text-2xl group-hover:animate-bump" />
         </Link>
       )}
 

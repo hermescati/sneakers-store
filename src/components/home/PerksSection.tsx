@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import Icon from "../base/Icon"
 
 export interface PerkItem {
   icon: string

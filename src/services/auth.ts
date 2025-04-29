@@ -176,7 +176,7 @@ export async function forgotPassword(input: ForgotPassSchema): Promise<BaseRespo
       data: email
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return { code: 500, message: 'Something went wrong. Please try again!' }
   }
 }
@@ -193,7 +193,7 @@ export async function resetPassword(token: string, input: ResetPassSchema): Prom
 
     return { code: 200, message: 'Password reset successful.' }
   } catch (error) {
-    console.log(error)
+    console.error(error)
 
     if (error instanceof Error && error.message === 'Token is either invalid or has expired.') {
       return { code: 403, message: error.message }

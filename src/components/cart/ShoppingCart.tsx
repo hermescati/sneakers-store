@@ -22,7 +22,7 @@ const ShoppingCart = () => {
         <h3 className="font-semibold text-xl">
           {isEmpty ? "Your cart is empty" : "Added to cart"}
         </h3>
-        <IconButton icon="tabler-x" onClick={close} />
+        <IconButton icon="tabler-x" iconClass='text-lg' onClick={close} />
       </div>
 
       <div className="flex-1 w-[500px] overflow-y-auto">

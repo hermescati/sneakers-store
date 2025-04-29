@@ -97,7 +97,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-x-0 top-full z-20 border-y border-border bg-background"
+              className="absolute inset-x-0 top-full z-20 border-t border-border bg-background shadow-md"
             >
               <NavItemPanel item={items[activeIndex]} onClick={handleOnClick} />
             </motion.div>

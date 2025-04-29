@@ -1,7 +1,7 @@
 'use client'
 
+import Icon from '@/components/base/Icon'
 import { cn } from '@/utils'
-import { Icon } from '@iconify/react'
 import { ReactNode, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 
