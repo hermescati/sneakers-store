@@ -17,7 +17,7 @@ const Navbar = ({ navItems }: { navItems: NavItemGroups }) => {
   return (
     <nav
       role="navigation"
-      className="sticky z-20 top-0 inset-x-0 min-h-16 bg-background dark:bg-background/95 dark:backdrop-blur dark:border-b dark:border-border/50 shadow"
+      className="sticky z-20 top-0 inset-x-0 min-h-16 bg-background/90 dark:bg-background/90 backdrop-blur-md border-b border-border/50 shadow"
     >
       <MainContainer className="py-1">
         <div className="flex items-center justify-between gap-6 lg:gap-16 py-2 lg:py-4">
