@@ -8,13 +8,14 @@ pre-commit:
   parallel: true
   commands:
     lint:
+      glob: 'src/**/*.{js,ts,jsx,tsx}'
       stage_fixed: true
-      glob: "*.{js,ts,jsx,tsx}"
-      run: pnpm lint . --fix --quiet
+      run: pnpm lint {staged_files} --fix --quiet
 
 pre-push:
   commands:
     lint:
-      run: pnpm lint . --quiet
+      glob: 'src/**/*.{js,ts,jsx,tsx}'
+      run: pnpm lint {pushed_files} --quiet
     typecheck:
       run: pnpm typecheck
