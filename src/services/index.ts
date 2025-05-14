@@ -1,34 +1,21 @@
 'use server'
 
 import { payloadClient } from '@/lib/payload'
-import {
-  NavItem,
-  NavItemGroups,
-  NavLink,
-  PaginatedResponse,
-  QueryParams
-} from '@/types'
+import routes from '@/lib/routes'
+import { NavItem, NavItemGroups, NavLink, PaginatedResponse, QueryParams } from '@/types'
 import { CollectionSlug, DataFromCollectionSlug } from 'payload'
 import { getBrands, getCollabs, getModels } from './products'
-import routes from '@/lib/routes'
 
-export async function getPaginatedResponse<
-  T extends DataFromCollectionSlug<CollectionSlug>
->(slug: CollectionSlug, params?: QueryParams): Promise<PaginatedResponse<T>> {
+export async function getPaginatedResponse<T extends DataFromCollectionSlug<CollectionSlug>>(
+  slug: CollectionSlug,
+  params?: QueryParams
+): Promise<PaginatedResponse<T>> {
   try {
-    const {
-      docs,
-      totalDocs,
-      hasPrevPage,
-      prevPage,
-      hasNextPage,
-      nextPage,
-      page,
-      totalPages
-    } = await payloadClient.find({
-      collection: slug,
-      ...params
-    })
+    const { docs, totalDocs, hasPrevPage, prevPage, hasNextPage, nextPage, page, totalPages } =
+      await payloadClient.find({
+        collection: slug,
+        ...params
+      })
 
     const data: PaginatedResponse<T> = {
       code: 200,
@@ -46,10 +33,7 @@ export async function getPaginatedResponse<
   } catch (error) {
     console.error(error)
 
-    const message =
-      error instanceof Error
-        ? error.message
-        : 'Something went wrong. Please try again!'
+    const message = error instanceof Error ? error.message : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
@@ -62,7 +46,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
   ]
 
   const otherLinks: NavItem[] = [
-      { name: 'Womens', href: routes.products.womens },
+    { name: 'Womens', href: routes.products.womens },
     { name: 'Kids', href: routes.products.kids }
   ]
 
@@ -90,11 +74,9 @@ export async function getNavItems(): Promise<NavItemGroups> {
 
       const modelLinks: NavLink[] = models.map((m) => ({
         name: m.name,
-        href: `${routes.products.home}brand=${b.slug}&model=${m.slug}`,
+        href: `${routes.products.home}?brand=${b.slug}&model=${m.slug}`,
         ...(m.featured && {
-          imageSrc: (typeof m.image === 'string'
-            ? m.image
-            : m.image?.url) as string
+          imageSrc: (typeof m.image === 'string' ? m.image : m.image?.url) as string
         })
       }))
 
@@ -123,7 +105,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
       name: 'Others',
       items: otherBrands.map((b) => ({
         name: b.name,
-        href: `/sneakers?brand=${b.slug}`
+        href: `${routes.products.home}?brand=${b.slug}`
       }))
     })
   }

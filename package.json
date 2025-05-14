@@ -9,7 +9,7 @@
     "devsafe": "rm -rf .next && pnpm dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
     "payload": "payload",
     "ci": "payload migrate && pnpm build",
     "code:gen": "payload generate:types",
