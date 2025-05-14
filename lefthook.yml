@@ -15,7 +15,6 @@ pre-commit:
 pre-push:
   commands:
     lint:
-      glob: 'src/**/*.{js,ts,jsx,tsx}'
-      run: pnpm lint {pushed_files} --quiet
+      run: pnpm lint . --ext .js,.ts,.jsx,.tsx --quiet
     typecheck:
       run: pnpm typecheck
