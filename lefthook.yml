@@ -11,6 +11,10 @@ pre-commit:
       glob: 'src/**/*.{js,ts,jsx,tsx}'
       stage_fixed: true
       run: pnpm lint {staged_files} --fix --quiet
+    prettier:
+      glob: 'src/**/*.{js,ts,jsx,tsx,css,md,json}'
+      stage_fixed: true
+      run: pnpm prettify {staged_files}
 
 pre-push:
   commands:
