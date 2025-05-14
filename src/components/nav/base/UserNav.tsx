@@ -1,7 +1,8 @@
 'use client'
 
-import IconButton from '@/components/base/button/IconButton'
+import Icon from '@/components/base/Icon'
 import Link from '@/components/base/Link'
+import IconButton from '@/components/base/button/IconButton'
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import useNavigationMenu from '@/hooks/useNavigationMenu'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
@@ -12,7 +13,6 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import NavCart from './NavCart'
-import Icon from '@/components/base/Icon'
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -26,10 +26,7 @@ const UserMenu = () => {
 
   return (
     <div ref={dropdownRef} className="relative">
-      <div
-        className="flex items-center gap-2.5 p-0.5 cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <div className="flex items-center gap-2.5 p-0.5 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <IconButton
           id="account-dropdown"
           type="button"
@@ -38,11 +35,9 @@ const UserMenu = () => {
           aria-haspopup="true"
           aria-expanded={isOpen}
           className="p-1.5 border border-border bg-transparent text-lg"
-          iconClass='text-xl'
+          iconClass="text-xl"
         />
-        <span className="font-semibold text-md text-primary-700 leading-none">
-          {user?.firstName}
-        </span>
+        <span className="font-semibold text-md text-primary-700 leading-none">{user?.firstName}</span>
       </div>
 
       <AnimatePresence>
@@ -54,11 +49,7 @@ const UserMenu = () => {
             aria-label="Dropdown menu"
             className="p-2 absolute top-full left-1/2 !-translate-x-1/2 3xl:left-0 3xl:!translate-x-0 mt-3 border border-border rounded-xl bg-background overflow-y-auto shadow-lg"
           >
-            <ul
-              role="menu"
-              aria-labelledby="account-dropdown"
-              aria-orientation="vertical"
-            >
+            <ul role="menu" aria-labelledby="account-dropdown" aria-orientation="vertical">
               {menuItems.map((item) => (
                 <li key={item.value}>
                   <Link
@@ -74,16 +65,10 @@ const UserMenu = () => {
                   >
                     <div className="flex flex-col leading-tight">
                       <span className="font-medium text-md">{item.title}</span>
-                      {item.subtitle && (
-                        <span className="text-md text-primary-600">
-                          {item.subtitle}
-                        </span>
-                      )}
+                      {item.subtitle && <span className="text-md text-primary-600">{item.subtitle}</span>}
                     </div>
                     {item.icon && <Icon icon={item.icon} className="text-xl" />}
-                    {item.component && (
-                      <div className="-mr-2">{item.component}</div>
-                    )}
+                    {item.component && <div className="-mr-2">{item.component}</div>}
                   </Link>
                 </li>
               ))}
@@ -99,7 +84,7 @@ const UserNav = () => {
   const { user } = useUserStore()
 
   return (
-    <div className="relative flex items-center gap-5 transition-all duration-300 ease-in-out">
+    <div className="relative hidden lg:flex items-center gap-5 transition-all duration-300 ease-in-out">
       <>
         {user ? (
           <UserMenu />
@@ -116,10 +101,7 @@ const UserNav = () => {
         )}
       </>
 
-      <div
-        className={cn('h-8 w-px bg-border', user ? 'mx-3' : 'mr-1')}
-        aria-hidden="true"
-      />
+      <div className={cn('h-8 w-px bg-border', user ? 'mx-3' : 'mr-1')} aria-hidden="true" />
       <NavCart />
     </div>
   )

@@ -2,10 +2,11 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}'
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}'
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       screens: {
@@ -103,15 +104,14 @@ const config: Config = {
         bump: {
           '0%, 100%': { transform: 'translateX(0)' },
           '50%': { transform: 'translateX(4px)' }
-        },
+        }
       },
       animation: {
         'spin-180': 'rotate 4s ease-in-out infinite',
-        bump: 'bump 0.6s ease-in-out infinite',
+        bump: 'bump 0.6s ease-in-out infinite'
       }
     }
   },
-  plugins: [],
-  darkMode: 'class'
+  plugins: []
 }
 export default config
