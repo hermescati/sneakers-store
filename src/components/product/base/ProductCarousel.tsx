@@ -32,7 +32,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
         <button
           aria-label="previous image"
           className="md:hidden absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:-translate-x-1 duration-300"
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault()
             swiper?.slidePrev()
           }}
@@ -49,7 +49,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
           grabCursor
           loop
         >
-          {images.map((media) => (
+          {images.map(media => (
             <SwiperSlide key={media.id} className="relative !flex items-center justify-center p-6">
               <Image
                 src={media.url!}
@@ -65,7 +65,7 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
         </Swiper>
         <button
           aria-label="next image"
-          onClick={(e) => {
+          onClick={e => {
             e.preventDefault()
             swiper?.slideNext()
           }}

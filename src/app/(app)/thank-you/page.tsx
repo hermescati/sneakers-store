@@ -22,8 +22,7 @@ const ThankYou = async ({
 
   if (!order) return notFound()
 
-  const orderUserId =
-    typeof order.user === 'string' ? order.user : order.user.id
+  const orderUserId = typeof order.user === 'string' ? order.user : order.user.id
 
   if (orderUserId !== user?.id) {
     return redirect(`${routes.auth.login}?origin=thank-you?orderId=${order.id}`)
@@ -88,29 +87,21 @@ const ThankYou = async ({
           <div className="flex flex-col gap-2 text-md lg:text-base text-primary-600">
             <div className="flex items-center justify-between gap-8">
               <span className="font-medium">Subtotal</span>
-              <span className="font-medium">
-                {formatPrice(order.details?.subtotal || 0)}
-              </span>
+              <span className="font-medium">{formatPrice(order.details?.subtotal || 0)}</span>
             </div>
             <div className="flex items-center justify-between gap-8">
               <span className="font-medium">Delivery</span>
-              <span className="font-medium">
-                {formatPrice(order.details?.delivery || 0)}
-              </span>
+              <span className="font-medium">{formatPrice(order.details?.delivery || 0)}</span>
             </div>
             {order.details?.discount && (
               <div className="flex items-center justify-between gap-8">
                 <span className="font-medium">Discount</span>
-                <span className="font-medium">
-                  {formatPrice(order.details?.discount || 0)}
-                </span>
+                <span className="font-medium">{formatPrice(order.details?.discount || 0)}</span>
               </div>
             )}
             <div className="flex items-center justify-between gap-8">
               <span className="font-medium">Tax</span>
-              <span className="font-medium">
-                {formatPrice(order.details?.tax || 0)}
-              </span>
+              <span className="font-medium">{formatPrice(order.details?.tax || 0)}</span>
             </div>
           </div>
 

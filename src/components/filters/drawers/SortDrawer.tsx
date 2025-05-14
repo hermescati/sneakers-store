@@ -43,7 +43,7 @@ const SortDrawer = ({ sort, order, updateFilters }: SortDrawerMobileProps) => {
           size="small"
           label={activeSortLabel}
           iconAppend="solar:sort-outline"
-          iconClass='text-xl'
+          iconClass="text-xl"
           className="w-full justify-between gap-4 py-3.5 pl-6 rounded-none hover:bg-transparent"
         />
       </Drawer.Trigger>
@@ -54,7 +54,9 @@ const SortDrawer = ({ sort, order, updateFilters }: SortDrawerMobileProps) => {
             <Drawer.Handle className="relative !mx-0 !w-full !flex !items-center !justify-center mb-6 !bg-transparent">
               <div className="mx-auto mt-5 w-24 h-1 bg-primary-200 rounded-full"></div>
             </Drawer.Handle>
-            <Drawer.Title className="font-semibold text-xl pb-2 mx-3 border-b border-border">Sort By</Drawer.Title>
+            <Drawer.Title className="font-semibold text-xl pb-2 mx-3 border-b border-border">
+              Sort By
+            </Drawer.Title>
 
             <div className="px-3 h-full divide-y divide-border space-y-2">
               <ul className="pt-2">

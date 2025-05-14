@@ -38,7 +38,14 @@ const NotifyForm = () => {
 
             <div className="flex flex-col gap-y-4 mt-6">
               <Input type="email" label="Email" placeholder="e.g. you@example.com" />
-              <Input type="number" label="Size (US)" placeholder="e.g. 9.5" min={3.5} max={18} step={0.5} />
+              <Input
+                type="number"
+                label="Size (US)"
+                placeholder="e.g. 9.5"
+                min={3.5}
+                max={18}
+                step={0.5}
+              />
               <Button label="Notify me" iconPrepend="gravity-ui:bell-dot" className="w-full mt-2" />
             </div>
           </div>

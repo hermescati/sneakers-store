@@ -25,10 +25,10 @@ export const Users: CollectionConfig = {
       // Add a subject by using generateEmailSubject
       // Add an expiration to configure how long password reset tokens remain valid, specified in miliseconds.
       expiration: 3600000, // 1 hour
-      generateEmailHTML: (args) => {
+      generateEmailHTML: args => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}/${routes.auth.reset}?token=${args?.token}`
         return `<a href='${url}'>Reset your password</a>`
-      },
+      }
     }
   },
   access: {

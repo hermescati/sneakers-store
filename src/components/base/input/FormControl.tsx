@@ -16,9 +16,7 @@ const FormControl = ({
       {label && (
         <div className="flex gap-1 items-center font-semibold">
           <label htmlFor={id}>{label}</label>
-          {required && (
-            <span className="text-secondary text-xl leading-none">*</span>
-          )}
+          {required && <span className="text-secondary text-xl leading-none">*</span>}
         </div>
       )}
       {children}
@@ -26,10 +24,9 @@ const FormControl = ({
         <span className="text-md font-medium text-danger">{error}</span>
       ) : hint ? (
         <span
-          className={cn(
-            "text-md font-medium text-primary-600",
-            { "opacity-40 pointer-events-none select-none": disabled }
-          )}
+          className={cn('text-md font-medium text-primary-600', {
+            'opacity-40 pointer-events-none select-none': disabled
+          })}
         >
           {hint}
         </span>

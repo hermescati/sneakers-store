@@ -8,13 +8,7 @@ interface BrandLogoProps {
 
 const BrandLogo = ({ brand, className }: BrandLogoProps) => {
   if (brand === 'Yeezy') {
-    return (
-      <Icon
-        src="/assets/yeezy-logo.svg"
-        alt="Yeezy logo"
-        className={className}
-      />
-    )
+    return <Icon src="/assets/yeezy-logo.svg" alt="Yeezy logo" className={className} />
   }
 
   const getBrandIcon = () => {

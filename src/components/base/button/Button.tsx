@@ -28,11 +28,7 @@ export const buttonVariants = cva(btnBase, {
         'focus-visible:ring-offset-0',
         '!shadow-none'
       ],
-      ghost: [
-        'bg-transparent',
-        'active:ring-0 active:ring-offset-0',
-        'focus-visible:ring-offset-0',
-      ]
+      ghost: ['bg-transparent', 'active:ring-0 active:ring-offset-0', 'focus-visible:ring-offset-0']
     },
     intent: {
       primary: '',
@@ -75,7 +71,7 @@ export const buttonVariants = cva(btnBase, {
         'text-foreground dark:text-secondary',
         'hover:bg-primary-100/50 dark:hover:bg-secondary-100/10',
         'border-primary-800 dark:border-secondary',
-        'focus-visible:ring-primary-800 dark:focus-visible:ring-secondary',
+        'focus-visible:ring-primary-800 dark:focus-visible:ring-secondary'
       ]
     },
     {
@@ -85,7 +81,7 @@ export const buttonVariants = cva(btnBase, {
         'text-secondary dark:text-primary-900',
         'hover:bg-secondary-100/10 dark:hover:bg-primary-800/10',
         'border-secondary dark:border-primary-900',
-        'focus-visible:ring-secondary dark:focus-visible:ring-primary-900',
+        'focus-visible:ring-secondary dark:focus-visible:ring-primary-900'
       ]
     },
     {
@@ -119,8 +115,8 @@ export const buttonVariants = cva(btnBase, {
 })
 
 export interface ButtonProps
-  extends ComponentPropsWithoutRef<"button">,
-  VariantProps<typeof buttonVariants> {
+  extends ComponentPropsWithoutRef<'button'>,
+    VariantProps<typeof buttonVariants> {
   label?: string
   href?: string
   iconAppend?: string
@@ -142,14 +138,15 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const buttonClasses = cn(buttonVariants({ variant, intent, size }), className)
-  const iconSize = iconClass || (size === "small" ? "text-lg" : "text-2xl")
+  const iconSize = iconClass || (size === 'small' ? 'text-lg' : 'text-2xl')
 
-  const btnContent =
+  const btnContent = (
     <>
       {iconPrepend && <Icon className={iconSize} icon={iconPrepend} />}
       {label || children}
       {iconAppend && <Icon className={iconSize} icon={iconAppend} />}
     </>
+  )
 
   return href && !props.disabled ? (
     <Link href={href} className={buttonClasses}>

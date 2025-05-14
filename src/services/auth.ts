@@ -74,16 +74,16 @@ export async function verifyUser(token: string): Promise<BaseResponse> {
 }
 
 async function setTokenCookie(token: string, exp?: number): Promise<number> {
-  const expiration = exp ?? Math.floor(Date.now() / 1000) + 3600; // 1 hour
+  const expiration = exp ?? Math.floor(Date.now() / 1000) + 3600 // 1 hour
 
-  (await cookies()).set({
+  ;(await cookies()).set({
     name: 'payload-token',
     value: token,
     path: '/',
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    expires: new Date(expiration * 1000),
+    expires: new Date(expiration * 1000)
   })
 
   return expiration
@@ -130,8 +130,7 @@ export async function refreshToken(): Promise<BaseResponse<AuthUser>> {
   const token = await getTokenCookie()
 
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/refresh-token`, {
       method: 'POST',
       headers: { Authorization: `JWT ${token}` }
     })
@@ -208,10 +207,9 @@ export async function getUser() {
   const nextCookies = await cookies()
   const token = nextCookies.get('payload-token')?.value
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/users/me`,
-    { headers: { Authorization: `JWT ${token}` } }
-  )
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/me`, {
+    headers: { Authorization: `JWT ${token}` }
+  })
 
   if (!response.ok) {
     const message = await response.text()

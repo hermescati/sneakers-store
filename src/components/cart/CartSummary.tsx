@@ -30,7 +30,11 @@ const CartSummary = () => {
       return { productId: product.id, size: size?.size as number, price: size?.price as number }
     })
 
-    const response = await createStripeSession(selectedProducts, shipping || undefined, discount || undefined)
+    const response = await createStripeSession(
+      selectedProducts,
+      shipping || undefined,
+      discount || undefined
+    )
 
     if (response?.code === 409) router.push(`${routes.auth.login}?origin=cart`)
     if (!response || !response.url) return
@@ -85,11 +89,19 @@ const CartSummary = () => {
           <div>{formatPrice(total)}</div>
         </div>
 
-        <Button disabled={!items.length} label="Checkout" className="mt-2" onClick={handleCheckout} />
+        <Button
+          disabled={!items.length}
+          label="Checkout"
+          className="mt-2"
+          onClick={handleCheckout}
+        />
       </div>
 
       <p className="py-5 font-medium leading-relaxed">
-        <Icon icon="solar:chat-line-outline" className="text-2xl text-primary-700 inline align-middle" />
+        <Icon
+          icon="solar:chat-line-outline"
+          className="text-2xl text-primary-700 inline align-middle"
+        />
         <span className="ml-2 text-primary-800">
           Need help with your order?{' '}
           <Link href={routes.cart} className="text-secondary underline underline-offset-4">

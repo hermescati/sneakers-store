@@ -33,7 +33,8 @@ export async function getPaginatedResponse<T extends DataFromCollectionSlug<Coll
   } catch (error) {
     console.error(error)
 
-    const message = error instanceof Error ? error.message : 'Something went wrong. Please try again!'
+    const message =
+      error instanceof Error ? error.message : 'Something went wrong. Please try again!'
     return { code: 500, message, data: [] }
   }
 }
@@ -54,7 +55,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
   const otherBrands = brands.length > 5 ? brands.splice(5) : []
 
   const brandLinks: NavItem[] = await Promise.all(
-    brands.map(async (b) => {
+    brands.map(async b => {
       const [{ data: models }, { data: collabs }] = await Promise.all([
         getModels({
           where: { brand: { equals: b.id } },
@@ -72,7 +73,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
         return { name: b.name, href: `${routes.products.home}?brand=${b.slug}` }
       }
 
-      const modelLinks: NavLink[] = models.map((m) => ({
+      const modelLinks: NavLink[] = models.map(m => ({
         name: m.name,
         href: `${routes.products.home}?brand=${b.slug}&model=${m.slug}`,
         ...(m.featured && {
@@ -80,7 +81,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
         })
       }))
 
-      const collabLinks: NavLink[] = collabs.map((c) => ({
+      const collabLinks: NavLink[] = collabs.map(c => ({
         name: c.name!,
         href: `${routes.products.home}?collaboration=${c.slug}`
       }))
@@ -95,7 +96,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
         name: b.name,
         href: `${routes.products.home}?brand=${b.slug}`,
         items,
-        featured: modelLinks.filter((link) => link.imageSrc)
+        featured: modelLinks.filter(link => link.imageSrc)
       }
     })
   )
@@ -103,7 +104,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
   if (otherBrands.length) {
     brandLinks.push({
       name: 'Others',
-      items: otherBrands.map((b) => ({
+      items: otherBrands.map(b => ({
         name: b.name,
         href: `${routes.products.home}?brand=${b.slug}`
       }))

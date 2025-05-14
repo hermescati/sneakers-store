@@ -16,7 +16,7 @@ export async function getProduct(slug: Product['slug']): Promise<BaseResponse<Pr
       depth: 2
     })
 
-    return { code: 200, message: "Product found", data: products[0] }
+    return { code: 200, message: 'Product found', data: products[0] }
   } catch (error) {
     console.error(error)
     return {
@@ -78,7 +78,10 @@ export async function getCollabs(params?: QueryParams): Promise<PaginatedRespons
   }
 }
 
-export async function discoverProducts(query: ProductFilters['query'], category?: Product['size_category']): Promise<PaginatedResponse<Product>> {
+export async function discoverProducts(
+  query: ProductFilters['query'],
+  category?: Product['size_category']
+): Promise<PaginatedResponse<Product>> {
   if (!query || query.trim().length < MIN_QUERY_LENGTH) {
     return {
       code: 400,
@@ -120,20 +123,22 @@ export async function filterProducts(filters: ProductFilters): Promise<Paginated
   }
 }
 
-export async function getProductsUnderRetail(filters: ProductFilters): Promise<PaginatedResponse<Product>> {
+export async function getProductsUnderRetail(
+  filters: ProductFilters
+): Promise<PaginatedResponse<Product>> {
   const where = applyFilters(filters)
   const sort = applySorting(filters)
 
   try {
     const { data } = await getProducts({ where, sort })
-    const products: Product[] = data.filter((p) => {
+    const products: Product[] = data.filter(p => {
       if (!p.min_price) return
       p.min_price <= p.retail_price
     })
 
     return {
       code: 200,
-      message: "Products found",
+      message: 'Products found',
       data: products,
       metadata: {
         total: products.length,
@@ -168,10 +173,10 @@ export async function getProductsOnSale(filters: ProductFilters) {
 }
 
 export async function getRelatedProducts(products: Product[], limit = 6) {
-  const excludedIds = products.map((p) => p.id)
-  const brandIds = products.map((p) => extractId(p.brand)?.toString()).filter(Boolean)
-  const modelIds = products.map((p) => extractId(p.model)?.toString()).filter(Boolean)
-  const collabIds = products.map((p) => extractId(p.collaboration)?.toString()).filter(Boolean)
+  const excludedIds = products.map(p => p.id)
+  const brandIds = products.map(p => extractId(p.brand)?.toString()).filter(Boolean)
+  const modelIds = products.map(p => extractId(p.model)?.toString()).filter(Boolean)
+  const collabIds = products.map(p => extractId(p.collaboration)?.toString()).filter(Boolean)
 
   const queries: Promise<PaginatedResponse<Product>>[] = []
 
@@ -179,7 +184,7 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
     queries.push(
       getProducts({
         limit,
-        where: { and: [{ id: { not_in: excludedIds } }, { collaboration: { in: collabIds } }] },
+        where: { and: [{ id: { not_in: excludedIds } }, { collaboration: { in: collabIds } }] }
       })
     )
   }
@@ -189,19 +194,22 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
       getProducts({
         limit,
         where: {
-          and: [{ id: { not_in: excludedIds } }, { or: [{ brand: { in: brandIds } }, { model: { in: modelIds } }] }],
-        },
+          and: [
+            { id: { not_in: excludedIds } },
+            { or: [{ brand: { in: brandIds } }, { model: { in: modelIds } }] }
+          ]
+        }
       })
     )
   }
 
   const results = await Promise.all(queries)
-  const relatedProducts = results.flatMap((res) => res.data)
+  const relatedProducts = results.flatMap(res => res.data)
 
   if (relatedProducts.length < limit) {
     const { data: randomProducts } = await getProducts({
       limit: limit - relatedProducts.length,
-      where: { id: { not_in: [...excludedIds, ...relatedProducts.map((p) => p.id)] } },
+      where: { id: { not_in: [...excludedIds, ...relatedProducts.map(p => p.id)] } }
     })
     relatedProducts.push(...randomProducts)
   }
@@ -216,11 +224,11 @@ function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | 
   if (filters.query && filters.query.trim().length >= MIN_QUERY_LENGTH) {
     conditions.push({
       or: [
-        { "brand.slug": { like: filters.query } },
-        { "model.slug": { like: filters.query } },
-        { "collaboration.slug": { like: filters.query } },
-        { slug: { like: filters.query } },
-      ],
+        { 'brand.slug': { like: filters.query } },
+        { 'model.slug': { like: filters.query } },
+        { 'collaboration.slug': { like: filters.query } },
+        { slug: { like: filters.query } }
+      ]
     })
   }
 
@@ -234,23 +242,17 @@ function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | 
     conditions.push({ 'collaboration.slug': { in: filters.collaboration } })
   }
   if (filters.category) {
-    conditions.push({ 'size_category': { equals: filters.category } })
+    conditions.push({ size_category: { equals: filters.category } })
   }
   if (filters.size?.length) {
     conditions.push({
-      and: [
-        { 'stock.size': { in: filters.size } },
-        { 'stock.quantity': { greater_than: 0 } }
-      ]
+      and: [{ 'stock.size': { in: filters.size } }, { 'stock.quantity': { greater_than: 0 } }]
     })
   }
   if (filters.price) {
     const [min, max] = filters.price.split('-').map(Number)
     conditions.push({
-      and: [
-        { 'min_price': { greater_than_equal: min } },
-        { 'min_price': { less_than_equal: max } }
-      ]
+      and: [{ min_price: { greater_than_equal: min } }, { min_price: { less_than_equal: max } }]
     })
   }
 

@@ -14,10 +14,15 @@ const SizeGuides = () => {
   useOnClickOutside(contentRef, () => setIsOpen(false))
 
   const isMobile = useMediaQuery('(max-width: 1023px)')
-  const filteredCategories = SIZES.filter((category) => category.value !== 'kids')
+  const filteredCategories = SIZES.filter(category => category.value !== 'kids')
 
   return (
-    <Drawer.Root shouldScaleBackground={isMobile} handleOnly={!isMobile} open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer.Root
+      shouldScaleBackground={isMobile}
+      handleOnly={!isMobile}
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <Drawer.Trigger className="w-fit font-medium text-md text-primary-600 hover:text-secondary hover:underline hover:underline-offset-4 cursor-pointer transition-colors ease-in-out duration-300">
         Size Guides
       </Drawer.Trigger>
@@ -56,7 +61,7 @@ const SizeGuides = () => {
               <table className="table-fixed w-full">
                 <thead className="sticky top-0 bg-primary-900 text-background z-10">
                   <tr className="text-sm md:text-md">
-                    {filteredCategories.map((category) => (
+                    {filteredCategories.map(category => (
                       <th
                         key={category.value}
                         className="px-1 md:px-2 py-2 border-l border-primary-300 dark:border-border text-center font-medium"
@@ -67,23 +72,23 @@ const SizeGuides = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.from({ length: Math.max(...filteredCategories.map((cat) => cat.sizes.length)) }).map(
-                    (_, index) => (
-                      <tr
-                        key={index}
-                        className="border-b border-primary-300 dark:border-border hover:bg-primary-100 transition-all duration-200 ease-in-out"
-                      >
-                        {filteredCategories.map((category) => (
-                          <td
-                            key={category.value}
-                            className="p-2 border-l last:border-r border-primary-300 dark:border-border text-center font-medium text-md md:text-base text-primary-700"
-                          >
-                            {category.sizes[index] ?? '-'}
-                          </td>
-                        ))}
-                      </tr>
-                    )
-                  )}
+                  {Array.from({
+                    length: Math.max(...filteredCategories.map(cat => cat.sizes.length))
+                  }).map((_, index) => (
+                    <tr
+                      key={index}
+                      className="border-b border-primary-300 dark:border-border hover:bg-primary-100 transition-all duration-200 ease-in-out"
+                    >
+                      {filteredCategories.map(category => (
+                        <td
+                          key={category.value}
+                          className="p-2 border-l last:border-r border-primary-300 dark:border-border text-center font-medium text-md md:text-base text-primary-700"
+                        >
+                          {category.sizes[index] ?? '-'}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

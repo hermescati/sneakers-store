@@ -8,7 +8,7 @@ import {
   REST_OPTIONS,
   REST_PATCH,
   REST_POST,
-  REST_PUT,
+  REST_PUT
 } from '@payloadcms/next/routes'
 
 export const GET = REST_GET(config)

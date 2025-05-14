@@ -7,7 +7,4 @@ import { Orders } from './Orders'
 import { Products } from './Products'
 import { Users } from './Users'
 
-export {
-    Brands, Collaborations, Events, Media, Models, Orders, Products, Users
-}
-
+export { Brands, Collaborations, Events, Media, Models, Orders, Products, Users }

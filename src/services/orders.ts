@@ -9,7 +9,7 @@ export async function createOrder(user: User, selectedProducts: OrderItem[]) {
   if (!user) return
   const payload = await getPayload({ config: configPromise })
 
-  const products: Order['products'] = selectedProducts.map((p) => ({
+  const products: Order['products'] = selectedProducts.map(p => ({
     product: p.productId,
     price: p.price,
     size: p.size

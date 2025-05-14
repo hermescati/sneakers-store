@@ -20,15 +20,14 @@ const ShippingOptions = () => {
     getShippingOptions()
   }, [])
 
-  if (!options.length) return <ShippingOptionsSkeleton length={2}/>
+  if (!options.length) return <ShippingOptionsSkeleton length={2} />
 
   const getDeliveryEstimate = (method: Stripe.ShippingRate) => {
     const min = method.delivery_estimate?.minimum?.value
     const max = method.delivery_estimate?.maximum?.value
     let unit = ''
 
-    if (method.delivery_estimate?.minimum?.unit === 'business_day')
-      unit = 'business days'
+    if (method.delivery_estimate?.minimum?.unit === 'business_day') unit = 'business days'
 
     return { min, max, unit }
   }
@@ -38,7 +37,7 @@ const ShippingOptions = () => {
       <h4 className="font-semibold text-primary-700">Delivery</h4>
 
       <ul className="grid sm:grid-cols-2 items-center gap-2">
-        {options.map((option) => {
+        {options.map(option => {
           const { min, max, unit } = getDeliveryEstimate(option)
 
           return (
@@ -46,14 +45,17 @@ const ShippingOptions = () => {
               <button
                 onClick={() => setShipping(option)}
                 className={cn(
-                  "w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300",
-                  { "border-secondary bg-secondary-100/10 dark:bg-secondary-100/5": shipping?.id === option.id }
+                  'w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300',
+                  {
+                    'border-secondary bg-secondary-100/10 dark:bg-secondary-100/5':
+                      shipping?.id === option.id
+                  }
                 )}
               >
                 <div>
                   <h4 className="font-semibold">{option.display_name}</h4>
                   <p className="flex item-center font-medium text-md text-primary-600 dark:text-primary-700">
-                    {min}-{max}{" "}{unit}
+                    {min}-{max} {unit}
                   </p>
                 </div>
 

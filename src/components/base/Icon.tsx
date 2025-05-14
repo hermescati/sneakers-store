@@ -10,9 +10,7 @@ interface IconProps extends ComponentPropsWithoutRef<'span'> {
   className?: string
 }
 
-const IconifyIcon = dynamic(() =>
-  import('@iconify/react').then((mod) => mod.Icon)
-)
+const IconifyIcon = dynamic(() => import('@iconify/react').then(mod => mod.Icon))
 
 const Icon = ({ icon, src, alt, className, ...props }: IconProps) => {
   const DEFAULT_ICON_SIZE = 'h-5'
@@ -35,10 +33,7 @@ const Icon = ({ icon, src, alt, className, ...props }: IconProps) => {
 
   return (
     <span
-      className={cn(
-        'relative flex aspect-square items-center justify-center',
-        iconSize()
-      )}
+      className={cn('relative flex aspect-square items-center justify-center', iconSize())}
       {...props}
     >
       {src ? (

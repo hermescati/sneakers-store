@@ -13,7 +13,7 @@ export const formatPrice = (
   options: {
     currency?: 'USD' | 'EUR' | 'GBP'
     notation?: Intl.NumberFormatOptions['notation']
-    credit?: boolean,
+    credit?: boolean
     fractionDigits?: number
   } = {}
 ) => {
@@ -55,7 +55,7 @@ export const constructCouponMetadata = (event: Event) => {
   const metadata: Stripe.MetadataParam = {}
 
   if (event.appliedToAll) {
-    metadata['targetAll'] = "true"
+    metadata['targetAll'] = 'true'
     return metadata
   }
 

@@ -108,19 +108,13 @@ export const Accordion = ({
   multiple = false
 }: AccordionProps) => {
   const [openIndexes, setOpenIndexes] = useState<number[]>(
-    Array.isArray(activeIndex)
-      ? activeIndex
-      : activeIndex !== undefined
-        ? [activeIndex]
-        : []
+    Array.isArray(activeIndex) ? activeIndex : activeIndex !== undefined ? [activeIndex] : []
   )
 
   const toggleItem = (index: number) => {
-    setOpenIndexes((prev) => {
+    setOpenIndexes(prev => {
       if (multiple) {
-        return prev.includes(index)
-          ? prev.filter((i) => i !== index)
-          : [...prev, index]
+        return prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
       }
       return prev.includes(index) ? [] : [index]
     })

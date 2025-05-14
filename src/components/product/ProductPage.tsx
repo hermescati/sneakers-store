@@ -82,7 +82,7 @@ const ProductPage = ({ product }: { product: Product }) => {
             {TABS.map((tab, index) => (
               <button
                 key={tab}
-                ref={(el) => {
+                ref={el => {
                   tabRefs.current[index] = el
                 }}
                 onClick={() => setActiveTab(index)}
@@ -105,11 +105,7 @@ const ProductPage = ({ product }: { product: Product }) => {
         </div>
 
         <div className="mt-2">
-          {activeTab === 0 ? (
-            <ProductDetails product={product} />
-          ) : (
-            <p>Reviews section here</p>
-          )}
+          {activeTab === 0 ? <ProductDetails product={product} /> : <p>Reviews section here</p>}
         </div>
       </div>
     </div>

@@ -12,7 +12,11 @@ export default function Rating({ rating, maxStars = 5 }: RatingProps) {
       {Array.from({ length: maxStars }, (_, i) => {
         const isFull = i < Math.floor(rating)
         const isHalf = i === Math.floor(rating) && rating % 1 >= 0.5
-        const icon = isFull ? 'mingcute:star-fill' : isHalf ? 'mingcute:star-half-fill' : 'mingcute:star-line'
+        const icon = isFull
+          ? 'mingcute:star-fill'
+          : isHalf
+            ? 'mingcute:star-half-fill'
+            : 'mingcute:star-line'
 
         return (
           <Icon

@@ -16,9 +16,7 @@ const Copyrights = () => {
         <span className="flex items-center gap-x-2">
           {policyLinks.map(({ name, href }, i) => (
             <span key={i} className="flex items-center gap-x-2">
-              {i !== 0 && (
-                <span className="inline-block w-1 h-1 rounded-full bg-primary-600" />
-              )}
+              {i !== 0 && <span className="inline-block w-1 h-1 rounded-full bg-primary-600" />}
               <Link href={href} underline>
                 {name}
               </Link>

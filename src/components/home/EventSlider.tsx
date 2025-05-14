@@ -33,7 +33,9 @@ const EventItem = ({ event }: { event: Event }) => {
     if (event.type === 'spotlight' && event.appliedTo && event.appliedTo?.length > 0) {
       const relation = event.appliedTo[0].relationTo
       const relationId =
-        typeof event.appliedTo[0].value !== 'string' ? event.appliedTo[0].value.id : event.appliedTo[0].value
+        typeof event.appliedTo[0].value !== 'string'
+          ? event.appliedTo[0].value.id
+          : event.appliedTo[0].value
       router.push(`${routes.products.home}?${relation}=${relationId}`)
       return
     }
@@ -56,7 +58,9 @@ const EventItem = ({ event }: { event: Event }) => {
       <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-[4%] lg:bottom-[8%] py-4 lg:p-6 lg:w-[30%] bg-background lg:shadow-xl lg:rounded-2xl">
         <div className="flex flex-col gap-2">
           <span className="font-semibold text-xl">{event.title}</span>
-          <span className="text-md text-primary-700 dark:text-primary-800 line-clamp-2">{event.description}</span>
+          <span className="text-md text-primary-700 dark:text-primary-800 line-clamp-2">
+            {event.description}
+          </span>
         </div>
         <Button
           variant="solid"
@@ -101,7 +105,7 @@ const EventSlider = ({ events }: { events: Event[] }) => {
   }, [swiper])
 
   useEffect(() => {
-    setPaginationStyles((prev) => ({
+    setPaginationStyles(prev => ({
       ...prev,
       '--swiper-pagination-top': isMobile ? '1%' : undefined,
       '--swiper-pagination-bottom': isMobile ? '99%' : undefined

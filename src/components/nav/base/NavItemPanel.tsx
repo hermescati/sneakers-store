@@ -16,9 +16,7 @@ const NavItemPanel = ({ item, onClick }: NavItemPanelProps) => {
       {item.items && item.items.length > 0 && (
         <MainContainer className="flex flex-col gap-12">
           <div className="grid grid-cols-6 w-full">
-            <h3 className="font-semibold">
-              {item.name === 'Others' ? 'All Brands' : 'Models'}
-            </h3>
+            <h3 className="font-semibold">{item.name === 'Others' ? 'All Brands' : 'Models'}</h3>
             <ul className="col-start-2 col-span-5 grid grid-rows-3 grid-flow-col gap-x-3 gap-y-3 mt-1">
               {item.items.map((model, index) => (
                 <Link
@@ -37,7 +35,7 @@ const NavItemPanel = ({ item, onClick }: NavItemPanelProps) => {
             <div className="flex flex-col gap-3">
               <h3 className="font-semibold">Popular</h3>
               <ul className="grid grid-cols-3 gap-x-8">
-                {item.featured.map((featuredItem) => (
+                {item.featured.map(featuredItem => (
                   <Link
                     key={featuredItem.name}
                     underline

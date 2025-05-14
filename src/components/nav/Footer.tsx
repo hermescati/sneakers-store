@@ -12,7 +12,7 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
   const footerLinks: Record<string, TFooterItem> = {
     featured: {
       header: 'Featured',
-      links: featured.map((item) => ({
+      links: featured.map(item => ({
         name: item.name,
         href: item.href!
       }))
@@ -21,7 +21,7 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
       header: 'Categories',
       links: [
         { name: 'Mens', href: routes.products.mens },
-        ...others.map((item) => ({
+        ...others.map(item => ({
           name: item.name,
           href: item.href!
         }))
@@ -30,9 +30,9 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
     brands: {
       header: 'Brands',
       links: brands
-        .flatMap((b) => (!b.href && Array.isArray(b.items) ? b.items : b.href ? [b] : []))
+        .flatMap(b => (!b.href && Array.isArray(b.items) ? b.items : b.href ? [b] : []))
         .slice(0, 8)
-        .map((b) => ({
+        .map(b => ({
           name: b.name,
           href: b.href!
         }))
@@ -64,8 +64,9 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
             <div className="space-y-2">
               <Logo className="text-2xl" />
               <p className="text-md text-primary-700 dark:text-primary-700 leading-relaxed">
-                Your go-to destination for the latest and greatest in sneaker culture. Whether you&apos;re into limited
-                drops or timeless classics, we help you stay one step ahead.
+                Your go-to destination for the latest and greatest in sneaker culture. Whether
+                you&apos;re into limited drops or timeless classics, we help you stay one step
+                ahead.
               </p>
             </div>
             <NewsletterForm />

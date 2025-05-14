@@ -39,7 +39,8 @@ const CartDetails = () => {
             size="small"
             iconPrepend="solar:trash-bin-trash-outline"
             className="py-3 dark:font-semibold text-primary-600 hover:text-danger active:text-danger"
-            onClick={clearCart} />
+            onClick={clearCart}
+          />
         </div>
         <CartList />
       </div>

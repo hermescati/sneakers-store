@@ -73,11 +73,7 @@ export const darkenHexColor = (hex: string, percentage: number) => {
       b = x
     }
 
-    return [
-      Math.round((r + m) * 255),
-      Math.round((g + m) * 255),
-      Math.round((b + m) * 255)
-    ]
+    return [Math.round((r + m) * 255), Math.round((g + m) * 255), Math.round((b + m) * 255)]
   }
 
   const [newR, newG, newB] = hslToRgb(h, s / 100, newL / 100)

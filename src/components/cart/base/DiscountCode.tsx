@@ -1,4 +1,3 @@
-
 import Button from '@/components/base/button/Button'
 import Input from '@/components/base/input/Input'
 import { DiscountCodeSchema, TDiscountCodeSchema } from '@/lib/validators'
@@ -53,23 +52,23 @@ const DiscountCode = () => {
         <Input
           {...register('code')}
           placeholder="Add discount code"
-          defaultValue={!!appliedDiscount ? appliedDiscount.code : ''}
+          defaultValue={appliedDiscount ? appliedDiscount.code : ''}
           disabled={!!appliedDiscount}
           invalid={!!errors.code}
           error={errors.code?.message}
         />
         <Button
           variant="ghost"
-          label={`${!!appliedDiscount ? 'Applied' : 'Apply'}`}
+          label={`${appliedDiscount ? 'Applied' : 'Apply'}`}
           disabled={!!appliedDiscount}
-          iconPrepend={!!appliedDiscount ? 'solar:check-circle-linear' : ''}
+          iconPrepend={appliedDiscount ? 'solar:check-circle-linear' : ''}
           className="h-fit w-fit border-2 border-primary-400"
         />
       </div>
 
       <p className="font-medium text-md text-primary-600">
-        <span className="font-bold text-primary-700">Note:</span>{" "}
-        Only one discount code can be applied per order
+        <span className="font-bold text-primary-700">Note:</span> Only one discount code can be
+        applied per order
       </p>
     </form>
   )

@@ -32,7 +32,7 @@ const MultiSelectFilter = ({
         titleClasses="px-0 py-4 font-semibold bg-transparent hover:bg-transparent"
       >
         <ul className="space-y-1">
-          {options.map((option) => {
+          {options.map(option => {
             const isSelected = selectedValues.includes(option.value)
             return (
               <li
@@ -52,9 +52,7 @@ const MultiSelectFilter = ({
                       : 'border-primary-400'
                   )}
                 >
-                  {isSelected && (
-                    <Icon icon="mdi:check" className="text-background" />
-                  )}
+                  {isSelected && <Icon icon="mdi:check" className="text-background" />}
                 </span>
               </li>
             )

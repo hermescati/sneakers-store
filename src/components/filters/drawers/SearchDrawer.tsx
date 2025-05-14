@@ -21,9 +21,7 @@ const SearchDrawer = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [debouncedQuery] = useDebounceValue(query, 500)
-  const [selectedCategory, setSelectedCategory] = useState<SelectOption | null>(
-    null
-  )
+  const [selectedCategory, setSelectedCategory] = useState<SelectOption | null>(null)
   const [results, setResults] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -31,9 +29,7 @@ const SearchDrawer = () => {
   useOnClickOutside(contentRef, () => setIsOpen(false))
 
   const router = useRouter()
-  useOnKeyPress({ key: 'k', ctrl: true, preventDefault: true }, () =>
-    setIsOpen(true)
-  )
+  useOnKeyPress({ key: 'k', ctrl: true, preventDefault: true }, () => setIsOpen(true))
   useOnKeyPress({ key: 'Enter' }, () => {
     if (debouncedQuery.trim() !== '' && results.length > 0) handleOnSubmit()
   })
@@ -63,9 +59,7 @@ const SearchDrawer = () => {
   }, [debouncedQuery, selectedCategory])
 
   const handleCategorySelect = (option: SelectOption) => {
-    setSelectedCategory((prev) =>
-      prev?.value === option.value ? null : option
-    )
+    setSelectedCategory(prev => (prev?.value === option.value ? null : option))
   }
 
   const handleOnClear = () => {
@@ -76,29 +70,17 @@ const SearchDrawer = () => {
   const handleOnSubmit = () => {
     router.push(`${routes.products.home}?query=${debouncedQuery}`)
     setQuery('')
-    setIsOpen((prev) => !prev)
+    setIsOpen(prev => !prev)
   }
 
   return (
-    <Drawer.Root
-      direction="top"
-      handleOnly
-      open={isOpen}
-      onOpenChange={setIsOpen}
-    >
+    <Drawer.Root direction="top" handleOnly open={isOpen} onOpenChange={setIsOpen}>
       <Drawer.Trigger className="w-full outline-none">
         <div className="lg:hidden">
-          <Icon
-            icon="solar:rounded-magnifer-linear"
-            className="text-2xl text-primary-700"
-          />
+          <Icon icon="solar:rounded-magnifer-linear" className="text-2xl text-primary-700" />
         </div>
         <div className="hidden lg:block">
-          <SearchInput
-            value={query}
-            onFocus={(e) => e.preventDefault()}
-            readOnly
-          />
+          <SearchInput value={query} onFocus={e => e.preventDefault()} readOnly />
         </div>
       </Drawer.Trigger>
       <Drawer.Portal>
@@ -116,7 +98,7 @@ const SearchDrawer = () => {
                 isExpanded
                 value={query}
                 onClear={handleOnClear}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={e => setQuery(e.target.value)}
               />
 
               <div className="flex flex-col gap-4 h-full">
@@ -125,7 +107,7 @@ const SearchDrawer = () => {
                     I&apos;m searching for
                   </span>
                   <ul className="flex flex-flex-wrap items-center gap-1.5">
-                    {SIZING_CATEGORY_OPTIONS.map((option) => (
+                    {SIZING_CATEGORY_OPTIONS.map(option => (
                       <li
                         key={option.value}
                         className={cn(
@@ -148,17 +130,13 @@ const SearchDrawer = () => {
                 ) : (
                   results.length > 0 && (
                     <div className="flex flex-col gap-1.5 h-full overflow-y-auto">
-                      <p className="px-4 font-medium text-md text-primary-600">
-                        Results
-                      </p>
+                      <p className="px-4 font-medium text-md text-primary-600">Results</p>
                       <ul className="divide-y divide-border border-t border-border">
-                        {results.map((product) => (
+                        {results.map(product => (
                           <SearchResultItem
                             key={product.id}
                             product={product}
-                            onClick={() =>
-                              router.push(routes.products.product(product.slug))
-                            }
+                            onClick={() => router.push(routes.products.product(product.slug))}
                           />
                         ))}
                       </ul>

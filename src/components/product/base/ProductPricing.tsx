@@ -31,7 +31,9 @@ const ProductPricing = ({ product, selectedSize }: ProductDetailsProps) => {
         <div className="flex items-baseline gap-x-2">
           <h1 className="font-bold text-2xl md:text-3xl">{formatPrice(finalPrice)}</h1>
           {finalPrice !== basePrice && (
-            <span className="font-medium text-primary-600 line-through">{formatPrice(basePrice)}</span>
+            <span className="font-medium text-primary-600 line-through">
+              {formatPrice(basePrice)}
+            </span>
           )}
         </div>
 

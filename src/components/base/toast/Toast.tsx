@@ -72,7 +72,12 @@ const Toast = (props: ToastProps) => {
           </button>
         </span>
       )}
-      <div className={cn('flex gap-2 w-full rounded-lg ring-1 md:w-[356px] items-center p-4', styles.container)}>
+      <div
+        className={cn(
+          'flex gap-2 w-full rounded-lg ring-1 md:w-[356px] items-center p-4',
+          styles.container
+        )}
+      >
         {showIcon && <Icon icon={icon} className={`text-xl ${styles.icon}`} />}
         <div className="flex flex-1 items-center">
           <div className="w-full leading-snug">
@@ -99,7 +104,7 @@ const Toast = (props: ToastProps) => {
 }
 
 const customToast = (toastProps: Omit<ToastProps, 'id'>) => {
-  return sonnerToast.custom((id) => <Toast id={id} {...toastProps} />)
+  return sonnerToast.custom(id => <Toast id={id} {...toastProps} />)
 }
 const toast = (toastProps: Omit<ToastProps, 'id'>) => customToast(toastProps)
 

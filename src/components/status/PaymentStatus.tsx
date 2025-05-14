@@ -39,20 +39,17 @@ const PaymentStatus = ({ order }: { order: Order }) => {
           <h1 className="text-3xl font-bold">Thank you for your order!</h1>
           {orderStatus === 'completed' ? (
             <p className="text-base text-primary-600">
-              Your order is confirmed, and we&apos;re just as excited as you
-              are!. We&apos;ve sent your receipt and order details to your email{' '}
+              Your order is confirmed, and we&apos;re just as excited as you are!. We&apos;ve sent
+              your receipt and order details to your email{' '}
               {typeof order.user !== 'string' && (
-                <span className="font-semibold text-gray-900">
-                  {order.user.email}
-                </span>
+                <span className="font-semibold text-gray-900">{order.user.email}</span>
               )}
               .
             </p>
           ) : (
             <p className="text-base text-primary-600">
-              We appreciate your order, and we&apos;re currently processing it.
-              So hang tight and we&apos;ll send you the confirmation details
-              very soon!
+              We appreciate your order, and we&apos;re currently processing it. So hang tight and
+              we&apos;ll send you the confirmation details very soon!
             </p>
           )}
         </header>

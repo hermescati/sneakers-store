@@ -21,13 +21,15 @@ const CartList = ({ compact = false }: CartListProps) => {
       <ul
         className={cn(
           compact || isMobile
-            ? "pb-6 md:pb-0 flex flex-col divide-y divide-border overflow-y-auto"
-            : "md:pt-4 pb-8 lg:mb-0 md:grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 md:gap-6",
-        )}>
+            ? 'pb-6 md:pb-0 flex flex-col divide-y divide-border overflow-y-auto'
+            : 'md:pt-4 pb-8 lg:mb-0 md:grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 md:gap-6'
+        )}
+      >
         {items.map(({ product, size }, index) => (
           <Link
             key={`${product.id}-${size?.size}`}
-            href={compact ? "" : routes.products.product(product.slug)}>
+            href={compact ? '' : routes.products.product(product.slug)}
+          >
             <CartItem
               index={index}
               product={product}

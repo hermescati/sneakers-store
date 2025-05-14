@@ -9,12 +9,7 @@ interface ReceiptEmailProps {
   products: Product[]
 }
 
-export const ReceiptEmail = ({
-  email,
-  date,
-  orderId,
-  products
-}: ReceiptEmailProps) => {
+export const ReceiptEmail = ({ email, date, orderId, products }: ReceiptEmailProps) => {
   const total = products.reduce((acc, curr) => acc + curr.retail_price, 0) + 1
 
   // Create a template from react email

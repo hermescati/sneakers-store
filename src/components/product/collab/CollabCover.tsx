@@ -40,7 +40,11 @@ const CollabCover = ({ collaboration }: { collaboration: Collaboration }) => {
           className="inline-flex items-center gap-2 p-2 font-medium md:text-lg text-white group-hover:underline group-hover:underline-offset-4 transition duration-300 ease-in-out"
           style={{ textShadow: '0 0.25em 0.25em rgba(0,0,0,0.4)' }}
         >
-          Cop now <Icon icon="flowbite:arrow-right-outline" className="text-xl md:text-2xl group-hover:animate-bump" />
+          Cop now{' '}
+          <Icon
+            icon="flowbite:arrow-right-outline"
+            className="text-xl md:text-2xl group-hover:animate-bump"
+          />
         </span>
       </header>
 

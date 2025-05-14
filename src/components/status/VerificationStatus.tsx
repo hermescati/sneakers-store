@@ -50,7 +50,7 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
         <Button
           href={routes.auth.login}
           label="Sign in"
-          className='mt-2'
+          className="mt-2"
           iconPrepend="solar:login-2-outline"
         />
       </div>

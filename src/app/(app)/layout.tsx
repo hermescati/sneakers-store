@@ -34,7 +34,10 @@ const RootLayout = async ({
         <AuthProvider>
           <ThemeProvider>
             <QueryClientProvider>
-              <main data-vaul-drawer-wrapper className="relative flex flex-col min-h-screen bg-background">
+              <main
+                data-vaul-drawer-wrapper
+                className="relative flex flex-col min-h-screen bg-background"
+              >
                 <Navbar navItems={navItems} />
                 <div className="flex flex-1 justify-center">{children}</div>
                 <Footer navItems={navItems} />

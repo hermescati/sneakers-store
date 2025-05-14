@@ -13,7 +13,7 @@ const DiscoverSection = async () => {
       icon: 'solar:sale-bold',
       href: routes.products.onSale
     },
-    ...brands.map((brand) => ({
+    ...brands.map(brand => ({
       name: brand.name,
       href: `${routes.products.home}?brand=${brand.slug}`
     }))
@@ -46,13 +46,17 @@ const DiscoverSection = async () => {
         ))}
       </ul>
 
-      {brands.length > 0 ? <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {discoverItems.map((item, index) => (
-          <li key={index}>
-            <DiscoverCard {...item} />
-          </li>
-        ))}
-      </ul> : <DiscoverySkeleton />}
+      {brands.length > 0 ? (
+        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {discoverItems.map((item, index) => (
+            <li key={index}>
+              <DiscoverCard {...item} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <DiscoverySkeleton />
+      )}
     </section>
   )
 }

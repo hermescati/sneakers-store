@@ -44,7 +44,9 @@ export const Models: CollectionConfig = {
     {
       name: 'featured',
       type: 'checkbox',
-      admin: { description: 'Mark this model as featured to display it in the navbar under popular models.' }
+      admin: {
+        description: 'Mark this model as featured to display it in the navbar under popular models.'
+      }
     },
     {
       name: 'image',
@@ -57,9 +59,9 @@ export const Models: CollectionConfig = {
       // @ts-expect-error TS can't infer the types of value and siblingData
       validate: (value, { siblingData }) => {
         if (siblingData?.featured && !value) {
-          return 'An image is required for featured models.';
+          return 'An image is required for featured models.'
         }
-        return true;
+        return true
       }
     }
   ]

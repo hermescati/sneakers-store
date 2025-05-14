@@ -12,12 +12,12 @@ import { getCollabs, getProducts } from '@/services/products'
 const Home = async () => {
   const { brands } = await getNavItems()
 
-  const productReelsPromise = brands.slice(0, 5).map((brand) => {
+  const productReelsPromise = brands.slice(0, 5).map(brand => {
     const slug = brand.href?.split('brand=')[1]
     return getProducts({
       limit: 6,
       where: { 'brand.slug': { equals: slug } }
-    }).then((res) => ({ brand, products: res.data }))
+    }).then(res => ({ brand, products: res.data }))
   })
 
   const [products, { data: newReleases }, { data: latestCollabs }, { events }] = await Promise.all([

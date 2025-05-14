@@ -23,9 +23,8 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
   ]
 
   const activeIndex = themeOptions.findIndex(({ value }) => value === theme)
-  const resolvedThemeIcon = themeOptions.find(
-    ({ value }) => value === resolvedTheme
-  )?.icon as string
+  const resolvedThemeIcon = themeOptions.find(({ value }) => value === resolvedTheme)
+    ?.icon as string
 
   return (
     <div ref={switchRef} className="relative">
@@ -34,7 +33,7 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
           icon={resolvedThemeIcon}
           className="p-1.5 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none"
           iconClass="text-2xl"
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => setIsOpen(prev => !prev)}
         />
       )}
 
@@ -44,13 +43,9 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={cn(
-              'rounded-full border border-border bg-background overflow-hidden',
-              {
-                'absolute top-full left-1/2 !-translate-x-1/2 shadow-md':
-                  !headless
-              }
-            )}
+            className={cn('rounded-full border border-border bg-background overflow-hidden', {
+              'absolute top-full left-1/2 !-translate-x-1/2 shadow-md': !headless
+            })}
           >
             <div className="relative w-full flex items-center">
               <motion.div

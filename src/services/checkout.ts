@@ -24,20 +24,20 @@ export async function createStripeSession(
 
   const { data: products } = await getProducts({
     where: {
-      id: { in: selectedProducts.map((p) => p.productId) }
+      id: { in: selectedProducts.map(p => p.productId) }
     }
   })
 
-  selectedProducts.forEach((selection) => {
-    const product = products.find((p) => p.id === selection.productId)
+  selectedProducts.forEach(selection => {
+    const product = products.find(p => p.id === selection.productId)
 
     if (!product) return
 
-    const selectedSize = product.stock.find((s) => s.size === selection.size)
+    const selectedSize = product.stock.find(s => s.size === selection.size)
 
     if (!selectedSize) return
 
-    const category = SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label
+    const category = SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label
     const { finalPrice } = getProductPrice(product)
     const { thumbnail } = getProductInfo(product)
     const thumbnailURL = `${process.env.NEXT_PUBLIC_API_URL}${thumbnail}`
@@ -68,20 +68,7 @@ export async function createStripeSession(
       shipping_options: [{ shipping_rate: deliveryOption?.id }],
       phone_number_collection: { enabled: true },
       shipping_address_collection: {
-        allowed_countries: [
-          'AL',
-          'US',
-          'CA',
-          'GB',
-          'AU',
-          'FR',
-          'DE',
-          'ES',
-          'IT',
-          'JP',
-          'NL',
-          'SE'
-        ]
+        allowed_countries: ['AL', 'US', 'CA', 'GB', 'AU', 'FR', 'DE', 'ES', 'IT', 'JP', 'NL', 'SE']
       },
       mode: 'payment',
       metadata: {
@@ -104,8 +91,8 @@ export async function getShippingRates() {
   const { data: rates } = await stripeClient.shippingRates.list()
 
   const activeRates = rates
-    .filter((rate) => rate.active)
-    .map((rate) => {
+    .filter(rate => rate.active)
+    .map(rate => {
       // Stripe has them as whole numbers so they need to be divided by 100 to get the actual rate
       if (rate.fixed_amount) {
         return {

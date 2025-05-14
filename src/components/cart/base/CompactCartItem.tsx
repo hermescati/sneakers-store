@@ -66,7 +66,7 @@ const CompactCartItem = ({
         <IconButton
           icon={isMobile ? 'tabler-x' : 'solar:trash-bin-trash-linear'}
           className="h-fit p-2 hover:text-danger active:text-danger"
-          iconClass='text-xl'
+          iconClass="text-xl"
           onClick={onRemove}
         />
       </div>

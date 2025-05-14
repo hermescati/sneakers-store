@@ -11,12 +11,7 @@ interface SearchInputProps extends ComponentPropsWithoutRef<'input'> {
   onClear?: VoidFunction
 }
 
-const SearchInput = ({
-  value,
-  isExpanded = false,
-  onClear,
-  ...props
-}: SearchInputProps) => {
+const SearchInput = ({ value, isExpanded = false, onClear, ...props }: SearchInputProps) => {
   return (
     <div
       className={cn(
@@ -38,19 +33,14 @@ const SearchInput = ({
         {...props}
       />
       <span
-        className={cn(
-          'px-1 rounded-md bg-primary-100 font-semibold text-sm text-primary-600',
-          { 'hidden lg:block': isExpanded }
-        )}
+        className={cn('px-1 rounded-md bg-primary-100 font-semibold text-sm text-primary-600', {
+          'hidden lg:block': isExpanded
+        })}
       >
         {isExpanded ? 'ESC' : 'Ctrl+K'}
       </span>
       {!props.readOnly && (
-        <IconButton
-          icon="tabler:x"
-          className="text-xl text-primary-600"
-          onClick={onClear}
-        />
+        <IconButton icon="tabler:x" className="text-xl text-primary-600" onClick={onClear} />
       )}
     </div>
   )

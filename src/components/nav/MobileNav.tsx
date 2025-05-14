@@ -57,7 +57,12 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
               <Drawer.Title></Drawer.Title>
               <div className="flex flex-col divide-y divide-border w-full h-full">
                 <div className="flex flex-none px-4 py-2 items-center justify-between">
-                  <IconButton icon="tabler-x" iconClass="text-2xl" className="p-2" onClick={() => setIsOpen(false)} />
+                  <IconButton
+                    icon="tabler-x"
+                    iconClass="text-2xl"
+                    className="p-2"
+                    onClick={() => setIsOpen(false)}
+                  />
                   <div className="relative">
                     <IconButton
                       href={routes.cart}
@@ -73,7 +78,7 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
                 <div className="flex flex-col gap-2 h-full overflow-y-auto">
                   {menuItems.length > 0 && (
                     <ul className="mx-3 mt-2 space-y-0.5">
-                      {menuItems.map((item) => (
+                      {menuItems.map(item => (
                         <Link
                           key={item.value}
                           href={item.route}
@@ -85,7 +90,11 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
                         >
                           <div className="leading-snug">
                             <p className="font-semibold">{item.title}</p>
-                            {item.subtitle && <p className="font-medium text-sm text-primary-600">{item.subtitle}</p>}
+                            {item.subtitle && (
+                              <p className="font-medium text-sm text-primary-600">
+                                {item.subtitle}
+                              </p>
+                            )}
                           </div>
                           {item.icon && <Icon icon={item.icon} className="text-xl" />}
                           {item.component && item.component}
@@ -97,9 +106,14 @@ const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
                   <Accordion className="mx-3 space-y-0.5">
                     {navLinks.map((link, index) =>
                       link.items?.length ? (
-                        <AccordionItem key={link.name} index={index} title={link.name} titleClasses={navLinkClasses}>
+                        <AccordionItem
+                          key={link.name}
+                          index={index}
+                          title={link.name}
+                          titleClasses={navLinkClasses}
+                        >
                           <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
-                            {link.items.map((ft) => (
+                            {link.items.map(ft => (
                               <Link
                                 key={ft.name}
                                 underline

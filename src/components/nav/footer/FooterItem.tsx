@@ -13,24 +13,11 @@ const FooterItem = ({ item, isSocial = false }: FooterItemProps) => {
     <div className="flex flex-col gap-3">
       <h2 className="font-bold text-xl">{item.header}</h2>
 
-      <ul
-        className={cn(
-          'flex',
-          isSocial ? 'items-center gap-4' : 'flex-col gap-2'
-        )}
-      >
+      <ul className={cn('flex', isSocial ? 'items-center gap-4' : 'flex-col gap-2')}>
         {item.links.map((link, index) => (
           <li key={`${link.name}-${index}`}>
-            <Link
-              href={link.href}
-              underline
-              className="font-semibold text-primary-700"
-            >
-              {!!link.icon ? (
-                <Icon icon={link.icon} className="text-lg" />
-              ) : (
-                link.name
-              )}
+            <Link href={link.href} underline className="font-semibold text-primary-700">
+              {link.icon ? <Icon icon={link.icon} className="text-lg" /> : link.name}
             </Link>
           </li>
         ))}

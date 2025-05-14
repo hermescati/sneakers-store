@@ -69,13 +69,9 @@ const DetailedCartItem = ({
         </span>
 
         <div className="flex items-baseline gap-2 mt-1">
-          <span className="font-semibold text-lg">
-            {formatPrice(discountedPrice)}
-          </span>
+          <span className="font-semibold text-lg">{formatPrice(discountedPrice)}</span>
           {isDiscounted && (
-            <span className="text-md line-through text-primary-600">
-              {formatPrice(basePrice)}
-            </span>
+            <span className="text-md line-through text-primary-600">{formatPrice(basePrice)}</span>
           )}
         </div>
       </div>

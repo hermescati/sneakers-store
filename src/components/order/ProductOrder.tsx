@@ -34,7 +34,8 @@ const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
             <span>{brand}</span> - <span>{model}</span>
           </div>
           <div className="text-primary-600 text-md">
-            {SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label} (US) - {size}
+            {SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label} (US) -{' '}
+            {size}
           </div>
         </div>
 

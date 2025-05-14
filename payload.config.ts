@@ -23,7 +23,7 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    importMap: { baseDir: path.resolve(dirname), },
+    importMap: { baseDir: path.resolve(dirname) }
   },
   async onInit(payload) {
     const existingUsers = await payload.find({
@@ -40,7 +40,7 @@ export default buildConfig({
           firstName: 'Admin',
           lastName: ' ',
           role: 'admin',
-          _verified: true,
+          _verified: true
         }
       })
     }
@@ -55,18 +55,18 @@ export default buildConfig({
   }),
   plugins: process.env.BLOB_READ_WRITE_TOKEN
     ? [
-      vercelBlobStorage({
-        collections: {
-          [Media.slug]: true
-        },
-        token: process.env.BLOB_READ_WRITE_TOKEN || ''
-      })
-    ]
+        vercelBlobStorage({
+          collections: {
+            [Media.slug]: true
+          },
+          token: process.env.BLOB_READ_WRITE_TOKEN || ''
+        })
+      ]
     : [],
   email: resendAdapter({
     defaultFromAddress: `${process.env.EMAIL_FROM_ADDRESS}`,
     defaultFromName: 'Sneakers.',
-    apiKey: process.env.RESEND_SECRET || '',
+    apiKey: process.env.RESEND_SECRET || ''
   }),
   editor: lexicalEditor(),
   typescript: {
@@ -75,5 +75,5 @@ export default buildConfig({
   i18n: {
     supportedLanguages: { en }
   },
-  sharp,
+  sharp
 })

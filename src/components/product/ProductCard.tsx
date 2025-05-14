@@ -2,10 +2,7 @@
 
 import routes from '@/lib/routes'
 import { Product } from '@/types/payload'
-import {
-  cn,
-  formatPrice,
-} from '@/utils'
+import { cn, formatPrice } from '@/utils'
 import { getProductInfo, getProductPrice } from '@/utils/product'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -37,13 +34,12 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
   return (
     <Link
       href={`${routes.products.product(product.slug)}`}
-      className={cn(
-        "invisible h-full w-full cursor-pointer group", {
-        "visible animate-in fade-in-5": isLoaded
+      className={cn('invisible h-full w-full cursor-pointer group', {
+        'visible animate-in fade-in-5': isLoaded
       })}
     >
       <div className="flex flex-col gap-2">
-        <div className='relative flex items-center justify-center aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip'>
+        <div className="relative flex items-center justify-center aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip">
           <Image
             src={thumbnail.url!}
             alt={`${product.nickname} thumbnail`}
@@ -62,9 +58,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           </span>
 
           <div className="flex items-baseline gap-2 lg:mt-1">
-            <span className="font-bold text-lg">
-              {formatPrice(finalPrice)}
-            </span>
+            <span className="font-bold text-lg">{formatPrice(finalPrice)}</span>
             {finalPrice !== basePrice && (
               <span className="text-md line-through text-primary-600">
                 {formatPrice(basePrice)}

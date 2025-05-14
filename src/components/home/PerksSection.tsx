@@ -1,4 +1,4 @@
-import Icon from "../base/Icon"
+import Icon from '../base/Icon'
 
 export interface PerkItem {
   icon: string
@@ -10,13 +10,11 @@ const PerkCard = ({ icon, title, description }: PerkItem) => {
   return (
     <div className="flex lg:flex-col gap-x-6 lg:gap-y-3 items-start lg:items-center">
       <span className="flex items-center justify-center w-10 h-10 lg:w-8 lg:h-8">
-        <Icon icon={icon} className="text-3xl"/>
+        <Icon icon={icon} className="text-3xl" />
       </span>
       <div className="flex flex-col items-start lg:items-center lg:gap-y-1">
         <h2 className="font-semibold text-xl">{title}</h2>
-        <p className="font-medium text-primary-600 xl:text-md xl:text-center">
-          {description}
-        </p>
+        <p className="font-medium text-primary-600 xl:text-md xl:text-center">{description}</p>
       </div>
     </div>
   )

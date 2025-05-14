@@ -1,4 +1,3 @@
-
 interface ShippingOptionsSkeletonProps {
   length: number
 }
@@ -14,7 +13,8 @@ const ShippingOptionsSkeleton = ({ length }: ShippingOptionsSkeletonProps) => {
         {options.map((_, index) => (
           <li
             key={index}
-            className="w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300">
+            className="w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300"
+          >
             <div className="flex flex-col gap-1 w-full">
               <span className="h-5 bg-skeleton rounded-md w-2/3" />
               <span className="h-4 bg-skeleton rounded-md w-1/2" />

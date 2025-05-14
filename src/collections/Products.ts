@@ -100,7 +100,7 @@ export const Products: CollectionConfig = {
           defaultValue: 'mens',
           required: true,
           admin: { width: '50%' }
-        },
+        }
       ]
     },
     {
@@ -122,7 +122,7 @@ export const Products: CollectionConfig = {
             width: '50%',
             placeholder: 'White/University Red/White'
           }
-        },
+        }
       ]
     },
     {
@@ -146,7 +146,7 @@ export const Products: CollectionConfig = {
             width: '50%',
             placeholder: 'Select a release date'
           }
-        },
+        }
       ]
     },
     {
@@ -185,7 +185,7 @@ export const Products: CollectionConfig = {
           ]
         }
       ],
-      admin: { position: "sidebar" }
+      admin: { position: 'sidebar' }
     },
     {
       name: 'stock',
@@ -220,7 +220,7 @@ export const Products: CollectionConfig = {
         }
       ],
       required: true,
-      admin: { position: 'sidebar' },
+      admin: { position: 'sidebar' }
     },
     {
       name: 'min_price',

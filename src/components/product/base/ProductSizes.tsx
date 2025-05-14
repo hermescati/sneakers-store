@@ -33,7 +33,8 @@ const SizeBox = ({ size, stock, selected, onSelect }: SizeBoxProps) => {
     <button
       disabled={!stock}
       className={cn(baseStyle, {
-        "border-none bg-primary-900 text-background shadow-[0_2px_8px_-2px_rgba(var(--primary-800),0.35)]": selected
+        'border-none bg-primary-900 text-background shadow-[0_2px_8px_-2px_rgba(var(--primary-800),0.35)]':
+          selected
       })}
       onClick={onSelect}
     >
@@ -48,26 +49,22 @@ interface ProductSizeProps {
   setSelectedSize: (size: SelectedSize) => void
 }
 
-const ProductSizes = ({
-  product,
-  selectedSize,
-  setSelectedSize
-}: ProductSizeProps) => {
+const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizeProps) => {
   const { addItem } = useCartStore()
 
   return (
-    <div className='flex flex-col gap-2'>
-      <div className='flex items-center justify-between'>
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
         <h4 className="font-semibold text-lg">
-          {`Sizes - US ${SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label}`}
+          {`Sizes - US ${SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label}`}
         </h4>
-        <div className='md:hidden'>
+        <div className="md:hidden">
           <SizeGuides />
         </div>
       </div>
 
       <ul className="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-10 lg:grid-cols-4 xl:grid-cols-6 gap-2">
-        {product.stock.map((item) => (
+        {product.stock.map(item => (
           <SizeBox
             key={item.id}
             size={item.size}
@@ -78,21 +75,23 @@ const ProductSizes = ({
         ))}
       </ul>
 
-      <div className='hidden md:block'>
+      <div className="hidden md:block">
         <SizeGuides />
       </div>
 
-      <div className='flex gap-2 items-center mt-4'>
+      <div className="flex gap-2 items-center mt-4">
         <Button
           disabled={!selectedSize}
           label="Add to cart"
           iconPrepend="solar:cart-large-minimalistic-linear"
           onClick={() => addItem(product, selectedSize)}
-          className='w-full' />
+          className="w-full"
+        />
         <IconButton
           icon="solar:heart-outline"
-          className='bg-primary-100 rounded-2xl h-full aspect-square'
-          onClick={() => toast.success('Added to your wishlist.')} />
+          className="bg-primary-100 rounded-2xl h-full aspect-square"
+          onClick={() => toast.success('Added to your wishlist.')}
+        />
       </div>
 
       <NotifyForm />

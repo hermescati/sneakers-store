@@ -17,19 +17,10 @@ const inputVariants = cva(baseInput, {
   variants: {
     inputSize: {
       small: ['rounded-xl', 'border', 'text-md', 'has-[:focus-visible]:ring'],
-      default: [
-        'rounded-2xl',
-        'border-2',
-        'text-base',
-        'has-[:focus-visible]:ring-4'
-      ]
+      default: ['rounded-2xl', 'border-2', 'text-base', 'has-[:focus-visible]:ring-4']
     },
     invalid: {
-      true: [
-        'text-danger',
-        'border-danger',
-        'has-[:focus-visible]:ring-danger/20'
-      ],
+      true: ['text-danger', 'border-danger', 'has-[:focus-visible]:ring-danger/20'],
       false: [
         'text-foreground',
         'border-primary-400',
@@ -71,10 +62,7 @@ const IconWrapper = ({
   >
     <Icon
       icon={icon}
-      className={cn(
-        'text-primary-600',
-        inputSize === 'small' ? 'text-base' : 'text-xl'
-      )}
+      className={cn('text-primary-600', inputSize === 'small' ? 'text-base' : 'text-xl')}
     />
   </div>
 )
@@ -128,11 +116,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         iconPrepend &&
         type !== 'password' &&
         !showPassword && (
-          <IconWrapper
-            position="prepend"
-            inputSize={inputSize}
-            icon={iconPrepend as string}
-          />
+          <IconWrapper position="prepend" inputSize={inputSize} icon={iconPrepend as string} />
         ),
       [iconPrepend, inputSize, showPassword, type]
     )
@@ -142,11 +126,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         iconAppend &&
         type !== 'password' &&
         !showPassword && (
-          <IconWrapper
-            position="append"
-            inputSize={inputSize}
-            icon={iconAppend as string}
-          />
+          <IconWrapper position="append" inputSize={inputSize} icon={iconAppend as string} />
         ),
       [iconAppend, inputSize, showPassword, type]
     )

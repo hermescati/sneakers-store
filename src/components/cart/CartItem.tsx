@@ -15,20 +15,13 @@ interface CartItemProps {
   onRemove: () => void
 }
 
-const CartItem = ({
-  product,
-  index,
-  size,
-  compact,
-  onRemove
-}: CartItemProps) => {
+const CartItem = ({ product, index, size, compact, onRemove }: CartItemProps) => {
   const { thumbnail } = getProductInfo(product)
   const { finalPrice } = getProductPrice(product)
-  const category = SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label as string
+  const category = SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)
+    ?.label as string
 
-  const handleOnRemove = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleOnRemove = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation()
     event.preventDefault()
     onRemove()

@@ -33,8 +33,7 @@ const NewsletterForm = () => {
       <h2 className="font-bold text-2xl">Newsletter</h2>
 
       <p className="font-medium text-primary-700">
-        Drop your email below, and get your weekly dose of new releases and
-        special offers.
+        Drop your email below, and get your weekly dose of new releases and special offers.
       </p>
 
       <form
@@ -59,10 +58,8 @@ const NewsletterForm = () => {
 
       <p className="text-md text-primary-700">
         Opt out at any time by clicking{' '}
-        <span className="font-bold text-primary-800">
-          &quot;Unsubscribe&quot;
-        </span>{' '}
-        at the bottom of any of our emails.
+        <span className="font-bold text-primary-800">&quot;Unsubscribe&quot;</span> at the bottom of
+        any of our emails.
       </p>
     </div>
   )

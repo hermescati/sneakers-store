@@ -42,7 +42,7 @@ const SelectMenu = ({
       onSelect(
         multiple
           ? selected.includes(value)
-            ? selected.filter((option) => option !== value)
+            ? selected.filter(option => option !== value)
             : [...selected, value]
           : [value]
       )
@@ -58,7 +58,7 @@ const SelectMenu = ({
         role="menu"
         className="p-1 space-y-1 max-h-80 overflow-auto"
       >
-        {options.map((option) => {
+        {options.map(option => {
           const isSelected = selected.includes(option.value)
 
           return (

@@ -1,13 +1,4 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "next/core-web-vitals",
-    "plugin:prettier/recommended"
-  ],
-  "ignorePatterns": [
-    "node_modules/",
-    ".next/",
-    "/src/migrations/**",
-    "src/app/(payload)/"
-  ]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "ignorePatterns": ["node_modules/", ".next/", "/src/migrations/**", "src/app/(payload)/"]
 }

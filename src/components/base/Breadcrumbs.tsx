@@ -23,9 +23,7 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
               ) : (
                 <p className="text-foreground font-semibold">{breadcrumb.label}</p>
               )}
-              {index !== items.length - 1 && (
-                <span className="w-px h-5 bg-border ml-4" />
-              )}
+              {index !== items.length - 1 && <span className="w-px h-5 bg-border ml-4" />}
             </div>
           </li>
         ))}

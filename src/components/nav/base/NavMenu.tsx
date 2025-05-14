@@ -31,7 +31,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
       setActiveIndex(null)
       return
     }
-    setActiveIndex((prevIndex) => (prevIndex !== index ? index : null))
+    setActiveIndex(prevIndex => (prevIndex !== index ? index : null))
   }
 
   const handleOnClick = (href: NavItem['href']) => {
@@ -55,19 +55,15 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
         {items.map((item, index) => (
           <li
             key={item.name}
-            ref={(el) => {
+            ref={el => {
               linksRef.current[index] = el
             }}
           >
             <Link
-              className={cn(
-                'font-semibold text-md text-primary-600 hover:text-foreground',
-                {
-                  'text-foreground': index === activeIndex,
-                  'text-secondary hover:text-secondary!':
-                    item.name === 'On Sale'
-                }
-              )}
+              className={cn('font-semibold text-md text-primary-600 hover:text-foreground', {
+                'text-foreground': index === activeIndex,
+                'text-secondary hover:text-secondary!': item.name === 'On Sale'
+              })}
               onClick={() => handleOpen(index, item)}
             >
               {item.name}

@@ -6,8 +6,8 @@ const generateSlug: CollectionBeforeChangeHook = async ({ data, req }) => {
   const collab = data as Collaboration
 
   const brandNames = await Promise.all(
-    collab.brand.map(async (brandId) => {
-      const {name} = await req.payload.findByID({
+    collab.brand.map(async brandId => {
+      const { name } = await req.payload.findByID({
         collection: 'brands',
         id: brandId as string
       })
@@ -17,7 +17,7 @@ const generateSlug: CollectionBeforeChangeHook = async ({ data, req }) => {
 
   const collabName = brandNames.filter(Boolean).join(' x ')
   data.name = collabName
-  data.slug = slugify(collabName, {lower: true})
+  data.slug = slugify(collabName, { lower: true })
   return data
 }
 
@@ -48,7 +48,7 @@ export const Collaborations: CollectionConfig = {
       relationTo: 'brands',
       hasMany: true,
       required: true,
-      validate: (value) => {
+      validate: value => {
         if (!Array.isArray(value) || value.length < 2) {
           return 'You must select at least two brands.'
         }
@@ -67,14 +67,13 @@ export const Collaborations: CollectionConfig = {
     },
     {
       name: 'description',
-      type: 'textarea',
+      type: 'textarea'
     },
     {
       name: 'featured',
       type: 'checkbox',
       admin: {
-        description:
-          'Mark this collaboration as featured to display it on the homepage'
+        description: 'Mark this collaboration as featured to display it on the homepage'
       }
     },
     {
@@ -82,8 +81,7 @@ export const Collaborations: CollectionConfig = {
       type: 'upload',
       relationTo: 'media',
       admin: {
-        condition: (siblingData?: Record<string, unknown>) =>
-          siblingData?.featured === true,
+        condition: (siblingData?: Record<string, unknown>) => siblingData?.featured === true,
         description: 'Upload an image for the featured model.'
       },
       // @ts-expect-error TS can't infer the types of value and siblingData

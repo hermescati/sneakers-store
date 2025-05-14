@@ -5,43 +5,46 @@ import { getProductInfo } from '@/utils/product'
 import Image from 'next/image'
 
 interface SearchResultItem {
-    product: Product
-    onClick: VoidFunction
+  product: Product
+  onClick: VoidFunction
 }
 
 const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
-    const { brand, model, thumbnail } = getProductInfo(product)
+  const { brand, model, thumbnail } = getProductInfo(product)
 
-    return (
-        <div
-            key={product.id}
-            className="flex items-center justify-between gap-2 py-2 pl-2 pr-6 cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
-            onClick={onClick}>
-            <div className="relative aspect-video h-16">
-                <Image
-                    alt={product.nickname}
-                    src={thumbnail.url!}
-                    width={thumbnail.width!}
-                    height={thumbnail.height!}
-                    className="object-contain" />
-            </div>
+  return (
+    <div
+      key={product.id}
+      className="flex items-center justify-between gap-2 py-2 pl-2 pr-6 cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
+      onClick={onClick}
+    >
+      <div className="relative aspect-video h-16">
+        <Image
+          alt={product.nickname}
+          src={thumbnail.url!}
+          width={thumbnail.width!}
+          height={thumbnail.height!}
+          className="object-contain"
+        />
+      </div>
 
-            <div className='flex items-center justify-between gap-2 w-full'>
-                <div className="flex flex-col gap-0.5">
-                    <div className="flex items-center gap-2 font-medium text-sm text-primary-500">
-                        <span>{brand}</span>
-                        <span>&gt;</span>
-                        <span>{model}</span>
-                        <span>&gt;</span>
-                        <span>{SIZING_CATEGORY_OPTIONS.find((o) => o.value === product.size_category)?.label}</span>
-                    </div>
-                    <span className="font-semibold text-md">{product.nickname}</span>
-                </div>
-                <Icon icon="mage:chevron-right" className="text-xl text-primary-500" />
-            </div>
-
+      <div className="flex items-center justify-between gap-2 w-full">
+        <div className="flex flex-col gap-0.5">
+          <div className="flex items-center gap-2 font-medium text-sm text-primary-500">
+            <span>{brand}</span>
+            <span>&gt;</span>
+            <span>{model}</span>
+            <span>&gt;</span>
+            <span>
+              {SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label}
+            </span>
+          </div>
+          <span className="font-semibold text-md">{product.nickname}</span>
         </div>
-    )
+        <Icon icon="mage:chevron-right" className="text-xl text-primary-500" />
+      </div>
+    </div>
+  )
 }
 
 export default SearchResultItem

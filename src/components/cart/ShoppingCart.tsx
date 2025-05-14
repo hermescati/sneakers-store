@@ -1,4 +1,3 @@
-
 import routes from '@/lib/routes'
 import { useCartStore } from '@/stores/cartStore'
 import { formatPrice } from '@/utils'
@@ -20,9 +19,9 @@ const ShoppingCart = () => {
     <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5rem] overflow-clip border border-border divide-y divide-border bg-background rounded-2xl shadow-lg max-h-[calc(100vh-6.5rem)]">
       <div className="flex items-center justify-between gap-8 px-4 py-3">
         <h3 className="font-semibold text-xl">
-          {isEmpty ? "Your cart is empty" : "Added to cart"}
+          {isEmpty ? 'Your cart is empty' : 'Added to cart'}
         </h3>
-        <IconButton icon="tabler-x" iconClass='text-lg' onClick={close} />
+        <IconButton icon="tabler-x" iconClass="text-lg" onClick={close} />
       </div>
 
       <div className="flex-1 w-[500px] overflow-y-auto">
