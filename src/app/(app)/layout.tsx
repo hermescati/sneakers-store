@@ -1,15 +1,16 @@
-import AuthProvider from '@/components/auth/AuthProvider'
 import Toaster from '@/components/base/toast/Toaster'
 import Footer from '@/components/nav/Footer'
 import Navbar from '@/components/nav/Navbar'
-import ThemeProvider from '@/components/theme/ThemeProvider'
+import AuthProvider from '@/components/providers/AuthProvider'
+import QueryClientProvider from '@/components/providers/QueryClientProvider'
+import ThemeProvider from '@/components/providers/ThemeProvider'
+import { getNavItems } from '@/services'
 import { cn } from '@/utils'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata } from 'next'
 import { Quicksand } from 'next/font/google'
 import './globals.scss'
-import { getNavItems } from '@/services'
 
 const quicksand = Quicksand({ subsets: ['latin'] })
 
@@ -30,14 +31,16 @@ const RootLayout = async ({
       <body className={cn('relative antialiased', quicksand.className)}>
         <AuthProvider>
           <ThemeProvider>
-            <main data-vaul-drawer-wrapper className="relative flex flex-col min-h-screen bg-background">
-              <Navbar navItems={navItems}/>
-              <div className="flex flex-1 justify-center">{children}</div>
-              <Footer navItems={navItems}/>
-            </main>
-            <Analytics />
-            <SpeedInsights />
-            <Toaster />
+            <QueryClientProvider>
+              <main data-vaul-drawer-wrapper className="relative flex flex-col min-h-screen bg-background">
+                <Navbar navItems={navItems} />
+                <div className="flex flex-1 justify-center">{children}</div>
+                <Footer navItems={navItems} />
+              </main>
+              <Analytics />
+              <SpeedInsights />
+              <Toaster />
+            </QueryClientProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

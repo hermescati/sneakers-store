@@ -1,12 +1,12 @@
 import { NavItemGroups, NavLink } from '@/types'
-import SearchDrawer from '../filters/drawers/SearchDrawer'
 import MainContainer from '../MainContainer'
+import SearchDrawer from '../filters/drawers/SearchDrawer'
+import MobileNav from './MobileNav'
 import Logo from './base/Logo'
 import NavMenu from './base/NavMenu'
 import UserNav from './base/UserNav'
-import MobileNav from './MobileNav'
 
-const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
+const Navbar = ({ navItems }: { navItems: NavItemGroups }) => {
   const navMenuItems: NavLink[] = [
     ...(navItems.featured.length ? [navItems.featured[0]] : []),
     ...navItems.brands,
@@ -25,12 +25,8 @@ const Navbar = async ({ navItems }: { navItems: NavItemGroups }) => {
           <div className="flex items-center gap-4 lg:flex-grow lg:gap-16 divide-x divide-border lg:divide-x-0">
             <SearchDrawer />
             <div className="flex items-center gap-3">
-              <div className="hidden lg:flex">
-                <UserNav />
-              </div>
-              <div className="lg:hidden ml-4">
-                <MobileNav navLinks={navMenuItems} />
-              </div>
+              <UserNav />
+              <MobileNav navLinks={navMenuItems} />
             </div>
           </div>
         </div>
