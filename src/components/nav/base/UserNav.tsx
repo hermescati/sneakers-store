@@ -52,7 +52,7 @@ const UserMenu = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             aria-label="Dropdown menu"
-            className="p-2 absolute top-full left-1/2 !-translate-x-1/2 3xl:left-0 3xl:!translate-x-0 mt-3 border border-border rounded-xl bg-background overflow-y-auto shadow-lg"
+            className="absolute top-full left-1/2 !-translate-x-1/2 3xl:left-0 3xl:!translate-x-0 mt-3 p-1 border border-border rounded-xl bg-background overflow-y-auto shadow-lg"
           >
             <ul role="menu" aria-labelledby="account-dropdown" aria-orientation="vertical">
               {menuItems.map(item => (
@@ -61,17 +61,17 @@ const UserMenu = () => {
                     href={item.route}
                     onClick={item.action}
                     className={cn(
-                      'flex items-center justify-between gap-10 px-4 py-3.5 rounded-lg transition-all duration-300 ease-in-out',
+                      'flex items-center justify-between gap-10 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out',
                       {
-                        'hover:bg-primary-100/50': item.route || item.action,
-                        'py-1.5': item.subtitle || item.component
+                        'hover:bg-primary-100': item.route || item.action,
+                        'py-2': item.subtitle || item.component
                       }
                     )}
                   >
                     <div className="flex flex-col leading-tight">
                       <span className="font-medium text-md">{item.title}</span>
                       {item.subtitle && (
-                        <span className="text-md text-primary-600">{item.subtitle}</span>
+                        <span className="text-sm text-primary-600">{item.subtitle}</span>
                       )}
                     </div>
                     {item.icon && <Icon icon={item.icon} className="text-xl" />}
@@ -91,7 +91,7 @@ const UserNav = () => {
   const { user } = useUserStore()
 
   return (
-    <div className="relative hidden lg:flex items-center gap-5 transition-all duration-300 ease-in-out">
+    <div className="relative hidden lg:flex items-center justify-between gap-3 transition-all duration-300 ease-in-out">
       <>
         {user ? (
           <UserMenu />

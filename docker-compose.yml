@@ -2,16 +2,16 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres
+    image: postgres:17
     environment:
-      PGUSER: ${PGUSER}
-      PGPASSWORD: ${PGPASSWORD}
-      PGDATABASE: ${PGDATABASE}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: ${PGDATABASE}
     ports:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
-    container_name: sneakers-db
+    container_name: sneakers
     networks:
       - sneakers-store_default
 

@@ -43,7 +43,7 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={cn('rounded-full border border-border bg-background overflow-hidden', {
+            className={cn('z-20 rounded-full border border-border bg-background overflow-hidden', {
               'absolute top-full left-1/2 !-translate-x-1/2 shadow-md': !headless
             })}
           >

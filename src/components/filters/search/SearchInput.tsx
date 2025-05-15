@@ -33,7 +33,7 @@ const SearchInput = ({ value, isExpanded = false, onClear, ...props }: SearchInp
         {...props}
       />
       <span
-        className={cn('px-1 rounded-md bg-primary-100 font-semibold text-sm text-primary-600', {
+        className={cn('px-1 rounded-md bg-primary-200/60 font-semibold text-sm text-primary-600', {
           'hidden lg:block': isExpanded
         })}
       >

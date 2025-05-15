@@ -1,19 +1,20 @@
+'use client'
+
 import { cn } from '@/utils'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
-import { ComponentPropsWithoutRef } from 'react'
+import { ComponentPropsWithoutRef, useEffect, useState } from 'react'
 
 interface IconProps extends ComponentPropsWithoutRef<'span'> {
   icon?: string
-  src?: string
-  alt?: string
   className?: string
+  children?: React.ReactNode
 }
+const DEFAULT_ICON_SIZE = 'h-5'
 
-const IconifyIcon = dynamic(() => import('@iconify/react').then(mod => mod.Icon))
+const IconifyIcon = dynamic(() => import('@iconify/react').then(mod => mod.Icon), { ssr: false })
 
-const Icon = ({ icon, src, alt, className, ...props }: IconProps) => {
-  const DEFAULT_ICON_SIZE = 'h-5'
+const Icon = ({ icon, className, children, ...props }: IconProps) => {
+  const [isMounted, setIsMounted] = useState(false)
 
   const iconSize = () => {
     if (!className) return DEFAULT_ICON_SIZE
@@ -31,21 +32,25 @@ const Icon = ({ icon, src, alt, className, ...props }: IconProps) => {
     return DEFAULT_ICON_SIZE
   }
 
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   return (
     <span
-      className={cn('relative flex aspect-square items-center justify-center', iconSize())}
+      className={cn(
+        'relative flex aspect-square items-center justify-center',
+        iconSize(),
+        className
+      )}
       {...props}
     >
-      {src ? (
-        <Image
-          src={src}
-          alt={alt || `alt-${src}`}
-          fill
-          className={cn('object-contain', className)}
-        />
-      ) : (
-        <IconifyIcon icon={icon!} className={cn('shrink-0', className)} />
-      )}
+      {isMounted &&
+        (children ? (
+          children
+        ) : icon ? (
+          <IconifyIcon icon={icon} className={cn('shrink-0', className)} />
+        ) : null)}
     </span>
   )
 }

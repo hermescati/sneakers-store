@@ -91,7 +91,6 @@ const SearchDrawer = () => {
             className="max-w-3xl mt-6 mx-4 md:mx-auto rounded-2xl border border-border bg-background shadow-lg"
           >
             <Drawer.Title></Drawer.Title>
-
             <div className="relative h-full w-full divide-y divide-border">
               <SearchInput
                 autoFocus

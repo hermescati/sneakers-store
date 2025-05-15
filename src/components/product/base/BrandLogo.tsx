@@ -1,5 +1,6 @@
 import Icon from '@/components/base/Icon'
 import { Brand } from '@/types/payload'
+import YeezyLogo from '../../../../public/assets/yeezy-logo.svg'
 
 interface BrandLogoProps {
   brand: Brand['name']
@@ -8,7 +9,11 @@ interface BrandLogoProps {
 
 const BrandLogo = ({ brand, className }: BrandLogoProps) => {
   if (brand === 'Yeezy') {
-    return <Icon src="/assets/yeezy-logo.svg" alt="Yeezy logo" className={className} />
+    return (
+      <Icon className={className}>
+        <YeezyLogo />
+      </Icon>
+    )
   }
 
   const getBrandIcon = () => {

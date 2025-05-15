@@ -52,9 +52,9 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
         <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
           <h3 className="font-semibold">{product.nickname}</h3>
 
-          <span className="flex items-center gap-2 text-primary-500">
+          <span className="flex items-center gap-1 text-primary-500">
             <BrandLogo brand={brand} />
-            <p className="font-medium text-md">{model}</p>
+            <p className="font-medium text-md leading-tight">{model}</p>
           </span>
 
           <div className="flex items-baseline gap-2 lg:mt-1">
