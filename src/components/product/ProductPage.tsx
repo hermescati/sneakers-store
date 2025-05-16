@@ -36,11 +36,11 @@ const ProductPage = ({ product }: { product: Product }) => {
     collaboration
       ? {
           label: `${collaboration}`,
-          href: `${routes.products.home}?brand=${brand}&collaboration=${collabSlug}`
+          href: `${routes.products.home}?brand=${brandSlug}&collaboration=${collabSlug}`
         }
       : {
           label: `${model}`,
-          href: `${routes.products.home}?brand=${brand}&model=${modelSlug}`
+          href: `${routes.products.home}?brand=${brandSlug}&model=${modelSlug}`
         },
     { label: `${product.nickname}` }
   ]
