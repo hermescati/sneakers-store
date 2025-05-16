@@ -1,6 +1,6 @@
 import toast from '@/components/base/toast/Toast'
 import { refreshToken } from '@/services/auth'
-import { User } from 'payload'
+import { User } from '@/types/payload'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 

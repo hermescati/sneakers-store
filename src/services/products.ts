@@ -1,7 +1,13 @@
 'use server'
 
 import { payloadClient } from '@/lib/payload'
-import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
+import {
+  BaseResponse,
+  PaginatedResponse,
+  ProductFilters,
+  QueryParams,
+  WishlistStatus
+} from '@/types'
 import { Brand, Collaboration, Model, Product, User, Wishlist } from '@/types/payload'
 import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
@@ -217,98 +223,64 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
   return relatedProducts
 }
 
+export async function checkWishlistStatus(
+  userId: User['id'],
+  productId: Product['id']
+): Promise<boolean> {
+  const wishlist = await getUserWishlist(userId)
+  return wishlist.products?.includes(productId) ?? false
+}
+
 export async function wishlistProduct(
   userId: User['id'],
   productId: Product['id']
-): Promise<BaseResponse<Wishlist>> {
-  try {
-    const { docs } = await payloadClient.find({
+): Promise<BaseResponse<WishlistStatus>> {
+  const userWishlist = await getUserWishlist(userId)
+
+  if (!userWishlist) {
+    await payloadClient.create({
       collection: 'wishlist',
-      where: { user: { equals: userId } },
-      limit: 1,
-      depth: 0
-    })
-    const [userWishlist] = docs
-
-    if (!userWishlist) {
-      await payloadClient.create({
-        collection: 'wishlist',
-        data: {
-          user: userId,
-          products: [productId]
-        }
-      })
-
-      return {
-        code: 201,
-        message: 'Product added to your wishlist'
+      data: {
+        user: userId,
+        products: [productId]
       }
-    }
+    })
 
-    const isWishlisted = userWishlist.products?.includes(productId)
-
-    return isWishlisted
-      ? await removeFromWishlist(userId, productId, userWishlist)
-      : await addToWishlist(userId, productId, userWishlist)
-  } catch (error) {
-    console.error(error)
     return {
-      code: 500,
-      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!'
+      code: 201,
+      message: 'Product added to your wishlist',
+      data: 'added'
     }
+  }
+
+  const isWishlisted = userWishlist.products?.includes(productId)
+
+  const updatedProducts = isWishlisted
+    ? userWishlist.products?.filter(id => id !== productId)
+    : [...(userWishlist.products ?? []), productId]
+
+  await payloadClient.update({
+    collection: 'wishlist',
+    id: userWishlist.id,
+    data: { products: updatedProducts }
+  })
+
+  return {
+    code: 200,
+    message: isWishlisted ? 'Product removed from your wishlist' : 'Product added to your wishlist',
+    data: isWishlisted ? 'removed' : 'added'
   }
 }
 
 // Private functions
-async function addToWishlist(
-  userId: User['id'],
-  productId: Product['id'],
-  wishlist: Wishlist
-): Promise<BaseResponse<Wishlist>> {
-  try {
-    const currentProducts = Array.isArray(wishlist.products) ? wishlist.products : []
-    await payloadClient.update({
-      collection: 'wishlist',
-      id: wishlist.id,
-      data: {
-        products: [...currentProducts, productId]
-      }
-    })
-    return {
-      code: 200,
-      message: 'Product added to your wishlist'
-    }
-  } catch (error) {
-    return {
-      code: 500,
-      message: 'Could not add product to wishlist'
-    }
-  }
-}
-
-async function removeFromWishlist(
-  user: User['id'],
-  productId: Product['id'],
-  wishlist: Wishlist
-): Promise<BaseResponse<Wishlist>> {
-  try {
-    await payloadClient.update({
-      collection: 'wishlist',
-      id: wishlist.id,
-      data: {
-        products: wishlist.products?.filter(id => id !== productId)
-      }
-    })
-    return {
-      code: 200,
-      message: 'Product removed from your wishlist'
-    }
-  } catch (error) {
-    return {
-      code: 500,
-      message: 'Could not remove product from wishlist'
-    }
-  }
+async function getUserWishlist(userId: User['id']): Promise<Wishlist> {
+  const { docs } = await payloadClient.find({
+    collection: 'wishlist',
+    where: { user: { equals: userId } },
+    limit: 1,
+    depth: 0
+  })
+  return docs[0]
 }
 
 function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | undefined {

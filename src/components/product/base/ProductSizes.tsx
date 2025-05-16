@@ -4,10 +4,16 @@ import Button from '@/components/base/button/Button'
 import IconButton from '@/components/base/button/IconButton'
 import toast from '@/components/base/toast/Toast'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
+import routes from '@/lib/routes'
+import { checkWishlistStatus, wishlistProduct } from '@/services/products'
 import { useCartStore } from '@/stores/cartStore'
+import { useUserStore } from '@/stores/userStore'
 import { SelectedSize } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import NotifyForm from './NotifyForm'
 import SizeGuides from './SizeGuides'
 
@@ -50,7 +56,70 @@ interface ProductSizeProps {
 }
 
 const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizeProps) => {
+  const router = useRouter()
   const { addItem } = useCartStore()
+  const { user } = useUserStore()
+  const queryClient = useQueryClient()
+
+  const { data: isWishlisted, isLoading } = useQuery({
+    queryKey: ['wishlist', user?.id, product.id],
+    queryFn: () => checkWishlistStatus(user!.id, product.id),
+    enabled: !!user
+  })
+
+  const {
+    mutate: toggleWishlist,
+    isPending,
+    reset
+  } = useMutation({
+    mutationFn: () => wishlistProduct(user!.id, product.id),
+    onSuccess: data => {
+      if (data.data === 'added') {
+        toast.success(data.message)
+      } else if (data.data === 'removed') {
+        toast.warning(data.message)
+      }
+      queryClient.invalidateQueries({ queryKey: ['wishlist', user?.id, product.id] })
+      reset()
+    },
+    onError: () => {
+      toast.error('Something went wrong. Please try again.')
+      reset()
+    }
+  })
+
+  const handleWishlistClick = () => {
+    if (!user) {
+      localStorage.setItem(
+        'deferredAction',
+        JSON.stringify({
+          type: 'wishlist',
+          productId: product.id
+        })
+      )
+      return router.push(`${routes.auth.login}?origin=sneakers/${product.slug}`)
+    }
+    toggleWishlist()
+  }
+
+  useEffect(() => {
+    if (!user || isLoading || isWishlisted === undefined) return
+
+    try {
+      const defAction = localStorage.getItem('deferredAction')
+      if (!defAction) return
+
+      const action = JSON.parse(defAction)
+      if (action.type === 'wishlist' && action.productId === product.id) {
+        if (!isWishlisted) {
+          toggleWishlist()
+        }
+        localStorage.removeItem('deferredAction')
+      }
+    } catch {
+      localStorage.removeItem('deferredAction')
+    }
+  }, [user, product.id, isWishlisted, isLoading, toggleWishlist])
 
   return (
     <div className="flex flex-col gap-2">
@@ -88,9 +157,17 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
           className="w-full"
         />
         <IconButton
-          icon="solar:heart-outline"
-          className="bg-primary-100 rounded-2xl h-full aspect-square"
-          onClick={() => toast.success('Added to your wishlist.')}
+          icon={
+            isLoading
+              ? 'solar:heart-outline'
+              : isWishlisted
+                ? 'solar:heart-bold'
+                : 'solar:heart-outline'
+          }
+          disabled={isPending}
+          className="h-full aspect-square rounded-2xl bg-primary-200 hover:bg-primary-100"
+          iconClass={isWishlisted ? 'dark:text-secondary' : ''}
+          onClick={handleWishlistClick}
         />
       </div>
 

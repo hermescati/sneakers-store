@@ -77,7 +77,7 @@ const ProductPage = ({ product }: { product: Product }) => {
       </div>
 
       <div>
-        <div className="relative mt-2 lg:mt-4">
+        <div className="relative mt-2">
           <div className="flex gap-x-4 border-b border-border">
             {TABS.map((tab, index) => (
               <button
