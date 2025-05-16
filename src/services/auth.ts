@@ -11,7 +11,6 @@ import { AuthUser } from '@/stores/userStore'
 import { BaseResponse, PayloadError } from '@/types'
 import { User } from '@/types/payload'
 import { cookies } from 'next/headers'
-import { User as PayloadUser } from 'payload'
 
 export async function createUser(input: RegistrationSchema): Promise<BaseResponse<string>> {
   const { name, email, password } = input
@@ -147,7 +146,7 @@ export async function refreshToken(): Promise<BaseResponse<AuthUser>> {
     }
 
     const expiration = await setTokenCookie(refreshedToken, exp)
-    const data: AuthUser = { ...(user as PayloadUser), token: refreshedToken, exp: expiration }
+    const data: AuthUser = { ...(user as User), token: refreshedToken, exp: expiration }
 
     return {
       code: 200,
