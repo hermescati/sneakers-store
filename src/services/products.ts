@@ -2,7 +2,7 @@
 
 import { payloadClient } from '@/lib/payload'
 import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
-import { Brand, Collaboration, Model, Product } from '@/types/payload'
+import { Brand, Collaboration, Model, Product, User, Wishlist } from '@/types/payload'
 import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
 
@@ -217,7 +217,100 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
   return relatedProducts
 }
 
+export async function wishlistProduct(
+  userId: User['id'],
+  productId: Product['id']
+): Promise<BaseResponse<Wishlist>> {
+  try {
+    const { docs } = await payloadClient.find({
+      collection: 'wishlist',
+      where: { user: { equals: userId } },
+      limit: 1,
+      depth: 0
+    })
+    const [userWishlist] = docs
+
+    if (!userWishlist) {
+      await payloadClient.create({
+        collection: 'wishlist',
+        data: {
+          user: userId,
+          products: [productId]
+        }
+      })
+
+      return {
+        code: 201,
+        message: 'Product added to your wishlist'
+      }
+    }
+
+    const isWishlisted = userWishlist.products?.includes(productId)
+
+    return isWishlisted
+      ? await removeFromWishlist(userId, productId, userWishlist)
+      : await addToWishlist(userId, productId, userWishlist)
+  } catch (error) {
+    console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!'
+    }
+  }
+}
+
 // Private functions
+async function addToWishlist(
+  userId: User['id'],
+  productId: Product['id'],
+  wishlist: Wishlist
+): Promise<BaseResponse<Wishlist>> {
+  try {
+    const currentProducts = Array.isArray(wishlist.products) ? wishlist.products : []
+    await payloadClient.update({
+      collection: 'wishlist',
+      id: wishlist.id,
+      data: {
+        products: [...currentProducts, productId]
+      }
+    })
+    return {
+      code: 200,
+      message: 'Product added to your wishlist'
+    }
+  } catch (error) {
+    return {
+      code: 500,
+      message: 'Could not add product to wishlist'
+    }
+  }
+}
+
+async function removeFromWishlist(
+  user: User['id'],
+  productId: Product['id'],
+  wishlist: Wishlist
+): Promise<BaseResponse<Wishlist>> {
+  try {
+    await payloadClient.update({
+      collection: 'wishlist',
+      id: wishlist.id,
+      data: {
+        products: wishlist.products?.filter(id => id !== productId)
+      }
+    })
+    return {
+      code: 200,
+      message: 'Product removed from your wishlist'
+    }
+  } catch (error) {
+    return {
+      code: 500,
+      message: 'Could not remove product from wishlist'
+    }
+  }
+}
+
 function applyFilters(filters: Omit<ProductFilters, 'sort' | 'order'>): Where | undefined {
   const conditions: Where[] = []
 

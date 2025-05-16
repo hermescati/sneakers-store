@@ -6,7 +6,8 @@ import {
   Models,
   Orders,
   Products,
-  Users
+  Users,
+  Wishlist
 } from '@/collections'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -46,7 +47,7 @@ export default buildConfig({
     }
   },
   secret: process.env.PAYLOAD_SECRET || '',
-  collections: [Users, Products, Orders, Events, Brands, Models, Collaborations, Media],
+  collections: [Users, Products, Orders, Events, Brands, Models, Collaborations, Wishlist, Media],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
