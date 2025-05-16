@@ -36,11 +36,11 @@ const ProductPage = ({ product }: { product: Product }) => {
     collaboration
       ? {
           label: `${collaboration}`,
-          href: `${routes.products.home}?brand=${brand}&collaboration=${collabSlug}`
+          href: `${routes.products.home}?brand=${brandSlug}&collaboration=${collabSlug}`
         }
       : {
           label: `${model}`,
-          href: `${routes.products.home}?brand=${brand}&model=${modelSlug}`
+          href: `${routes.products.home}?brand=${brandSlug}&model=${modelSlug}`
         },
     { label: `${product.nickname}` }
   ]
@@ -77,7 +77,7 @@ const ProductPage = ({ product }: { product: Product }) => {
       </div>
 
       <div>
-        <div className="relative mt-2 lg:mt-4">
+        <div className="relative mt-2">
           <div className="flex gap-x-4 border-b border-border">
             {TABS.map((tab, index) => (
               <button

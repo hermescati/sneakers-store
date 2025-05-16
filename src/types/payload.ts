@@ -18,6 +18,7 @@ export interface Config {
     brands: Brand
     models: Model
     collaborations: Collaboration
+    wishlist: Wishlist
     media: Media
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
@@ -32,6 +33,7 @@ export interface Config {
     brands: BrandsSelect<false> | BrandsSelect<true>
     models: ModelsSelect<false> | ModelsSelect<true>
     collaborations: CollaborationsSelect<false> | CollaborationsSelect<true>
+    wishlist: WishlistSelect<false> | WishlistSelect<true>
     media: MediaSelect<false> | MediaSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
@@ -319,6 +321,17 @@ export interface Event {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishlist".
+ */
+export interface Wishlist {
+  id: string
+  user: string | User
+  products?: (string | Product)[] | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -351,6 +364,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'collaborations'
         value: string | Collaboration
+      } | null)
+    | ({
+        relationTo: 'wishlist'
+        value: string | Wishlist
       } | null)
     | ({
         relationTo: 'media'
@@ -566,6 +583,16 @@ export interface CollaborationsSelect<T extends boolean = true> {
   description?: T
   featured?: T
   image?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "wishlist_select".
+ */
+export interface WishlistSelect<T extends boolean = true> {
+  user?: T
+  products?: T
   updatedAt?: T
   createdAt?: T
 }

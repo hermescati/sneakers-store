@@ -10,6 +10,8 @@ export type MenuPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-l
 export type Sizes = 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl' | '2xl'
 export type Animations = 'none' | 'spin' | 'bump' | 'shrink' | 'grow'
 
+export type WishlistStatus = 'added' | 'removed'
+
 export interface ActiveIndicator {
   left: number
   width: number

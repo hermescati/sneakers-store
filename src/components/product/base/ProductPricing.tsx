@@ -18,13 +18,13 @@ const ProductPricing = ({ product, selectedSize }: ProductDetailsProps) => {
 
   return (
     <div className="flex flex-col gap-y-4">
-      <div>
+      <div className="leading-snug">
         <span className="inline-flex items-center gap-2 text-primary-600 text-lg">
           <BrandLogo brand={brand} />
           <h3 className="font-medium">{brand}</h3>
         </span>
-        <h1 className="font-bold text-2xl">{model}</h1>
-        <h2 className="font-medium">{product.nickname}</h2>
+        <h1 className="font-bold text-2xl 2xl:text-3xl">{model}</h1>
+        <h2 className="font-medium 2xl:text-lg">{product.nickname}</h2>
       </div>
 
       <div className="flex flex-col gap-y-1">
