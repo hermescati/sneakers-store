@@ -17,7 +17,7 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
   useOnKeyPress({ key: 'Escape' }, () => setIsOpen(false))
 
   const themeOptions: { value: string; icon: string }[] = [
-    { value: 'light', icon: 'solar:sun-line-duotone' },
+    { value: 'light', icon: 'solar:sun-linear' },
     { value: 'dark', icon: 'solar:moon-stars-outline' },
     { value: 'system', icon: 'solar:devices-outline' }
   ]
@@ -31,7 +31,7 @@ const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
       {!headless && (
         <IconButton
           icon={resolvedThemeIcon}
-          className="p-1.5 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none"
+          className="p-2 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none"
           iconClass="text-2xl"
           onClick={() => setIsOpen(prev => !prev)}
         />
