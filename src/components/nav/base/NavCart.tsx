@@ -4,6 +4,8 @@ import Icon from '@/components/base/Icon'
 import ShoppingCart from '@/components/cart/ShoppingCart'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { useCartStore } from '@/stores/cartStore'
+import { cn } from '@/utils'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useOnClickOutside } from 'usehooks-ts'
@@ -20,17 +22,43 @@ const NavCart = () => {
   })
   useOnKeyPress({ key: 'Escape' }, closeCart)
 
+  const count = items.length
+  const hasItems = count > 0
+  const countText = count > 9 ? '+9' : count.toString()
+
   return (
     <>
       <button
         ref={buttonRef}
         onClick={cartOpen ? closeCart : openCart}
-        className="group flex items-center gap-1 shrink-0 cursor-pointer text-primary-700 hover:text-foreground transition-all ease-in-out duration-300"
+        aria-label={`${count} item${count !== 1 ? 's' : ''} in cart`}
+        className={cn(
+          'relative group flex items-center gap-1.5 shrink-0 rounded-full font-semibold text-md text-primary-700 select-none cursor-pointer transition-colors duration-300 ease-in-out',
+          hasItems && '-ml-1 mr-2 px-3 py-1.5 bg-primary-100/40 hover:bg-primary-100'
+        )}
       >
-        <Icon icon="solar:cart-large-minimalistic-linear" aria-hidden="true" className="text-2xl" />
-        <span className="w-3 font-medium select-none">
-          {items.length > 9 ? '+9' : items.length}
-        </span>
+        <Icon icon="solar:bag-4-outline" aria-hidden="true" className="text-2xl" />
+        <AnimatePresence initial={false}>
+          {hasItems && (
+            <motion.span
+              key="badge"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0 } }}
+              className="inline-flex origin-center"
+            >
+              <motion.span
+                key={countText}
+                animate={{ scale: [0, 1.5, 1], opacity: [0, 1, 1] }}
+                transition={{ times: [0, 0.4, 1], duration: 0.35, ease: 'easeOut' }}
+                className="font-bold"
+              >
+                {countText}
+              </motion.span>
+              <span className="ml-[0.2rem]">item{count !== 1 ? 's' : ''}</span>
+            </motion.span>
+          )}
+        </AnimatePresence>
       </button>
 
       {cartOpen &&
