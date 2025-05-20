@@ -231,6 +231,28 @@ export async function checkWishlistStatus(
   return wishlist.products?.includes(productId) ?? false
 }
 
+export async function getWishlistedProducts(userId: User['id']): Promise<BaseResponse<Product[]>> {
+  try {
+    const { docs } = await payloadClient.find({
+      collection: 'wishlist',
+      where: { user: { equals: userId } }
+    })
+    const [userWishlist] = docs
+    return {
+      code: 200,
+      message: 'OK',
+      data: userWishlist.products as Product[]
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
+  }
+}
+
 export async function wishlistProduct(
   userId: User['id'],
   productId: Product['id']
