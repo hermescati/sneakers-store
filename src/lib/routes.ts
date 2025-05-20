@@ -9,8 +9,6 @@ const routes = {
     reset: '/reset',
     verify: '/verify'
   },
-  cart: '/cart',
-  profile: '/profile',
   products: {
     home: '/sneakers',
     product: (slug: Product['slug']) => `/sneakers/${slug}`,
@@ -24,7 +22,10 @@ const routes = {
   orders: {
     home: '/orders',
     thankYou: '/thank-you'
-  }
+  },
+  cart: '/cart',
+  wishlist: '/wishlist',
+  profile: '/profile'
 }
 
 export default routes
