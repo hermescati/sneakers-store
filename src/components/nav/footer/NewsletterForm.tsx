@@ -31,7 +31,6 @@ const NewsletterForm = () => {
   return (
     <div className="flex flex-col gap-2 p-6 rounded-2xl bg-primary-100 dark:bg-primary-200 shadow-md">
       <h2 className="font-bold text-2xl">Newsletter</h2>
-
       <p className="font-medium text-primary-700">
         Drop your email below, and get your weekly dose of new releases and special offers.
       </p>

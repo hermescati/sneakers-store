@@ -12,7 +12,7 @@ export interface IconButtonProps extends ComponentPropsWithoutRef<'button'> {
 const IconButton = ({ icon, href, iconClass, className, ...props }: IconButtonProps) => {
   const btnIconBase = `
         flex items-center justify-center
-        p-2.5 rounded-full
+        w-fit h-fit aspect-square p-2.5 rounded-full
         text-primary-700 text-2xl whitespace-nowrap
         bg-transparent hover:bg-primary-100/50 active:bg-primary-100/50
         disabled:opacity-40 disabled:pointer-events-none

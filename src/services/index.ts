@@ -2,7 +2,7 @@
 
 import { payloadClient } from '@/lib/payload'
 import routes from '@/lib/routes'
-import { NavItem, NavItemGroups, NavLink, PaginatedResponse, QueryParams } from '@/types'
+import { NavCategory, NavItemLink, NavStructure, PaginatedResponse, QueryParams } from '@/types'
 import { CollectionSlug, DataFromCollectionSlug } from 'payload'
 import { getBrands, getCollabs, getModels } from './products'
 
@@ -39,14 +39,14 @@ export async function getPaginatedResponse<T extends DataFromCollectionSlug<Coll
   }
 }
 
-export async function getNavItems(): Promise<NavItemGroups> {
-  const featuredLinks: NavItem[] = [
+export async function getNavStructure(): Promise<NavStructure> {
+  const featuredLinks: NavCategory[] = [
     { name: 'New Releases', href: routes.products.newReleases },
     { name: 'Below Retail', href: routes.products.belowRetail },
     { name: 'On Sale', href: routes.products.onSale }
   ]
 
-  const otherLinks: NavItem[] = [
+  const otherLinks: NavCategory[] = [
     { name: 'Womens', href: routes.products.womens },
     { name: 'Kids', href: routes.products.kids }
   ]
@@ -54,7 +54,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
   const { data: brands } = await getBrands({ sort: 'createdAt' })
   const otherBrands = brands.length > 5 ? brands.splice(5) : []
 
-  const brandLinks: NavItem[] = await Promise.all(
+  const brandLinks: NavCategory[] = await Promise.all(
     brands.map(async b => {
       const [{ data: models }, { data: collabs }] = await Promise.all([
         getModels({
@@ -73,7 +73,7 @@ export async function getNavItems(): Promise<NavItemGroups> {
         return { name: b.name, href: `${routes.products.home}?brand=${b.slug}` }
       }
 
-      const modelLinks: NavLink[] = models.map(m => ({
+      const modelLinks: NavItemLink[] = models.map(m => ({
         name: m.name,
         href: `${routes.products.home}?brand=${b.slug}&model=${m.slug}`,
         ...(m.featured && {
@@ -81,12 +81,12 @@ export async function getNavItems(): Promise<NavItemGroups> {
         })
       }))
 
-      const collabLinks: NavLink[] = collabs.map(c => ({
+      const collabLinks: NavItemLink[] = collabs.map(c => ({
         name: c.name!,
         href: `${routes.products.home}?collaboration=${c.slug}`
       }))
 
-      const items: NavLink[] = [
+      const items: NavItemLink[] = [
         ...modelLinks,
         ...collabLinks,
         { name: 'View All', href: `${routes.products.home}?brand=${b.slug}` }

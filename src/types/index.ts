@@ -34,23 +34,35 @@ export interface BreadcrumbItem {
   href?: string
 }
 
-export interface NavLink {
+// Navigation
+export interface NavStructure {
+  featured: NavCategory[]
+  brands: NavCategory[]
+  others: NavCategory[]
+}
+
+export interface NavCategory {
+  name: string
+  href?: string
+  items?: NavItemLink[]
+  featured?: NavItemLink[]
+}
+
+export interface NavItemLink {
   name: string
   href?: string
   imageSrc?: string
 }
 
-export interface NavItem {
-  name: string
-  href?: string
-  items?: NavLink[]
-  featured?: NavLink[]
-}
-
-export interface NavItemGroups {
-  featured: NavItem[]
-  brands: NavItem[]
-  others: NavItem[]
+export interface NavMenuItem {
+  value: string
+  title: string
+  subtitle?: string
+  icon?: string
+  route?: string
+  action?: VoidFunction
+  component?: ReactNode
+  class?: string
 }
 
 export type FooterItem = {

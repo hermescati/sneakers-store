@@ -2,15 +2,15 @@
 
 import Link from '@/components/base/Link'
 import MainContainer from '@/components/MainContainer'
-import { NavItem } from '@/types'
+import { NavCategory } from '@/types'
 import Image from 'next/image'
 
-interface NavItemPanelProps {
-  item: NavItem
-  onClick: (href: NavItem['href']) => void
+interface NavPanelProps {
+  item: NavCategory
+  onClick: (href: NavCategory['href']) => void
 }
 
-const NavItemPanel = ({ item, onClick }: NavItemPanelProps) => {
+const NavPanel = ({ item, onClick }: NavPanelProps) => {
   return (
     <div className="bg-primary-100/50 py-6">
       {item.items && item.items.length > 0 && (
@@ -66,4 +66,4 @@ const NavItemPanel = ({ item, onClick }: NavItemPanelProps) => {
   )
 }
 
-export default NavItemPanel
+export default NavPanel

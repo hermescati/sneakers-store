@@ -1,15 +1,19 @@
 import routes from '@/lib/routes'
-import { NavItemGroups, FooterItem as TFooterItem } from '@/types'
+import { NavStructure, FooterItem } from '@/types'
 import MainContainer from '../MainContainer'
 import Logo from './base/Logo'
 import Copyrights from './footer/Copyrights'
-import FooterItem from './footer/FooterItem'
+import FooterLink from './footer/FooterLink'
 import NewsletterForm from './footer/NewsletterForm'
 
-const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
+interface FooterProps {
+  navItems: NavStructure
+}
+
+const Footer = ({ navItems }: FooterProps) => {
   const { brands, featured, others } = navItems
 
-  const footerLinks: Record<string, TFooterItem> = {
+  const footerLinks: Record<string, FooterItem> = {
     featured: {
       header: 'Featured',
       links: featured.map(item => ({
@@ -71,29 +75,24 @@ const Footer = ({ navItems }: { navItems: NavItemGroups }) => {
             </div>
             <NewsletterForm />
           </div>
-
           <div className="flex flex-col gap-8 mt-2">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-8">
               <div className="flex flex-col gap-8">
-                <FooterItem item={footerLinks.featured} />
-                <FooterItem item={footerLinks.categories} />
+                <FooterLink item={footerLinks.featured} />
+                <FooterLink item={footerLinks.categories} />
               </div>
-
-              <FooterItem item={footerLinks.brands} />
-
+              <FooterLink item={footerLinks.brands} />
               <div className="grid col-span-2 sm:col-span-1 md:col-span-2 xl:col-span-1 grid-cols-2 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8">
-                <FooterItem item={footerLinks.support} />
-                <FooterItem item={footerLinks.social} isSocial />
+                <FooterLink item={footerLinks.support} />
+                <FooterLink item={footerLinks.social} isSocial />
               </div>
             </div>
-
             <div className="hidden xl:block">
               <Copyrights />
             </div>
           </div>
         </div>
       </MainContainer>
-
       <div className="xl:hidden">
         <Copyrights />
       </div>

@@ -2,15 +2,19 @@
 
 import Link from '@/components/base/Link'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
-import { ActiveIndicator, NavItem, NavItem as TNavItem } from '@/types'
+import { ActiveIndicator, NavCategory } from '@/types'
 import { cn } from '@/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useLayoutEffect, useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
-import NavItemPanel from './NavItemPanel'
+import NavPanel from './base/NavPanel'
 
-const NavMenu = ({ items }: { items: TNavItem[] }) => {
+interface NavLinksProps {
+  items: NavCategory[]
+}
+
+const NavLinks = ({ items }: NavLinksProps) => {
   const router = useRouter()
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
@@ -25,7 +29,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
   useOnClickOutside(navRef, () => setActiveIndex(null))
   useOnKeyPress({ key: 'Escape' }, () => setActiveIndex(null))
 
-  const handleOpen = (index: number, item: NavItem) => {
+  const handleOpen = (index: number, item: NavCategory) => {
     if (!item.items?.length && item.href) {
       router.push(item.href)
       setActiveIndex(null)
@@ -34,7 +38,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
     setActiveIndex(prevIndex => (prevIndex !== index ? index : null))
   }
 
-  const handleOnClick = (href: NavItem['href']) => {
+  const handleOnClick = (href: NavCategory['href']) => {
     if (!href) return
     router.push(href)
     setActiveIndex(null)
@@ -51,7 +55,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
 
   return (
     <div ref={navRef} className="hidden lg:block lg:self-stretch">
-      <ul className="flex gap-4 justify-between h-full py-3">
+      <ul className="flex gap-4 justify-between h-full py-2">
         {items.map((item, index) => (
           <li
             key={item.name}
@@ -95,7 +99,7 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
               transition={{ duration: 0.3 }}
               className="absolute inset-x-0 top-full z-20 border-t border-border bg-background shadow-md"
             >
-              <NavItemPanel item={items[activeIndex]} onClick={handleOnClick} />
+              <NavPanel item={items[activeIndex]} onClick={handleOnClick} />
             </motion.div>
           </>
         )}
@@ -104,4 +108,4 @@ const NavMenu = ({ items }: { items: TNavItem[] }) => {
   )
 }
 
-export default NavMenu
+export default NavLinks
