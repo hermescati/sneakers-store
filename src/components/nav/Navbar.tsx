@@ -36,9 +36,9 @@ const Navbar = ({ items }: { items: NavStructure }) => {
           <div className="place-self-center align-middle">
             <Logo />
           </div>
-          <div className="flex items-center justify-end lg:justify-normal lg:flex-1 lg:gap-12">
+          <div className="flex items-center gap-2 justify-end lg:justify-normal lg:flex-1 lg:gap-12">
             <SearchDrawer />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <span className="hidden lg:block">
                 {user ? (
                   <IconButton href={routes.wishlist} icon="solar:heart-outline" />
@@ -47,8 +47,11 @@ const Navbar = ({ items }: { items: NavStructure }) => {
                 )}
               </span>
               <NavCart />
-              <span className="hidden lg:flex items-center gap-4">
-                <span className={cn('h-8 w-px bg-border ml-2')} aria-hidden="true" />
+              <span className="hidden lg:flex items-center">
+                <span
+                  className={cn('h-8 w-px bg-border ml-2', { 'mr-3': user })}
+                  aria-hidden="true"
+                />
                 {user ? (
                   <UserMenu />
                 ) : (
