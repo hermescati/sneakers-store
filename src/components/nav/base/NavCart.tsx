@@ -43,7 +43,7 @@ const NavCart = () => {
         aria-label={`${count} item${count !== 1 ? 's' : ''} in cart`}
         className={cn(
           'relative group hidden md:flex items-center gap-1.5 shrink-0 rounded-full font-semibold text-md text-primary-700 select-none cursor-pointer transition-colors duration-300 ease-in-out',
-          hasItems && '-ml-1 px-3 py-1.5 bg-primary-100/40 hover:bg-primary-100'
+          hasItems && '-ml-1 px-3 py-2 bg-primary-100/40 hover:bg-primary-100'
         )}
       >
         <Icon icon="solar:bag-4-outline" aria-hidden="true" className="text-2xl" />
