@@ -5,12 +5,12 @@ import MainContainer from '@/components/MainContainer'
 import CollabReel from '@/components/product/collab/CollabReel'
 import ProductReel from '@/components/product/ProductReel'
 import routes from '@/lib/routes'
-import { getNavItems } from '@/services'
+import { getNavStructure } from '@/services'
 import { getEvents } from '@/services/events'
 import { getCollabs, getProducts } from '@/services/products'
 
 const Home = async () => {
-  const { brands } = await getNavItems()
+  const { brands } = await getNavStructure()
 
   const productReelsPromise = brands.slice(0, 5).map(brand => {
     const slug = brand.href?.split('brand=')[1]

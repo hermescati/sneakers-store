@@ -1,10 +1,9 @@
 'use client'
 
-import useNavigationMenu from '@/hooks/useNavigationMenu'
+import useNavMenuItems from '@/hooks/useNavMenuItems'
 import routes from '@/lib/routes'
-import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
-import { NavItem } from '@/types'
+import { NavCategory, NavMenuItem } from '@/types'
 import { cn } from '@/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -14,141 +13,128 @@ import Icon from '../base/Icon'
 import Link from '../base/Link'
 import Button from '../base/button/Button'
 import IconButton from '../base/button/IconButton'
+import ThemeToggle from '../theme/ThemeToggle'
 
-const MobileNav = ({ navLinks }: { navLinks: NavItem[] }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const NAV_LINKS_CLASS =
+  'flex items-center justify-between px-4 py-3.5 h-[3.25rem] rounded-lg font-semibold transition-all duration-300 ease-in-out'
 
-  const menuItems = useNavigationMenu()
-  const { items: cartItems } = useCartStore()
-  const { user } = useUserStore()
+const MenuItem = ({ item }: { item: NavMenuItem }) => (
+  <Link
+    href={item.route}
+    onClick={item.action}
+    className={cn(NAV_LINKS_CLASS, item.class, {
+      'hover:bg-primary-100': !!item.route || item.action,
+      'py-2': !!item.subtitle
+    })}
+  >
+    <div className="leading-tight">
+      <p className="font-semibold">{item.title}</p>
+      {item.subtitle && <p className="font-medium text-md text-primary-600">{item.subtitle}</p>}
+    </div>
+    {item.icon && <Icon icon={item.icon} className="text-xl" />}
+    {item.component && item.component}
+  </Link>
+)
 
+const MobileNav = ({ items }: { items: NavCategory[] }) => {
   const router = useRouter()
   const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    setIsOpen(false)
-  }, [pathname])
+  const menuItems = useNavMenuItems()
+  const { user } = useUserStore()
 
   const closeOnCurrent = (href: string) => {
     router.push(href)
     setIsOpen(false)
   }
 
-  const navLinkClasses =
-    'flex items-center justify-between px-4 py-3.5 rounded-lg font-semibold transition-all duration-300 ease-in-out'
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
 
   return (
-    <div className="lg:hidden ml-4">
-      <Drawer.Root direction="right" open={isOpen} onOpenChange={setIsOpen}>
+    <div className="lg:hidden">
+      <Drawer.Root direction="left" open={isOpen} onOpenChange={setIsOpen}>
         <Drawer.Trigger asChild>
-          <IconButton icon="solar:hamburger-menu-linear" className="p-0" iconClass="text-3xl" />
+          <IconButton icon="solar:hamburger-menu-linear" className="p-1" iconClass="text-3xl" />
         </Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40" />
+          <Drawer.Overlay className="fixed lg:hidden inset-0 z-30 bg-black/40" />
           <Drawer.Content
-            className="flex fixed right-0 inset-y-2 z-30 w-[85%] max-w-lg rounded-l-2xl border-l border-y border-border bg-background shadow-xl outline-none overflow-hidden"
-            style={
-              {
-                '--initial-transform': 'calc(100% + 3rem)'
-              } as React.CSSProperties
-            }
+            className="flex lg:hidden fixed left-0 inset-y-2 z-30 w-[85%] md:w-[80%] max-w-lg rounded-r-2xl border-l border-y border-border bg-background shadow-xl outline-none overflow-hidden"
+            style={{ '--initial-transform': 'calc(100% + 0.5rem)' } as React.CSSProperties}
           >
-            <div className="relative flex flex-col h-full grow">
-              <Drawer.Title></Drawer.Title>
-              <div className="flex flex-col divide-y divide-border w-full h-full">
-                <div className="flex flex-none px-4 py-2 items-center justify-between">
+            <div className="flex flex-col h-full w-full">
+              <Drawer.Title asChild>
+                <div className="flex items-center justify-between py-2 px-4">
                   <IconButton
-                    icon="tabler-x"
+                    icon="hugeicons:sidebar-left"
                     iconClass="text-2xl"
                     className="p-2"
                     onClick={() => setIsOpen(false)}
                   />
-                  <div className="relative">
-                    <IconButton
-                      href={routes.cart}
-                      icon="solar:cart-large-minimalistic-linear"
-                      iconClass="text-primary-700 text-2xl"
-                      className="p-2"
-                    />
-                    {cartItems.length > 0 && (
-                      <span className="absolute top-[20%] right-[15%] w-2 h-2 rounded-full bg-secondary" />
-                    )}
-                  </div>
+                  <ThemeToggle headless />
                 </div>
-                <div className="flex flex-col gap-2 h-full overflow-y-auto">
-                  {menuItems.length > 0 && (
-                    <ul className="mx-3 mt-2 space-y-0.5">
-                      {menuItems.map(item => (
-                        <Link
-                          key={item.value}
-                          href={item.route}
-                          onClick={item.action}
-                          className={cn(navLinkClasses, {
-                            'hover:bg-primary-100': !!item.route || item.action,
-                            'py-1.5': !!item.subtitle || item.component
-                          })}
-                        >
-                          <div className="leading-snug">
-                            <p className="font-semibold">{item.title}</p>
-                            {item.subtitle && (
-                              <p className="font-medium text-sm text-primary-600">
-                                {item.subtitle}
-                              </p>
-                            )}
-                          </div>
-                          {item.icon && <Icon icon={item.icon} className="text-xl" />}
-                          {item.component && item.component}
-                        </Link>
-                      ))}
-                    </ul>
+              </Drawer.Title>
+              <Drawer.Description asChild>
+                <div className="flex flex-col flex-1 justify-between border-t border-border divide-y divide-border overflow-hidden">
+                  <div className="flex flex-col flex-1 overflow-y-auto">
+                    {user && menuItems.length > 0 && (
+                      <ul className="mx-3 my-1">
+                        {menuItems.map(item => (
+                          <MenuItem key={item.value} item={item} />
+                        ))}
+                      </ul>
+                    )}
+                    {user && <span className="h-px w-full border-t border-border" />}
+                    <Accordion className="mx-3 my-1 gap-0">
+                      {items.map((link, index) =>
+                        link.items?.length ? (
+                          <AccordionItem
+                            key={link.name}
+                            index={index}
+                            title={link.name}
+                            titleClasses={cn(NAV_LINKS_CLASS, 'h-12')}
+                          >
+                            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
+                              {link.items.map(ft => (
+                                <Link
+                                  key={ft.name}
+                                  underline
+                                  onClick={() => closeOnCurrent(ft.href!)}
+                                  className="w-fit font-medium text-md text-primary-700"
+                                >
+                                  {ft.name}
+                                </Link>
+                              ))}
+                            </ul>
+                          </AccordionItem>
+                        ) : (
+                          <Link
+                            key={link.name}
+                            underline
+                            onClick={() => closeOnCurrent(link.href!)}
+                            className={cn(NAV_LINKS_CLASS, 'h-12', {
+                              'hover:bg-primary-100': link.href,
+                              'text-secondary hover:text-secondary': link.name === 'On Sale'
+                            })}
+                          >
+                            {link.name}
+                          </Link>
+                        )
+                      )}
+                    </Accordion>
+                  </div>
+                  {!user ? (
+                    <div className="py-3 px-4">
+                      <Button href={routes.auth.login} label="Sign in" className="w-full" />
+                    </div>
+                  ) : (
+                    <div className="!border-t-0 bg-background h-2" />
                   )}
-                  <span className="w-full h-px border-t border-border" />
-                  <Accordion className="mx-3 space-y-0.5">
-                    {navLinks.map((link, index) =>
-                      link.items?.length ? (
-                        <AccordionItem
-                          key={link.name}
-                          index={index}
-                          title={link.name}
-                          titleClasses={navLinkClasses}
-                        >
-                          <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
-                            {link.items.map(ft => (
-                              <Link
-                                key={ft.name}
-                                underline
-                                onClick={() => closeOnCurrent(ft.href!)}
-                                className="w-fit font-medium text-md text-primary-700"
-                              >
-                                {ft.name}
-                              </Link>
-                            ))}
-                          </ul>
-                        </AccordionItem>
-                      ) : (
-                        <Link
-                          key={link.name}
-                          underline
-                          onClick={() => closeOnCurrent(link.href!)}
-                          className={cn(navLinkClasses, {
-                            'hover:bg-primary-100': link.href,
-                            'text-secondary hover:text-secondary': link.name === 'On Sale'
-                          })}
-                        >
-                          {link.name}
-                        </Link>
-                      )
-                    )}
-                  </Accordion>
                 </div>
-                {!user ? (
-                  <div className="py-3 px-4">
-                    <Button href={routes.auth.login} label="Sign in" className="w-full" />
-                  </div>
-                ) : (
-                  <div className="!border-t-0 bg-background h-3" />
-                )}
-              </div>
+              </Drawer.Description>
             </div>
           </Drawer.Content>
         </Drawer.Portal>

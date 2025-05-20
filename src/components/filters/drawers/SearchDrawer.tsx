@@ -1,7 +1,7 @@
 'use client'
 
 import Button from '@/components/base/button/Button'
-import Icon from '@/components/base/Icon'
+import IconButton from '@/components/base/button/IconButton'
 import useOnKeyPress from '@/hooks/useOnKeyPress'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import routes from '@/lib/routes'
@@ -18,6 +18,8 @@ import SearchInput from '../search/SearchInput'
 import SearchResultItem from '../search/SearchResultItem'
 
 const SearchDrawer = () => {
+  const router = useRouter()
+
   const [isOpen, setIsOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [debouncedQuery] = useDebounceValue(query, 500)
@@ -28,7 +30,6 @@ const SearchDrawer = () => {
   const contentRef = useRef<HTMLDivElement>(null!)
   useOnClickOutside(contentRef, () => setIsOpen(false))
 
-  const router = useRouter()
   useOnKeyPress({ key: 'k', ctrl: true, preventDefault: true }, () => setIsOpen(true))
   useOnKeyPress({ key: 'Enter' }, () => {
     if (debouncedQuery.trim() !== '' && results.length > 0) handleOnSubmit()
@@ -75,14 +76,16 @@ const SearchDrawer = () => {
 
   return (
     <Drawer.Root direction="top" handleOnly open={isOpen} onOpenChange={setIsOpen}>
-      <Drawer.Trigger className="w-full outline-none">
-        <div className="lg:hidden">
-          <Icon icon="solar:rounded-magnifer-linear" className="text-2xl text-primary-700" />
-        </div>
-        <div className="hidden lg:block">
+      <div className="lg:hidden">
+        <Drawer.Trigger className="outline-none" asChild>
+          <IconButton icon="solar:rounded-magnifer-linear" />
+        </Drawer.Trigger>
+      </div>
+      <div className="hidden lg:block w-full">
+        <Drawer.Trigger className="w-full outline-none">
           <SearchInput value={query} onFocus={e => e.preventDefault()} readOnly />
-        </div>
-      </Drawer.Trigger>
+        </Drawer.Trigger>
+      </div>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
         <Drawer.Content className="fixed inset-0 z-30 outline-none">

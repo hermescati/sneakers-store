@@ -42,7 +42,6 @@ export const useCartStore = create<CartState>()(
             toast.warning('This product is already added to your cart.')
             return state
           }
-          state.open()
           return { items: [...state.items, { product, size }] }
         }),
       removeItem: (id, size) =>

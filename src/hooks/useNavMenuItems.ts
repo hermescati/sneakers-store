@@ -3,20 +3,11 @@
 import ThemeToggle from '@/components/theme/ThemeToggle'
 import routes from '@/lib/routes'
 import { useUserStore } from '@/stores/userStore'
-import { createElement, ReactNode, useMemo } from 'react'
+import { NavMenuItem } from '@/types'
+import { createElement, useMemo } from 'react'
 import useLogout from './useLogout'
 
-interface NavMenuItem {
-  value: string
-  title: string
-  subtitle?: string
-  icon?: string
-  route?: string
-  action?: VoidFunction
-  component?: ReactNode
-}
-
-const useNavigationMenu = () => {
+const useNavMenuItems = () => {
   const logout = useLogout()
   const { user } = useUserStore()
 
@@ -42,6 +33,13 @@ const useNavigationMenu = () => {
       }
 
       items.push({
+        value: 'wishlist',
+        title: 'Wishlist',
+        icon: 'solar:heart-outline',
+        route: routes.wishlist
+      })
+
+      items.push({
         value: 'orders',
         title: 'My Orders',
         icon: 'mage:box',
@@ -52,7 +50,8 @@ const useNavigationMenu = () => {
     items.push({
       value: 'theme',
       title: 'Theme',
-      component: createElement(ThemeToggle, { headless: true })
+      component: createElement(ThemeToggle, { headless: true }),
+      class: 'hidden lg:block'
     })
 
     if (user) {
@@ -70,4 +69,4 @@ const useNavigationMenu = () => {
   return menuItems
 }
 
-export default useNavigationMenu
+export default useNavMenuItems

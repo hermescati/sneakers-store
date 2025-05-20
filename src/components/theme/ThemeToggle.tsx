@@ -8,7 +8,11 @@ import { useRef, useState } from 'react'
 import { useOnClickOutside } from 'usehooks-ts'
 import IconButton from '../base/button/IconButton'
 
-const ThemeToggle = ({ headless = false }: { headless?: boolean }) => {
+interface ThemeToggleProps {
+  headless?: boolean
+}
+
+const ThemeToggle = ({ headless = false }: ThemeToggleProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const { theme, resolvedTheme, setTheme } = useTheme()
 

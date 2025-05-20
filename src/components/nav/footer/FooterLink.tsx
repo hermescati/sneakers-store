@@ -1,14 +1,14 @@
 import Icon from '@/components/base/Icon'
 import Link from '@/components/base/Link'
-import { FooterItem as TFooterItem } from '@/types'
+import { FooterItem } from '@/types'
 import { cn } from '@/utils'
 
-interface FooterItemProps {
-  item: TFooterItem
+interface FooterLinkProps {
+  item: FooterItem
   isSocial?: boolean
 }
 
-const FooterItem = ({ item, isSocial = false }: FooterItemProps) => {
+const FooterLink = ({ item, isSocial = false }: FooterLinkProps) => {
   return (
     <div className="flex flex-col gap-3">
       <h2 className="font-bold text-xl">{item.header}</h2>
@@ -26,4 +26,4 @@ const FooterItem = ({ item, isSocial = false }: FooterItemProps) => {
   )
 }
 
-export default FooterItem
+export default FooterLink

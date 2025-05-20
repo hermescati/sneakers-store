@@ -6,7 +6,7 @@ import Navbar from '@/components/nav/Navbar'
 import AuthProvider from '@/components/providers/AuthProvider'
 import QueryClientProvider from '@/components/providers/QueryClientProvider'
 import ThemeProvider from '@/components/providers/ThemeProvider'
-import { getNavItems } from '@/services'
+import { getNavStructure } from '@/services'
 import { cn } from '@/utils'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -26,7 +26,7 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode
 }>) => {
-  const navItems = await getNavItems()
+  const navStructure = await getNavStructure()
 
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
@@ -38,9 +38,9 @@ const RootLayout = async ({
                 data-vaul-drawer-wrapper
                 className="relative flex flex-col min-h-screen bg-background"
               >
-                <Navbar navItems={navItems} />
+                <Navbar items={navStructure} />
                 <div className="flex flex-1 justify-center">{children}</div>
-                <Footer navItems={navItems} />
+                <Footer navItems={navStructure} />
               </main>
               <Analytics />
               <SpeedInsights />
