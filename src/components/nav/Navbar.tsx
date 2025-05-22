@@ -1,7 +1,5 @@
-'use client'
-
 import routes from '@/lib/routes'
-import { useUserStore } from '@/stores/userStore'
+import { getUser } from '@/services/auth'
 import { NavCategory, NavStructure } from '@/types'
 import { cn } from '@/utils'
 import MainContainer from '../MainContainer'
@@ -15,8 +13,8 @@ import Logo from './base/Logo'
 import NavCart from './base/NavCart'
 import UserMenu from './base/UserMenu'
 
-const Navbar = ({ items }: { items: NavStructure }) => {
-  const { user } = useUserStore()
+const Navbar = async ({ items }: { items: NavStructure }) => {
+  const { user } = await getUser()
 
   const navLinks: NavCategory[] = [
     ...(items.featured.length ? [items.featured[0]] : []),
@@ -28,15 +26,15 @@ const Navbar = ({ items }: { items: NavStructure }) => {
   return (
     <nav
       role="navigation"
-      className="sticky z-20 top-0 inset-x-0 flex items-center min-h-16 bg-background/90 dark:bg-background/90 backdrop-blur-md border-b border-border/50 shadow"
+      className="sticky inset-x-0 top-0 z-20 flex min-h-16 items-center border-b border-border/50 bg-background/90 shadow backdrop-blur-md dark:bg-background/90"
     >
-      <MainContainer className="py-2.5 px-4">
-        <div className="grid grid-cols-3 items-center gap-6 lg:flex lg:justify-between lg:py-2 lg:gap-12">
+      <MainContainer className="px-4 py-2.5">
+        <div className="grid grid-cols-3 items-center gap-6 lg:flex lg:justify-between lg:gap-12 lg:py-2">
           <MobileNav items={navLinks} />
           <div className="place-self-center align-middle">
             <Logo />
           </div>
-          <div className="flex items-center gap-2 justify-end lg:justify-normal lg:flex-1 lg:gap-12">
+          <div className="flex items-center justify-end gap-2 lg:flex-1 lg:justify-normal lg:gap-12">
             <SearchDrawer />
             <div className="flex items-center gap-2">
               <span className="hidden lg:block">
@@ -47,9 +45,9 @@ const Navbar = ({ items }: { items: NavStructure }) => {
                 )}
               </span>
               <NavCart />
-              <span className="hidden lg:flex items-center">
+              <span className="hidden items-center lg:flex">
                 <span
-                  className={cn('h-8 w-px bg-border ml-2', { 'mr-3': user })}
+                  className={cn('ml-2 h-8 w-px bg-border', { 'mr-3': user })}
                   aria-hidden="true"
                 />
                 {user ? (
@@ -60,7 +58,7 @@ const Navbar = ({ items }: { items: NavStructure }) => {
                     variant="ghost"
                     iconPrepend="solar:user-outline"
                     label="Sign in"
-                    className="py-2 pl-3 pr-4 gap-2 text-primary-700 text-md hover:bg-transparent active:bg-transparent hover:text-foreground active:shadow-none"
+                    className="gap-2 py-2 pl-3 pr-4 text-md text-primary-700 hover:bg-transparent hover:text-foreground active:bg-transparent active:shadow-none"
                     iconClass="text-2xl"
                   />
                 )}

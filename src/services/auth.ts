@@ -201,7 +201,6 @@ export async function resetPassword(token: string, input: ResetPassSchema): Prom
   }
 }
 
-// FIXME: Remove this method
 export async function getUser() {
   const nextCookies = await cookies()
   const token = nextCookies.get('payload-token')?.value
