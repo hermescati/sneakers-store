@@ -25,11 +25,11 @@ const UserMenu = () => {
     <div ref={dropdownRef} className="relative">
       <Button
         variant="ghost"
-        className="py-2 pl-3 pr-4 gap-2.5 p-0.5 text-primary-700 text-md hover:bg-transparent active:bg-transparent hover:text-foreground active:shadow-none"
+        className="h-11 gap-2.5 py-0 pl-3 pr-4 text-md text-primary-700 hover:bg-transparent hover:text-foreground active:bg-transparent active:shadow-none"
         iconClass="text-2xl"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="p-1.5 rounded-full border border-border">
+        <span className="rounded-full border border-border p-1.5">
           <Icon icon="solar:user-bold-duotone" className="text-xl" />
         </span>
         <span>{user?.firstName}</span>
@@ -42,7 +42,7 @@ const UserMenu = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             aria-label="Dropdown menu"
-            className="absolute top-full right-0 mt-3 p-1 border border-border rounded-xl bg-background overflow-y-auto shadow-lg"
+            className="absolute right-0 top-full mt-3 overflow-y-auto rounded-xl border border-border bg-background p-1 shadow-lg"
           >
             <ul role="menu" aria-labelledby="account-dropdown" aria-orientation="vertical">
               {menuItems.map(item => (
@@ -51,7 +51,7 @@ const UserMenu = () => {
                     href={item.route}
                     onClick={item.action}
                     className={cn(
-                      'flex items-center justify-between gap-10 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out',
+                      'flex items-center justify-between gap-10 rounded-lg px-4 py-3 transition-all duration-300 ease-in-out',
                       {
                         'hover:bg-primary-100': item.route || item.action,
                         'py-1': item.component,
@@ -60,7 +60,7 @@ const UserMenu = () => {
                     )}
                   >
                     <div className="flex flex-col leading-4">
-                      <span className="font-medium text-md">{item.title}</span>
+                      <span className="text-md font-medium">{item.title}</span>
                       {item.subtitle && (
                         <span className="text-sm text-primary-600">{item.subtitle}</span>
                       )}
