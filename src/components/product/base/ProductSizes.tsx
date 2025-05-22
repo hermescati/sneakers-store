@@ -5,7 +5,10 @@ import IconButton from '@/components/base/button/IconButton'
 import toast from '@/components/base/toast/Toast'
 import { SIZING_CATEGORY_OPTIONS } from '@/lib/options'
 import routes from '@/lib/routes'
-import { checkWishlistStatus, wishlistProduct } from '@/services/products'
+import {
+  isWishlisted as isProductWishlisted,
+  toggleWishlist as toggleWishlistItem
+} from '@/services/wishlist'
 import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
 import { SelectedSize } from '@/types'
@@ -63,7 +66,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
 
   const { data: isWishlisted, isLoading } = useQuery({
     queryKey: ['wishlist', user?.id, product.id],
-    queryFn: () => checkWishlistStatus(user!.id, product.id),
+    queryFn: () => isProductWishlisted(user!.id, product.id),
     enabled: !!user
   })
 
@@ -72,7 +75,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
     isPending,
     reset
   } = useMutation({
-    mutationFn: () => wishlistProduct(user!.id, product.id),
+    mutationFn: () => toggleWishlistItem(user!.id, product.id),
     onSuccess: data => {
       if (data.data === 'added') {
         toast.success(data.message)
@@ -124,7 +127,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h4 className="font-semibold text-lg">
+        <h4 className="text-lg font-semibold">
           {`Sizes - US ${SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label}`}
         </h4>
         <div className="md:hidden">
@@ -132,7 +135,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
         </div>
       </div>
 
-      <ul className="grid grid-cols-5 sm:grid-cols-7 md:grid-cols-10 lg:grid-cols-4 xl:grid-cols-6 gap-2">
+      <ul className="grid grid-cols-5 gap-2 sm:grid-cols-7 md:grid-cols-10 lg:grid-cols-4 xl:grid-cols-6">
         {product.stock.map(item => (
           <SizeBox
             key={item.id}
@@ -148,7 +151,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
         <SizeGuides />
       </div>
 
-      <div className="flex gap-2 items-center mt-4">
+      <div className="mt-4 flex items-center gap-2">
         <Button
           disabled={!selectedSize}
           label="Add to cart"
@@ -165,7 +168,7 @@ const ProductSizes = ({ product, selectedSize, setSelectedSize }: ProductSizePro
                 : 'solar:heart-outline'
           }
           disabled={isPending}
-          className="h-full aspect-square rounded-2xl bg-primary-200 hover:bg-primary-100"
+          className="aspect-square h-full rounded-2xl bg-primary-200 hover:bg-primary-100"
           iconClass={isWishlisted ? 'dark:text-secondary' : ''}
           onClick={handleWishlistClick}
         />
