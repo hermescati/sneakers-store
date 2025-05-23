@@ -1,6 +1,6 @@
 import { Sort, Where } from 'payload'
-import { Brand, Collaboration, Model, Product } from './payload'
 import { ReactNode } from 'react'
+import { Brand, Collaboration, Model, Product } from './payload'
 
 // TODO: Organize types and interfaces to be placed under types folder
 export type SelectedSize = Product['stock'][0] | null
@@ -11,6 +11,11 @@ export type Sizes = 'xs' | 'sm' | 'md' | 'base' | 'lg' | 'xl' | '2xl'
 export type Animations = 'none' | 'spin' | 'bump' | 'shrink' | 'grow'
 
 export type WishlistStatus = 'added' | 'removed'
+
+export interface ProductTileActionEvent {
+  product: Product
+  size: number
+}
 
 export interface ActiveIndicator {
   left: number

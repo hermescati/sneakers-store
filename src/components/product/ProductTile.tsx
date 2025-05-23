@@ -1,22 +1,21 @@
 'use client'
 
 import routes from '@/lib/routes'
-import { SelectedSize } from '@/types'
+import { ProductTileActionEvent } from '@/types'
 import { Product } from '@/types/payload'
 import { formatPrice } from '@/utils'
 import { getProductInfo, getProductPrice } from '@/utils/product'
 import Image from 'next/image'
 import React from 'react'
 import Link from '../base/Link'
-import Button from '../base/button/Button'
 import IconButton from '../base/button/IconButton'
 import BrandLogo from './base/BrandLogo'
+import SizeDrawer from './base/SizeDrawer'
 
 // TODO: Use the same component for the cart
 interface ProductTileProps {
   product: Product
-  selectedSize?: SelectedSize
-  onAction: VoidFunction
+  onAction: ({ product, size }: ProductTileActionEvent) => void
   onRemove: (productId: Product['id']) => void
 }
 
@@ -25,17 +24,12 @@ const ProductTile = ({ product, onAction, onRemove }: ProductTileProps) => {
   const { finalPrice, basePrice } = getProductPrice(product)
 
   const isDiscounted = finalPrice !== basePrice
-  //   const category = SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)
-  //     ?.label as string
+
+  const handleOnAction = (size: number) => onAction({ product, size })
 
   const handleOnRemove = (e: React.MouseEvent) => {
     e.preventDefault()
     onRemove(product.id)
-  }
-
-  const handleOnAction = (e: React.MouseEvent) => {
-    e.preventDefault()
-    onAction()
   }
 
   return (
@@ -81,21 +75,7 @@ const ProductTile = ({ product, onAction, onRemove }: ProductTileProps) => {
           </div>
 
           <div className="flex items-center gap-1 rounded-2xl">
-            <IconButton
-              icon="solar:bag-4-outline"
-              className="border border-border lg:hidden"
-              onClick={handleOnAction}
-            />
-            <Button
-              variant="outline"
-              intent="primary"
-              size="small"
-              label="Add to cart"
-              iconPrepend="solar:bag-4-outline"
-              iconClass="text-xl"
-              className="hidden border border-border py-2 hover:border-primary-900 hover:bg-primary-900 hover:text-background dark:border-border dark:hover:bg-secondary dark:hover:text-foreground lg:flex"
-              onClick={handleOnAction}
-            />
+            <SizeDrawer product={product} onSelect={handleOnAction} />
             <IconButton
               icon="solar:heart-bold"
               className="border border-border text-secondary md:hidden"

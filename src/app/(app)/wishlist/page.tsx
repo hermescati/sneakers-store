@@ -8,13 +8,16 @@ import ProductTile from '@/components/product/ProductTile'
 import ProductTileSkeleton from '@/components/product/skeletons/ProductTileSkeleton'
 import routes from '@/lib/routes'
 import { clearWishlist, getWishlistItems, removeFromWishlist } from '@/services/wishlist'
+import { useCartStore } from '@/stores/cartStore'
 import { useUserStore } from '@/stores/userStore'
+import { ProductTileActionEvent } from '@/types'
+import { Product } from '@/types/payload'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import EmptyBox from '../../../../public/empty/empty-box.svg'
 
-// TODO: Implement add-to-cart functionality
 const Wishlist = () => {
   const { user } = useUserStore()
+  const { addItem } = useCartStore()
   const client = useQueryClient()
 
   const {
@@ -62,10 +65,24 @@ const Wishlist = () => {
     }
   })
 
+  const handleOnAction = ({ product, size }: ProductTileActionEvent) => {
+    const selectedSize = product?.stock.find(s => s.size === size)
+    if (!selectedSize) return
+    addItem(product, selectedSize)
+  }
+
+  const handleOnRemove = (productId: Product['id']) => removeItem(productId)
+
   if (isLoading || isFetching) {
     return (
       <MainContainer className="flex flex-col gap-5 py-6 lg:py-8">
-        <h2 className="mb-5 text-2xl font-bold leading-snug">My Wishlist</h2>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex w-full flex-col gap-0.5 sm:w-fit">
+            <h2 className="text-2xl font-bold leading-snug">My Wishlist</h2>
+            <span className="h-5 w-1/4 rounded-md bg-skeleton lg:w-1/3" />
+          </div>
+          <span className="h-12 min-w-32 rounded-xl bg-skeleton" />
+        </div>
         <ul className="grid gap-4 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           {Array.from({ length: 5 }).map((_, idx) => (
             <ProductTileSkeleton key={idx} />
@@ -108,7 +125,7 @@ const Wishlist = () => {
 
   return (
     <MainContainer className="flex flex-col gap-5 py-6 lg:py-8">
-      <div className="flex flex-col items-center justify-between gap-3 sm:flex-row">
+      <div className="flex items-center justify-between gap-3">
         <div className="flex w-full flex-col sm:w-fit">
           <h2 className="text-2xl font-bold leading-snug">My Wishlist</h2>
           <h3 className="text-md font-medium text-primary-600">
@@ -116,25 +133,16 @@ const Wishlist = () => {
           </h3>
         </div>
 
-        <div className="flex items-center gap-2 place-self-start sm:place-self-center">
-          <Button
-            variant="ghost"
-            size="small"
-            label="Remove all"
-            disabled={isClearing}
-            iconPrepend="solar:trash-bin-trash-outline"
-            iconClass="text-xl"
-            className="order-2 py-3 text-primary-600 hover:text-danger active:text-danger dark:font-semibold sm:order-1"
-            onClick={() => removeAll()}
-          />
-          <Button
-            size="small"
-            label="Add all to cart"
-            iconPrepend="solar:bag-4-outline"
-            iconClass="text-xl"
-            className="order-1 py-3 sm:order-2"
-          />
-        </div>
+        <Button
+          variant="ghost"
+          size="small"
+          label="Remove all"
+          disabled={isClearing}
+          iconPrepend="solar:trash-bin-trash-outline"
+          iconClass="text-xl"
+          className="order-2 py-3 text-primary-600 hover:text-danger active:text-danger dark:font-semibold sm:order-1"
+          onClick={() => removeAll()}
+        />
       </div>
 
       <ul className="grid gap-4 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
@@ -142,8 +150,8 @@ const Wishlist = () => {
           <ProductTile
             key={product.id}
             product={product}
-            onAction={() => console.log('added')}
-            onRemove={productId => removeItem(productId)}
+            onAction={handleOnAction}
+            onRemove={handleOnRemove}
           />
         ))}
       </ul>
