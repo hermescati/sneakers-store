@@ -123,7 +123,7 @@ const FiltersPanel = ({ initialFilters, ...props }: FiltersPanelProps) => {
         />
       </div>
 
-      <div className="hidden md:block my-3">
+      <div className="my-3 hidden md:block">
         <FilterTags
           appliedFilters={filters}
           brandOptions={props.brandOptions}

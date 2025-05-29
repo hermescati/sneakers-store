@@ -15,14 +15,14 @@ const NavPanel = ({ item, onClick }: NavPanelProps) => {
     <div className="bg-primary-100/50 py-6">
       {item.items && item.items.length > 0 && (
         <MainContainer className="flex flex-col gap-12">
-          <div className="grid grid-cols-6 w-full">
+          <div className="grid w-full grid-cols-6">
             <h3 className="font-semibold">{item.name === 'Others' ? 'All Brands' : 'Models'}</h3>
-            <ul className="col-start-2 col-span-5 grid grid-rows-3 grid-flow-col gap-x-3 gap-y-3 mt-1">
+            <ul className="col-span-5 col-start-2 mt-1 grid grid-flow-col grid-rows-3 gap-x-3 gap-y-3">
               {item.items.map((model, index) => (
                 <Link
                   key={index}
                   underline
-                  className="w-fit font-medium text-md text-primary-700 hover:text-foreground"
+                  className="w-fit text-md font-medium text-primary-700 hover:text-foreground"
                   onClick={() => onClick(model.href)}
                 >
                   {model.name}
@@ -52,7 +52,7 @@ const NavPanel = ({ item, onClick }: NavPanelProps) => {
                       />
                       <div className="absolute inset-0 transition-all duration-300 group-hover:bg-black/10" />
                     </div>
-                    <p className="font-medium text-md text-primary-700 hover:text-foreground">
+                    <p className="text-md font-medium text-primary-700 hover:text-foreground">
                       {featuredItem.name}
                     </p>
                   </Link>

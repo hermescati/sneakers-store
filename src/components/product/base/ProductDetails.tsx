@@ -55,15 +55,15 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
   ]
 
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-3 gap-y-6 lg:gap-x-8 xl:gap-x-12">
-      <div className="lg:col-span-2 flex flex-col gap-6">
+    <section className="grid grid-cols-1 gap-y-6 lg:grid-cols-3 lg:gap-x-8 xl:gap-x-12">
+      <div className="flex flex-col gap-6 lg:col-span-2">
         {!!product.description && (
           <div>
             <h4 className="py-2 font-semibold">Description</h4>
-            <p className="relative text-primary-700 dark:text-primary-800 text-justify transition-all duration-500">
+            <p className="relative text-justify text-primary-700 transition-all duration-500 dark:text-primary-800">
               <span
                 className={cn('leading-relaxed', {
-                  'max-h-32 overflow-hidden block line-clamp-5': !isDescriptionExpanded
+                  'line-clamp-5 block max-h-32 overflow-hidden': !isDescriptionExpanded
                 })}
               >
                 {product.description}
@@ -79,7 +79,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
             <button
               onClick={() => setIsDescriptionExpanded(prev => !prev)}
               className={cn(
-                'w-fit py-2 font-medium text-md text-primary-700 bg-transparent border-none cursor-pointer underline underline-offset-4',
+                'w-fit cursor-pointer border-none bg-transparent py-2 text-md font-medium text-primary-700 underline underline-offset-4',
                 { 'mt-2': isDescriptionExpanded }
               )}
             >
@@ -88,11 +88,11 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
           </div>
         )}
 
-        <ul className="h-full grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-8 px-6 py-4 bg-primary-100/50 rounded-xl">
+        <ul className="grid h-full grid-cols-2 gap-x-8 gap-y-6 rounded-xl bg-primary-100/50 px-6 py-4 md:grid-cols-3">
           {productInfo.map((data, index) => (
             <li key={index}>
-              <span className="flex flex-col leading-snug font-medium">
-                <p className="font-medium text-md text-primary-600">{data.label}</p>
+              <span className="flex flex-col font-medium leading-snug">
+                <p className="text-md font-medium text-primary-600">{data.label}</p>
                 <p className="font-semibold text-primary-700 dark:text-primary-800">{data.value}</p>
               </span>
             </li>
@@ -100,7 +100,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
         </ul>
       </div>
 
-      <div className="lg:mt-2 lg:col-span-1">
+      <div className="lg:col-span-1 lg:mt-2">
         <Accordion activeIndex={0} items={accordionItems} />
       </div>
     </section>

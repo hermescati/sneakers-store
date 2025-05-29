@@ -44,15 +44,15 @@ const CartSummary = () => {
   }
 
   return (
-    <div className="lg:sticky lg:top-40 3xl:max-h-screen overflow-y-auto">
-      <div className="flex flex-col gap-4 p-6 rounded-xl border border-border">
+    <div className="overflow-y-auto lg:sticky lg:top-40 3xl:max-h-screen">
+      <div className="flex flex-col gap-4 rounded-xl border border-border p-6">
         <div className="flex flex-col gap-4">
-          <h2 className="font-bold text-2xl">Order Summary</h2>
+          <h2 className="text-2xl font-bold">Order Summary</h2>
           <ShippingOptions />
           <DiscountCode />
         </div>
 
-        <span className="flex w-full h-px bg-border" />
+        <span className="flex h-px w-full bg-border" />
 
         <div className="flex flex-col gap-2">
           <p className="flex items-center justify-between font-semibold text-primary-800">
@@ -66,7 +66,7 @@ const CartSummary = () => {
 
             {!!discount && (
               <div className="flex items-center gap-x-1.5">
-                <span className="flex items-center py-0.5 px-2.5 border-2 border-secondary-400 bg-secondary-100/10 text-secondary-400 rounded-lg font-semibold text-md uppercase">
+                <span className="flex items-center rounded-lg border-2 border-secondary-400 bg-secondary-100/10 px-2.5 py-0.5 text-md font-semibold uppercase text-secondary-400">
                   {discount.code}
                 </span>
                 <IconButton icon="tabler-x" className="p-1.5 text-lg" onClick={clearDiscount} />
@@ -74,17 +74,17 @@ const CartSummary = () => {
             )}
           </div>
 
-          <p className="flex item-center justify-between font-medium text-primary-700">
+          <p className="item-center flex justify-between font-medium text-primary-700">
             Delivery <span>{formatPrice(shippingCost)}</span>
           </p>
         </div>
 
-        <span className="flex w-full h-px bg-border" />
+        <span className="flex h-px w-full bg-border" />
 
-        <div className="flex items-center justify-between font-bold text-xl">
+        <div className="flex items-center justify-between text-xl font-bold">
           <p className="flex items-baseline gap-1">
             Total
-            <span className="font-semibold text-md text-primary-500">(ex. Tax)</span>
+            <span className="text-md font-semibold text-primary-500">(ex. Tax)</span>
           </p>
           <div>{formatPrice(total)}</div>
         </div>
@@ -100,7 +100,7 @@ const CartSummary = () => {
       <p className="py-5 font-medium leading-relaxed">
         <Icon
           icon="solar:chat-line-outline"
-          className="text-2xl text-primary-700 inline align-middle"
+          className="inline align-middle text-2xl text-primary-700"
         />
         <span className="ml-2 text-primary-800">
           Need help with your order?{' '}

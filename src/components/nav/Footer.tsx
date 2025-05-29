@@ -61,13 +61,13 @@ const Footer = ({ navItems }: FooterProps) => {
   }
 
   return (
-    <footer className="flex flex-col flex-grow-0 bg-primary-300/75 dark:bg-primary-100 text-foreground font-medium">
-      <MainContainer className="flex flex-col gap-8 pt-8 lg:pt-12 pb-6">
-        <div className="grid md:grid-cols-2 gap-8">
+    <footer className="flex flex-grow-0 flex-col bg-primary-300/75 font-medium text-foreground dark:bg-primary-100">
+      <MainContainer className="flex flex-col gap-8 pb-6 pt-8 lg:pt-12">
+        <div className="grid gap-8 md:grid-cols-2">
           <div className="flex flex-col gap-8 md:max-w-xl">
             <div className="space-y-2">
               <Logo className="text-2xl" />
-              <p className="text-md text-primary-700 dark:text-primary-700 leading-relaxed">
+              <p className="text-md leading-relaxed text-primary-700 dark:text-primary-700">
                 Your go-to destination for the latest and greatest in sneaker culture. Whether
                 you&apos;re into limited drops or timeless classics, we help you stay one step
                 ahead.
@@ -75,14 +75,14 @@ const Footer = ({ navItems }: FooterProps) => {
             </div>
             <NewsletterForm />
           </div>
-          <div className="flex flex-col gap-8 mt-2">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="mt-2 flex flex-col gap-8">
+            <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3">
               <div className="flex flex-col gap-8">
                 <FooterLink item={footerLinks.featured} />
                 <FooterLink item={footerLinks.categories} />
               </div>
               <FooterLink item={footerLinks.brands} />
-              <div className="grid col-span-2 sm:col-span-1 md:col-span-2 xl:col-span-1 grid-cols-2 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-8">
+              <div className="col-span-2 grid grid-cols-2 gap-8 sm:col-span-1 sm:grid-cols-1 md:col-span-2 md:grid-cols-2 xl:col-span-1 xl:grid-cols-1">
                 <FooterLink item={footerLinks.support} />
                 <FooterLink item={footerLinks.social} isSocial />
               </div>

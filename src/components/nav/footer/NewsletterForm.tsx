@@ -29,15 +29,15 @@ const NewsletterForm = () => {
   }, [pathname])
 
   return (
-    <div className="flex flex-col gap-2 p-6 rounded-2xl bg-primary-100 dark:bg-primary-200 shadow-md">
-      <h2 className="font-bold text-2xl">Newsletter</h2>
+    <div className="flex flex-col gap-2 rounded-2xl bg-primary-100 p-6 shadow-md dark:bg-primary-200">
+      <h2 className="text-2xl font-bold">Newsletter</h2>
       <p className="font-medium text-primary-700">
         Drop your email below, and get your weekly dose of new releases and special offers.
       </p>
 
       <form
         noValidate
-        className="flex flex-col sm:flex-row md:flex-col lg:flex-row items-start gap-3 my-2"
+        className="my-2 flex flex-col items-start gap-3 sm:flex-row md:flex-col lg:flex-row"
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
@@ -51,7 +51,7 @@ const NewsletterForm = () => {
         <Button
           intent="secondary"
           label="Sign up"
-          className="w-full sm:w-fit md:w-full lg:w-1/3 dark:text-background"
+          className="w-full dark:text-background sm:w-fit md:w-full lg:w-1/3"
         />
       </form>
 

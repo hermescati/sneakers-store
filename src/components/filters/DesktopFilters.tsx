@@ -23,19 +23,19 @@ const DesktopFilters = ({
   updateFilters
 }: DesktopFiltersProps) => {
   return (
-    <div className="flex flex-col gap-4 mt-8">
+    <div className="mt-8 flex flex-col gap-4">
       <div className="flex items-end justify-between">
         <div className="leading-tight">
-          <p className="font-medium text-xl 2xl:text-2xl text-primary-500">
+          <p className="text-xl font-medium text-primary-500 2xl:text-2xl">
             {dynamicHeading.heading}
           </p>
           <span className="inline-flex flex-wrap items-baseline gap-x-2">
-            <p className="font-bold text-2xl 2xl:text-3xl">{dynamicHeading.labels[0]}</p>
+            <p className="text-2xl font-bold 2xl:text-3xl">{dynamicHeading.labels[0]}</p>
             {dynamicHeading.labels.length > 1 && <p className="text-base">& others</p>}
           </span>
         </div>
 
-        {!!total && <p className="font-semibold text-md text-primary-700 w-fit">{total} results</p>}
+        {!!total && <p className="w-fit text-md font-semibold text-primary-700">{total} results</p>}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -101,7 +101,7 @@ const DesktopFilters = ({
               onClear={() => updateFilters({ category: undefined, size: undefined })}
             />
           </div>
-          <span className="h-6 border-l border-border mx-1" />
+          <span className="mx-1 h-6 border-l border-border" />
           <div className="flex-1">
             <Select
               id="sort"

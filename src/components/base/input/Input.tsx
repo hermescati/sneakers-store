@@ -56,7 +56,7 @@ const IconWrapper = ({
 }) => (
   <div
     className={cn(
-      'flex px-4 items-center bg-primary-100/50 border-primary-400',
+      'flex items-center border-primary-400 bg-primary-100/50 px-4',
       position === 'prepend' ? 'border-r' : 'border-l'
     )}
   >
@@ -79,13 +79,13 @@ const PasswordToggleWrapper = ({
   <button
     type="button"
     onClick={toggleHandler}
-    className="flex px-4 items-center bg-primary-100 border-primary-400 border-l"
+    className="flex items-center border-l border-primary-400 bg-primary-100 px-4"
     aria-label={showPassword ? 'Hide password' : 'Show password'}
   >
     <Icon
       icon={showPassword ? 'solar:eye-closed-linear' : 'solar:eye-linear'}
       className={cn(
-        'text-primary-600 transition-all ease-in-out duration-300',
+        'text-primary-600 transition-all duration-300 ease-in-out',
         inputSize === 'small' ? 'text-base' : 'text-xl'
       )}
     />
@@ -152,7 +152,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             type={inputType}
             className={cn(
-              'w-full bg-transparent appearance-none outline-none disabled:cursor-not-allowed px-4 font-medium placeholder:text-primary-600',
+              'w-full appearance-none bg-transparent px-4 font-medium outline-none placeholder:text-primary-600 disabled:cursor-not-allowed',
               inputSize === 'small' ? 'py-2' : 'py-3'
             )}
             {...props}

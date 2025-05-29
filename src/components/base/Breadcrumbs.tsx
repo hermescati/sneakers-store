@@ -12,18 +12,18 @@ const Breadcrumbs = ({ items, className }: BreadcrumbsProps) => {
       <ol className="flex items-center gap-4">
         {items.map((breadcrumb, index) => (
           <li key={`breadcrumb-${breadcrumb.href}`}>
-            <div className="flex items-center font-medium text-sm sm:text-md">
+            <div className="flex items-center text-sm font-medium sm:text-md">
               {breadcrumb.href ? (
                 <Link
                   href={breadcrumb.href}
-                  className="text-primary-500 hover:text-foreground cursor-pointer"
+                  className="cursor-pointer text-primary-500 hover:text-foreground"
                 >
                   {breadcrumb.label}
                 </Link>
               ) : (
-                <p className="text-foreground font-semibold">{breadcrumb.label}</p>
+                <p className="font-semibold text-foreground">{breadcrumb.label}</p>
               )}
-              {index !== items.length - 1 && <span className="w-px h-5 bg-border ml-4" />}
+              {index !== items.length - 1 && <span className="ml-4 h-5 w-px bg-border" />}
             </div>
           </li>
         ))}

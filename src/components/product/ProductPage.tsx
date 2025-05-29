@@ -56,7 +56,7 @@ const ProductPage = ({ product }: { product: Product }) => {
     <div className="flex flex-col gap-4">
       <Breadcrumbs items={breadcrumbs} className="hidden sm:block" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-y-6 lg:gap-x-8 xl:gap-x-12">
+      <div className="grid grid-cols-1 gap-y-6 lg:grid-cols-3 lg:gap-x-8 xl:gap-x-12">
         <div className="flex flex-col gap-4 lg:col-span-2">
           <div className="lg:hidden">
             <ProductPricing product={product} selectedSize={selectedSize} />
@@ -64,7 +64,7 @@ const ProductPage = ({ product }: { product: Product }) => {
           <ProductCarousel images={images} />
         </div>
 
-        <div className="flex flex-col gap-4 xl:gap-8 lg:justify-between lg:col-span-1">
+        <div className="flex flex-col gap-4 lg:col-span-1 lg:justify-between xl:gap-8">
           <div className="hidden lg:block">
             <ProductPricing product={product} selectedSize={selectedSize} />
           </div>

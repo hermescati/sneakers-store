@@ -14,17 +14,17 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestmonialItem }) => {
   return (
     <article
       className={cn(
-        'flex flex-col w-full lg:max-w-64 gap-4 p-5 rounded-2xl bg-background border border-border shadow-lg',
+        'flex w-full flex-col gap-4 rounded-2xl border border-border bg-background p-5 shadow-lg lg:max-w-64',
         testimonial.className
       )}
     >
       {!!testimonial.image && (
-        <div className="hidden xl:block relative aspect-video rounded-xl overflow-hidden">
+        <div className="relative hidden aspect-video overflow-hidden rounded-xl xl:block">
           <Image
             alt={testimonial.user}
             src={testimonial.image}
             fill
-            className="w-full h-full object-contain px-2 dark:bg-primary-800"
+            className="h-full w-full object-contain px-2 dark:bg-primary-800"
           />
         </div>
       )}
@@ -32,7 +32,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TestmonialItem }) => {
         <Rating rating={testimonial.rating} />
       </div>
       <p className="text-center text-md">{testimonial.review}</p>
-      <span className="flex items-center justify-center py-1 border border-border rounded-lg w-full">
+      <span className="flex w-full items-center justify-center rounded-lg border border-border py-1">
         {testimonial.user}
       </span>
     </article>

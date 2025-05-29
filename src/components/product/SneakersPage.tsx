@@ -74,7 +74,7 @@ export default async function SneakersPage({ searchParams, fetchCallback }: Snea
       {!products?.length ? (
         <p>Nothing here</p>
       ) : (
-        <ul className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 py-6">
+        <ul className="grid grid-cols-2 gap-6 py-6 lg:grid-cols-3 xl:grid-cols-6">
           {products.flatMap((product, index) => (
             <li key={product.id}>
               <ProductCard product={product} index={index} />

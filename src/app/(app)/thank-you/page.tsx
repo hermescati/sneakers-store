@@ -29,27 +29,27 @@ const ThankYou = async ({
   }
 
   return (
-    <MainContainer className="flex flex-col gap-8 lg:gap-12 pt-6 pb-12">
+    <MainContainer className="flex flex-col gap-8 pb-12 pt-6 lg:gap-12">
       {/* Back to Shopping */}
       <Link
         href={routes.products.home}
-        className="w-fit flex items-center gap-2 py-2 font-semibold text-primary-700 hover:text-secondary"
+        className="flex w-fit items-center gap-2 py-2 font-semibold text-primary-700 hover:text-secondary"
       >
         <Icon icon="solar:arrow-left-linear" className="text-xl" />
         Continue Shopping
       </Link>
 
       <div className="lg:flex lg:justify-between lg:gap-x-16 xl:gap-x-32">
-        <div className="flex flex-col gap-8 lg:gap-10 lg:h-fit lg:w-[45%] xl:w-1/2">
+        <div className="flex flex-col gap-8 lg:h-fit lg:w-[45%] lg:gap-10 xl:w-1/2">
           <PaymentStatus order={order} />
 
           {/* Order Details */}
-          <div className="grid grid-cols-4 gap-y-12 py-6 md:divide-x md:divide-primary-300 lg:divide-x-0 xl:divide-x border-y border-primary-300">
-            <div className="col-span-4 md:col-span-2 lg:col-span-4 xl:col-span-2 text-md">
+          <div className="grid grid-cols-4 gap-y-12 border-y border-primary-300 py-6 md:divide-x md:divide-primary-300 lg:divide-x-0 xl:divide-x">
+            <div className="col-span-4 text-md md:col-span-2 lg:col-span-4 xl:col-span-2">
               <p className="font-medium text-primary-500">Order Number</p>
               <p className="font-semibold text-foreground">{order.id}</p>
             </div>
-            <div className="col-span-2 md:flex md:col-span-1 lg:col-span-2 xl:col-span-1 text-md">
+            <div className="col-span-2 text-md md:col-span-1 md:flex lg:col-span-2 xl:col-span-1">
               <div className="mx-auto lg:mx-0 xl:mx-auto">
                 <p className="font-medium text-primary-500">Date</p>
                 <p className="font-semibold text-foreground">
@@ -57,7 +57,7 @@ const ThankYou = async ({
                 </p>
               </div>
             </div>
-            <div className="col-span-2 md:flex md:col-span-1 lg:col-span-2 xl:col-span-1 text-md">
+            <div className="col-span-2 text-md md:col-span-1 md:flex lg:col-span-2 xl:col-span-1">
               <div className="mx-auto lg:mx-0 xl:mx-auto">
                 <p className="font-medium text-primary-500">Method</p>
                 <p className="font-semibold text-foreground">Cart</p>
@@ -66,11 +66,11 @@ const ThankYou = async ({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 lg:p-6 lg:h-fit lg:w-[50%] xl:w-1/2 lg:rounded-2xl lg:border lg:border-primary-300">
-          <h1 className="hidden lg:block font-bold text-2xl">Order Summary</h1>
+        <div className="flex flex-col gap-4 lg:h-fit lg:w-[50%] lg:rounded-2xl lg:border lg:border-primary-300 lg:p-6 xl:w-1/2">
+          <h1 className="hidden text-2xl font-bold lg:block">Order Summary</h1>
 
           {/* Products */}
-          <ul className="-mt-px border-y border-primary-300 divide-y divide-primary-300/50">
+          <ul className="-mt-px divide-y divide-primary-300/50 border-y border-primary-300">
             {order.products.map(({ product, size, price }, index) => {
               if (typeof product !== 'string') {
                 return (
@@ -84,7 +84,7 @@ const ThankYou = async ({
           </ul>
 
           {/* Subtotal */}
-          <div className="flex flex-col gap-2 text-md lg:text-base text-primary-600">
+          <div className="flex flex-col gap-2 text-md text-primary-600 lg:text-base">
             <div className="flex items-center justify-between gap-8">
               <span className="font-medium">Subtotal</span>
               <span className="font-medium">{formatPrice(order.details?.subtotal || 0)}</span>
@@ -105,10 +105,10 @@ const ThankYou = async ({
             </div>
           </div>
 
-          <span className="h-px w-full bg-primary-300 rounded-full" />
+          <span className="h-px w-full rounded-full bg-primary-300" />
 
           {/* Total */}
-          <div className="flex items-center justify-between font-bold text-xl">
+          <div className="flex items-center justify-between text-xl font-bold">
             <span>Total</span>
             <span>{formatPrice(order.details?.total || 0)}</span>
           </div>

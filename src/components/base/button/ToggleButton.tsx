@@ -11,9 +11,9 @@ const ToggleButton = ({ options, selected, onChange }: ToggleButtonProps) => {
   const selectedIndex = options.findIndex(option => option.value === selected)
 
   return (
-    <div className="relative flex border border-border rounded-2xl overflow-hidden shadow-inner">
+    <div className="relative flex overflow-hidden rounded-2xl border border-border shadow-inner">
       <div
-        className="absolute top-1 left-1 bottom-1 right-1 bg-primary-900 rounded-xl transition-all duration-300 shadow-md"
+        className="absolute bottom-1 left-1 right-1 top-1 rounded-xl bg-primary-900 shadow-md transition-all duration-300"
         style={{
           width: `calc(${100 / options.length}% - 0.5rem)`,
           transform: `translateX(calc(${selectedIndex * 100}% + ${selectedIndex * 0.5}rem))`
@@ -25,7 +25,7 @@ const ToggleButton = ({ options, selected, onChange }: ToggleButtonProps) => {
           key={option.value}
           onClick={() => onChange(option.value)}
           className={cn(
-            'relative flex-1 px-4 py-3.5 font-medium z-10 transition-all duration-300 ease-linear',
+            'relative z-10 flex-1 px-4 py-3.5 font-medium transition-all duration-300 ease-linear',
             { 'text-background': selected === option.value }
           )}
         >

@@ -55,7 +55,7 @@ const NavLinks = ({ items }: NavLinksProps) => {
 
   return (
     <div ref={navRef} className="hidden lg:block lg:self-stretch">
-      <ul className="flex gap-4 justify-between h-full py-2">
+      <ul className="flex h-full justify-between gap-4 py-2">
         {items.map((item, index) => (
           <li
             key={item.name}
@@ -64,9 +64,9 @@ const NavLinks = ({ items }: NavLinksProps) => {
             }}
           >
             <Link
-              className={cn('font-semibold text-md text-primary-600 hover:text-foreground', {
+              className={cn('text-md font-semibold text-primary-600 hover:text-foreground', {
                 'text-foreground': index === activeIndex,
-                'text-secondary hover:text-secondary!': item.name === 'On Sale'
+                'hover:text-secondary! text-secondary': item.name === 'On Sale'
               })}
               onClick={() => handleOpen(index, item)}
             >
@@ -89,7 +89,7 @@ const NavLinks = ({ items }: NavLinksProps) => {
               }}
               exit={{ opacity: 0 }}
               transition={{ type: 'spring', stiffness: 150, damping: 25 }}
-              className="absolute bottom-0 h-[0.2rem] rounded-full bg-foreground mb-2"
+              className="absolute bottom-0 mb-2 h-[0.2rem] rounded-full bg-foreground"
             />
             <motion.div
               key="panel"

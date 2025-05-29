@@ -56,7 +56,7 @@ const SelectMenu = ({
         aria-labelledby={selectId}
         aria-orientation="vertical"
         role="menu"
-        className="p-1 space-y-1 max-h-80 overflow-auto"
+        className="max-h-80 space-y-1 overflow-auto p-1"
       >
         {options.map(option => {
           const isSelected = selected.includes(option.value)
@@ -65,7 +65,7 @@ const SelectMenu = ({
             <li
               key={option.value}
               className={cn(
-                'flex items-center justify-between gap-4 p-3 cursor-pointer font-medium hover:bg-primary-100/50 rounded-md transition-all duration-300 ease-in-out',
+                'flex cursor-pointer items-center justify-between gap-4 rounded-md p-3 font-medium transition-all duration-300 ease-in-out hover:bg-primary-100/50',
                 { 'bg-primary-100/50': isSelected && !multiple },
                 { 'font-semibold dark:text-secondary': isSelected }
               )}
@@ -79,13 +79,13 @@ const SelectMenu = ({
               {multiple && (
                 <span
                   className={cn(
-                    'w-4 h-4 border rounded flex items-center justify-center transition-all duration-300 ease-in-out',
+                    'flex h-4 w-4 items-center justify-center rounded border transition-all duration-300 ease-in-out',
                     isSelected
-                      ? 'bg-primary-900 dark:bg-secondary border-primary-900 dark:border-secondary'
+                      ? 'border-primary-900 bg-primary-900 dark:border-secondary dark:bg-secondary'
                       : 'border-primary-400'
                   )}
                 >
-                  {isSelected && <Icon icon="mdi:check" className="text-background text-md" />}
+                  {isSelected && <Icon icon="mdi:check" className="text-md text-background" />}
                 </span>
               )}
             </li>
@@ -100,7 +100,7 @@ const SelectMenu = ({
             size="small"
             label="Clear"
             disabled={!selected.length}
-            className="flex-1 py-3 justify-end rounded-none hover:underline hover:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+            className="flex-1 justify-end rounded-none py-3 shadow-none hover:underline hover:underline-offset-4 focus:ring-0 focus:ring-offset-0 active:shadow-none active:ring-0 active:ring-offset-0"
             onClick={onClear}
           />
         </div>

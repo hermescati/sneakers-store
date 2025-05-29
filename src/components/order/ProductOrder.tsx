@@ -23,17 +23,17 @@ const ProductOrder = ({ product, size, price }: ProductOrderProps) => {
           src={thumbnail.url!}
           width={thumbnail.width!}
           height={thumbnail.height!}
-          className="object-contain rounded-md"
+          className="rounded-md object-contain"
         />
       </div>
 
       <div className="flex w-full justify-between gap-x-6">
         <div className="flex flex-col">
           <h5 className="font-semibold md:text-lg">{product.nickname}</h5>
-          <div className="lg:flex items-center gap-1 text-primary-600 text-md">
+          <div className="items-center gap-1 text-md text-primary-600 lg:flex">
             <span>{brand}</span> - <span>{model}</span>
           </div>
-          <div className="text-primary-600 text-md">
+          <div className="text-md text-primary-600">
             {SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label} (US) -{' '}
             {size}
           </div>

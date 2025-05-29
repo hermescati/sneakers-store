@@ -12,16 +12,16 @@ const StatusIcon = ({ status }: { status: Order['status'] | null }) => {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <div
-        className={cn('w-fit p-10 rounded-full transition-colors ease-in-out duration-300', {
+        className={cn('w-fit rounded-full p-10 transition-colors duration-300 ease-in-out', {
           'bg-warning-400/10 dark:bg-warning-600/10': status === 'pending',
           'bg-success-400/10 dark:bg-success-600/10': status === 'completed',
           'bg-danger-400/10 dark:bg-danger-600/10': status === 'rejected'
         })}
       >
         <div
-          className={cn('p-5 rounded-full transition-colors ease-in-out duration-300', {
+          className={cn('rounded-full p-5 transition-colors duration-300 ease-in-out', {
             'bg-warning-400/30 dark:bg-warning-400/20': status === 'pending',
             'bg-success-400/30 dark:bg-success-400/20': status === 'completed',
             'bg-danger-400/30 dark:bg-danger-400/20': status === 'rejected'
@@ -29,8 +29,8 @@ const StatusIcon = ({ status }: { status: Order['status'] | null }) => {
         >
           <Icon
             icon={renderIcon()}
-            className={cn('text-6xl transition-colors ease-in-out duration-300', {
-              'text-warning animate-spin-180': status === 'pending',
+            className={cn('text-6xl transition-colors duration-300 ease-in-out', {
+              'animate-spin-180 text-warning': status === 'pending',
               'text-success': status === 'completed',
               'text-danger': status === 'rejected'
             })}

@@ -14,7 +14,7 @@ const DiscoverCard = ({ name, href, icon }: DiscoverCardItem) => {
     <Link
       href={href}
       className={cn(
-        'aspect-square sm:aspect-video flex flex-col py-6 items-center justify-center rounded-xl sm:rounded-2xl bg-primary-100 hover:bg-primary-300/50 transition-all ease-in-out duration-300',
+        'flex aspect-square flex-col items-center justify-center rounded-xl bg-primary-100 py-6 transition-all duration-300 ease-in-out hover:bg-primary-300/50 sm:aspect-video sm:rounded-2xl',
         { 'text-secondary': name === 'On Sale' }
       )}
     >

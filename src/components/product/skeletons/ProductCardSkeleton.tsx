@@ -1,14 +1,14 @@
 const ProductCardSkeleton = () => {
   return (
-    <div className="animate-pulse flex flex-col gap-3 w-full">
-      <div className="relative flex aspect-square sm:aspect-video bg-skeleton rounded-2xl">
+    <div className="flex w-full animate-pulse flex-col gap-3">
+      <div className="relative flex aspect-square rounded-2xl bg-skeleton sm:aspect-video">
         <div className="h-full w-full" />
       </div>
 
-      <div className="flex flex-col gap-2 w-full">
-        <span className="h-5 bg-skeleton rounded-md w-3/4" />
-        <span className="h-4 bg-skeleton rounded-md w-3/5" />
-        <span className="h-5 bg-skeleton rounded-md w-1/4" />
+      <div className="flex w-full flex-col gap-2">
+        <span className="h-5 w-3/4 rounded-md bg-skeleton" />
+        <span className="h-4 w-3/5 rounded-md bg-skeleton" />
+        <span className="h-5 w-1/4 rounded-md bg-skeleton" />
       </div>
     </div>
   )

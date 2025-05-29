@@ -46,19 +46,19 @@ const EventItem = ({ event }: { event: Event }) => {
 
   return (
     <div className="px-4">
-      <div className="relative flex items-center justify-center aspect-video lg:aspect-[6/2]">
+      <div className="relative flex aspect-video items-center justify-center lg:aspect-[6/2]">
         <Image
           fill
           loading="lazy"
-          className="rounded-xl sm:rounded-2xl object-center object-contain bg-primary-200"
+          className="rounded-xl bg-primary-200 object-contain object-center sm:rounded-2xl"
           src={getCoverImage() || ''}
           alt="event cover image"
         />
       </div>
-      <div className="flex flex-col justify-center gap-4 lg:gap-6 lg:absolute lg:left-[4%] lg:bottom-[8%] py-4 lg:p-6 lg:w-[30%] bg-background lg:shadow-xl lg:rounded-2xl">
+      <div className="flex flex-col justify-center gap-4 bg-background py-4 lg:absolute lg:bottom-[8%] lg:left-[4%] lg:w-[30%] lg:gap-6 lg:rounded-2xl lg:p-6 lg:shadow-xl">
         <div className="flex flex-col gap-2">
-          <span className="font-semibold text-xl">{event.title}</span>
-          <span className="text-md text-primary-700 dark:text-primary-800 line-clamp-2">
+          <span className="text-xl font-semibold">{event.title}</span>
+          <span className="line-clamp-2 text-md text-primary-700 dark:text-primary-800">
             {event.description}
           </span>
         </div>
@@ -131,13 +131,13 @@ const EventSlider = ({ events }: { events: Event[] }) => {
   if (!events.length) return <EventSliderSkeleton />
 
   return (
-    <div className="-mx-4 relative flex flex-1 overflow-hidden">
+    <div className="relative -mx-4 flex flex-1 overflow-hidden">
       <button
         aria-label="previous image"
         onClick={handleSlidePrev}
         className={cn(
-          'lg:hidden absolute left-8 top-[27%] sm:top-[30%] md:top-[35%] z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
-          { '-left-12 opacity-0 pointer-events-none': isStart }
+          'absolute left-8 top-[27%] z-10 rounded-full border border-primary-400 bg-background p-2 shadow-lg transition-all duration-300 ease-in-out sm:top-[30%] md:top-[35%] lg:hidden',
+          { 'pointer-events-none -left-12 opacity-0': isStart }
         )}
       >
         <Icon icon="mage:chevron-left" className="h-6 w-6 text-primary-800" />
@@ -170,8 +170,8 @@ const EventSlider = ({ events }: { events: Event[] }) => {
         aria-label="next image"
         onClick={handleSlideNext}
         className={cn(
-          'lg:hidden absolute right-8 top-[27%] sm:top-[30%] md:top-[35%] z-10 p-2 border border-primary-400 bg-background rounded-full shadow-lg transition-all duration-300 ease-in-out',
-          { '-right-10 opacity-0 pointer-events-none': isEnd }
+          'absolute right-8 top-[27%] z-10 rounded-full border border-primary-400 bg-background p-2 shadow-lg transition-all duration-300 ease-in-out sm:top-[30%] md:top-[35%] lg:hidden',
+          { 'pointer-events-none -right-10 opacity-0': isEnd }
         )}
       >
         <Icon icon="mage:chevron-right" className="h-6 w-6 text-primary-700" />

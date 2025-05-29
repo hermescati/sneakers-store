@@ -9,7 +9,7 @@ export default async function Page(props: PageProps) {
   const { to, token } = await props.searchParams
 
   return (
-    <section className="my-auto relative flex flex-col items-center justify-center">
+    <section className="relative my-auto flex flex-col items-center justify-center">
       {token && typeof token === 'string' ? (
         <VerificationStatus token={token} />
       ) : (

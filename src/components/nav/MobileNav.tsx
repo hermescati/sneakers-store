@@ -29,7 +29,7 @@ const MenuItem = ({ item }: { item: NavMenuItem }) => (
   >
     <div className="leading-tight">
       <p className="font-semibold">{item.title}</p>
-      {item.subtitle && <p className="font-medium text-md text-primary-600">{item.subtitle}</p>}
+      {item.subtitle && <p className="text-md font-medium text-primary-600">{item.subtitle}</p>}
     </div>
     {item.icon && <Icon icon={item.icon} className="text-xl" />}
     {item.component && item.component}
@@ -60,14 +60,14 @@ const MobileNav = ({ items }: { items: NavCategory[] }) => {
           <IconButton icon="solar:hamburger-menu-linear" className="p-1" iconClass="text-3xl" />
         </Drawer.Trigger>
         <Drawer.Portal>
-          <Drawer.Overlay className="fixed lg:hidden inset-0 z-30 bg-black/40" />
+          <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40 lg:hidden" />
           <Drawer.Content
-            className="flex lg:hidden fixed left-0 inset-y-2 z-30 w-[85%] md:w-[80%] max-w-lg rounded-r-2xl border-l border-y border-border bg-background shadow-xl outline-none overflow-hidden"
+            className="fixed inset-y-2 left-0 z-30 flex w-[85%] max-w-lg overflow-hidden rounded-r-2xl border-y border-l border-border bg-background shadow-xl outline-none md:w-[80%] lg:hidden"
             style={{ '--initial-transform': 'calc(100% + 0.5rem)' } as React.CSSProperties}
           >
-            <div className="flex flex-col h-full w-full">
+            <div className="flex h-full w-full flex-col">
               <Drawer.Title asChild>
-                <div className="flex items-center justify-between py-2 px-4">
+                <div className="flex items-center justify-between px-4 py-2">
                   <IconButton
                     icon="hugeicons:sidebar-left"
                     iconClass="text-2xl"
@@ -78,8 +78,8 @@ const MobileNav = ({ items }: { items: NavCategory[] }) => {
                 </div>
               </Drawer.Title>
               <Drawer.Description asChild>
-                <div className="flex flex-col flex-1 justify-between border-t border-border divide-y divide-border overflow-hidden">
-                  <div className="flex flex-col flex-1 overflow-y-auto">
+                <div className="flex flex-1 flex-col justify-between divide-y divide-border overflow-hidden border-t border-border">
+                  <div className="flex flex-1 flex-col overflow-y-auto">
                     {user && menuItems.length > 0 && (
                       <ul className="mx-3 my-1">
                         {menuItems.map(item => (
@@ -97,13 +97,13 @@ const MobileNav = ({ items }: { items: NavCategory[] }) => {
                             title={link.name}
                             titleClasses={cn(NAV_LINKS_CLASS, 'h-12')}
                           >
-                            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 p-4 border-b border-border">
+                            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 border-b border-border p-4">
                               {link.items.map(ft => (
                                 <Link
                                   key={ft.name}
                                   underline
                                   onClick={() => closeOnCurrent(ft.href!)}
-                                  className="w-fit font-medium text-md text-primary-700"
+                                  className="w-fit text-md font-medium text-primary-700"
                                 >
                                   {ft.name}
                                 </Link>
@@ -127,11 +127,11 @@ const MobileNav = ({ items }: { items: NavCategory[] }) => {
                     </Accordion>
                   </div>
                   {!user ? (
-                    <div className="py-3 px-4">
+                    <div className="px-4 py-3">
                       <Button href={routes.auth.login} label="Sign in" className="w-full" />
                     </div>
                   ) : (
-                    <div className="!border-t-0 bg-background h-2" />
+                    <div className="h-2 !border-t-0 bg-background" />
                   )}
                 </div>
               </Drawer.Description>

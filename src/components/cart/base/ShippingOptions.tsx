@@ -36,7 +36,7 @@ const ShippingOptions = () => {
     <div className="flex flex-col gap-2">
       <h4 className="font-semibold text-primary-700">Delivery</h4>
 
-      <ul className="grid sm:grid-cols-2 items-center gap-2">
+      <ul className="grid items-center gap-2 sm:grid-cols-2">
         {options.map(option => {
           const { min, max, unit } = getDeliveryEstimate(option)
 
@@ -45,7 +45,7 @@ const ShippingOptions = () => {
               <button
                 onClick={() => setShipping(option)}
                 className={cn(
-                  'w-full flex sm:flex-col sm:gap-y-2 items-start justify-between py-3 px-3 rounded-xl border-2 border-primary-300 cursor-pointer transition-all ease-in-out duration-300',
+                  'flex w-full cursor-pointer items-start justify-between rounded-xl border-2 border-primary-300 px-3 py-3 transition-all duration-300 ease-in-out sm:flex-col sm:gap-y-2',
                   {
                     'border-secondary bg-secondary-100/10 dark:bg-secondary-100/5':
                       shipping?.id === option.id
@@ -54,7 +54,7 @@ const ShippingOptions = () => {
               >
                 <div>
                   <h4 className="font-semibold">{option.display_name}</h4>
-                  <p className="flex item-center font-medium text-md text-primary-600 dark:text-primary-700">
+                  <p className="item-center flex text-md font-medium text-primary-600 dark:text-primary-700">
                     {min}-{max} {unit}
                   </p>
                 </div>

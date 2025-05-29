@@ -33,23 +33,23 @@ const Testimonials = () => {
   ]
 
   return (
-    <section className="flex flex-col justify-between lg:h-full p-8 lg:p-12 bg-primary-100/50 rounded-2xl">
-      <ul className="hidden lg:block relative h-[75%]">
+    <section className="flex flex-col justify-between rounded-2xl bg-primary-100/50 p-8 lg:h-full lg:p-12">
+      <ul className="relative hidden h-[75%] lg:block">
         {testimonials.map(item => (
           <TestimonialCard key={item.user} testimonial={item} />
         ))}
       </ul>
 
       <div>
-        <h3 className="font-semibold text-xl text-primary-800">Step Up Your Sneaker Game</h3>
-        <p className="mt-2 font-medium text-primary-600 text-md text-pretty">
+        <h3 className="text-xl font-semibold text-primary-800">Step Up Your Sneaker Game</h3>
+        <p className="mt-2 text-pretty text-md font-medium text-primary-600">
           Join our community of sneaker enthusiasts and unlock exclusive perks—get early access to
           limited drops, special discounts, and personalized recommendations. Experience the best in
           sneaker culture and never miss a beat!
         </p>
       </div>
 
-      <div className="lg:hidden mt-8">
+      <div className="mt-8 lg:hidden">
         <TestimonialSlider items={testimonials} />
       </div>
     </section>

@@ -19,14 +19,14 @@ const CollabItem = async ({ collaboration, layout = 'normal' }: CollabItemProps)
   if (products.length === 0) return <CollabItemSkeleton layout={layout} />
 
   return (
-    <section className="flex flex-col xl:flex-row gap-6">
+    <section className="flex flex-col gap-6 xl:flex-row">
       <div className={cn('w-full xl:w-1/2', layout === 'normal' ? 'xl:order-1' : 'xl:order-2')}>
         <CollabCover collaboration={collaboration} />
       </div>
       <div className={cn('xl:w-1/2', layout === 'normal' ? 'xl:order-2' : 'xl:order-1')}>
         <ProductReel
           products={products}
-          className="grid grid-flow-row grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-flow-row grid-cols-2 gap-6 lg:grid-cols-3"
         />
       </div>
     </section>

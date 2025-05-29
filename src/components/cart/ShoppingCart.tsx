@@ -16,20 +16,20 @@ const ShoppingCart = () => {
   const isEmpty = items.length === 0
 
   return (
-    <div className="fixed hidden lg:flex flex-col z-20 right-[1rem] top-[5rem] overflow-clip border border-border divide-y divide-border bg-background rounded-2xl shadow-lg max-h-[calc(100vh-6.5rem)]">
+    <div className="fixed right-[1rem] top-[5rem] z-20 hidden max-h-[calc(100vh-6.5rem)] flex-col divide-y divide-border overflow-clip rounded-2xl border border-border bg-background shadow-lg lg:flex">
       <div className="flex items-center justify-between gap-8 px-4 py-3">
-        <h3 className="font-semibold text-xl">
+        <h3 className="text-xl font-semibold">
           {isEmpty ? 'Your cart is empty' : 'Added to cart'}
         </h3>
         <IconButton icon="tabler-x" iconClass="text-lg" onClick={close} />
       </div>
 
-      <div className="flex-1 w-[500px] overflow-y-auto">
+      <div className="w-[500px] flex-1 overflow-y-auto">
         {isEmpty ? <EmptyCart compact /> : <CartList compact />}
       </div>
 
-      <div className="flex flex-col gap-4 p-5 bg-primary-100/50">
-        <div className="flex items-center justify-between font-semibold text-lg">
+      <div className="flex flex-col gap-4 bg-primary-100/50 p-5">
+        <div className="flex items-center justify-between text-lg font-semibold">
           <span>Subtotal</span>
           <span>{formatPrice(subtotal)}</span>
         </div>
@@ -41,7 +41,7 @@ const ShoppingCart = () => {
               variant="outline"
               label={`View Items (${items.length})`}
               iconAppend="solar:arrow-right-linear"
-              className="dark:border-primary-600 dark:hover:bg-primary-100 dark:text-primary-700 hover:underline hover:underline-offset-4"
+              className="hover:underline hover:underline-offset-4 dark:border-primary-600 dark:text-primary-700 dark:hover:bg-primary-100"
               onClick={() => {
                 close()
                 router.push(routes.cart)

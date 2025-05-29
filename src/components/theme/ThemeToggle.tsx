@@ -35,7 +35,7 @@ const ThemeToggle = ({ headless = false }: ThemeToggleProps) => {
       {!headless && (
         <IconButton
           icon={resolvedThemeIcon}
-          className="p-2 hover:text-foreground hover:bg-transparent active:bg-transparent active:shadow-none"
+          className="p-2 hover:bg-transparent hover:text-foreground active:bg-transparent active:shadow-none"
           iconClass="text-2xl"
           onClick={() => setIsOpen(prev => !prev)}
         />
@@ -47,16 +47,16 @@ const ThemeToggle = ({ headless = false }: ThemeToggleProps) => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className={cn('z-20 rounded-full border border-border bg-background overflow-hidden', {
-              'absolute top-full left-1/2 !-translate-x-1/2 shadow-md': !headless
+            className={cn('z-20 overflow-hidden rounded-full border border-border bg-background', {
+              'absolute left-1/2 top-full !-translate-x-1/2 shadow-md': !headless
             })}
           >
-            <div className="relative w-full flex items-center">
+            <div className="relative flex w-full items-center">
               <motion.div
                 initial={{ x: `${activeIndex * 100}%` }}
                 animate={{ x: `${activeIndex * 100}%` }}
                 transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                className="absolute top-0 left-0 w-1/3 h-full rounded-full shadow-[0_0_0_1px_theme(colors.border)]"
+                className="absolute left-0 top-0 h-full w-1/3 rounded-full shadow-[0_0_0_1px_theme(colors.border)]"
               />
 
               {themeOptions.map(({ value, icon }) => (

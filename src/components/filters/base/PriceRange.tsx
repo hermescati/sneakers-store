@@ -67,8 +67,8 @@ const PriceRange = ({
     return (
       <div className="flex flex-col gap-6">
         <div className="leading-tight">
-          <h3 className="font-semibold text-lg">Price Range</h3>
-          <p className="font-medium text-md text-primary-600">
+          <h3 className="text-lg font-semibold">Price Range</h3>
+          <p className="text-md font-medium text-primary-600">
             Based on the minimum price of the product.
           </p>
         </div>
@@ -93,7 +93,7 @@ const PriceRange = ({
           size="small"
           label="Clear"
           disabled={selectedRange[0] === min && selectedRange[1] === max}
-          className="w-full py-3 justify-end rounded-lg hover:bg-transparent active:underline active:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+          className="w-full justify-end rounded-lg py-3 shadow-none hover:bg-transparent focus:ring-0 focus:ring-offset-0 active:underline active:underline-offset-4 active:shadow-none active:ring-0 active:ring-offset-0"
           onClick={handleOnClear}
         />
       </div>
@@ -102,7 +102,7 @@ const PriceRange = ({
 
   return (
     <FilterControl id={id} placeholder={placeholder} value={displayedValue}>
-      <div className="absolute top-full w-full min-w-[400px] left-0 mt-2 z-10 border border-border rounded-xl bg-background shadow-lg">
+      <div className="absolute left-0 top-full z-10 mt-2 w-full min-w-[400px] rounded-xl border border-border bg-background shadow-lg">
         <div className="px-6 py-4">{renderSlider()}</div>
         <div className="flex border-t border-border">
           <Button
@@ -110,7 +110,7 @@ const PriceRange = ({
             size="small"
             label="Clear"
             disabled={selectedRange[0] === min && selectedRange[1] === max}
-            className="flex-1 py-3 justify-end rounded-none hover:underline hover:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+            className="flex-1 justify-end rounded-none py-3 shadow-none hover:underline hover:underline-offset-4 focus:ring-0 focus:ring-offset-0 active:shadow-none active:ring-0 active:ring-offset-0"
             onClick={handleOnClear}
           />
         </div>

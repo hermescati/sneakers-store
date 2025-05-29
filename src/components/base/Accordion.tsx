@@ -50,7 +50,7 @@ export const AccordionItem = ({
     <div className="w-full transition-all duration-300 ease-in-out">
       <div
         className={cn(
-          'flex items-center justify-between px-4 py-3 rounded-xl hover:bg-primary-100 font-medium cursor-pointer transition-all duration-300 ease-in-out',
+          'flex cursor-pointer items-center justify-between rounded-xl px-4 py-3 font-medium transition-all duration-300 ease-in-out hover:bg-primary-100',
           { 'bg-primary-100 lg:bg-transparent': isOpen },
           titleClasses
         )}
@@ -85,7 +85,7 @@ export const AccordionItem = ({
               {children ?? (
                 <p
                   className={cn(
-                    'px-4 my-2 text-primary-700 leading-relaxed text-pretty',
+                    'my-2 text-pretty px-4 leading-relaxed text-primary-700',
                     contentClasses
                   )}
                 >

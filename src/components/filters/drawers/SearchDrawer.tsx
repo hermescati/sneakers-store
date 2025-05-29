@@ -81,17 +81,17 @@ const SearchDrawer = () => {
           <IconButton icon="solar:rounded-magnifer-linear" />
         </Drawer.Trigger>
       </div>
-      <div className="hidden lg:block w-full">
+      <div className="hidden w-full lg:block">
         <Drawer.Trigger className="w-full outline-none">
           <SearchInput value={query} onFocus={e => e.preventDefault()} readOnly />
         </Drawer.Trigger>
       </div>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
+        <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40" />
         <Drawer.Content className="fixed inset-0 z-30 outline-none">
           <div
             ref={contentRef}
-            className="max-w-3xl mt-6 mx-4 md:mx-auto rounded-2xl border border-border bg-background shadow-lg"
+            className="mx-4 mt-6 max-w-3xl rounded-2xl border border-border bg-background shadow-lg md:mx-auto"
           >
             <Drawer.Title></Drawer.Title>
             <div className="relative h-full w-full divide-y divide-border">
@@ -103,19 +103,19 @@ const SearchDrawer = () => {
                 onChange={e => setQuery(e.target.value)}
               />
 
-              <div className="flex flex-col gap-4 h-full">
-                <div className="flex flex-col gap-1.5 m-4">
-                  <span className="font-medium text-md text-primary-600">
+              <div className="flex h-full flex-col gap-4">
+                <div className="m-4 flex flex-col gap-1.5">
+                  <span className="text-md font-medium text-primary-600">
                     I&apos;m searching for
                   </span>
-                  <ul className="flex flex-flex-wrap items-center gap-1.5">
+                  <ul className="flex-flex-wrap flex items-center gap-1.5">
                     {SIZING_CATEGORY_OPTIONS.map(option => (
                       <li
                         key={option.value}
                         className={cn(
-                          'px-4 py-1.5 border border-border hover:bg-primary-100 rounded-full font-medium text-md cursor-pointer transition-all',
+                          'cursor-pointer rounded-full border border-border px-4 py-1.5 text-md font-medium transition-all hover:bg-primary-100',
                           {
-                            'border-primary-900 bg-primary-900 hover:bg-primary-900 text-background cursor-default':
+                            'cursor-default border-primary-900 bg-primary-900 text-background hover:bg-primary-900':
                               selectedCategory?.value === option.value
                           }
                         )}
@@ -131,8 +131,8 @@ const SearchDrawer = () => {
                   <NoResultsFound />
                 ) : (
                   results.length > 0 && (
-                    <div className="flex flex-col gap-1.5 h-full overflow-y-auto">
-                      <p className="px-4 font-medium text-md text-primary-600">Results</p>
+                    <div className="flex h-full flex-col gap-1.5 overflow-y-auto">
+                      <p className="px-4 text-md font-medium text-primary-600">Results</p>
                       <ul className="divide-y divide-border border-t border-border">
                         {results.map(product => (
                           <SearchResultItem
@@ -152,7 +152,7 @@ const SearchDrawer = () => {
                   variant="ghost"
                   size="small"
                   label="Show more results"
-                  className="w-full py-3 rounded-none hover:underline"
+                  className="w-full rounded-none py-3 hover:underline"
                   onClick={handleOnSubmit}
                 />
               )}

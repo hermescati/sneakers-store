@@ -95,15 +95,15 @@ const SizeFilter = ({
           onChange={onCategoryChange}
         />
 
-        <ul className="grid grid-cols-5 md:grid-cols-6 lg:grid-cols-5 gap-3">
+        <ul className="grid grid-cols-5 gap-3 md:grid-cols-6 lg:grid-cols-5">
           {sizes.map(size => (
             <button
               key={size}
               className={cn(
-                'flex items-center justify-center px-4 py-2.5 border border-border rounded-xl bg-primary-100/20 font-semibold text-primary-700 cursor-pointer transition-color ease-in-out duration-300',
+                'transition-color flex cursor-pointer items-center justify-center rounded-xl border border-border bg-primary-100/20 px-4 py-2.5 font-semibold text-primary-700 duration-300 ease-in-out',
                 {
                   'hover:bg-primary-100/50': !selectedSizes[selectedCategory].includes(size),
-                  'ring-1 ring-primary-900 border-primary-900 bg-primary-100/50 text-foreground dark:ring-secondary dark:border-secondary dark:bg-secondary-100/10 dark:text-secondary':
+                  'border-primary-900 bg-primary-100/50 text-foreground ring-1 ring-primary-900 dark:border-secondary dark:bg-secondary-100/10 dark:text-secondary dark:ring-secondary':
                     selectedSizes[selectedCategory].includes(size)
                 }
               )}
@@ -120,9 +120,9 @@ const SizeFilter = ({
   if (compact) {
     return (
       <div className="flex flex-col gap-2">
-        <div className="leading-tight mb-3">
-          <h3 className="font-semibold text-lg">Sizes (US)</h3>
-          <p className="font-medium text-md text-primary-600">
+        <div className="mb-3 leading-tight">
+          <h3 className="text-lg font-semibold">Sizes (US)</h3>
+          <p className="text-md font-medium text-primary-600">
             Select a category to view all items, or choose a size to filter within the category.
           </p>
         </div>
@@ -133,7 +133,7 @@ const SizeFilter = ({
           size="small"
           label="Clear"
           disabled={!selectedSizes[selectedCategory].length}
-          className="w-full py-3 justify-end rounded-lg hover:bg-transparent active:underline active:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+          className="w-full justify-end rounded-lg py-3 shadow-none hover:bg-transparent focus:ring-0 focus:ring-offset-0 active:underline active:underline-offset-4 active:shadow-none active:ring-0 active:ring-offset-0"
           onClick={handleOnClear}
         />
       </div>
@@ -142,15 +142,15 @@ const SizeFilter = ({
 
   return (
     <FilterControl id={id} placeholder={displayedPlaceholder} value={displayedValue}>
-      <div className="absolute top-full w-full min-w-[400px] right-0 2xl:left-0 mt-2 z-10 border border-border rounded-xl bg-background shadow-lg overflow-clip">
-        <div className="flex flex-col gap-4 px-6 pt-6 pb-4">{renderSizes()}</div>
+      <div className="absolute right-0 top-full z-10 mt-2 w-full min-w-[400px] overflow-clip rounded-xl border border-border bg-background shadow-lg 2xl:left-0">
+        <div className="flex flex-col gap-4 px-6 pb-4 pt-6">{renderSizes()}</div>
         <div className="flex border-t border-border">
           <Button
             variant="ghost"
             size="small"
             label="Clear"
             disabled={!selectedSizes[selectedCategory].length}
-            className="flex-1 py-3 justify-end rounded-none hover:underline hover:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+            className="flex-1 justify-end rounded-none py-3 shadow-none hover:underline hover:underline-offset-4 focus:ring-0 focus:ring-offset-0 active:shadow-none active:ring-0 active:ring-offset-0"
             onClick={handleOnClear}
           />
         </div>

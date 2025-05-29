@@ -56,7 +56,8 @@ const UserMenu = () => {
                         'hover:bg-primary-100': item.route || item.action,
                         'py-1': item.component,
                         'py-2.5': item.subtitle
-                      }
+                      },
+                      item.class
                     )}
                   >
                     <div className="flex flex-col leading-4">

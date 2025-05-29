@@ -36,7 +36,8 @@ const useNavMenuItems = () => {
         value: 'wishlist',
         title: 'Wishlist',
         icon: 'solar:heart-outline',
-        route: routes.wishlist
+        route: routes.wishlist,
+        class: 'lg:hidden'
       })
 
       items.push({
@@ -51,7 +52,7 @@ const useNavMenuItems = () => {
       value: 'theme',
       title: 'Theme',
       component: createElement(ThemeToggle, { headless: true }),
-      class: 'hidden lg:block'
+      class: 'hidden lg:flex'
     })
 
     if (user) {

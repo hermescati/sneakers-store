@@ -95,22 +95,22 @@ const FiltersDrawer = ({
           size="small"
           label={initialFiltersCount ? `Filters (${initialFiltersCount})` : 'Filters'}
           iconAppend="hugeicons:filter-horizontal"
-          className="w-full justify-between gap-4 py-3.5 pr-6 rounded-none hover:bg-transparent"
+          className="w-full justify-between gap-4 rounded-none py-3.5 pr-6 hover:bg-transparent"
           iconClass="text-xl"
         />
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
-        <Drawer.Content className="flex flex-col fixed bottom-0 inset-x-0 z-30 mt-24 h-full max-h-[96%] bg-background rounded-t-2xl outline-none">
-          <div className="max-w-lg w-full mx-auto h-full relative flex flex-col p-3">
-            <Drawer.Handle className="relative !mx-0 !w-full !flex !items-center !justify-center mb-6 !bg-transparent">
-              <div className="mx-auto mt-5 w-24 h-1 bg-primary-200 rounded-full"></div>
+        <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40" />
+        <Drawer.Content className="fixed inset-x-0 bottom-0 z-30 mt-24 flex h-full max-h-[96%] flex-col rounded-t-2xl bg-background outline-none">
+          <div className="relative mx-auto flex h-full w-full max-w-lg flex-col p-3">
+            <Drawer.Handle className="relative !mx-0 mb-6 !flex !w-full !items-center !justify-center !bg-transparent">
+              <div className="mx-auto mt-5 h-1 w-24 rounded-full bg-primary-200"></div>
             </Drawer.Handle>
-            <Drawer.Title className="font-semibold text-xl pb-2 mx-3 border-b border-border">
+            <Drawer.Title className="mx-3 border-b border-border pb-2 text-xl font-semibold">
               Filters
             </Drawer.Title>
 
-            <div className="px-3 h-full divide-y divide-border overflow-y-auto">
+            <div className="h-full divide-y divide-border overflow-y-auto px-3">
               <div>
                 <MultiSelectFilter
                   title="Brands"
@@ -134,7 +134,7 @@ const FiltersDrawer = ({
                   onClear={() => updateFilters({ ...filters, collaboration: undefined })}
                 />
               </div>
-              <div className="pt-3 pb-2">
+              <div className="pb-2 pt-3">
                 <PriceRange
                   id="price-range"
                   placeholder="Price"
@@ -152,7 +152,7 @@ const FiltersDrawer = ({
                   onClear={() => updateFilters({ ...filters, price: undefined })}
                 />
               </div>
-              <div className="pt-3 pb-2">
+              <div className="pb-2 pt-3">
                 <SizeFilter
                   id="size-filter"
                   placeholder="Sizes"
@@ -181,7 +181,7 @@ const FiltersDrawer = ({
             </div>
 
             {/* TODO: Add some sliding animation for the button */}
-            <div className="flex items-center justify-evenly gap-2 px-3 py-2 border-t border-border bg-background transition-all duration-300 ease-in-out">
+            <div className="flex items-center justify-evenly gap-2 border-t border-border bg-background px-3 py-2 transition-all duration-300 ease-in-out">
               {currentFiltersCount > 0 && (
                 <Button
                   variant="ghost"

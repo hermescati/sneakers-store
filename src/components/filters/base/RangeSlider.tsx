@@ -78,9 +78,9 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
   }
 
   return (
-    <div className="flex flex-col gap-5 w-full">
-      <div className="flex flex-col mx-4">
-        <div className="relative h-20 -mb-0.5">
+    <div className="flex w-full flex-col gap-5">
+      <div className="mx-4 flex flex-col">
+        <div className="relative -mb-0.5 h-20">
           {bins &&
             bins.length > 0 &&
             bins.map((bin, index) => {
@@ -93,7 +93,7 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
                 <div
                   key={index}
                   className={cn(
-                    'rounded absolute bottom-0 hover:bg-primary-400 cursor-pointer transition-all duration-300 ease-in-out',
+                    'absolute bottom-0 cursor-pointer rounded transition-all duration-300 ease-in-out hover:bg-primary-400',
                     isActive
                       ? 'bg-primary-700 dark:bg-secondary-200'
                       : 'bg-primary-100 dark:bg-secondary-100/20'
@@ -109,7 +109,7 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
             })}
         </div>
 
-        <div className="mx-2 py-1.5 bg-background">
+        <div className="mx-2 bg-background py-1.5">
           <Slider
             id={id}
             range
@@ -123,7 +123,7 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
             }}
             handleRender={(props, values) => (
               <div {...props.props}>
-                <span className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-0.5 rounded-md bg-foreground dark:font-medium text-md text-background shadow">
+                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 transform rounded-md bg-foreground px-2 py-0.5 text-md text-background shadow dark:font-medium">
                   {formatPrice(values.value, { fractionDigits: 0 })}
                 </span>
               </div>
@@ -160,7 +160,7 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
         </div>
       </div>
 
-      <div className="flex justify-between gap-2 mt-4">
+      <div className="mt-4 flex justify-between gap-2">
         <Input
           label="From"
           type="number"
@@ -170,7 +170,7 @@ const RangeSlider = ({ id, min, max, values, bins, onChange }: RangeSliderProps)
           onChange={e => updateMinValue(e.target.value)}
           onBlur={() => handleMinBlur(minInput)}
         />
-        <span className="border-t border-primary-400 dark:border-border min-w-6 mb-5 mt-auto"></span>
+        <span className="mb-5 mt-auto min-w-6 border-t border-primary-400 dark:border-border"></span>
         <Input
           label="To"
           type="number"

@@ -25,13 +25,13 @@ const EmailSent = ({ to, variant }: EmailSentProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-8 items-center justify-center">
-      <span className="rounded-full p-5 bg-warning-400/15 dark:bg-warning-600/10">
+    <div className="flex flex-col items-center justify-center gap-8">
+      <span className="rounded-full bg-warning-400/15 p-5 dark:bg-warning-600/10">
         <Icon icon="streamline:mail-send-envelope-solid" className="text-4xl text-warning" />
       </span>
       <div className="flex flex-col items-center justify-center">
-        <h2 className="font-bold text-2xl">Check your email!</h2>
-        <p className="mt-2 text-center font-medium text-primary-600 max-w-md">
+        <h2 className="text-2xl font-bold">Check your email!</h2>
+        <p className="mt-2 max-w-md text-center font-medium text-primary-600">
           We&apos;ve sent a {variant === 'reset' ? 'password reset' : 'verification'} link to{' '}
           <span className={cn({ 'font-semibold text-foreground': to })}>{to || 'your email'}.</span>{' '}
           Please check your inbox.

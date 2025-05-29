@@ -66,7 +66,7 @@ const DiscountCode = () => {
         />
       </div>
 
-      <p className="font-medium text-md text-primary-600">
+      <p className="text-md font-medium text-primary-600">
         <span className="font-bold text-primary-700">Note:</span> Only one discount code can be
         applied per order
       </p>

@@ -28,10 +28,10 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative flex-1 aspect-[3/2] md:aspect-video lg:aspect-[3/2] xl:aspect-video rounded-2xl bg-primary-100 dark:bg-primary-800 overflow-hidden">
+      <div className="relative aspect-[3/2] flex-1 overflow-hidden rounded-2xl bg-primary-100 dark:bg-primary-800 md:aspect-video lg:aspect-[3/2] xl:aspect-video">
         <button
           aria-label="previous image"
-          className="md:hidden absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:-translate-x-1 duration-300"
+          className="absolute inset-y-0 left-0 z-10 px-4 text-2xl text-primary-600 transition-transform duration-300 hover:-translate-x-1 md:hidden"
           onClick={e => {
             e.preventDefault()
             swiper?.slidePrev()
@@ -69,20 +69,20 @@ const ProductCarousel = ({ images }: ProductCarouselProps) => {
             e.preventDefault()
             swiper?.slideNext()
           }}
-          className="md:hidden absolute inset-y-0 right-0 z-10 px-4 text-2xl text-primary-600 transition-transform hover:translate-x-1 duration-300"
+          className="absolute inset-y-0 right-0 z-10 px-4 text-2xl text-primary-600 transition-transform duration-300 hover:translate-x-1 md:hidden"
         >
           <Icon icon="mage:chevron-right" />
         </button>
       </div>
 
-      <div className="hidden md:grid grid-cols-3 sm:grid-cols-5 gap-3">
+      <div className="hidden grid-cols-3 gap-3 sm:grid-cols-5 md:grid">
         {images.map((media, index) => (
           <button
             key={media.id}
             onClick={() => swiper?.slideToLoop(index)}
             className={cn(
-              'flex items-center justify-center p-2 xl:p-4 aspect-square md:aspect-[3/2] border-2 rounded-xl bg-primary-100 dark:bg-primary-800 overflow-hidden transition',
-              activeIndex === index ? 'border-secondary ' : 'border-transparent opacity-70'
+              'flex aspect-square items-center justify-center overflow-hidden rounded-xl border-2 bg-primary-100 p-2 transition dark:bg-primary-800 md:aspect-[3/2] xl:p-4',
+              activeIndex === index ? 'border-secondary' : 'border-transparent opacity-70'
             )}
           >
             <Image

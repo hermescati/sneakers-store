@@ -21,8 +21,8 @@ const CartList = ({ compact = false }: CartListProps) => {
       <ul
         className={cn(
           compact || isMobile
-            ? 'pb-6 md:pb-0 flex flex-col divide-y divide-border overflow-y-auto'
-            : 'md:pt-4 pb-8 lg:mb-0 md:grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 md:gap-6'
+            ? 'flex flex-col divide-y divide-border overflow-y-auto pb-6 md:pb-0'
+            : 'pb-8 md:grid md:grid-cols-3 md:gap-6 md:pt-4 lg:mb-0 lg:grid-cols-2 xl:grid-cols-3'
         )}
       >
         {items.map(({ product, size }, index) => (

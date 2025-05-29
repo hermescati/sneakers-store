@@ -38,17 +38,17 @@ const MultiSelectFilter = ({
               <li
                 key={option.value}
                 className={cn(
-                  'flex items-center justify-between px-4 py-2.5 cursor-pointer font-medium text-md rounded-lg transition-all duration-300 ease-in-out',
-                  { 'bg-primary-100/50 font-semibold py-4': isSelected }
+                  'flex cursor-pointer items-center justify-between rounded-lg px-4 py-2.5 text-md font-medium transition-all duration-300 ease-in-out',
+                  { 'bg-primary-100/50 py-4 font-semibold': isSelected }
                 )}
                 onClick={() => onSelect(option.value)}
               >
                 <p className="leading-none">{option.label}</p>
                 <span
                   className={cn(
-                    'w-5 h-5 border rounded flex items-center justify-center transition-all duration-300 ease-in-out',
+                    'flex h-5 w-5 items-center justify-center rounded border transition-all duration-300 ease-in-out',
                     isSelected
-                      ? 'bg-primary-900 dark:bg-secondary border-primary-900 dark:border-secondary'
+                      ? 'border-primary-900 bg-primary-900 dark:border-secondary dark:bg-secondary'
                       : 'border-primary-400'
                   )}
                 >
@@ -64,7 +64,7 @@ const MultiSelectFilter = ({
             size="small"
             label="Clear"
             disabled={!selectedValues.length}
-            className="flex-1 py-3 my-2 justify-end rounded-lg hover:bg-transparent active:underline active:underline-offset-4 active:ring-0 active:ring-offset-0 focus:ring-0 focus:ring-offset-0 shadow-none active:shadow-none"
+            className="my-2 flex-1 justify-end rounded-lg py-3 shadow-none hover:bg-transparent focus:ring-0 focus:ring-offset-0 active:underline active:underline-offset-4 active:shadow-none active:ring-0 active:ring-offset-0"
             onClick={onClear}
           />
         </div>

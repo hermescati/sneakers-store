@@ -34,12 +34,12 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
   return (
     <Link
       href={`${routes.products.product(product.slug)}`}
-      className={cn('invisible h-full w-full cursor-pointer group', {
-        'visible animate-in fade-in-5': isLoaded
+      className={cn('group invisible h-full w-full cursor-pointer', {
+        'animate-in fade-in-5 visible': isLoaded
       })}
     >
       <div className="flex flex-col gap-2">
-        <div className="relative flex items-center justify-center aspect-square sm:aspect-video bg-primary-100 dark:bg-primary-800 rounded-2xl overflow-clip">
+        <div className="relative flex aspect-square items-center justify-center overflow-clip rounded-2xl bg-primary-100 dark:bg-primary-800 sm:aspect-video">
           <Image
             src={thumbnail.url!}
             alt={`${product.nickname} thumbnail`}
@@ -49,18 +49,18 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
           />
         </div>
 
-        <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
+        <div className="flex w-full flex-col gap-0.5 lg:gap-0">
           <h3 className="font-semibold">{product.nickname}</h3>
 
           <span className="flex items-center gap-1 text-primary-500">
             <BrandLogo brand={brand} />
-            <p className="font-medium text-md leading-tight">{model}</p>
+            <p className="text-md font-medium leading-tight">{model}</p>
           </span>
 
           <div className="flex items-baseline gap-2 lg:mt-1">
-            <span className="font-bold text-lg">{formatPrice(finalPrice)}</span>
+            <span className="text-lg font-bold">{formatPrice(finalPrice)}</span>
             {finalPrice !== basePrice && (
-              <span className="text-md line-through text-primary-600">
+              <span className="text-md text-primary-600 line-through">
                 {formatPrice(basePrice)}
               </span>
             )}

@@ -69,7 +69,7 @@ const TestimonialSlider = ({ items }: TestimonialSliderProps) => {
         style={paginationStyles}
       >
         {items.map(({ user, rating, review }, i) => (
-          <SwiperSlide key={i} className="px-4 pb-12 !flex items-center justify-center">
+          <SwiperSlide key={i} className="!flex items-center justify-center px-4 pb-12">
             <TestimonialCard testimonial={{ user, rating, review }} />
           </SwiperSlide>
         ))}

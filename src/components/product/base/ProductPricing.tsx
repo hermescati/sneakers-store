@@ -19,17 +19,17 @@ const ProductPricing = ({ product, selectedSize }: ProductDetailsProps) => {
   return (
     <div className="flex flex-col gap-y-4">
       <div className="leading-snug">
-        <span className="inline-flex items-center gap-2 text-primary-600 text-lg">
+        <span className="inline-flex items-center gap-2 text-lg text-primary-600">
           <BrandLogo brand={brand} />
           <h3 className="font-medium">{brand}</h3>
         </span>
-        <h1 className="font-bold text-2xl 2xl:text-3xl">{model}</h1>
+        <h1 className="text-2xl font-bold 2xl:text-3xl">{model}</h1>
         <h2 className="font-medium 2xl:text-lg">{product.nickname}</h2>
       </div>
 
       <div className="flex flex-col gap-y-1">
         <div className="flex items-baseline gap-x-2">
-          <h1 className="font-bold text-2xl md:text-3xl">{formatPrice(finalPrice)}</h1>
+          <h1 className="text-2xl font-bold md:text-3xl">{formatPrice(finalPrice)}</h1>
           {finalPrice !== basePrice && (
             <span className="font-medium text-primary-600 line-through">
               {formatPrice(basePrice)}
@@ -38,7 +38,7 @@ const ProductPricing = ({ product, selectedSize }: ProductDetailsProps) => {
         </div>
 
         {!!selectedSize && selectedSize.quantity <= 2 && (
-          <p className="inline-flex items-center gap-x-1 text-secondary dark:text-secondary-700 font-semibold">
+          <p className="inline-flex items-center gap-x-1 font-semibold text-secondary dark:text-secondary-700">
             <Icon icon="ph:fire-simple-duotone" className="text-xl" />
             <span>Hurry up! Only {!!selectedSize && selectedSize.quantity} in stock.</span>
           </p>

@@ -58,12 +58,12 @@ const Toast = (props: ToastProps) => {
   const showIcon = !title && !action
 
   return (
-    <div className="relative bg-background rounded-lg shadow-lg">
+    <div className="relative rounded-lg bg-background shadow-lg">
       {dismissable && (
-        <span className="absolute -top-1.5 -left-1.5 flex bg-background h-[1.15rem] w-[1.15rem] rounded-full">
+        <span className="absolute -left-1.5 -top-1.5 flex h-[1.15rem] w-[1.15rem] rounded-full bg-background">
           <button
             className={cn(
-              'h-[1.15rem] w-[1.15rem] rounded-full ring-1 flex items-center justify-center',
+              'flex h-[1.15rem] w-[1.15rem] items-center justify-center rounded-full ring-1',
               styles.container
             )}
             onClick={() => sonnerToast.dismiss(id)}
@@ -74,22 +74,22 @@ const Toast = (props: ToastProps) => {
       )}
       <div
         className={cn(
-          'flex gap-2 w-full rounded-lg ring-1 md:w-[356px] items-center p-4',
+          'flex w-full items-center gap-2 rounded-lg p-4 ring-1 md:w-[356px]',
           styles.container
         )}
       >
         {showIcon && <Icon icon={icon} className={`text-xl ${styles.icon}`} />}
         <div className="flex flex-1 items-center">
           <div className="w-full leading-snug">
-            {title && <p className={cn('font-bold text-md', styles.title)}>{title}</p>}
-            <p className={cn('font-semibold text-md', styles.description)}>{description}</p>
+            {title && <p className={cn('text-md font-bold', styles.title)}>{title}</p>}
+            <p className={cn('text-md font-semibold', styles.description)}>{description}</p>
           </div>
         </div>
         {action && (
           <div className="ml-5 shrink-0">
             <button
               className={cn(
-                'px-3 py-1 rounded-md font-semibold text-sm transition-colors duration-300 ease-in-out',
+                'rounded-md px-3 py-1 text-sm font-semibold transition-colors duration-300 ease-in-out',
                 styles.action
               )}
               onClick={() => action.onClick()}

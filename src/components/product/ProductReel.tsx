@@ -22,12 +22,12 @@ const ProductReel = ({ products, title, href, className }: ProductReelProps) => 
     <section className="flex flex-col gap-3">
       {title && (
         <Link href={href} className="group flex items-center justify-start gap-3">
-          <h2 className="font-bold text-xl">{title}</h2>
+          <h2 className="text-xl font-bold">{title}</h2>
           <Icon icon="flowbite:arrow-right-outline" className="text-2xl group-hover:animate-bump" />
         </Link>
       )}
 
-      <ul className={cn(className ?? 'grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6')}>
+      <ul className={cn(className ?? 'grid grid-cols-2 gap-6 lg:grid-cols-3 xl:grid-cols-6')}>
         {products.map((product, index) => (
           <li key={product.id}>
             <ProductCard product={product} index={index} />

@@ -25,11 +25,11 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
 
   if (!response) {
     return (
-      <div className="flex flex-col gap-6 items-center">
+      <div className="flex flex-col items-center gap-6">
         <StatusIcon status="pending" />
         <div className="flex flex-col items-center">
-          <h2 className="font-bold text-2xl">Verifying...</h2>
-          <p className="text-center font-medium text-primary-600 max-w-md">
+          <h2 className="text-2xl font-bold">Verifying...</h2>
+          <p className="max-w-md text-center font-medium text-primary-600">
             This wont take long. Please wait!
           </p>
         </div>
@@ -39,11 +39,11 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
 
   if (response.code === 200) {
     return (
-      <div className="flex flex-col gap-6 items-center">
+      <div className="flex flex-col items-center gap-6">
         <StatusIcon status="completed" />
         <div className="flex flex-col items-center">
-          <h2 className="font-bold text-2xl">You&apos;re all set!</h2>
-          <p className="text-center font-medium text-primary-600 max-w-md">
+          <h2 className="text-2xl font-bold">You&apos;re all set!</h2>
+          <p className="max-w-md text-center font-medium text-primary-600">
             Thank you for verifying your email.
           </p>
         </div>
@@ -59,11 +59,11 @@ const VerificationStatus = ({ token }: VerifyEmailProps) => {
 
   if (response.code === 403) {
     return (
-      <div className="flex flex-col gap-8 items-center">
+      <div className="flex flex-col items-center gap-8">
         <StatusIcon status="rejected" />
         <div className="flex flex-col items-center">
-          <h2 className="font-bold text-2xl">There was a problem</h2>
-          <p className="text-center font-medium text-primary-600 max-w-">
+          <h2 className="text-2xl font-bold">There was a problem</h2>
+          <p className="max-w- text-center font-medium text-primary-600">
             This token is not valid or might be expired. Please try again!
           </p>
         </div>

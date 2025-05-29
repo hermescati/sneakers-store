@@ -48,7 +48,7 @@ const CompactCartItem = ({
           src={thumbnail.url!}
           width={thumbnail.width!}
           height={thumbnail.height!}
-          className="object-contain rounded-xl"
+          className="rounded-xl object-contain"
         />
       </div>
 
@@ -56,7 +56,7 @@ const CompactCartItem = ({
         <div className="flex flex-col gap-2">
           <div className="flex flex-col">
             <h3 className="font-semibold">{name}</h3>
-            <span className="font-medium text-primary-700 text-md">
+            <span className="text-md font-medium text-primary-700">
               {category} (US) - {size}
             </span>
           </div>

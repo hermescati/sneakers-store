@@ -25,21 +25,21 @@ const FilterControl = ({ id, children, placeholder, value }: FilterControlProps)
         aria-label="toggle menu"
         aria-haspopup="true"
         aria-expanded={isExpanded}
-        className="flex items-center justify-between gap-1 w-full px-3 py-1.5 rounded-xl border border-border cursor-pointer"
+        className="flex w-full cursor-pointer items-center justify-between gap-1 rounded-xl border border-border px-3 py-1.5"
         onClick={() => setIsExpanded(prev => !prev)}
       >
-        <div className="relative flex flex-col justify-center flex-1 h-9 overflow-hidden">
+        <div className="relative flex h-9 flex-1 flex-col justify-center overflow-hidden">
           <span
             className={cn(
-              'absolute font-medium text-md text-primary-600 truncate transition-all duration-150 ease-linear pointer-events-none',
-              value ? 'top-0 text-sm' : 'top-1/2 transform -translate-y-1/2'
+              'pointer-events-none absolute truncate text-md font-medium text-primary-600 transition-all duration-150 ease-linear',
+              value ? 'top-0 text-sm' : 'top-1/2 -translate-y-1/2 transform'
             )}
           >
             {placeholder}
           </span>
 
           {!!value && (
-            <p className="absolute bottom-0 overflow-hidden font-semibold text-md truncate">
+            <p className="absolute bottom-0 overflow-hidden truncate text-md font-semibold">
               {value}
             </p>
           )}

@@ -11,7 +11,7 @@ interface TagProps {
 }
 
 const Tag = ({ label, onRemove }: TagProps) => (
-  <span className="flex items-center gap-2 pl-3 pr-2 py-1 rounded-lg bg-primary-100 font-semibold text-sm">
+  <span className="flex items-center gap-2 rounded-lg bg-primary-100 py-1 pl-3 pr-2 text-sm font-semibold">
     {label}
     <IconButton
       icon="tabler:x"
@@ -59,7 +59,7 @@ const FilterTags = ({
   if (!cleanedFilters.some(([, value]) => value && value.length)) return null
 
   return (
-    <div className="flex items-stretch gap-2 flex-wrap">
+    <div className="flex flex-wrap items-stretch gap-2">
       {cleanedFilters.map(([key, value]) => {
         if (!value) return null
 
@@ -127,7 +127,7 @@ const FilterTags = ({
         label="Clear All"
         iconAppend="tabler:x"
         iconClass="text-base"
-        className="pl-3 pr-2 py-1.5 rounded-lg border border-border text-sm hover:underline hover:underline-offset-4"
+        className="rounded-lg border border-border py-1.5 pl-3 pr-2 text-sm hover:underline hover:underline-offset-4"
         onClick={() =>
           updateFilters({
             brand: undefined,

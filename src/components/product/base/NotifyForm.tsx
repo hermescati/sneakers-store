@@ -15,28 +15,28 @@ const NotifyForm = () => {
 
   return (
     <Drawer.Root handleOnly open={isOpen} onOpenChange={setIsOpen}>
-      <Drawer.Trigger className="w-fit py-2 lg:pb-0 font-medium text-md leading-none hover:text-secondary hover:underline hover:underline-offset-2 outline-none transition-colors ease-in-out duration-300">
+      <Drawer.Trigger className="w-fit py-2 text-md font-medium leading-none outline-none transition-colors duration-300 ease-in-out hover:text-secondary hover:underline hover:underline-offset-2 lg:pb-0">
         Can&apos;t find your size? Get notified!
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-30" />
+        <Drawer.Overlay className="fixed inset-0 z-30 bg-black/40" />
         <Drawer.Content className="fixed inset-0 z-30 flex items-center justify-center outline-none">
           <div
             ref={contentRef}
-            className="relative px-6 pb-6 pt-5 mx-4 rounded-2xl border border-border bg-background shadow-lg"
+            className="relative mx-4 rounded-2xl border border-border bg-background px-6 pb-6 pt-5 shadow-lg"
           >
-            <Drawer.Title className="font-semibold text-xl">Notify Me</Drawer.Title>
+            <Drawer.Title className="text-xl font-semibold">Notify Me</Drawer.Title>
             <IconButton
               icon="tabler:x"
-              className="absolute top-3 right-3"
+              className="absolute right-3 top-3"
               iconClass="text-xl md:text-2xl"
               onClick={() => setIsOpen(false)}
             />
-            <Drawer.Description className="mt-1.5 text-md text-primary-700 leading-snug">
+            <Drawer.Description className="mt-1.5 text-md leading-snug text-primary-700">
               Enter your email and size to be notified when it&apos;s back in stock.
             </Drawer.Description>
 
-            <div className="flex flex-col gap-y-4 mt-6">
+            <div className="mt-6 flex flex-col gap-y-4">
               <Input type="email" label="Email" placeholder="e.g. you@example.com" />
               <Input
                 type="number"
@@ -46,7 +46,7 @@ const NotifyForm = () => {
                 max={18}
                 step={0.5}
               />
-              <Button label="Notify me" iconPrepend="gravity-ui:bell-dot" className="w-full mt-2" />
+              <Button label="Notify me" iconPrepend="gravity-ui:bell-dot" className="mt-2 w-full" />
             </div>
           </div>
         </Drawer.Content>

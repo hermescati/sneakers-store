@@ -57,7 +57,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
   return (
     <>
       <header>
-        <h1 className="font-bold text-2xl">Welcome Back, Sneakerhead</h1>
+        <h1 className="text-2xl font-bold">Welcome Back, Sneakerhead</h1>
         <p className="font-medium text-primary-600">
           Sign in to track orders, save favorites, and shop effortlessly
         </p>
@@ -87,7 +87,7 @@ const LoginForm = ({ origin }: LoginFormProps) => {
         <Link
           underline
           onClick={() => setIsForgotPassword(true)}
-          className="w-fit -mt-2 font-medium text-primary-600 hover:text-secondary"
+          className="-mt-2 w-fit font-medium text-primary-600 hover:text-secondary"
         >
           Forgot password?
         </Link>

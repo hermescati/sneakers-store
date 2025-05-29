@@ -86,18 +86,18 @@ const RegistrationForm = () => {
         autoComplete="new-password"
         tabIndex={4}
       />
-      <p className="font-normal text-primary-700 text-md">
+      <p className="text-md font-normal text-primary-700">
         By clicking &#8220;Create Account&#8221;, you agree to our{' '}
         <Link
           href={routes.home}
-          className="underline underline-offset-4 font-medium hover:text-secondary"
+          className="font-medium underline underline-offset-4 hover:text-secondary"
         >
           Terms and Conditions
         </Link>{' '}
         and{' '}
         <Link
           href={routes.home}
-          className="underline underline-offset-4 font-medium hover:text-secondary"
+          className="font-medium underline underline-offset-4 hover:text-secondary"
         >
           Privacy Policy
         </Link>

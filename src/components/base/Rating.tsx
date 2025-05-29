@@ -24,7 +24,7 @@ export default function Rating({ rating, maxStars = 5 }: RatingProps) {
             icon={icon}
             className={cn(
               'text-xl transition-all duration-300',
-              isFull || isHalf ? 'text-warning-300 dark:text-warning-600 glow' : 'text-primary-400'
+              isFull || isHalf ? 'glow text-warning-300 dark:text-warning-600' : 'text-primary-400'
             )}
           />
         )

@@ -10,7 +10,7 @@ const Logo = ({ className = '' }: LogoProps) => {
   return (
     <Link
       href={routes.home}
-      className={cn('font-bold text-xl text-foreground', className)}
+      className={cn('text-xl font-bold text-foreground', className)}
       aria-label="Home - Sneakers"
     >
       Sneakers.

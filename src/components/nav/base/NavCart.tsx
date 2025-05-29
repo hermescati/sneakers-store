@@ -33,7 +33,7 @@ const NavCart = () => {
       <div className="relative md:hidden">
         <IconButton href={routes.cart} icon="solar:bag-4-outline" />
         {items.length > 0 && (
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-secondary" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-secondary" />
         )}
       </div>
 
@@ -42,8 +42,8 @@ const NavCart = () => {
         onClick={cartOpen ? closeCart : openCart}
         aria-label={`${count} item${count !== 1 ? 's' : ''} in cart`}
         className={cn(
-          'relative group hidden md:flex items-center gap-1.5 shrink-0 rounded-full font-semibold text-md text-primary-700 select-none cursor-pointer transition-colors duration-300 ease-in-out',
-          hasItems && '-ml-1 px-3 py-2 bg-primary-100/40 hover:bg-primary-100'
+          'group relative hidden shrink-0 cursor-pointer select-none items-center gap-1.5 rounded-full text-md font-semibold text-primary-700 transition-colors duration-300 ease-in-out md:flex',
+          hasItems && '-ml-1 bg-primary-100/40 px-3 py-2 hover:bg-primary-100'
         )}
       >
         <Icon icon="solar:bag-4-outline" aria-hidden="true" className="text-2xl" />

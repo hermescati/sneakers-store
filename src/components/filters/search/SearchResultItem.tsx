@@ -15,7 +15,7 @@ const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
   return (
     <div
       key={product.id}
-      className="flex items-center justify-between gap-2 py-2 pl-2 pr-6 cursor-pointer hover:bg-primary-100 transition-all duration-300 ease-in-out"
+      className="flex cursor-pointer items-center justify-between gap-2 py-2 pl-2 pr-6 transition-all duration-300 ease-in-out hover:bg-primary-100"
       onClick={onClick}
     >
       <div className="relative aspect-video h-16">
@@ -28,9 +28,9 @@ const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
         />
       </div>
 
-      <div className="flex items-center justify-between gap-2 w-full">
+      <div className="flex w-full items-center justify-between gap-2">
         <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-2 font-medium text-sm text-primary-500">
+          <div className="flex items-center gap-2 text-sm font-medium text-primary-500">
             <span>{brand}</span>
             <span>&gt;</span>
             <span>{model}</span>
@@ -39,7 +39,7 @@ const SearchResultItem = ({ product, onClick }: SearchResultItem) => {
               {SIZING_CATEGORY_OPTIONS.find(o => o.value === product.size_category)?.label}
             </span>
           </div>
-          <span className="font-semibold text-md">{product.nickname}</span>
+          <span className="text-md font-semibold">{product.nickname}</span>
         </div>
         <Icon icon="mage:chevron-right" className="text-xl text-primary-500" />
       </div>

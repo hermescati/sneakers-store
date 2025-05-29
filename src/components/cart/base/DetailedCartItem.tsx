@@ -45,11 +45,11 @@ const DetailedCartItem = ({
   if (!isLoaded) return <CartItemSkeleton />
 
   return (
-    <div className="flex flex-col gap-2 w-full group">
-      <div className="relative px-5 bg-primary-100 dark:bg-primary-700 rounded-2xl aspect-auto">
+    <div className="group flex w-full flex-col gap-2">
+      <div className="relative aspect-auto rounded-2xl bg-primary-100 px-5 dark:bg-primary-700">
         <IconButton
           icon="tabler-x"
-          className="absolute top-2 left-2 z-10 p-1.5 dark:text-primary-300 hover:text-danger hover:bg-primary-300 dark:hover:bg-primary-600 active:bg-primary-300"
+          className="absolute left-2 top-2 z-10 p-1.5 hover:bg-primary-300 hover:text-danger active:bg-primary-300 dark:text-primary-300 dark:hover:bg-primary-600"
           onClick={onRemove}
         />
         <Image
@@ -62,16 +62,16 @@ const DetailedCartItem = ({
         />
       </div>
 
-      <div className="flex flex-col gap-0.5 lg:gap-0 w-full">
-        <h3 className="font-semibold line-clamp-1">{name}</h3>
-        <span className="font-medium text-primary-600 text-md">
+      <div className="flex w-full flex-col gap-0.5 lg:gap-0">
+        <h3 className="line-clamp-1 font-semibold">{name}</h3>
+        <span className="text-md font-medium text-primary-600">
           {category} (US) - {size}
         </span>
 
-        <div className="flex items-baseline gap-2 mt-1">
-          <span className="font-semibold text-lg">{formatPrice(discountedPrice)}</span>
+        <div className="mt-1 flex items-baseline gap-2">
+          <span className="text-lg font-semibold">{formatPrice(discountedPrice)}</span>
           {isDiscounted && (
-            <span className="text-md line-through text-primary-600">{formatPrice(basePrice)}</span>
+            <span className="text-md text-primary-600 line-through">{formatPrice(basePrice)}</span>
           )}
         </div>
       </div>

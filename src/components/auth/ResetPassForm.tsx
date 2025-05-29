@@ -45,7 +45,7 @@ const ResetPassForm = ({ token }: ResetPassFormProps) => {
   return (
     <>
       <header>
-        <h1 className="font-bold text-2xl">Set new password</h1>
+        <h1 className="text-2xl font-bold">Set new password</h1>
         <p className="font-medium text-primary-600">
           Must be at least 8 characters long and contain a number, uppercase letter and a special
           character.
