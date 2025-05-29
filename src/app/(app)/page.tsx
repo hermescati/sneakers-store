@@ -23,7 +23,7 @@ const Home = async () => {
   const [products, { data: newReleases }, { data: latestCollabs }, { events }] = await Promise.all([
     Promise.all(productReelsPromise),
     getProducts({ limit: 6, sort: '-release_date' }),
-    getCollabs({ limit: 2, sort: '-createdAt' }),
+    getCollabs({ limit: 2, sort: '-createdAt', where: { featured: { equals: true } } }),
     getEvents()
   ])
 
