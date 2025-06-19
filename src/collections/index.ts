@@ -5,7 +5,8 @@ import { Media } from './Media'
 import { Models } from './Models'
 import { Orders } from './Orders'
 import { Products } from './Products'
+import { Reviews } from './Reviews'
 import { Users } from './Users'
 import { Wishlist } from './WIshlist'
 
-export { Brands, Collaborations, Events, Media, Models, Orders, Products, Users, Wishlist }
+export { Brands, Collaborations, Events, Media, Models, Orders, Products, Reviews, Users, Wishlist }

@@ -91,6 +91,8 @@ export interface QueryParams {
   limit?: number
   sort?: Sort
   depth?: number
+  pagination?: boolean
+  page?: number
 }
 
 export interface BaseResponse<T = unknown> {
@@ -124,6 +126,19 @@ export interface ProductFilters {
   order?: SortOrder
   price?: string
   query?: 'belowRetail' | 'onSale' | string
+}
+
+export interface ReviewFilters {
+  rating?: number | null
+  sort?: SelectOption['value']
+  order?: SortOrder
+}
+
+export interface ProductReviewSummary {
+  avgRating: number
+  ratingCounts: Record<number, number>
+  totalReviews: number
+  recommendedCount: number
 }
 
 export class PayloadError extends Error {
