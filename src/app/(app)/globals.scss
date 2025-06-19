@@ -69,7 +69,7 @@
   color: rgba(var(--foreground));
 
   .glow {
-    filter: drop-shadow(0 0 6px rgba(var(--warning-300), 0.5));
+    filter: drop-shadow(0 0 5px rgba(var(--warning-300), 0.4));
   }
 }
 
@@ -142,4 +142,13 @@
   .glow {
     filter: drop-shadow(0 0 6px rgba(var(--warning-300), 0.5));
   }
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
