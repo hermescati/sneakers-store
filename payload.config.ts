@@ -6,12 +6,13 @@ import {
   Models,
   Orders,
   Products,
+  Reviews,
   Users,
   Wishlist
 } from '@/collections'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { resendAdapter } from '@payloadcms/email-resend'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { FixedToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -47,7 +48,18 @@ export default buildConfig({
     }
   },
   secret: process.env.PAYLOAD_SECRET || '',
-  collections: [Users, Products, Orders, Events, Brands, Models, Collaborations, Wishlist, Media],
+  collections: [
+    Users,
+    Products,
+    Orders,
+    Events,
+    Brands,
+    Models,
+    Collaborations,
+    Wishlist,
+    Media,
+    Reviews
+  ],
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
@@ -69,7 +81,9 @@ export default buildConfig({
     defaultFromName: 'Sneakers.',
     apiKey: process.env.RESEND_SECRET || ''
   }),
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()]
+  }),
   typescript: {
     outputFile: path.resolve(dirname, 'src/types/payload.ts')
   },
