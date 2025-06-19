@@ -43,6 +43,7 @@ export const useUserStore = create<UserState>()(
 
           toast.error(message)
         } catch (error) {
+          console.error(error)
           toast.error('An unexpected error occured. Try again later.')
         } finally {
           set({ isRefreshing: false })

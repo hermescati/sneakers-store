@@ -44,8 +44,9 @@ const LoginForm = ({ origin }: LoginFormProps) => {
       toast.success(message)
 
       router.refresh()
-      origin ? router.push(`/${origin}`) : router.push(routes.home)
+      router.push(origin ? `/${origin}` : routes.home)
     } catch (error) {
+      console.error(error)
       toast.error('An unexpected error occured. Try again later.')
     }
   }

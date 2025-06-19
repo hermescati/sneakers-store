@@ -20,6 +20,7 @@ const EmailSent = ({ to, variant }: EmailSentProps) => {
 
       toast.error(message)
     } catch (error) {
+      console.error(error)
       toast.error('Error during password reset email resend:')
     }
   }
