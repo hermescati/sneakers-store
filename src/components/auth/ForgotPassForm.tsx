@@ -35,6 +35,7 @@ const ForgotPassForm = ({ onBack }: ForgotPassFormProps) => {
       }
       toast.error(message)
     } catch (error) {
+      console.error(error)
       toast.error('An unexpected error occured. Try again later.')
     }
   }

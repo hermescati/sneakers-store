@@ -21,6 +21,7 @@ const useLogout = () => {
       toast.success('User logged out successfully.')
       router.refresh()
     } catch (error) {
+      console.error(error)
       toast.error('An unexpected error occured. Try again later.')
     }
   }, [router])
