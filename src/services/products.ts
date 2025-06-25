@@ -1,8 +1,15 @@
 'use server'
 
 import { payloadClient } from '@/lib/payload'
-import { BaseResponse, PaginatedResponse, ProductFilters, QueryParams } from '@/types'
-import { Brand, Collaboration, Model, Product } from '@/types/payload'
+import {
+  BaseResponse,
+  PaginatedResponse,
+  ProductFilters,
+  ProductReviewSummary,
+  QueryParams,
+  ReviewFilters
+} from '@/types'
+import { Brand, Collaboration, Model, Product, Review } from '@/types/payload'
 import { Sort, Where } from 'payload'
 import { getPaginatedResponse } from '.'
 
@@ -132,8 +139,8 @@ export async function getProductsUnderRetail(
   try {
     const { data } = await getProducts({ where, sort })
     const products: Product[] = data.filter(p => {
-      if (!p.min_price) return
-      p.min_price <= p.retail_price
+      if (!p.min_price) return false
+      return p.min_price <= p.retail_price
     })
 
     return {
@@ -215,6 +222,89 @@ export async function getRelatedProducts(products: Product[], limit = 6) {
   }
 
   return relatedProducts
+}
+
+export async function getProductReviews(
+  productId: Product['id'],
+  filters: ReviewFilters = {},
+  offset = 0,
+  limit = 5
+): Promise<PaginatedResponse<Review>> {
+  try {
+    const params: QueryParams = {
+      where: { and: [{ product: { equals: productId } }] },
+      page: offset,
+      limit,
+      depth: 1
+    }
+
+    if (filters.rating !== null) {
+      params.where?.and?.push({ rating: { equals: filters.rating } })
+    }
+
+    if (filters.sort) {
+      const sortField = `${filters.order === 'desc' ? '-' : ''}${filters.sort}`
+      params.sort = sortField
+    }
+
+    return await getPaginatedResponse<Review>('reviews', params)
+  } catch (error) {
+    console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!',
+      data: []
+    }
+  }
+}
+
+export async function getReviewSummary(
+  productId: Product['id']
+): Promise<BaseResponse<ProductReviewSummary>> {
+  const initialAcc = {
+    sum: 0,
+    ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 } as Record<number, number>,
+    recommendedCount: 0
+  }
+
+  try {
+    const { docs: allReviews } = await payloadClient.find({
+      collection: 'reviews',
+      where: { product: { equals: productId } },
+      pagination: false,
+      depth: 0
+    })
+    const totalReviews = allReviews.length
+
+    const { sum, ratingCounts, recommendedCount } = allReviews.reduce((acc, review) => {
+      const rating = review.rating
+      if (rating >= 1 && rating <= 5) {
+        acc.ratingCounts[rating] += 1
+        acc.sum += rating
+      }
+      if (review.recommend === true) {
+        acc.recommendedCount += 1
+      }
+      return acc
+    }, initialAcc)
+
+    return {
+      code: 200,
+      message: 'OK',
+      data: {
+        avgRating: totalReviews > 0 ? sum / totalReviews : 0,
+        ratingCounts,
+        totalReviews,
+        recommendedCount
+      }
+    }
+  } catch (error) {
+    console.error(error)
+    return {
+      code: 500,
+      message: error instanceof Error ? error.message : 'Something went wrong. Please try again!'
+    }
+  }
 }
 
 // Private functions
