@@ -18,6 +18,18 @@ export const SORT_OPTIONS: SelectOption[] = [
   { label: 'Lowest Price', value: 'min_price|asc', icon: 'hugeicons:sorting-19' }
 ]
 
+export const REVIEW_SORT_OPTIONS: SelectOption[] = [
+  { label: 'Newest first', value: 'createdAt|desc' },
+  { label: 'Oldest first', value: 'createdAt|asc' },
+  { label: 'Highest rated', value: 'rating|desc' },
+  { label: 'Lowest rated', value: 'rating|asc' }
+]
+
+export const PRODUCT_PAGE_TABS: SelectOption[] = [
+  { label: 'Details', value: 'details' },
+  { label: 'Reviews', value: 'reviews' }
+]
+
 export const SIZES = [
   {
     value: 'mens',
