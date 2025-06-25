@@ -65,7 +65,7 @@ const SelectMenu = ({
             <li
               key={option.value}
               className={cn(
-                'flex cursor-pointer items-center justify-between gap-4 rounded-md p-3 font-medium transition-all duration-300 ease-in-out hover:bg-primary-100/50',
+                'flex cursor-pointer select-none items-center justify-between gap-4 rounded-md p-3 font-medium transition-all duration-300 ease-in-out hover:bg-primary-100/50',
                 { 'bg-primary-100/50': isSelected && !multiple },
                 { 'font-semibold dark:text-secondary': isSelected }
               )}
