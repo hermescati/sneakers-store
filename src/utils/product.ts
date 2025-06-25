@@ -1,3 +1,4 @@
+import routes from '@/lib/routes'
 import { SelectedSize } from '@/types'
 import { Media, Product } from '@/types/payload'
 
@@ -37,4 +38,27 @@ export const getProductPrice = (product: Product, size?: SelectedSize) => {
   const finalPrice = type === 'amount_off' ? basePrice - value : basePrice * (1 - value / 100)
 
   return { basePrice, finalPrice }
+}
+
+export const getProductBreadcrumbs = (product: Product) => {
+  const { brand, model, collaboration } = getProductInfo(product)
+  const { brandSlug, modelSlug, collabSlug } = getProductSlugs(product)
+
+  return [
+    { label: 'Sneakers', href: routes.products.home },
+    {
+      label: `${brand} Shoes`,
+      href: `${routes.products.home}?brand=${brandSlug}`
+    },
+    collaboration
+      ? {
+          label: `${collaboration}`,
+          href: `${routes.products.home}?brand=${brandSlug}&collaboration=${collabSlug}`
+        }
+      : {
+          label: `${model}`,
+          href: `${routes.products.home}?brand=${brandSlug}&model=${modelSlug}`
+        },
+    { label: `${product.nickname}` }
+  ]
 }

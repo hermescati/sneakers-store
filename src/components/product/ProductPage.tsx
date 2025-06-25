@@ -1,54 +1,52 @@
 'use client'
 
-import routes from '@/lib/routes'
-import { ActiveIndicator, BreadcrumbItem, SelectedSize } from '@/types'
+import { PRODUCT_PAGE_TABS } from '@/lib/options'
+import { ActiveIndicator, BreadcrumbItem, SelectedSize, SelectOption } from '@/types'
 import { Product } from '@/types/payload'
 import { cn } from '@/utils'
-import { getProductInfo, getProductSlugs } from '@/utils/product'
-import { useEffect, useRef, useState } from 'react'
+import { getProductBreadcrumbs, getProductInfo } from '@/utils/product'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Breadcrumbs from '../base/Breadcrumbs'
 import ProductCarousel from './base/ProductCarousel'
 import ProductDetails from './base/ProductDetails'
 import ProductPricing from './base/ProductPricing'
+import ProductReviews from './base/ProductReviews'
 import ProductSizes from './base/ProductSizes'
 
-const TABS = ['Details', 'Reviews']
-
 const ProductPage = ({ product }: { product: Product }) => {
-  const [selectedSize, setSelectedSize] = useState<SelectedSize>(null)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const [activeTab, setActiveTab] = useState<number>(0)
-  const [activeIndicator, setActiveIndicator] = useState<ActiveIndicator>({
-    left: 0,
-    width: 0
-  })
+  const [selectedSize, setSelectedSize] = useState<SelectedSize>(null)
+  const [indicatorStyle, setIndicatorStyle] = useState<ActiveIndicator>({ left: 0, width: 0 })
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
 
-  const { brand, model, collaboration, images } = getProductInfo(product)
-  const { brandSlug, modelSlug, collabSlug } = getProductSlugs(product)
+  const { images } = getProductInfo(product)
+  const breadcrumbs: BreadcrumbItem[] = useMemo(() => getProductBreadcrumbs(product), [product])
 
-  const breadcrumbs: BreadcrumbItem[] = [
-    { label: 'Sneakers', href: routes.products.home },
-    {
-      label: `${brand} Shoes`,
-      href: `${routes.products.home}?brand=${brandSlug}`
-    },
-    collaboration
-      ? {
-          label: `${collaboration}`,
-          href: `${routes.products.home}?brand=${brandSlug}&collaboration=${collabSlug}`
-        }
-      : {
-          label: `${model}`,
-          href: `${routes.products.home}?brand=${brandSlug}&model=${modelSlug}`
-        },
-    { label: `${product.nickname}` }
-  ]
+  const activeTab = useMemo(() => {
+    const tabParam = searchParams.get('tab')
+    const index = PRODUCT_PAGE_TABS.findIndex(
+      tab => tab.value.toLowerCase() === tabParam?.toLowerCase()
+    )
+    return index !== -1 ? index : 0
+  }, [searchParams])
 
-  useEffect(() => {
-    if (activeTab !== null && tabRefs.current[activeTab]) {
-      const { offsetLeft, offsetWidth } = tabRefs.current[activeTab]!
-      setActiveIndicator({ left: offsetLeft, width: offsetWidth })
+  const handleTabChange = (selectedTab: SelectOption['value'], index: number) => {
+    if (index === activeTab) return
+    const updatedParams = new URLSearchParams(searchParams.toString())
+    updatedParams.set('tab', selectedTab)
+    router.replace(`?${updatedParams.toString()}`, { scroll: false })
+  }
+
+  useLayoutEffect(() => {
+    const el = tabRefs.current[activeTab ?? 0]
+    if (el) {
+      setIndicatorStyle({
+        left: el.offsetLeft,
+        width: el.offsetWidth
+      })
     }
   }, [activeTab])
 
@@ -79,34 +77,36 @@ const ProductPage = ({ product }: { product: Product }) => {
       <div>
         <div className="relative mt-2">
           <div className="flex gap-x-4 border-b border-border">
-            {TABS.map((tab, index) => (
+            {PRODUCT_PAGE_TABS.map((tab, index) => (
               <button
-                key={tab}
+                key={tab.value}
                 ref={el => {
                   tabRefs.current[index] = el
                 }}
-                onClick={() => setActiveTab(index)}
+                onClick={() => handleTabChange(tab.value, index)}
                 className={cn('px-4 py-3 font-semibold', {
                   'text-primary-500': activeTab !== index
                 })}
               >
-                {tab}
+                {tab.label}
               </button>
             ))}
           </div>
 
           <span
-            className="absolute bottom-0 h-[0.2rem] rounded-full bg-foreground transition-all duration-300 ease-in-out"
+            className="absolute bottom-0 h-1 rounded-full bg-foreground transition-all duration-300 ease-in-out"
             style={{
-              left: `${activeIndicator.left}px`,
-              width: `${activeIndicator.width}px`
+              left: `${indicatorStyle.left}px`,
+              width: `${indicatorStyle.width}px`
             }}
           />
         </div>
 
-        <div className="mt-2">
-          {activeTab === 0 ? <ProductDetails product={product} /> : <p>Reviews section here</p>}
-        </div>
+        {activeTab === 0 ? (
+          <ProductDetails product={product} />
+        ) : (
+          <ProductReviews product={product} />
+        )}
       </div>
     </div>
   )
