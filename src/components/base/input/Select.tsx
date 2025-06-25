@@ -14,7 +14,7 @@ interface SelectProps {
   position?: MenuPosition
   showClear?: boolean
   onChange: (selected: string[]) => void
-  onClear: VoidFunction
+  onClear?: VoidFunction
 }
 
 const Select = ({
@@ -53,7 +53,7 @@ const Select = ({
 
   const handleOnClear = () => {
     setSelectedOptions([])
-    onClear()
+    if (showClear && onClear) onClear()
   }
 
   return (

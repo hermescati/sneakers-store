@@ -4,9 +4,10 @@ import Icon from './Icon'
 interface RatingProps {
   rating: number
   maxStars?: number
+  className?: string
 }
 
-export default function Rating({ rating, maxStars = 5 }: RatingProps) {
+export default function Rating({ rating, maxStars = 5, className = 'text-xl' }: RatingProps) {
   return (
     <div className="flex items-center">
       {Array.from({ length: maxStars }, (_, i) => {
@@ -23,8 +24,10 @@ export default function Rating({ rating, maxStars = 5 }: RatingProps) {
             key={i}
             icon={icon}
             className={cn(
-              'text-xl transition-all duration-300',
-              isFull || isHalf ? 'glow text-warning-300 dark:text-warning-600' : 'text-primary-400'
+              'transition-all duration-300',
+              isFull || isHalf ? 'text-warning-300 dark:text-warning-600' : 'text-primary-400',
+              { glow: isFull },
+              className
             )}
           />
         )
