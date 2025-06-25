@@ -110,19 +110,19 @@ const SearchDrawer = () => {
                   </span>
                   <ul className="flex-flex-wrap flex items-center gap-1.5">
                     {SIZING_CATEGORY_OPTIONS.map(option => (
-                      <li
+                      <button
                         key={option.value}
                         className={cn(
-                          'cursor-pointer rounded-full border border-border px-4 py-1.5 text-md font-medium transition-all hover:bg-primary-100',
+                          'rounded-full border border-border px-4 py-1.5 text-md font-medium transition-all hover:bg-primary-100',
                           {
-                            'cursor-default border-primary-900 bg-primary-900 text-background hover:bg-primary-900':
+                            'border-primary-900 bg-primary-900 text-background hover:bg-primary-900':
                               selectedCategory?.value === option.value
                           }
                         )}
                         onClick={() => handleCategorySelect(option)}
                       >
                         {option.label}
-                      </li>
+                      </button>
                     ))}
                   </ul>
                 </div>

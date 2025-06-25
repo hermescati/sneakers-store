@@ -55,7 +55,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
   ]
 
   return (
-    <section className="grid grid-cols-1 gap-y-6 lg:grid-cols-3 lg:gap-x-8 xl:gap-x-12">
+    <section className="mt-3 grid grid-cols-1 gap-y-6 lg:mt-2 lg:grid-cols-3 lg:gap-x-8 xl:gap-x-12">
       <div className="flex flex-col gap-6 lg:col-span-2">
         {!!product.description && (
           <div>
@@ -71,7 +71,7 @@ const ProductDetails = ({ product }: ProductInfoProps) => {
               <span
                 className={cn(
                   'absolute inset-x-0 bottom-0 transition-all duration-500 ease-in-out',
-                  { 'h-32 bg-gradient-to-b from-transparent to-background': !isDescriptionExpanded }
+                  { 'h-20 bg-gradient-to-b from-transparent to-background': !isDescriptionExpanded }
                 )}
               />
             </p>
