@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "ci": "payload migrate && pnpm build",
+    "ci": "payload migrate && payload generate:importmap && pnpm build",
     "payload": "payload",
     "code:gen": "payload generate:types",
     "typecheck": "tsc --noEmit",
