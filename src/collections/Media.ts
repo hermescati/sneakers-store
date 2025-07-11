@@ -34,11 +34,7 @@ export const Media: CollectionConfig = {
   },
   upload: {
     mimeTypes: ['image/*'],
-    imageSizes: [
-      { name: 'thumbnail', width: 400, height: 300, position: 'centre' },
-      { name: 'smartphone', width: 768, height: undefined, position: 'centre' },
-      { name: 'tablet', width: 1024, height: undefined, position: 'centre' }
-    ]
+    imageSizes: [{ name: 'thumbnail', width: 400, height: 300, position: 'centre' }]
   },
   fields: [
     {
