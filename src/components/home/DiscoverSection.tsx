@@ -23,13 +23,13 @@ const DiscoverSection = async () => {
     {
       name: "Men's Collection",
       href: `${routes.products.home}?category=mens`,
-      imageSrc: '/mens-shoes-collection.jpg',
+      imageSrc: '/mens-shoes-collection.webp',
       imageAlt: 'mens shoes collection'
     },
     {
       name: "Women's Collection",
       href: `${routes.products.home}?category=womens`,
-      imageSrc: '/womens-shoes-collection.jpg',
+      imageSrc: '/womens-shoes-collection.webp',
       imageAlt: 'womens shoes collection'
     }
   ]

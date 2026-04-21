@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "docker compose up -d --wait && pnpm payload migrate && next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "seed": "npx tsx src/seed.ts",
     "ci": "payload migrate && payload generate:importmap && pnpm build",
     "payload": "payload",
     "code:gen": "payload generate:types",
@@ -76,6 +77,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.13",
+    "tsx": "^4.21.0",
     "typescript": "5.5.4"
   },
   "pnpm": {
