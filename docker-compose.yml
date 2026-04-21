@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:17
+    container_name: sneakers-db
     environment:
       POSTGRES_USER: ${PGUSER}
       POSTGRES_PASSWORD: ${PGPASSWORD}
@@ -11,14 +10,13 @@ services:
       - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
-    container_name: sneakers
-    networks:
-      - sneakers-store_default
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${PGUSER} -d ${PGDATABASE}']
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
 volumes:
   pgdata:
     driver: local
-
-networks:
-  sneakers-store_default:
-    driver: bridge

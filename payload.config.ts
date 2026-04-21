@@ -27,26 +27,7 @@ export default buildConfig({
   admin: {
     importMap: { baseDir: path.resolve(dirname) }
   },
-  async onInit(payload) {
-    const existingUsers = await payload.find({
-      collection: 'users',
-      limit: 1
-    })
-
-    if (!existingUsers.docs.length) {
-      await payload.create({
-        collection: 'users',
-        data: {
-          email: process.env.PAYLOAD_ADMIN_USER_EMAIL || '',
-          password: process.env.PAYLOAD_ADMIN_USER_PASSWORD || '',
-          firstName: 'Admin',
-          lastName: ' ',
-          role: 'admin',
-          _verified: true
-        }
-      })
-    }
-  },
+  serverURL: process.env.NEXT_PUBLIC_API_URL || '',
   secret: process.env.PAYLOAD_SECRET || '',
   collections: [
     Users,
@@ -63,7 +44,7 @@ export default buildConfig({
   db: postgresAdapter({
     idType: 'uuid',
     pool: {
-      connectionString: process.env.DATABASE_URL || ''
+      connectionString: process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL || ''
     }
   }),
   plugins: process.env.BLOB_READ_WRITE_TOKEN

@@ -21,7 +21,9 @@
       "@/*": ["./src/*"],
       "@payload-config": ["./payload.config.ts"]
     },
-    "target": "ES2017"
+    "target": "ES2022",
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "src/migrations", "src/app/(payload)"]

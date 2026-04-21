@@ -2,6 +2,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
@@ -9,6 +10,11 @@ const nextConfig = {
         pathname: '**',
         port: '3000',
         protocol: 'http'
+      },
+      {
+        hostname: '*.public.blob.vercel-storage.com',
+        pathname: '**',
+        protocol: 'https'
       }
     ]
   },
